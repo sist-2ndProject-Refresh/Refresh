@@ -1,0 +1,28 @@
+#port => 저장하지 않는 경우 : 8080 => 9090 : ufw = > 포트 허용
+#MVC => SpringFramework와 동일
+spring:
+ mvc:
+  view:
+   prefix: /WEB-INF/views/
+   suffix: .jsp
+ datasource:
+  url: jdbc:oracle:thin:@//211.238.142.22:1521/XE
+  username: sist2
+  password: happy
+  driver-class-name: oracle.jdbc.OracleDriver
+  type: com.zaxxer.hikari.HikariDataSource
+  hikari: 
+   minimum-idle: 5
+   maximum-pool-size: 10
+   idle-timeout: 3000
+   max-lifetime: 1800000
+   connection-timeout: 30000
+#mybatis
+mybatis:
+ type-aliases-package: com.sist.web.vo
+ mapper-locations: mybatis/mapper/*.xml
+#JPA
+#Security
+#WebSocket
+#MSA
+ 
