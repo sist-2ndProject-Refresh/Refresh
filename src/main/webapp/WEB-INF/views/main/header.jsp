@@ -136,7 +136,7 @@
         <div class="modal-body">
           <div class="col-lg-12 col-md-12 me-3">
             <div class="image-holder">
-              <img src="images/summary-item1.jpg" alt="Shoes">
+              <img src="/images/summary-item1.jpg" alt="Shoes">
             </div>
           </div>
           <div class="col-lg-12 col-md-12">
@@ -221,7 +221,7 @@
                 <div class="mini-cart-item d-flex border-bottom pb-3">
                   <div class="col-lg-2 col-md-3 col-sm-2 me-4">
                     <a href="#" title="product-image">
-                      <img src="images/single-product-thumb1.jpg" class="img-fluid" alt="single-product-item">
+                      <img src="/images/single-product-thumb1.jpg" class="img-fluid" alt="single-product-item">
                     </a>
                   </div>
                   <div class="col-lg-9 col-md-8 col-sm-8">
@@ -263,7 +263,7 @@
                 <div class="mini-cart-item d-flex border-bottom pb-3">
                   <div class="col-lg-2 col-md-3 col-sm-2 me-4">
                     <a href="#" title="product-image">
-                      <img src="images/single-product-thumb2.jpg" class="img-fluid" alt="single-product-item">
+                      <img src="/images/single-product-thumb2.jpg" class="img-fluid" alt="single-product-item">
                     </a>
                   </div>
                   <div class="col-lg-9 col-md-8 col-sm-8">
@@ -364,7 +364,7 @@
     <nav id="header-nav" class="navbar navbar-expand-lg">
       <div class="container-lg">
         <a class="navbar-brand" href="index.html">
-          <img src="images/main-logo.png" class="logo" alt="logo">
+          <img src="/images/main-logo.png" class="logo" alt="logo">
         </a>
         <button class="navbar-toggler d-flex d-lg-none order-3 border-0 p-1 ms-2" type="button" data-bs-toggle="offcanvas"
           data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -375,7 +375,7 @@
         <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar">
           <div class="offcanvas-header px-4 pb-0">
             <a class="navbar-brand ps-3" href="index.html">
-              <img src="images/main-logo.png" class="logo" alt="logo">
+              <img src="/images/main-logo.png" class="logo" alt="logo">
             </a>
             <button type="button" class="btn-close btn-close-black p-5" data-bs-dismiss="offcanvas" aria-label="Close"
               data-bs-target="#bdNavbar"></button>
@@ -386,7 +386,7 @@
                 <a class="nav-link me-5" href="/">홈페이지</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-5" href="#">중고 거래</a>
+                <a class="nav-link me-5" href="/product/list">중고 거래</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link me-5" href="#">대여</a>
