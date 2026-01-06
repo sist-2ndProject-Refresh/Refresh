@@ -361,63 +361,6 @@
     </div>
   </div>
   <!-- Login -->
-
-  <header id="header" class="site-header text-black">
-    <div class="header-top border-bottom py-2">
-      <div class="container-lg">
-        <div class="row justify-content-evenly">
-          <div class="col">
-            <ul class="social-links list-unstyled d-flex m-0">
-              <li class="pe-2">
-                <a href="#">
-                  <svg class="facebook" width="20" height="20">
-                    <use xlink:href="#facebook"></use>
-                  </svg>
-                </a>
-              </li>
-              <li class="pe-2">
-                <a href="#">
-                  <svg class="instagram" width="20" height="20">
-                    <use xlink:href="#instagram"></use>
-                  </svg>
-                </a>
-              </li>
-              <li class="pe-2">
-                <a href="#">
-                  <svg class="youtube" width="20" height="20">
-                    <use xlink:href="#youtube"></use>
-                  </svg>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <svg class="pinterest" width="20" height="20">
-                    <use xlink:href="#pinterest"></use>
-                  </svg>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="col d-none d-md-block">
-            <p class="text-center text-black m-0"><strong>Special Offer</strong>: Free Shipping on all the orders above $100
-            </p>
-          </div>
-          <div class="col">
-            <ul class="d-flex justify-content-end gap-3 list-unstyled m-0">
-              <li>
-                <a href="#">Contact</a>
-              </li>
-              <li>
-                <a href="#">Cart</a>
-              </li>
-              <li>
-                <a href="#">Login</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
     <nav id="header-nav" class="navbar navbar-expand-lg">
       <div class="container-lg">
         <a class="navbar-brand" href="index.html">
@@ -439,25 +382,31 @@
           </div>
           <div class="offcanvas-body">
             <ul id="navbar" class="navbar-nav fw-bold justify-content-end align-items-center flex-grow-1">
-              <li class="nav-item dropdown">
-                <a class="nav-link me-5 active dropdown-toggle border-0" href="#" data-bs-toggle="dropdown"
-                  aria-expanded="false">Home</a>
-                <ul class="dropdown-menu fw-bold">
-                  <li>
-                    <a href="index.html" class="dropdown-item">Home V1</a>
-                  </li>
-                  <li>
-                    <a href="index.html" class="dropdown-item">Home V2 </a>
-                  </li>
-                </ul>
+              <li class="nav-item">
+                <a class="nav-link me-5" href="/">홈페이지</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-5" href="#">Men</a>
+                <a class="nav-link me-5" href="#">중고 거래</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-5" href="#">Women</a>
+                <a class="nav-link me-5" href="#">대여</a>
               </li>
-              <li class="nav-item dropdown">
+              <li class="nav-item">
+                <a class="nav-link me-5" href="#">경매</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link me-5" href="#">신고 조회</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link me-5" href="#">지역 커뮤니티</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link me-5" href="#">공지사항</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link me-5" href="#">관리자 페이지</a>
+              </li>
+          <!--     <li class="nav-item dropdown">
                 <a class="nav-link me-5 active dropdown-toggle border-0" href="#" data-bs-toggle="dropdown"
                   aria-expanded="false">Page</a>
                 <ul class="dropdown-menu fw-bold">
@@ -486,13 +435,7 @@
                     <a href="#" data-bs-toggle="modal" data-bs-target="#modallogin" class="dropdown-item">Login</a>
                   </li>
                 </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link me-5" href="index.html">Shop</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link me-5" href="#">Sale</a>
-              </li>
+              </li> -->
             </ul>
           </div>
         </div>
