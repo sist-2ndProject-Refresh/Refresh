@@ -15,8 +15,8 @@
   <meta name="description" content="Stylish - Shoes Online Store HTML Template">
 
   <link rel="stylesheet" href="/css/vendor.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">	
   <link rel="stylesheet" type="text/css" href="/style.css">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
