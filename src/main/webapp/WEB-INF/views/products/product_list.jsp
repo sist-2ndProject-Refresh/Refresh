@@ -14,6 +14,16 @@ a:hover {
     text-decoration: none;
     color: #007bff;
 }
+.hr-st {
+	border-top: 1px solid gray;
+	opacity: 0.5;
+	margin: 15px 0;
+}
+.product-st {
+	width: 300px; 
+	height: 200px; 
+	border-radius: 10px;
+}
 </style>
 </head>
 <body>
@@ -28,161 +38,48 @@ a:hover {
 		    </div>
 		</div>
 		<!-- 상품 출력 -->
-		<div class="row" style="margin-top: 20px">
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px; margin-top: 5px;">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
+		<div class="product-content padding-small">
+	        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+	        
+				<!-- 추후 vue 사용으로 인해 삭제 -->
+				<c:forEach var="i" begin="1" end = "20">	
+						<div class="col mb-4 mb-3"  style="margin-top: 30px;">
+							<div class="product-card position-relative">
+								<a href="index.html">
+									<div class="card-img zoom-effect">
+										<img src="/images/test/박명수.jpg" class="product-image img-fluid product-st">
+										<!-- cart-concern -->
+									</div>
+									<div class="card-detail d-flex justify-content-between align-items-center mt-3">
+										<h3 class="card-title fs-4 fw-normal m-0 text-secondary">박명수</h3>
+										<span class="card-price fw-bold fs-2">120,000원</span>
+									</div>
+									<hr class="hr-st">
+									<div class="d-flex justify-content-between align-items-center">
+										<img src="/images/test/gps_icon.png" style="width: 20px; height: 20px;">
+										<div class="text-right fs-5">서울 마포구 동교로</div>
+									</div>
+									<div class="fs-5 text-right">1일전</div>
+								</a>
 							</div>
-							<hr style="border-top: 1px solid gray; opacity: 0.5;">
-							<div>지역정보 없음</div>
 						</div>
-					</a>
-				</div>
-			</div>
-			<!-- 상품 출력 끝 -->
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
-							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
-							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
-							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
-							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
-							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
-							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
-							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
+				</c:forEach>
+				
 			</div>
 		</div>
-		<div class="col mb-4 mb-3">
-			<div class="product-card position-relative">
-				<div class="card-img">
-					<img src="/images/test/박명수.jpg" alt="product-item" class="product-image img-fluid" style="width: 200px; height: 200px">
-				</div>
-				<div class="card-detail d-flex align-items-center mt-3">
-					<h3 class="card-title fs-6 fw-normal m-0">
-						<a href="#">Running shoes for men</a>
-					</h3>
-					<span class="card-price fw-bold">$99</span>
-				</div>
-			</div>
-		</div>
+		<!-- 상품 출력 종료 -->
 		<!-- 페이지네이션 -->
 		<div class="row" style="justify-content: center;display: flex;">
     		<ul class="pagination">
 		        <li class="page-item"><a class="page-link" href=''>&lt;</a></li>
-		        <li class="page-item"><a class="page-link" href=''>1</a></li>
-		        <li class="page-item"><a class="page-link" href=''>2</a></li>
-		        <li class="page-item"><a class="page-link" href=''>3</a></li>
+		        <c:forEach var="i" begin="1" end="10">
+			        <li class="page-item"><a class="page-link" href=''>${i }</a></li>
+		        </c:forEach>
 		        <li class="page-item"><a class="page-link" href=''>&gt;</a></li>
 		    </ul>
 		</div>
-		<!-- 페이지네이션 끝 -->
+		<!-- 페이지네이션 종료 -->
 	</div>
+	<script src="/vue/axios.js"></script>
 </body>
 </html>
