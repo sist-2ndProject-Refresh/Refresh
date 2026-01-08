@@ -13,8 +13,9 @@ public interface TradeMapper {
 	public List<TradeVO> tradeToRental();
 	
 	// 상품 리스트 출력
-	@Select("SELECT name, price, salestatus, imageurl, category, address, trades "
+	@Select("SELECT name, price, salestatus, imageurl, imagecount, category, address, trades, TO_CHAR(describedat, 'yyyy-mm-dd' )as dbday "
 			+ "FROM trade_goods "
+			+ "ORDER BY describedat DESC "
 			+ "OFFSET #{start} ROWS FETCH NEXT 20 ROWS ONLY")
 	public List<TradeVO> productListData(int start);
 	

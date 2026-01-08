@@ -11,7 +11,7 @@ const useTradeStore = defineStore('trade', {
 	getters:{
 		range:(state)=>{
 			const arr=[]
-			for(let i = state.startpage; i <= state.endPage; i++)
+			for(let i = state.startPage; i <= state.endPage; i++)
 			{
 				arr.push(i)					
 			}
@@ -25,14 +25,37 @@ const useTradeStore = defineStore('trade', {
 					page: this.curPage
 				}
 			})
+			console.log(res.data)
 			this.loadPage(res.data)
 		},
 		loadPage(data){
-			this.list = data.list
+			// 필요한 주소만 추출
+			this.list = data.list.map(vo =>{
+				if(vo.trades) {
+					const parts = vo.trades.split('||') 
+					const addressFull = parts[3]
+					
+					if(addressFull)
+					{
+						const addrArray = addressFull.trim().split(' ')
+						vo.realAddress = addrArray.slice(0, 2).join(' ')
+					}
+					else
+					{
+						vo.realAddress = '지역정보 없음'
+					}
+				}
+				return vo
+			})		
+					
 			this.curPage = data.curPage
 			this.totalPage = data.totalPage
 			this.startPage = data.startPage
 			this.endPage = data.endPage
+		},
+		changePage(page) {
+			this.curPage=page
+			this.tradeListData()
 		}
 	}
 })
