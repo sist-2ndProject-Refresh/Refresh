@@ -17,4 +17,5 @@ public interface UserMapper {
 	
 	@Insert("INSERT INTO user_roles(user_no) SELECT no FROM user_table WHERE provider = #{provider} AND username = #{username}")
 	void userRoleInsert(UserVO vo);
+	
 }
