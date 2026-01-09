@@ -21,7 +21,7 @@
             </div>
         </div>
     </section>
-    <section class="product-details spad" id="notice_detail">
+    <section class="product-details spad" id="notice_detail">			 
         <div class="container">
             <div class="row">
              <table class="table">
@@ -77,8 +77,10 @@
 		   const store=useNoticeListStore()
 		   // 전송데이터 읽기 
 		   const params=new URLSearchParams(location.search)
+		   // location.search: 브라우저 주소창의 ?no=10 같은 뒷부분을 가져온다
+		   // URLSearchParams: 이 주소에서 특정 값을 쉽게 꺼내도록 도와주는 도구
 		   const no=params.get('no')
-		   // 함수 호출 
+		   // 주소창에서 no라는 이름으로 전달된 글 번호를 호출 
 		   onMounted(()=>{
 			   store.noticeDetail(no)
 		   })
