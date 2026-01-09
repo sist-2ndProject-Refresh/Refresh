@@ -9,8 +9,5 @@ public class SeorogochimApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SeorogochimApplication.class, args);
 	}
-	/*
-	 * sda
-	 */
 
 }
