@@ -54,14 +54,14 @@ a:hover {
 	        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
 				<div class="col mb-4 mb-3"  style="margin-top: 30px;" v-for="(vo, index) in store.list" :key="index">
 					<div class="product-card position-relative">
-						<a href="index.html">
+						<a :href="'/product/detail?no=' + vo.no">
 							<div class="card-img zoom-effect">
 								<img :src="vo.imageurl" class="product-image img-fluid product-st">
 								<!-- cart-concern -->
 							</div>
 							<div class="card-detail mt-3 ">
 								<h3 class="card-title fs-4 fw-normal m-0 text-secondary product_name">{{vo.name}}</h3>
-								<div class="card-price fw-bold fs-2 text-right" style="margin-top: 10px">{{vo.price}}원</div>
+								<div class="card-price fw-bold fs-2 text-right" style="margin-top: 10px">{{ Number(vo.price).toLocaleString() }}원</div>
 							</div>
 							<hr class="hr-st">
 							<div class="d-flex justify-content-between align-items-center">

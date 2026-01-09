@@ -42,7 +42,7 @@ const useTradeStore = defineStore('trade', {
 					}
 					else
 					{
-						vo.realAddress = '지역정보 없음'
+						vo.realAddress = '택배거래'
 					}
 				}
 				return vo

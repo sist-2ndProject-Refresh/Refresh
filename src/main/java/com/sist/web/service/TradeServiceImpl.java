@@ -19,4 +19,8 @@ public class TradeServiceImpl implements TradeService{
 	public int productTotalPage() {
 		return mapper.productTotalPage();
 	}
+	@Override
+	public TradeVO productDetailData(int no) {
+		return mapper.productDetailData(no);
+	}
 }
