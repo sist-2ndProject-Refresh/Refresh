@@ -28,6 +28,6 @@ import lombok.Data;
 public class TradeVO {
 	private int no,price,originprice,qty,imagecount,category;
 	private double lat,lon;
-	private String name,description,salestatus,condition,imageurl,dbday,address,trades;
+	private String name,description,salestatus,condition,imageurl,dbday,address,trades, how;
 	private Date describedat;
 }

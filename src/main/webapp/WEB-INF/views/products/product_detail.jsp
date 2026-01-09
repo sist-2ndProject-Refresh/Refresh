@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,10 +53,10 @@ a:hover {
 					      <div class="swiper main-swiper small-swiper" style="height: 400px;"> 
 					        <div class="swiper-wrapper">
 					          
-					          <c:forEach var="i" begin="1" end="5">
+					          <c:forEach var="img" items="${updateImagUrl}">
 						          <div class="swiper-slide">
 						            <div class="card h-100" style="border: none">
-						              <img src="/images/test/박명수.jpg" class=" rounded" style="width: 500px; height: 400px; object-fit: cover;">
+						              <img src="${img }" class=" rounded" style="width: 500px; height: 400px; object-fit: cover;">
 						              <div class="cart-concern p-3 position-absolute bottom-0 start-0">
 						                <h5 class="card-title light mb-0">Shoes 1</h5>
 						              </div>
@@ -68,10 +69,12 @@ a:hover {
 					    </div>
 					<!-- </section> -->
 					
-                    <td colspan="2" class="text-left display-4 fw-normal" style="padding-left: 50px; border-top: none;">박명수</td>
+                    <td colspan="2" class="text-left display-4 fw-normal" style="padding-left: 50px; border-top: none;">${vo.name }</td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="text-left display-3 fw-normal" style="padding-left: 50px;">120,000원</td>
+                    <td colspan="2" class="text-left display-3 fw-normal" style="padding-left: 50px;">
+                    	<fmt:formatNumber value="${vo.price}" type="number" />원
+                    </td>
                 </tr>
                 <tr>
                 	<td colspan="2" class="text-right fs-4">
@@ -86,19 +89,19 @@ a:hover {
                 </tr>
                 <tr>
                     <th class="fw-normal fs-3 th-st">상품 상태</th>
-                    <td class="fs-3" style="width: 45%;">사용감 없음</td>
+                    <td class="fs-3" style="width: 45%;">${vo.condition }</td>
                 </tr>
                 <tr>
                     <th class="fw-normal fs-3 th-st">거래 방법</th>
-                    <td class="fs-3" style="width: 45%;">택배</td>
+                    <td class="fs-3" style="width: 45%;">${vo.how }</td>
                 </tr>
                 <tr>
                     <th class="fw-normal fs-3 th-st">직거래 지역</th>
-                    <td class="fs-3" style="width: 45%;">서울특별시 마포구</td>
+                    <td class="fs-3" style="width: 45%;">${vo.address }</td>
                 </tr>
                 <tr>
                     <th class="fw-normal fs-3 th-st">수량</th>
-                   <td class="fs-3" style="width: 45%;">1개</td>
+                   <td class="fs-3" style="width: 45%;">${vo.qty }개</td>
                 </tr>
             </tbody>
         </table>
@@ -118,14 +121,7 @@ a:hover {
         		</tr>
         		<tr><td><hr class="hr-st"></td></tr>
         		<tr>
-	        		<td class="fs-3">
-	        			불필요한 이미지 생성으로 불편을 드려 죄송합니다. 요청하신 4번 '코랄 샌드' 조합을 기반으로, 파스텔의 부드러움은 유지하면서 가독성과 존재감이 확실하도록 채도와 명도를 살짝 보강한(Deepen) 버전입니다.
-						이 색상들은 흰색 배경에서 훨씬 뚜렷하게 보이며, 글자색을 하얀색으로 써도 눈이 편안합니다.
-				        불필요한 이미지 생성으로 불편을 드려 죄송합니다. 요청하신 4번 '코랄 샌드' 조합을 기반으로, 파스텔의 부드러움은 유지하면서 가독성과 존재감이 확실하도록 채도와 명도를 살짝 보강한(Deepen) 버전입니다.
-						이 색상들은 흰색 배경에서 훨씬 뚜렷하게 보이며, 글자색을 하얀색으로 써도 눈이 편안합니다.
-				        불필요한 이미지 생성으로 불편을 드려 죄송합니다. 요청하신 4번 '코랄 샌드' 조합을 기반으로, 파스텔의 부드러움은 유지하면서 가독성과 존재감이 확실하도록 채도와 명도를 살짝 보강한(Deepen) 버전입니다.
-						이 색상들은 흰색 배경에서 훨씬 뚜렷하게 보이며, 글자색을 하얀색으로 써도 눈이 편안합니다.
-	        		</td>
+	        		<td class="fs-3">${vo.description }</td>
 	        	</tr>
 	        </table>
         </div>
