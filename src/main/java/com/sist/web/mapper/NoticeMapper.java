@@ -63,7 +63,7 @@ public interface NoticeMapper {
 	 * void : 결과값을 돌려줄 필요가 없어서 반환값이 없다
 	 */
 	
-	@Select("SELECT not_id,not_title,mem_id,TO_CHAR(not_date,'yyyy-mm-dd') as not_date,view_cnt "
+	@Select("SELECT not_id,not_title,mem_id,TO_CHAR(not_date,'yyyy-mm-dd') as not_date,view_cnt,not_content "
 			+"FROM notice "
 			+"WHERE not_id=#{not_id}")
 	public NoticeVO noticeDetailData(int no);

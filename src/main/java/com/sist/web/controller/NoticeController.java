@@ -19,10 +19,10 @@ public class NoticeController {
 		return "main/main";
 		// main/main.jsp 파일을 화면에 띄워라
 	}
+
 	@GetMapping("/notice/detail")
 	// 사용자가 게시물을 클릭해서 상세 내용을 보고 싶을 때 접속하는 경로
-	public String notice_detail(Model model)
-	{
+	public String notice_detail(Model model) {
 		model.addAttribute("main_jsp", "../notice/detail.jsp");
 		return "main/main";
 	}

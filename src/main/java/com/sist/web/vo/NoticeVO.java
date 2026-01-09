@@ -16,7 +16,7 @@ VIEW_CNT             NUMBER
  */
 @Data
 public class NoticeVO {
-	private int not_id,view_cnt;
-	private String not_title,mem_id,not_content;
+	private int not_id, view_cnt;
+	private String not_title, mem_id, not_content;
 	private String not_date;
 }
