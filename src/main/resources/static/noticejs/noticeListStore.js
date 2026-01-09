@@ -8,6 +8,7 @@ const useNoticeListStore = () => {
             list: [], // 게시글 목록 (여러 개니까 빈 배열 []로 시작)
             curpage: 1, // 현재 보고 있는 페이지 번호 (처음엔 1)
             totalpage: 0, // 전체 페이지 개수 (처음엔 0)
+			pageSize: 20,
             vo: {} // 상세보기 할 게시글 하나 (객체 {}로 시작)
         }),
         actions: { // actions : 데이터를 가져오거나 수정하는 함수들의 기능
@@ -26,6 +27,7 @@ const useNoticeListStore = () => {
 					// 서버가 보내준 데이터(res.data)를 창고의 list에 저장
                     this.curpage = res.data.curpage;
                     this.totalpage = res.data.totalpage;
+					
                 } catch (err) {
                     console.error("데이터 수신 에러:", err);
                 }
@@ -48,6 +50,7 @@ const useNoticeListStore = () => {
 					}
 				})
 				this.vo=res.data
+				// 서버에서 가져온 상세 게시글 정보를 창고의 vo에 집어 넣는다
 			}
 			
         }

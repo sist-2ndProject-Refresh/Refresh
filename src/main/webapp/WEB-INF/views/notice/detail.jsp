@@ -84,7 +84,7 @@
 		   onMounted(()=>{
 			   store.noticeDetail(no)
 		   })
-		   // return  
+		   // onMounted: 화면이 나타자마자 실행하라는 뜻
 		   return {
 			   store
 		   }

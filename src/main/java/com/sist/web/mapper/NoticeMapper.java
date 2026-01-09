@@ -23,7 +23,7 @@ public interface NoticeMapper {
 	@Select("SELECT not_id,not_title,mem_id,TO_CHAR(not_date,'yyyy-mm-dd') as not_date,view_cnt "
 			+"FROM notice "
 			+"ORDER BY not_id DESC "
-			+"OFFSET #{start} ROWS FETCH NEXT 10 ROWS ONLY")
+			+"OFFSET #{start} ROWS FETCH NEXT 20 ROWS ONLY")
 	public List<NoticeVO> noticeListData(int start);
 	// 게시물 목록 조회
 	/*
@@ -39,7 +39,7 @@ public interface NoticeMapper {
 	 * ASC : 정렬방식 (Ascending의 약자, 오름차순) 작은 숫자부터 큰 숫자 순서대로 나열
 	 * 
 	 * OFFSET : #{start}개 만큼 건너뛰고 시작
-	 * FETCH NEXT 10 ROWS ONLY : 딱 10개만 가져온다
+	 * FETCH NEXT 20 ROWS ONLY : 딱 20개만 가져온다
 	 */
 	
 	@Select("SELECT CEIL(COUNT(*)/10.0) FROM notice")
