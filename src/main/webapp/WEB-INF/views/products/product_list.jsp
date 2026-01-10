@@ -57,7 +57,6 @@ a:hover {
 						<a :href="'/product/detail?no=' + vo.no">
 							<div class="card-img zoom-effect">
 								<img :src="vo.imageurl" class="product-image img-fluid product-st">
-								<!-- cart-concern -->
 							</div>
 							<div class="card-detail mt-3 ">
 								<h3 class="card-title fs-4 fw-normal m-0 text-secondary product_name">{{vo.name}}</h3>

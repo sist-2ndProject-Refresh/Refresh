@@ -54,6 +54,7 @@ public class TradeController {
 			vo.setImageurl(vo.getImageurl().replace("{res}", "720"));
 		}
 		
+		// condition 한글화
 		switch (vo.getCondition()) {
 		case "NEW": {vo.setCondition("미사용 상품"); break;}
 		case "LIKE_NEW": {vo.setCondition("사용감 없음"); break;}
@@ -67,4 +68,15 @@ public class TradeController {
 		model.addAttribute("main_jsp", "../products/product_detail.jsp");
 		return "main/main";
 	}
+	
+	
+	@GetMapping("/product/new")
+	public String product_new(Model model)
+	{
+		model.addAttribute("main_jsp", "../products/product_new.jsp");
+		return "main/main";
+	}
+	
+	
+	
 }

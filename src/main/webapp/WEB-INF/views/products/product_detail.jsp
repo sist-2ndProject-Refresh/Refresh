@@ -46,32 +46,29 @@ a:hover {
     <div class="row">
         <table style="table-layout: fixed; width: 100%;">
             <tbody>
-                <tr>
-                	<td class="text-center" rowspan="9" style="width: 40%; vertical-align: top;">
-                      <!--  <section id="intro" class="position-relative mt-4"> -->
-					    <div class="container-lg" id="intro">
-					      <div class="swiper main-swiper small-swiper" style="height: 400px;"> 
-					        <div class="swiper-wrapper">
-					          
-					          <c:forEach var="img" items="${updateImagUrl}">
-						          <div class="swiper-slide">
-						            <div class="card h-100" style="border: none">
-						              <img src="${img }" class=" rounded" style="width: 500px; height: 400px; object-fit: cover;">
-						              <div class="cart-concern p-3 position-absolute bottom-0 start-0">
-						                <h5 class="card-title light mb-0">Shoes 1</h5>
-						              </div>
-						            </div>
-						          </div>
-					          </c:forEach>
-					        </div>
-					      </div>
-					      <div class="swiper-pagination" style="margin-top: 30px;"></div>
-					    </div>
-					<!-- </section> -->
-					
-                    <td colspan="2" class="text-left display-4 fw-normal" style="padding-left: 50px; border-top: none;">${vo.name }</td>
-                </tr>
-                <tr>
+				<tr>
+					<td class="text-center" rowspan="10" style="width: 40%; vertical-align: top;">
+						<div class="container-lg" id="intro">
+							<div class="swiper main-swiper small-swiper" style="height: 400px;">
+								<div class="swiper-wrapper">
+									<c:forEach var="img" items="${updateImagUrl}">
+										<div class="swiper-slide">
+											<div class="card h-100" style="border: none">
+												<img src="${img }" class=" rounded" style="width: 500px; height: 400px; object-fit: cover;">
+													<div class="cart-concern p-3 position-absolute bottom-0 start-0">
+														<h5 class="card-title light mb-0">Shoes 1</h5>
+													</div>
+												</div>
+											</div>
+										</c:forEach>
+									</div>
+								</div>
+							<div class="swiper-pagination" style="margin-top: 30px;"></div>
+						</div> <!-- </section> -->
+						<td colspan="2" class="text-left display-4 fw-normal" style="padding-left: 50px; border-top: none;">${vo.name }</td>
+					</td>
+				</tr>
+				<tr>
                     <td colspan="2" class="text-left display-3 fw-normal" style="padding-left: 50px;">
                     	<fmt:formatNumber value="${vo.price}" type="number" />원
                     </td>
@@ -79,6 +76,13 @@ a:hover {
                 <tr>
                 	<td colspan="2" class="text-right fs-4">
                 		<a href="#" style="opacity: 0.7">차단하기</a>
+                		<a href="#" style="opacity: 0.7; margin-left: 10px;">신고하기</a>
+                	</td>
+                </tr>
+                <tr>
+                	<td>
+                		<img src="${vo.imageurl }" class="border-circle" style="width: 50px; height: 50px; margin-left: 50px;">
+                		<span class="fs-3" style="padding-left: 15px;">닉네임</span>
                 	</td>
                 </tr>
                 <tr><td colspan="2" style="padding-left: 50px;"><hr class="hr-st"></td></tr>
@@ -96,7 +100,7 @@ a:hover {
                     <td class="fs-3" style="width: 45%;">${vo.how }</td>
                 </tr>
                 <tr>
-                    <th class="fw-normal fs-3 th-st">직거래 지역</th>
+                    <th class="fw-normal fs-3 th-st">직거래 희망지역</th>
                     <td class="fs-3" style="width: 45%;">${vo.address }</td>
                 </tr>
                 <tr>
@@ -107,25 +111,26 @@ a:hover {
         </table>
         <div class="container">
         	<div class="text-right">
-	        	<input type="button" class="btn-st fw-bold fs-1" style="background-color: #FFB38A; color: white;" value="구매">
-				<input type="button" class="btn-st fw-bold fs-1" style="background-color: #A9C2C4; color: white;" value="DM">
-				<input type="button" class="btn-st fw-bold fs-1" style="background-color: #E0E0E0; color: #333;" value="목록">
+	        	<input type="button" class="btn-st fw-bold fs-1" style="background-color: #FFB38A; color: white;" value="바로 구매">
+				<input type="button" class="btn-st fw-bold fs-1" style="background-color: #A9C2C4; color: white;" value="구매 문의">
+				<a href="javascript:history.back()"><input type="button" class="btn-st fw-bold fs-1" style="background-color: #E0E0E0; color: #333;" value="목록"></a>
 	        </div>
         </div>  
         <div style="margin-top: 20px;">
         	<table>
         		<tr>
-        			<td class="fs-1">
-        				상품 설명
-        			</td>
+        			<td class="fs-1">상품 설명</td>
         		</tr>
-        		<tr><td><hr class="hr-st"></td></tr>
+        		<tr><td><hr class="hr-st" style="width: 1170px;"></td></tr>
         		<tr>
 	        		<td class="fs-3">${vo.description }</td>
 	        	</tr>
 	        </table>
         </div>
-              
+        <hr class="hr-st" style="width: 1170px;">
+        <div class="container">
+        	<!-- 만약 직거래라면 지도 띄우려고 함 시간 되면 -->
+        </div>
     </div>
 </div>
 </body>
