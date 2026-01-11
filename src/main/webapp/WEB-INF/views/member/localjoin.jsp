@@ -11,24 +11,30 @@
 .login-row {	
 	margin:0px auto;
 	margin-top:80px;
-	width:900px;
+	width:600px;
 	height:760px;
 	background-color: white;
 	border-radius: 12px;
 	box-shadow: 4px 4px 4px 4px #555555;
 }
 input::placeholder {       
-  color: black;
+
   font-weight: bold;
 }
 .join-input {
-	width:180px;
+	width:280px;
 	height:40px;
 	border-radius:10px;
 	font-size:12px;
-	background-color: #D4D4D4;
+	background-color: rgb(240, 240, 240);
 	border-color:#E9E9E9;
 	padding: 10px; 
+}
+.join-input:read-only {
+	background-color: rgb(210, 210, 210);
+}
+.login-table {
+	border:2px 2px 2px 2px black;
 }
 </style>
 </head>
@@ -41,7 +47,7 @@ input::placeholder {
 	</symbol>
 </svg>
 	<div class="container">
-		<div class="row login-row text-center">
+		<div class="row login-row text-center" v-show="joinContinue">
 			<div class="row text-center" style="margin-top:30px;height:50px">
 				<a href="/">
 					<img src="/images/main-logo.png">
@@ -50,100 +56,147 @@ input::placeholder {
 			<div class="row text-center" style="margin-top:20px;">
 				<h3><strong>회원 가입</strong></h3>
 			</div>
-			<form action="/member/login_join/" method="post">
-			<div class="row" style="margin-top:40px;display: flex;justify-content: center">
-				<table class="table table-bordered table-hover" style="width:70%">
-			        <tr>
-			          <th class="text-center" width="20%">ID</th>
-			          <td>
-			            <div class="form-inline">
-			              <input type="text" name="userid" ref="id" class="form-control input-sm" placeholder="아이디" v-model="userid" v-bind:readonly="isReadOnly">
-			              <button type="button" id="idBtn" class="btn btn-mint btn-sm" @click="idCheck()">중복체크</button>&nbsp;<span :class="isReadOnly?'ok-success':'ok-fail'">{{idOk}}</span>
-			            </div>
-			          </td>
-			        </tr>
-			
-			        <tr>
-			          <th class="text-center">Password</th>
-			          <td>
-			            <div class="form-inline">
-			              <input type="password" name="userpwd" ref="userpwd" class="form-control input-sm" placeholder="비밀번호" v-model="userpwd">
-			              <input type="password" name="pwd1" ref="userpwd1" class="form-control input-sm" placeholder="비밀번호 재입력" v-model="userpwd1">
-			            </div>
-			          </td>
-			        </tr>
-			
-			        <tr>
-			          <th class="text-center">이름</th>
-			          <td><input type="text" name="username" ref="username" class="form-control input-sm" placeholder="이름 입력" v-model="username"></td>
-			        </tr>
-			
-			        <tr>
-			          <th class="text-center">성별</th>
-			          <td>
-			            <label class="radio-inline"><input type="radio" name="sex" value="남자" v-model="sex" checked> 남자</label>
-			            <label class="radio-inline"><input type="radio" name="sex" value="여자" v-model="sex"> 여자</label>
-			          </td>
-			        </tr>
-			
-			        <tr>
-			          <th class="text-center">생년월일</th>
-			          <td><input type="date" name="birthday"  ref="birthday" class="form-control input-sm" v-model="birthday"></td>
-			        </tr>
-			
-			        <tr>
-			          <th class="text-center">이메일</th>
-			          <td><input type="text" name="email" ref="email" class="form-control input-sm" placeholder="example@email.com" v-model="email"></td>
-			        </tr>
-			
-			        <tr>
-			          <th class="text-center">우편번호</th>
-			          <td>
-			            <div class="form-inline">
-			              <input type="text" ref="post" name="post" class="form-control input-sm" readonly v-model="post">
-			              <button type="button" id="postBtn" class="btn btn-pink btn-sm" @click="postFind()">우편번호검색</button>
-			            </div>
-			          </td>
-			        </tr>
-			
-			        <tr>
-			          <th class="text-center">주소</th>
-			          <td><input type="text" ref="addr1" name="addr1" class="form-control input-sm" readonly v-model="addr1"></td>
-			        </tr>
-			
-			        <tr>
-			          <th class="text-center">상세주소</th>
-			          <td><input type="text" name="addr2" class="form-control input-sm" v-model="addr2"></td>
-			        </tr>
-			
-			        <tr>
-			          <th class="text-center">전화번호</th>
-			          <td>
-			            <div class="form-inline">
-			              <select name="phone1" class="form-control input-sm" v-model="phone1">
-			                <option>010</option>
-			                <option>011</option>
-			                <option>016</option>
-			              </select>
-			              <input type="text" name="phone2" class="form-control input-sm" placeholder="####-####" v-model="phone2">
-			            </div>
-			          </td>
-			        </tr>
-			
-			        <tr>
-			          <th class="text-center">소개</th>
-			          <td><textarea rows="5" name="content" class="form-control input-sm" placeholder="자기소개를 입력하세요" v-model="content"></textarea></td>
-			        </tr>
-			
-			        <tr>
-			          <td colspan="2" class="text-center">
-			            <button type="button" class="btn btn-mint btn-sm" id="joinBtn" @click="join()">회원가입</button>
-			            <button type="button" class="btn btn-pink btn-sm" onclick="history.back()">취소</button>
-			          </td>
-			        </tr>
-			      </table>
+			<div>
+				<table class="table login-table" style="width:560px;margin-left:20px;">
+					<tr>
+						<td width="30%" class="text-center" style="line-height: 40px;">
+							아이디
+						</td>
+						<td width="55%" class="text-left" >
+							<input type="text" class="join-input" placeholder="아이디를 입력해주세요">
+						</td>
+						<td width="15%" class="text-left" style="line-height: 35px;"> 
+							<button type="button" class="btn btn-sm btn-primary">중복 체크</button>
+						<td>
+					</tr>
+					<tr>
+						<td width="30%" class="text-center" style="line-height: 40px;">
+							비밀번호
+						</td>
+						<td width="55%" class="text-left">
+							<input type="password" class="join-input" placeholder="비밀번호를 입력해주세요">
+						</td>
+						<td width="15%" class="text-left">
+							
+						</td>
+					</tr>
+					<tr>
+						<td width="30%" class="text-center" style="line-height: 40px;">
+							비밀번호 확인
+						</td>
+						<td colspan="2" class="text-left">
+							<input type="password" class="join-input" placeholder="비밀번호 확인">
+						</td>
+					</tr>
+					<tr>
+						<td width="30%" class="text-center" style="line-height: 40px;">
+							이메일
+						</td>
+						<td colspan="2" class="text-left" >
+							<input type="text" class="join-input" style="width:140px;" placeholder="example">
+							@
+							<input type="text" class="join-input" style="width:140px;" placeholder="example.com">
+						</td>
+					</tr>
+					<tr>
+						<td width="30%" class="text-center" style="line-height: 40px;">
+							전화번호
+						</td>
+						<td colspan="2" class="text-left">
+							<input type="text" class="join-input" style="width:60px;" placeholder="010">
+							-
+							<input type="text" class="join-input" style="width:80px;" placeholder="0000">
+							-
+							<input type="text" class="join-input" style="width:80px;" placeholder="0000">
+						</td>
+					</tr>
+					<tr>
+						<td width="30%" class="text-center" style="line-height: 40px;">
+							우편번호
+						</td>
+						<td width="55%" class="text-left">
+							<input type="text" class="join-input" placeholder="우편번호" style="width:160px;"readonly>
+						</td>
+						<td width="15%" class="text-left" style="line-height: 35px;">
+							<button type="button" class="btn btn-sm btn-info">우편번호 검색</button>
+						</td>
+					</tr>
+					<tr>
+						<td width="30%" class="text-center" style="line-height: 40px;">
+							주소
+						</td>
+						<td colspan="2" class="text-left">
+							<input type="text" class="join-input" placeholder="우편번호 검색을 이용해주세요" readonly style="width:400px;">
+						</td>
+					</tr>
+					<tr>
+						<td width="30%" class="text-center" style="line-height: 40px;">
+							상세주소 
+						</td>
+						<td colspan="2" class="text-left">
+							<input type="text" class="join-input" style="width:400px;"placeholder="상세주소">
+						</td>
+					</tr>
+					<tr>
+						<td width="30%" class="text-left">
+							<a href="/member/login" class="btn btn-sm btn-danger">취소</a>
+						</td>
+						<td colspan="2" class="text-right">
+							<button type="button" class="btn btn-sm btn-warning">다음</button>
+						</td>
+					</tr>
+				</table>
 			</div>
-			</form>
+		</div>
+		<div class="row login-row text-center" style="width:1024px;height:800px;" v-show="!joinContinue">
+			<div class="row text-center" style="margin-top:30px;height:50px">
+				<a href="/">
+					<img src="/images/main-logo.png">
+				</a>
+			</div>
+			<div class="row text-center" style="margin-top:20px;">
+				<h3><strong>내 상점 등록</strong></h3>
+			</div>
+			<div class="row text-center" style="margin-top:20px;">
+				<div class="col-sm-1">
+				</div>
+				<div class="col-sm-5">
+					<div class="row">
+					<img src="/images/shop_profile/default-shop.jpg" class="img-thumbnail" width="480px;" height="300px;">
+					</div>
+					<div class="row" style="padding-left: 60px;margin-top:20px;">
+						<input type="file">
+					</div>
+				</div>
+				<div class="col-sm-1">
+				</div>
+				<div class="col-sm-4">
+					<div class="row">
+						<h3 style="text-align: left"><strong>상점 이름</strong></h3>
+					</div>
+					<div class="row">
+						<input type="text" class="join-input" placeholder="나만의 상점" style="width:350px;height:60px;font-size:20px;">
+					</div>
+					<div class="row" style="margin-top:60px;">
+						<h3 style="text-align: left"><strong>상점 소개</strong></h3>
+					</div>
+					<div class="row">
+						<textarea placeholder="내 상점을 소개해주세요" style="resize: none;width:350px;height:180px;font-size:16px;border: 3px solid rgb(200,200,200);border-radius: 12px;padding: 5px;background-color: rgb(240,240,240)"></textarea>
+					</div>
+				</div>
+				<div class="col-sm-1"></div>
+			</div>
+			<div class="row" style="margin-top:40px;">
+					<div class="col-sm-4" style="padding-left:20px;">
+						<a href="/member/login" class="btn btn-lg btn-danger">회원가입 취소</a>
+					</div>
+					<div class="col-sm-4">
+					
+					</div>
+					<div class="col-sm-4">
+						<button type="button" class="btn btn-lg btn-info">회원 가입</button>
+					</div>
+				</div>		
 		</div>
 	</div>
 </body>
