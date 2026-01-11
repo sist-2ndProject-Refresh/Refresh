@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <style type="text/css">
 .container {
-	
+	margin-top: 50px;
 }
 a{
 	cursor: pointer;
@@ -32,6 +32,26 @@ a:hover {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+.btn-dark:active, 
+.btn-dark:focus, 
+.btn-dark:hover {
+    color: #fff !important; 
+    background-color: #212529;
+    border: none;
+}
+.page-item.active .page-link {
+    background-color: #212529 !important;
+    border-color: #212529 !important;
+    color: #fff !important;
+}
+.page-link {
+    color: #444 !important;
+    box-shadow: none !important; /* 클릭 시 생기는 파란색 테두리 제거 */
+}
+.page-link:hover {
+    background-color: #f8f9fa !important;
+    color: #000 !important;
+}
 </style>
 <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
 <script src="https://unpkg.com/vue-demi"></script>
@@ -47,6 +67,9 @@ a:hover {
 		    </div>
 		    <div class="col-auto ms-auto px-0">
 		        <a href="">최신순</a> &nbsp;|&nbsp;  <a href="">저가순</a> &nbsp;|&nbsp;  <a href="">고가순</a>
+		    </div>
+		    <div class="text-right" style="margin-top: 20px;"><!-- 로그인 체크하기 -->
+		    	<a href="/product/new" class="btn btn-dark">판매하기</a>
 		    </div>
 		</div>
 		<!-- 상품 출력 -->
@@ -75,8 +98,8 @@ a:hover {
 		</div>
 		<!-- 상품 출력 종료 -->
 		<!-- 페이지네이션 -->
-		<div class="row text-center" style="margin: 0px auto">
-    		<ul class="pagination">
+		<div class="row" style="margin: 0px auto">
+    		<ul class="pagination pagination-lg justify-content-center mx-auto " style="width: fit-content;">
 		        <li class="page-item" v-if="store.startPage > 1">
 		        	<a class="page-link" @click="store.changePage(store.startPage-1)">&lt;</a>
 		        </li>
@@ -89,7 +112,7 @@ a:hover {
 		    </ul>
 		</div>
 		<!-- 페이지네이션 종료 -->
-		<span>{{store.curPage}} 페이지 / 총 {{store.totalPage}} 페이지</span>
+		<div class="fs-3 fw-bold text-right">{{store.curPage}} 페이지 / 총 {{store.totalPage}} 페이지</div>
 	</div>
 	<script src="/vue/axios.js"></script>
 	<script src="/vue/trade/tradeStore.js"></script>
