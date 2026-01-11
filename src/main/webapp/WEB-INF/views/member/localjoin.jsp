@@ -148,7 +148,7 @@ input::placeholder {
 				</table>
 			</div>
 		</div>
-		<div class="row login-row text-center" style="width:1024px;height:800px;" v-show="!joinContinue">
+		<div class="row login-row text-center" style="width:1024px;height:800px;margin-bottom:40px;" v-show="!joinContinue">
 			<div class="row text-center" style="margin-top:30px;height:50px">
 				<a href="/">
 					<img src="/images/main-logo.png">
