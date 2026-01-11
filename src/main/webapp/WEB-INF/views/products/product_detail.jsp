@@ -65,8 +65,8 @@ a:hover {
 								</div>
 							<div class="swiper-pagination" style="margin-top: 30px;"></div>
 						</div> <!-- </section> -->
-						<td colspan="2" class="text-left display-4 fw-normal" style="padding-left: 50px; border-top: none;">${vo.name }</td>
 					</td>
+					<td colspan="2" class="text-left display-4 fw-normal" style="padding-left: 50px; border-top: none;">${vo.name }</td>
 				</tr>
 				<tr>
                     <td colspan="2" class="text-left display-3 fw-normal" style="padding-left: 50px;">
@@ -121,13 +121,13 @@ a:hover {
         		<tr>
         			<td class="fs-1">상품 설명</td>
         		</tr>
-        		<tr><td><hr class="hr-st" style="width: 1170px;"></td></tr>
+        		<tr><td><hr class="hr-st" style="width: 100%;"></td></tr>
         		<tr>
 	        		<td class="fs-3">${vo.description }</td>
 	        	</tr>
 	        </table>
+        <hr class="hr-st" style="width: 100%;">
         </div>
-        <hr class="hr-st" style="width: 1170px;">
         <div class="container">
         	<!-- 만약 직거래라면 지도 띄우려고 함 시간 되면 -->
         </div>
