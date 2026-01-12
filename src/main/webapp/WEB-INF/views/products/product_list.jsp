@@ -8,181 +8,132 @@
 <title>Insert title here</title>
 <style type="text/css">
 .container {
-	
+	margin-top: 50px;
+}
+a{
+	cursor: pointer;
 }
 a:hover {
     text-decoration: none;
     color: #007bff;
 }
+.hr-st {
+	border-top: 1px solid gray;
+	opacity: 0.5;
+	margin: 15px 0;
+}
+.product-st {
+	width: 300px; 
+	height: 200px; 
+	border-radius: 10px;
+}
+.product_name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.btn-dark:active, 
+.btn-dark:focus, 
+.btn-dark:hover {
+    color: #fff !important; 
+    background-color: #212529;
+    border: none;
+}
+.page-item.active .page-link {
+    background-color: #212529 !important;
+    border-color: #212529 !important;
+    color: #fff !important;
+}
+.page-link {
+    color: #444 !important;
+    box-shadow: none !important; /* 클릭 시 생기는 파란색 테두리 제거 */
+}
+.page-link:hover {
+    background-color: #f8f9fa !important;
+    color: #000 !important;
+}
 </style>
+<script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+<script src="https://unpkg.com/vue-demi"></script>
+<script src="https://unpkg.com/pinia@2.1.7/dist/pinia.iife.prod.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-	<div class="container">
+	<div class="container" id="trade_list">
 		<div style="height: 80px;"></div> <!-- 공백용 추후 카테고리 선택하여 검색 기능 추가할 수도-->
 		<div class="row mx-0 align-items-center" style="width: 100%;">
 		    <div class="col-auto px-0">
-		        <span><strong>000</strong>의 검색결과 <strong>000</strong>개</span>
+		        <span><strong>000</strong>의 검색결과 <strong>{{}}</strong>개</span>
 		    </div>
 		    <div class="col-auto ms-auto px-0">
 		        <a href="">최신순</a> &nbsp;|&nbsp;  <a href="">저가순</a> &nbsp;|&nbsp;  <a href="">고가순</a>
 		    </div>
+		    <div class="text-right" style="margin-top: 20px;"><!-- 로그인 체크하기 -->
+		    	<a href="/product/new" class="btn btn-dark">판매하기</a>
+		    </div>
 		</div>
 		<!-- 상품 출력 -->
-		<div class="row" style="margin-top: 20px">
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px; margin-top: 5px;">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
+		<div class="product-content padding-small">
+	        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+				<div class="col mb-4 mb-3"  style="margin-top: 30px;" v-for="(vo, index) in store.list" :key="index">
+					<div class="product-card position-relative">
+						<a :href="'/product/detail?no=' + vo.no">
+							<div class="card-img zoom-effect">
+								<img :src="vo.imageurl" class="product-image img-fluid product-st">
 							</div>
-							<hr style="border-top: 1px solid gray; opacity: 0.5;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<!-- 상품 출력 끝 -->
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
+							<div class="card-detail mt-3 ">
+								<h3 class="card-title fs-4 fw-normal m-0 text-secondary product_name">{{vo.name}}</h3>
+								<div class="card-price fw-bold fs-2 text-right" style="margin-top: 10px">{{ Number(vo.price).toLocaleString() }}원</div>
 							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
+							<hr class="hr-st">
+							<div class="d-flex justify-content-between align-items-center">
+								<img src="/images/test/gps_icon.png" style="width: 20px; height: 20px;">
+								<div class="text-right fs-5">{{vo.realAddress}}</div>
 							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
-							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
-							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
-							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
-							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3"> <!-- 이미지 4개 넣을 예정 -->
-				<div class="thumbnail">
-					<a href=""> 
-						<img src="/images/test/박명수.jpg" alt="Lights" style="width: 200px; height: 200px">
-						<div class="caption">
-							<div class="h4">박명수</div>
-							<div class="d-flex justify-content-between" style="margin-top: 10px">
-								<div>120,000원</div>
-								<div>1일전</div>
-							</div>
-							<hr style="border-top: 2px solid gray; opacity: 1;">
-							<div>지역정보 없음</div>
-						</div>
-					</a>
+							<div class="fs-5 text-right">{{vo.dbday}}</div>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col mb-4 mb-3">
-			<div class="product-card position-relative">
-				<div class="card-img">
-					<img src="/images/test/박명수.jpg" alt="product-item" class="product-image img-fluid" style="width: 200px; height: 200px">
-				</div>
-				<div class="card-detail d-flex align-items-center mt-3">
-					<h3 class="card-title fs-6 fw-normal m-0">
-						<a href="#">Running shoes for men</a>
-					</h3>
-					<span class="card-price fw-bold">$99</span>
-				</div>
-			</div>
-		</div>
+		<!-- 상품 출력 종료 -->
 		<!-- 페이지네이션 -->
-		<div class="row" style="justify-content: center;display: flex;">
-    		<ul class="pagination">
-		        <li class="page-item"><a class="page-link" href=''>&lt;</a></li>
-		        <li class="page-item"><a class="page-link" href=''>1</a></li>
-		        <li class="page-item"><a class="page-link" href=''>2</a></li>
-		        <li class="page-item"><a class="page-link" href=''>3</a></li>
-		        <li class="page-item"><a class="page-link" href=''>&gt;</a></li>
+		<div class="row" style="margin: 0px auto">
+    		<ul class="pagination pagination-lg justify-content-center mx-auto " style="width: fit-content;">
+		        <li class="page-item" v-if="store.startPage > 1">
+		        	<a class="page-link" @click="store.changePage(store.startPage-1)">&lt;</a>
+		        </li>
+			    <li class="page-item" v-for="i in store.range" :class="i==store.curPage?'active':''">
+			    	<a class="page-link" @click="store.changePage(i)">{{i}}</a>
+			    </li>
+		        <li class="page-item" v-if="store.endPage < store.totalPage">
+		        	<a class="page-link" @click="store.changePage(store.endPage+1)">&gt;</a>
+		        </li>
 		    </ul>
 		</div>
-		<!-- 페이지네이션 끝 -->
+		<!-- 페이지네이션 종료 -->
+		<div class="fs-3 fw-bold text-right">{{store.curPage}} 페이지 / 총 {{store.totalPage}} 페이지</div>
 	</div>
+	<script src="/vue/axios.js"></script>
+	<script src="/vue/trade/tradeStore.js"></script>
+	<script>
+		const {createApp, onMounted} = Vue
+		const {createPinia} = Pinia
+		
+		const tradeApp = createApp({
+			setup(){
+				const store = useTradeStore()
+				
+				onMounted(()=>{
+					store.tradeListData()
+				})
+				return {
+					store
+				}
+			}
+		})
+		tradeApp.use(createPinia())
+		tradeApp.mount('#trade_list')
+	</script>
 </body>
 </html>

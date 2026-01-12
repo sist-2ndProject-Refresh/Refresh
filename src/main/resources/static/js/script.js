@@ -91,15 +91,15 @@
       
       var swiper = new Swiper(".main-swiper", {
         slidesPerView: 1,
-        spaceBetween: 48,
+        spaceBetween: 1,
         pagination: {
           el: ".swiper-pagination",
           clickable: true,
         },
         breakpoints: {
           900: {
-            slidesPerView: 2,
-            spaceBetween: 48,
+            slidesPerView: 1,
+            spaceBetween: 10,
           },
         },
       });
