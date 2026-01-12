@@ -177,7 +177,7 @@
                 <a class="nav-link me-5" href="#">지역 커뮤니티</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-5" href="#">공지사항</a>
+                <a class="nav-link me-5" href="/notice/list">공지사항</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link me-5" href="#">관리자 페이지</a>
