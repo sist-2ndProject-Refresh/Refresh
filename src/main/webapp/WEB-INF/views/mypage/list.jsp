@@ -149,9 +149,12 @@
 }
 .modal-body th,
 .modal-body td {
-  vertical-align: middle !important;
+ 	vertical-align: middle !important;
 }
-
+.introduce-content {
+	display: flex;
+	
+}
 </style>
 </head>
 <body>
@@ -200,6 +203,11 @@
 						</h6>
 					</div>
 					<hr class="introduce-hr2">
+					<div class="introduce-content">
+						<h4>소개글</h4>
+						<textarea rows="2" cols="60"></textarea>
+						<button type="submit" class="btn-xs btn-danger">수정</button>
+					</div>
 				</div>
 			</div>
 		</div>

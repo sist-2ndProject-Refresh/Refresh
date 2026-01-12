@@ -11,7 +11,7 @@ import com.sist.web.vo.*;
 @Repository
 public interface MyPageMapper {
 	// 정보 수정 데이터
-	@Select("SELECT no,username,password,post,addr1,addr2,phone,regdate,email "
+	@Select("SELECT no,username,password,post,addr1,addr2,phone,regdate,email,point "
 			+ "FROM user_table "
 			+ "WHERE no=#{no}")
 	public UserVO myPageInfoData(int no);
@@ -41,5 +41,10 @@ public interface MyPageMapper {
 	@Update("UPDATE user_table SET phone=#{phone} WHERE no=#{no}")
 	public void phoneUpdate(UserVO vo);
 	
+	// 마이페이지 소개란 수정
+	@Select("SELECT content FROM store WHERE no=#{no}")
+	public String myPageContent(int no);
+	// @Update("UPDATE store SET content=#{content} WHERE no=#{no}")
+	// public void myPageUpdate(StoreVO vo);
 	
 }

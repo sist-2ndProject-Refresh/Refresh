@@ -30,8 +30,8 @@ public class MyPageRestController {
 			vo=mService.myPageInfoData(no);
 		}catch(Exception ex)
 		{
-			new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
 			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<>(vo,HttpStatus.OK);
 	}
@@ -46,8 +46,8 @@ public class MyPageRestController {
 			map.put("msg", msg);
 		}catch(Exception ex)
 		{
-			new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
 			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
