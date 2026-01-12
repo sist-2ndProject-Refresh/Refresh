@@ -16,12 +16,12 @@ PHONE    NOT NULL VARCHAR2(20)
 REGDATE           DATE          
 EMAIL    NOT NULL VARCHAR2(50)  
 POINT             NUMBER   
-status         
+state         
  * 
  */
 @Data
 public class UserVO {
-	private int no,point,status;
+	private int no,point,state;
 	private String provider,username,password,post,addr1,addr2,phone,dbday,email;
 	private Date regdate;
 	

@@ -6,7 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">	
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+<script src="https://unpkg.com/vue-demi"></script>
+<script src="https://unpkg.com/pinia@2.1.7/dist/pinia.iife.prod.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>	
+<script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style type="text/css">
 .login-row {	
 	margin:0px auto;
@@ -36,6 +41,16 @@ input::placeholder {
 .login-table {
 	border:2px 2px 2px 2px black;
 }
+.success_text {
+	font-size:10px;
+	color:green;
+	font-weight:bold;
+}
+.fail_text {
+	font-size:10px;
+	color:red;
+	font-weight:bold;
+}
 </style>
 </head>
 <body style="background-color: gray">
@@ -46,8 +61,8 @@ input::placeholder {
 	       M13 3h8v18h-8v-2h6V5h-6V3z" />
 	</symbol>
 </svg>
-	<div class="container">
-		<div class="row login-row text-center" v-show="joinContinue">
+	<div class="container" id="join_container">
+		<div class="row login-row text-center" v-show="store.joinContinue">
 			<div class="row text-center" style="margin-top:30px;height:50px">
 				<a href="/">
 					<img src="/images/main-logo.png">
@@ -63,10 +78,11 @@ input::placeholder {
 							아이디
 						</td>
 						<td width="55%" class="text-left" >
-							<input type="text" class="join-input" placeholder="아이디를 입력해주세요">
+							<input type="text" class="join-input" placeholder="아이디를 입력해주세요" style="width:160px;" 	v-model="store.userData.username" v-bind:readonly="store.isReadOnly">
+							<span v-if="store.idOK!=''" :class="store.isReadOnly?'success_text':'fail_text'">{{store.idOk}}</span>
 						</td>
 						<td width="15%" class="text-left" style="line-height: 35px;"> 
-							<button type="button" class="btn btn-sm btn-primary">중복 체크</button>
+							<button type="button" class="btn btn-sm btn-primary" @click=store.idCheck>중복 체크</button>
 						<td>
 					</tr>
 					<tr>
@@ -74,10 +90,10 @@ input::placeholder {
 							비밀번호
 						</td>
 						<td width="55%" class="text-left">
-							<input type="password" class="join-input" placeholder="비밀번호를 입력해주세요">
+							<input type="password" class="join-input" placeholder="비밀번호를 입력해주세요" v-model="store.userData.pwd">
 						</td>
 						<td width="15%" class="text-left">
-							
+							<span v-if="store.pwdOk!=''" class="fail_text">{{store.pwdOk}}</span>
 						</td>
 					</tr>
 					<tr>
@@ -85,7 +101,7 @@ input::placeholder {
 							비밀번호 확인
 						</td>
 						<td colspan="2" class="text-left">
-							<input type="password" class="join-input" placeholder="비밀번호 확인">
+							<input type="password" class="join-input" placeholder="비밀번호 확인" @keyup="store.passwordCheck()" v-model="store.userData.pwdck">
 						</td>
 					</tr>
 					<tr>
@@ -93,9 +109,9 @@ input::placeholder {
 							이메일
 						</td>
 						<td colspan="2" class="text-left" >
-							<input type="text" class="join-input" style="width:140px;" placeholder="example">
+							<input type="text" class="join-input" style="width:140px;" placeholder="example" v-model="store.userData.email1">
 							@
-							<input type="text" class="join-input" style="width:140px;" placeholder="example.com">
+							<input type="text" class="join-input" style="width:140px;" placeholder="example.com" v-model="store.userData.email2">
 						</td>
 					</tr>
 					<tr>
@@ -103,11 +119,11 @@ input::placeholder {
 							전화번호
 						</td>
 						<td colspan="2" class="text-left">
-							<input type="text" class="join-input" style="width:60px;" placeholder="010">
+							<input type="text" class="join-input" style="width:60px;" placeholder="010" v-model="store.userData.phone1">
 							-
-							<input type="text" class="join-input" style="width:80px;" placeholder="0000">
+							<input type="text" class="join-input" style="width:80px;" placeholder="0000" v-model="store.userData.phone2">
 							-
-							<input type="text" class="join-input" style="width:80px;" placeholder="0000">
+							<input type="text" class="join-input" style="width:80px;" placeholder="0000" v-model="store.userData.phone3">
 						</td>
 					</tr>
 					<tr>
@@ -115,10 +131,10 @@ input::placeholder {
 							우편번호
 						</td>
 						<td width="55%" class="text-left">
-							<input type="text" class="join-input" placeholder="우편번호" style="width:160px;"readonly>
+							<input type="text" class="join-input" placeholder="우편번호" style="width:160px;"readonly v-model="store.userData.post">
 						</td>
 						<td width="15%" class="text-left" style="line-height: 35px;">
-							<button type="button" class="btn btn-sm btn-info">우편번호 검색</button>
+							<button type="button" class="btn btn-sm btn-info" @click="store.postFind()">우편번호 검색</button>
 						</td>
 					</tr>
 					<tr>
@@ -126,7 +142,7 @@ input::placeholder {
 							주소
 						</td>
 						<td colspan="2" class="text-left">
-							<input type="text" class="join-input" placeholder="우편번호 검색을 이용해주세요" readonly style="width:400px;">
+							<input type="text" class="join-input" placeholder="우편번호 검색을 이용해주세요" readonly style="width:400px;" v-model="store.userData.addr1">
 						</td>
 					</tr>
 					<tr>
@@ -134,7 +150,7 @@ input::placeholder {
 							상세주소 
 						</td>
 						<td colspan="2" class="text-left">
-							<input type="text" class="join-input" style="width:400px;"placeholder="상세주소">
+							<input type="text" class="join-input" style="width:400px;"placeholder="상세주소" v-model="store.userData.addr2">
 						</td>
 					</tr>
 					<tr>
@@ -142,13 +158,13 @@ input::placeholder {
 							<a href="/member/login" class="btn btn-sm btn-danger">취소</a>
 						</td>
 						<td colspan="2" class="text-right">
-							<button type="button" class="btn btn-sm btn-warning">다음</button>
+							<button type="button" class="btn btn-sm btn-warning" @click="store.continue()">다음</button>
 						</td>
 					</tr>
 				</table>
 			</div>
 		</div>
-		<div class="row login-row text-center" style="width:1024px;height:800px;margin-bottom:40px;" v-show="!joinContinue">
+		<div class="row login-row text-center" style="width:1024px;height:800px;margin-bottom:40px;" v-show="!store.joinContinue">
 			<div class="row text-center" style="margin-top:30px;height:50px">
 				<a href="/">
 					<img src="/images/main-logo.png">
@@ -162,10 +178,11 @@ input::placeholder {
 				</div>
 				<div class="col-sm-5">
 					<div class="row">
-					<img src="/images/shop_profile/default-shop.jpg" class="img-thumbnail" width="480px;" height="300px;">
+					<img :src="store.storeData.image" class="img-thumbnail" style="width:480px;height:350px;">
 					</div>
-					<div class="row" style="padding-left: 60px;margin-top:20px;">
-						<input type="file">
+					<div class="row text-left" style="padding-left: 60px;margin-top:20px;">
+						<button type="button" class="btn btn-lg btn-info" @click="store.fileUploadBtn()">이미지 등록</button>
+						<input type="file" id="image_file"  @change="store.fileUpload($event)"style="display:none;">
 					</div>
 				</div>
 				<div class="col-sm-1">
@@ -175,13 +192,13 @@ input::placeholder {
 						<h3 style="text-align: left"><strong>상점 이름</strong></h3>
 					</div>
 					<div class="row">
-						<input type="text" class="join-input" placeholder="나만의 상점" style="width:350px;height:60px;font-size:20px;">
+						<input type="text" class="join-input" placeholder="나만의 상점" style="width:350px;height:60px;font-size:20px;" v-model="store.storeData.storename">
 					</div>
 					<div class="row" style="margin-top:60px;">
 						<h3 style="text-align: left"><strong>상점 소개</strong></h3>
 					</div>
 					<div class="row">
-						<textarea placeholder="내 상점을 소개해주세요" style="resize: none;width:350px;height:180px;font-size:16px;border: 3px solid rgb(200,200,200);border-radius: 12px;padding: 5px;background-color: rgb(240,240,240)"></textarea>
+						<textarea placeholder="내 상점을 소개해주세요" style="resize: none;width:350px;height:180px;font-size:16px;border: 3px solid rgb(200,200,200);border-radius: 12px;padding: 5px;background-color: rgb(240,240,240)" v-model="store.storeData.content"></textarea>
 					</div>
 				</div>
 				<div class="col-sm-1"></div>
@@ -194,10 +211,14 @@ input::placeholder {
 					
 					</div>
 					<div class="col-sm-4">
-						<button type="button" class="btn btn-lg btn-info">회원 가입</button>
+						<button type="button" class="btn btn-lg btn-success" @click="store.userJoin()">회원 가입</button>
 					</div>
 				</div>		
 		</div>
 	</div>
+	<script src="/js/jquery-1.11.0.min.js"></script>
+	<script src="/vue/api.js"></script>
+	<script src="/vue/member/memberStore.js"></script>
+	<script src="/vue/member/localJoin.js"></script>
 </body>
 </html>
