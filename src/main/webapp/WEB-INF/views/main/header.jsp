@@ -442,7 +442,8 @@
         <div class="user-items ps-0 ps-md-5">
           <ul class="d-flex justify-content-end list-unstyled align-item-center m-0">
             <li class="pe-3">
-              <a href="login" data-bs-toggle="modal" data-bs-target="#modallogin" class="border-0">
+              <!-- <a href="/mypage/list" data-bs-toggle="modal" data-bs-target="#modallogin" class="border-0"> -->
+              <a href="/mypage/list">
                 <svg class="user" width="24" height="24">
                   <use xlink:href="#user"></use>
                 </svg>
