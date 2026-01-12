@@ -229,7 +229,7 @@
           	</sec:authorize>
           	<sec:authorize access="isAuthenticated()">
             <li class="pe-3">
-              <a href="#" style="text-decoration: none;">
+              <a href="/mypage/list">
                 <svg class="user" width="24" height="24">
                   <use xlink:href="#user"></use>
                 </svg>
