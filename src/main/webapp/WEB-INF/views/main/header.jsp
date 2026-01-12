@@ -165,7 +165,7 @@
                 <a class="nav-link me-5" href="/product/list">중고 거래</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-5" href="#">대여</a>
+                <a class="nav-link me-5" href="/auction/list">대여</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link me-5" href="#">경매</a>
