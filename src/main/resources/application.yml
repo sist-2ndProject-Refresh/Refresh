@@ -25,4 +25,13 @@ mybatis:
 #Security
 #WebSocket
 #MSA
- 
+file:
+  upload-dir: c:/bootDev/bootStudy/images/
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+file:
+  upload-dir: /home/ubuntu/app/images/

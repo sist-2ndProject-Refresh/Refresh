@@ -154,7 +154,7 @@ const memberStore = defineStore('member_store',{
 					formData.append('content',this.storeData.content)
 				}
 				if(this.storeData.file){
-					formData.append('image',this.storeData.file)
+					formData.append('file',this.storeData.file)
 				}
 				const res = await api.post('/member/store_join_vue/',formData,{
 					headers: {
