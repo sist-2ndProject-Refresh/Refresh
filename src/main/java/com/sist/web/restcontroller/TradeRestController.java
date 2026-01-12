@@ -3,6 +3,8 @@ package com.sist.web.restcontroller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
@@ -43,6 +45,22 @@ public class TradeRestController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	@PostMapping("/product/insert_vue/")
+	public ResponseEntity<Map> product_insert_vue(@RequestBody TradeVO vo)
+	{
+		Map map = new HashMap();
+		
+		try {
+			tService.productInsertData(vo);
+			map.put("msg", "yes");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);	
 		}
 		
 		return new ResponseEntity<>(map, HttpStatus.OK);

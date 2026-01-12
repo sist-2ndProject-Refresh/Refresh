@@ -15,12 +15,19 @@ public class TradeServiceImpl implements TradeService{
 	public List<TradeVO> productListData(int start) {
 		return mapper.productListData(start);
 	}
+	
 	@Override
 	public int productTotalPage() {
 		return mapper.productTotalPage();
 	}
+	
 	@Override
 	public TradeVO productDetailData(int no) {
 		return mapper.productDetailData(no);
+	}
+	
+	@Override
+	public void productInsertData(TradeVO vo) {
+		mapper.productInsertData(vo);
 	}
 }
