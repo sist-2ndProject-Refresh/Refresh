@@ -37,7 +37,7 @@ a:hover {
 .btn-dark:hover {
     color: #fff !important; 
     background-color: #212529;
-    border: none;
+    border: 1px solid #212529;
 }
 .page-item.active .page-link {
     background-color: #212529 !important;
@@ -46,7 +46,7 @@ a:hover {
 }
 .page-link {
     color: #444 !important;
-    box-shadow: none !important; /* 클릭 시 생기는 파란색 테두리 제거 */
+    box-shadow: none !important; 
 }
 .page-link:hover {
     background-color: #f8f9fa !important;

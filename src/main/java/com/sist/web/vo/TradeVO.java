@@ -8,16 +8,16 @@ DESCRIPTION    CLOB
 PRICE          NUMBER         
 ORIGINPRICE    NUMBER         
 QTY            NUMBER         
-SALESTATUS     VARCHAR2(100)  
+SALESTATUS     VARCHAR2(100)  		SELLING / RESERVED / SOLD_OUT
 CONDITION      VARCHAR2(100)  
 IMAGECOUNT     NUMBER         
 IMAGEURL       VARCHAR2(1000) 
 DESCRIBEDAT    DATE           
-CATEGORY       NUMBER         
+CATEGORY       NUMBER     			00(대분류)00(중분류)00(소분류) => 000000    
 LAT            NUMBER         
 LON            NUMBER         
 ADDRESS        VARCHAR2(1000) 
-TRADES         VARCHAR2(4000) 
+TRADES         VARCHAR2(4000) 		ex) 배송비||일반 30,000원||직거래 희망 장소||서울특별시 영등포구 당산제2동||
  * 
  */
 

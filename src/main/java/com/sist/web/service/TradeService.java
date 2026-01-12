@@ -8,4 +8,5 @@ public interface TradeService {
 	public List<TradeVO> productListData(int start);
 	public int productTotalPage();
 	public TradeVO productDetailData(int no);
+	public void productInsertData(TradeVO vo);
 }

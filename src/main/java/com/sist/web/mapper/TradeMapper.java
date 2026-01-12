@@ -1,5 +1,6 @@
 package com.sist.web.mapper;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -28,4 +29,26 @@ public interface TradeMapper {
 			+ "FROM trade_goods "
 			+ "WHERE no=#{no}")
 	public TradeVO productDetailData(int no);
+	
+	// 상품 등록
+	@Insert("INSERT INTO trade_goods("
+			+ "no, name, description, price, originprice, qty, salestatus, condition, imagecount"
+			+ "imageurl, descrivedat, category, lat, lon, address, trades) "
+			+ "VALUES("
+			+ "trade_no_seq.nextval, "
+			+ "#{name}, "
+			+ "#{description}, "
+			+ "#{price}, "
+			+ "#{price}), " // price와 originprice가 같기에 price 입력
+			+ "#{qty}, "
+			+ "'SELLING', "
+			+ "#{condition}, "
+			+ "#{imageurl}, "
+			+ "SYSDATE, "
+			+ "#{category}, "
+			+ "#{lat}, "
+			+ "#{lon}, "
+			+ "#{address}, "
+			+ "#{trades}")
+	public void productInsertData(TradeVO vo);
 }
