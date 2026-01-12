@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,8 +58,9 @@ public class UserRestController {
 		return new ResponseEntity<Integer>(count,HttpStatus.OK);
 	}
 	@PostMapping("/member/user_join_vue/")
-	public ResponseEntity<Map> user_join_vue(@ModelAttribute UserVO vo)
+	public ResponseEntity<Map> user_join_vue(@RequestBody UserVO vo)
 	{
+		System.out.println("user_join_vue 호출");
 		Map map = new HashMap<>();
 		try {
 			String msg = "NO";
@@ -93,16 +95,18 @@ public class UserRestController {
 	}
 	@PostMapping("/member/store_join_vue/")
 	public ResponseEntity<String> store_join_vue(@ModelAttribute StoreVO vo,@RequestParam(value="image",required=false)MultipartFile image){
+		System.out.println("store_join_vue 호출");
 		String msg = "NO";
 		try {
-			if(image !=null && image.isEmpty())
+			if(image !=null && !image.isEmpty())
 			{
+				
 				String imagename = image.getOriginalFilename();
 				String ext = imagename.substring(imagename.lastIndexOf("."));
 				
 				String savename = Uuid.randomUuid()+ext;
 				String savePath = "/images/store/"+savename;
-				
+				System.out.println(savePath);
 				image.transferTo(new File(savePath));
 				vo.setImage(savePath);
 			}
