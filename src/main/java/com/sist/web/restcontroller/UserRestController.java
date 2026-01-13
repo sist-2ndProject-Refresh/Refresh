@@ -63,7 +63,6 @@ public class UserRestController {
 	@PostMapping("/member/user_join_vue/")
 	public ResponseEntity<Map> user_join_vue(@RequestBody UserVO vo)
 	{
-		System.out.println("user_join_vue 호출");
 		Map map = new HashMap<>();
 		try {
 			String msg = "NO";
@@ -98,7 +97,6 @@ public class UserRestController {
 	}
 	@PostMapping("/member/store_join_vue/")
 	public ResponseEntity<String> store_join_vue(@ModelAttribute StoreVO vo,@RequestParam(value="file",required=false)MultipartFile file,HttpServletRequest request){
-		System.out.println("store_join_vue 호출");
 		String msg = "NO";
 		try {
 			if(file !=null && !file.isEmpty())
