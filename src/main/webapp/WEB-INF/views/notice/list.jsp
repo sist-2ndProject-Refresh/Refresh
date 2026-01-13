@@ -17,10 +17,13 @@
 					<h1
 						style="font-size: 3.5rem; font-weight: 800; color: #111; letter-spacing: -0.03em; margin-bottom: 15px;">
 						공지사항</h1>
-					<div class="breadcrumb__option"
+					<div class="breadcrumb__option d-flex justify-content-between align-items-center"
 						style="font-size: 1.2rem; color: #888;">
 						<span><a href="/" class="text-decoration-none text-muted">Home</a>
-							&nbsp; > &nbsp; 공지사항</span>
+							&nbsp; > &nbsp; 공지사항</span> <a href="/notice/insert"
+							class="btn btn-dark px-2 py-2 shadow-sm"
+							style="border-radius: 15px; font-size: 1.2rem; font-weight: 600; min-width: 100px;">
+							글 작성 </a>
 					</div>
 				</div>
 			</div>

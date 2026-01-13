@@ -33,7 +33,7 @@
 						<div class="d-flex gap-5 align-items-baseline">
 							<div class="info-item">
 								<small class="text-uppercase fw-bold d-block"
-									style="letter-spacing: 1px; font-size: 0.85rem; margin-bottom: -4px;">번호.</small>
+									style="letter-spacing: 1px; font-size: 0.85rem; margin-bottom: -4px;">번호</small>
 								<span class="fw-bold text-dark"
 									style="font-size: 2.2rem; line-height: 1.1;">{{store.vo.not_id}}</span>
 							</div>
@@ -57,7 +57,7 @@
 
 						<div class="ms-auto text-end">
 							<small class="text-uppercase fw-bold d-block text-secondary"
-								style="letter-spacing: 1px; font-size: 0.85rem; margin-bottom: -4px;">조회ㅅ</small>
+								style="letter-spacing: 1px; font-size: 0.85rem; margin-bottom: -4px;">조회수</small>
 							<span class="fw-black text-dark"
 								style="font-size: 3rem; line-height: 1.1;">{{store.vo.view_cnt}}</span>
 						</div>

@@ -31,4 +31,10 @@ public class NoticeServiceImpl implements NoticeService {
 		mapper.noticeHitIncrement(no);
 		return mapper.noticeDetailData(no);
 	}
+
+	@Override
+	public void noticeInsert(NoticeVO vo) {
+		// TODO Auto-generated method stub
+		mapper.noticeInsert(vo);
+	}
 }

@@ -3,6 +3,7 @@ package com.sist.web.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class NoticeController {
@@ -24,6 +25,12 @@ public class NoticeController {
 	// 사용자가 게시물을 클릭해서 상세 내용을 보고 싶을 때 접속하는 경로
 	public String notice_detail(Model model) {
 		model.addAttribute("main_jsp", "../notice/detail.jsp");
+		return "main/main";
+	}
+	
+	@GetMapping("/notice/insert")
+	public String notice_insert(Model model) {
+		model.addAttribute("main_jsp", "../notice/insert.jsp");
 		return "main/main";
 	}
 }
