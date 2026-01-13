@@ -24,7 +24,7 @@ VIEW_CNT             NUMBER
 public interface NoticeMapper {
 
 	@Select("SELECT not_id,not_title,mem_id,TO_CHAR(not_date,'yyyy-mm-dd') as not_date,view_cnt " + "FROM notice "
-			+ "ORDER BY not_id DESC " + "OFFSET #{start} ROWS FETCH NEXT 20 ROWS ONLY")
+			+ "ORDER BY not_id DESC " + "OFFSET #{start} ROWS FETCH NEXT 8 ROWS ONLY")
 	public List<NoticeVO> noticeListData(int start);
 	// 게시물 목록 조회
 	/*
@@ -72,7 +72,7 @@ public interface NoticeMapper {
 	
 	@SelectKey(keyProperty = "not_id", resultType = int.class, before = true,
 	           statement = "SELECT NVL(MAX(not_id)+1, 1) as not_id FROM notice")
-	@Insert("INSERT INTO notice(NOT_ID, NOT_TITLE, MEM_ID, NOT_CONTENT, NOT_DATE, VIEW_CNT) "
+	@Insert("INSERT INTO notice(not_id, not_title, mem_id, not_content, not_date, view_cnt) "
 	      + "VALUES(#{not_id}, #{not_title}, #{mem_id}, #{not_content}, SYSDATE, 0)")
 	public void noticeInsert(NoticeVO vo);
 	//게시글 작성
