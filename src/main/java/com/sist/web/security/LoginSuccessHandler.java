@@ -31,6 +31,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 		session.setAttribute("username", vo.getUsername());
 		session.setAttribute("no", vo.getNo());
 		
-		response.sendRedirect("/main");
+		response.sendRedirect("/");
 	}
 }

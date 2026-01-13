@@ -36,7 +36,7 @@ public class MyPageRestController {
 		return new ResponseEntity<>(vo,HttpStatus.OK);
 	}
 	
-	@PostMapping("/mypage/update_vue")
+	@PostMapping("/mypage/update_vue/")
 	public ResponseEntity<Map> mypage_update_vue(@RequestBody UserVO vo)
 	{
 		Map map=new HashMap();

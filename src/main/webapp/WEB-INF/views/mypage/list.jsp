@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -153,7 +154,13 @@
 }
 .introduce-content {
 	display: flex;
-	
+	flex-direction: column;
+	gap: 5px;
+}
+.introduce-ta {
+	resize: none;
+	border: 0.3px solid gray;
+	width: 800px;
 }
 </style>
 </head>
@@ -168,7 +175,9 @@
 							<div class="store-img">
 								<img src="../images/mypage/angrycat.jpg">
 							</div>
-							<h3 class="store-user">username</h3>
+							<div id="info">
+								<h3 class="store-user">{{username}}</h3>
+							</div>
 							<div class="store-rating">
 								<img src="../images/mypage/rating.png">
 							</div>
@@ -180,9 +189,7 @@
 				<div class="col-sm-9 right-store">
 					<hr>
 					<div class="username">
-						<h3>username</h3>
-						<button class="name-updatebtn btn btn-xs btn-primary">상점명
-							수정</button>
+						<button class="name-updatebtn btn btn-xs btn-primary">상점명 수정</button>
 						<button type="button" class="introduce-updatebtn btn btn-info" data-toggle="modal" data-target="#myModal">정보 수정</button>
 						<div id="myModal" class="modal fade" role="dialog">
 						  <div class="modal-dialog">
@@ -205,9 +212,10 @@
 					<hr class="introduce-hr2">
 					<div class="introduce-content">
 						<h4>소개글</h4>
-						<textarea rows="2" cols="60"></textarea>
-						<button type="submit" class="btn-xs btn-danger">수정</button>
+						<textarea class="introduce-ta" maxlength="2000"></textarea>
 					</div>
+					<button type="submit" class="btn btn-xs btn-dark" style="margin-top: 10px;">수정</button>
+					<button type="submit" class="btn btn-xs btn-dark" style="margin-top: 10px;">포인트 충전</button>
 				</div>
 			</div>
 		</div>
@@ -274,8 +282,32 @@
 				</ul>
 			</div>
 		</div>
-
 	</div>
-	
+	<script>
+	const InfoApp=Vue.createApp({
+		data(){
+			return {
+				no:'${sessionScope.no}',
+				username:''
+			}
+		},
+		mounted(){
+			this.dataRecv()
+		},
+		methods:{
+			dataRecv(){
+				axios.get('/mypage/info_vue',{
+					params:{
+						no:this.no
+					}
+				}).then(response => {
+					console.log(response.data)
+					this.username=response.data.username
+				})
+			}
+		}
+	})
+	InfoApp.mount('#info')
+	</script>
 </body>
 </html>

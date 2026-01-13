@@ -69,7 +69,7 @@ public class SecurityConfig {
 	@Bean
 	JdbcUserDetailsManager jdbcUserDetailsManager() {
 		JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
-		manager.setUsersByUsernameQuery("SELECT username,password,status as enabled FROM user_table WHERE provider = 'local' AND username=?");
+		manager.setUsersByUsernameQuery("SELECT username,password,state as enabled FROM user_table WHERE provider = 'local' AND username=?");
 		manager.setAuthoritiesByUsernameQuery("SELECT username,role_name as authority FROM user_table a, user_roles b WHERE provider = 'local' AND username=? AND a.no = b.user_no");
 		return manager;
 	}
