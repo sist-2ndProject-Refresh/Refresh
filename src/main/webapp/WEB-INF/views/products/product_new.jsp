@@ -198,7 +198,7 @@ input[type="number"]::-webkit-inner-spin-button {
 			            <input type="checkbox" v-model="store.isDirect" ref="directRef" class="form-check-input me-2" style="width: 17px; height: 17px;">
 			            <span class="fs-3 fw-normal">직거래 여부</span>
 			        </label>
-					<div style="margin-bottom:50px" ref="addressRef">	<!-- 직거래 체크 되었을 때 보이도록 하기 display:none  -->
+					<div style="margin-bottom:50px" ref="addressRef" v-if="">	<!-- 직거래 체크 되었을 때 보이도록 하기 display:none  -->
 						<input class="form-control fs-2" type="text" style="width: 250px; height: 40px;" readonly>
 						<div class="d-flex align-items-center">
 							<input class="form-control fs-2" type="text" v-model="store.address1" style="width: 250px; height: 40px; margin-top: 10px;" readonly disabled required>

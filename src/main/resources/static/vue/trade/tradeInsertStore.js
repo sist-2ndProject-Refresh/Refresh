@@ -19,7 +19,7 @@ const useInsertStore = defineStore('trade_insert', {
 		address1: '',		// 기본 주소
 		address2: '',		// 상세 주소
 		includeDelivery: 0, // 택배비 포함 여부
-		isDirect: false,		// 직거래 여부
+		isDirect: false,	// 직거래 여부
 		isGS:false,			// GS 택배 여부
 		isCU:false,			// CU 택배 여부
 		normalPrice:0,		// 일반택배 가격
