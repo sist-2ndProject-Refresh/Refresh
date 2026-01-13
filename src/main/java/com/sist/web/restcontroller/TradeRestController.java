@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 import com.sist.web.vo.*;
+import com.sist.web.service.CategoryService;
 import com.sist.web.service.TradeService;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TradeRestController {
 	private final TradeService tService;
+	private final CategoryService cService;
 	
 	@GetMapping("/product/list_vue/")
 	public ResponseEntity<Map> product_list_vue(@RequestParam(name = "page") int page)
@@ -58,6 +60,54 @@ public class TradeRestController {
 		try {
 			tService.productInsertData(vo);
 			map.put("msg", "yes");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);	
+		}
+		
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	@GetMapping("/product/category1_vue/")
+	public ResponseEntity<Map> product_category1()
+	{
+		Map map = new HashMap();
+		
+		try {
+			List<CategoryVO> categoryFirList = cService.categoryFirstListData();
+			map.put("cateFir", categoryFirList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);	
+		}
+		
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	@GetMapping("/product/category2_vue/")
+	public ResponseEntity<Map> product_category2(@RequestParam("first_id") int first_id)
+	{
+		Map map = new HashMap();
+		
+		try {
+			List<CategoryVO> categorySecondList = cService.categorySecondListData(first_id);
+			map.put("cateSec", categorySecondList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);	
+		}
+		
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	@GetMapping("/product/category3_vue/")
+	public ResponseEntity<Map> product_category3(@RequestParam("second_id") int second_id)
+	{
+		Map map = new HashMap();
+		
+		try {
+			List<CategoryVO> categoryThirdList = cService.categoryThirdListData(second_id);
+			map.put("cateThr", categoryThirdList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);	

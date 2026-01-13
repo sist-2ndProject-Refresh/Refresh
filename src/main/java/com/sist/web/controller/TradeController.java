@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.sist.web.restcontroller.TradeRestController;
 import com.sist.web.service.TradeService;
 import com.sist.web.vo.TradeVO;
 
@@ -13,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class TradeController {
-
-    private final TradeRestController tradeRestController;
 	private final TradeService tService;
 	
 	@GetMapping("/product/list")

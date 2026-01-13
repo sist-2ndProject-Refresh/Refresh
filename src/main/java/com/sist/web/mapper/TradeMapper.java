@@ -32,23 +32,24 @@ public interface TradeMapper {
 	
 	// 상품 등록
 	@Insert("INSERT INTO trade_goods("
-			+ "no, name, description, price, originprice, qty, salestatus, condition, imagecount"
-			+ "imageurl, descrivedat, category, lat, lon, address, trades) "
+			+ "no, name, description, price, originprice, qty, salestatus, condition, imagecount, "
+			+ "imageurl, describedat, category, lat, lon, address, trades) "
 			+ "VALUES("
 			+ "trade_no_seq.nextval, "
 			+ "#{name}, "
 			+ "#{description}, "
 			+ "#{price}, "
-			+ "#{price}), " // price와 originprice가 같기에 price 입력
+			+ "#{price}, " // price와 originprice가 같기에 price 입력
 			+ "#{qty}, "
 			+ "'SELLING', "
 			+ "#{condition}, "
+			+ "1, "	//#{imagecount}
 			+ "#{imageurl}, "
 			+ "SYSDATE, "
 			+ "#{category}, "
 			+ "#{lat}, "
 			+ "#{lon}, "
 			+ "#{address}, "
-			+ "#{trades}")
+			+ "#{trades})")
 	public void productInsertData(TradeVO vo);
 }

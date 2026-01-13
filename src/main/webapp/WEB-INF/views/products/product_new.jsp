@@ -39,6 +39,11 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 </style>
+<script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+<script src="https://unpkg.com/vue-demi"></script>
+<script src="https://unpkg.com/pinia@2.1.7/dist/pinia.iife.prod.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 	<div class="container" id="trade_insert">
@@ -67,25 +72,29 @@ input[type="number"]::-webkit-inner-spin-button {
 			    	<span class="fs-2 fw-normal" style="min-width:100px;">카테고리</span>
 			    	<div class="d-flex align-items-stretch">
 				        <div class="category-scroll-box px-3 py-2 border rounded" style="max-height: 200px; overflow-y: auto; width: 200px; max-width: 500px;">
-				            <label class="d-flex align-items-center mb-2" style="cursor: pointer;">
-				                <input type="radio" v-model="store.category1" ref="categoryRef_1" value="1" class="form-check-input me-2" required>
-				                <span class="fs-3 fw-normal">가전제품</span>
+				            <label class="d-flex align-items-center mb-2" v-for="cate1 in store.cate1List" :key="cate1" style="cursor: pointer;">
+				                <input type="radio" v-model="store.category1" ref="categoryRef_1" :value="cate1.first_id" @change="store.loadCategorySecond(cate1.first_id)" class="form-check-input me-2" required>
+				                <span class="fs-3 fw-normal">{{cate1.first_title}}</span>
 				            </label>
 				    	</div>
-				    	<!-- 대분류 선택 되었을 때 보이도록 하기 display:none  -->
-				        <div class="category-scroll-box px-3 py-2 border rounded" style="max-height: 200px; overflow-y: auto; width: 200px; max-width: 500px;">
-				            <label class="d-flex align-items-center mb-2" style="cursor: pointer;">
-				                <input type="radio" v-model="store.category2" ref="categoryRef_2" value="1" class="form-check-input me-2" required>
-				                <span class="fs-3 fw-normal">가전제품</span>
-				            </label>
-				    	</div>
-				    	<!-- 중분류 선택 되었을 때 보이도록 하기 display:none  -->
-				        <div class="category-scroll-box px-3 py-2 border rounded" style="max-height: 200px; overflow-y: auto; width: 200px; max-width: 500px;">
-				            <label class="d-flex align-items-center mb-2" style="cursor: pointer;">
-				                <input type="radio" v-model="store.category3" ref="categoryRef_3" value="1" class="form-check-input me-2" required>
-				                <span class="fs-3 fw-normal">가전제품</span>
-				            </label>
-				    	</div>
+				    	
+						<div v-if="store.cate2List.length > 0">
+					        <div class="category-scroll-box px-3 py-2 border rounded" style="max-height: 200px; overflow-y: auto; width: 200px; max-width: 500px;">
+					            <label class="d-flex align-items-center mb-2" v-for="cate2 in store.cate2List" :key="cate2" style="cursor: pointer;">
+					                <input type="radio" v-model="store.category2" ref="categoryRef_2" :value="cate2.second_id" @change="store.loadCategoryThird(cate2.second_id)" class="form-check-input me-2" required>
+					                <span class="fs-3 fw-normal">{{cate2.second_title}}</span>
+					            </label>
+					    	</div>
+						</div>
+				    	
+				    	<div v-if="store.cate3List.length > 0">
+					        <div class="category-scroll-box px-3 py-2 border rounded" style="max-height: 200px; overflow-y: auto; width: 200px; max-width: 500px;">
+					            <label class="d-flex align-items-center mb-2" v-for="cate3 in store.cate3List" :key="cate3" style="cursor: pointer;">
+					                <input type="radio" v-model="store.category3" ref="categoryRef_3" :value="cate3.third_id" class="form-check-input me-2" required>
+					                <span class="fs-3 fw-normal">{{cate3.third_title}}</span>
+					            </label>
+					    	</div>
+					    </div>
 			    	</div>
 			    </div>
 			</div>
@@ -153,37 +162,35 @@ input[type="number"]::-webkit-inner-spin-button {
 					<div>
 						<div class="d-flex gap-100" ref="deliveryRef">
 					        <label class="d-flex align-items-center" style="cursor: pointer;">
-					            <input type="radio" v-model="store.includeDelivery" name="delivery-price" value="0" class="form-check-input me-2" checked>
+					            <input type="radio" v-model="store.includeDelivery" name="delivery-price" :value="0" class="form-check-input me-2" checked>
 					            <span class="fs-2 fw-normal">택배비 포함</span>
 					        </label>
 					        <label class="d-flex align-items-center" style="cursor: pointer;">
-					           <input type="radio" v-model="store.includeDelivery" name="delivery-price" value="1" class="form-check-input m-0 me-2">
+					           <input type="radio" v-model="store.includeDelivery" name="delivery-price" :value="1" class="form-check-input m-0 me-2">
 					           <span class="fs-2 fw-normal">택배비 별도</span>
 					       </label>
 						</div>
-						
-						
-						<div class="d-flex mar-top-50 gap-100" ref="csvRef"> <!-- 택배비 별도일 때 보이도록 하기 display:none  -->
-							<label class="d-flex align-items-center" style="cursor: pointer;">
-					            <input type="checkbox" v-model="store.isGS" class="form-check-input me-2" style="width: 20px; height: 20px;">
-					            <span class="fs-2 fw-normal">GS반값택배</span>
-					        </label>
-							<label class="d-flex align-items-center" style="cursor: pointer;">
-					            <input type="checkbox" v-model="store.isCU" class="form-check-input me-2" style="width: 20px; height: 20px;">
-					            <span class="fs-2 fw-normal">CU알뜰택배</span>
-					        </label>
-						</div>
-						<div class="d-flex align-items-center gap-2" style="margin-top: 20px;">	
-							<span class="fs-2" style="min-width: 120px;">일반 택배</span>
-							<input class="form-control fs-2 text-right" v-model="store.normalPrice" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" disabled required>
-							<span class="fs-2">원</span>
-						</div>
-						
-						<!-- 편의점 택배 중 하나라도 체크가 된다면 -->
-						<div class="d-flex align-items-center gap-2" style="margin-top: 20px;">	
-							<span class="fs-2" style="min-width: 120px;">편의점 택배</span>
-							<input class="form-control fs-2 text-right" v-model="store.cvsPrice" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" disabled required>
-							<span class="fs-2">원</span>
+						<div v-if="store.includeDelivery === 1">
+							<div class="d-flex mar-top-50 gap-100" ref="csvRef"> <!-- 택배비 별도일 때 보이도록 하기 display:none  -->
+								<label class="d-flex align-items-center" style="cursor: pointer;">
+						            <input type="checkbox" v-model="store.isGS" class="form-check-input me-2" style="width: 20px; height: 20px;">
+						            <span class="fs-2 fw-normal">GS반값택배</span>
+						        </label>
+								<label class="d-flex align-items-center" style="cursor: pointer;">
+						            <input type="checkbox" v-model="store.isCU" class="form-check-input me-2" style="width: 20px; height: 20px;">
+						            <span class="fs-2 fw-normal">CU알뜰택배</span>
+						        </label>
+							</div>
+							<div class="d-flex align-items-center gap-2" style="margin-top: 20px;">	
+								<span class="fs-2" style="min-width: 120px;">일반 택배</span>
+								<input class="form-control fs-2 text-right" v-model="store.normalPrice" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" required>
+								<span class="fs-2">원</span>
+							</div>
+							<div class="d-flex align-items-center gap-2" style="margin-top: 20px;" v-if="">	
+								<span class="fs-2" style="min-width: 120px;">편의점 택배</span>
+								<input class="form-control fs-2 text-right" v-model="store.cvsPrice" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" required>
+								<span class="fs-2">원</span>
+							</div>
 						</div>
 						
 						
@@ -198,25 +205,27 @@ input[type="number"]::-webkit-inner-spin-button {
 			            <input type="checkbox" v-model="store.isDirect" ref="directRef" class="form-check-input me-2" style="width: 17px; height: 17px;">
 			            <span class="fs-3 fw-normal">직거래 여부</span>
 			        </label>
-					<div style="margin-bottom:50px" ref="addressRef">	<!-- 직거래 체크 되었을 때 보이도록 하기 display:none  -->
+					<div style="margin-bottom:50px" ref="addressRef" v-if="store.isDirect">	<!-- 직거래 체크 되었을 때 보이도록 하기 display:none  -->
 						<input class="form-control fs-2" type="text" style="width: 250px; height: 40px;" readonly>
 						<div class="d-flex align-items-center">
-							<input class="form-control fs-2" type="text" v-model="store.address1" style="width: 250px; height: 40px; margin-top: 10px;" readonly disabled required>
+							<input class="form-control fs-2" type="text" v-model="store.address1" style="width: 250px; height: 40px; margin-top: 10px;" readonly required>
 							<input type="button" class="btn btn-dark btn-sm btn-st" value="주소 찾기">
 						</div>
-						<input class="form-control fs-2" type="text" v-model="store.address2" style="width: 300px; height: 40px; margin-top: 10px;" placeholder="거래 상세 위치를 작성해주세요" disabled required>
+						<input class="form-control fs-2" type="text" v-model="store.address2" style="width: 300px; height: 40px; margin-top: 10px;" placeholder="거래 상세 위치를 작성해주세요" required>
 					</div>
 				</div>
 			</div>
 			<div>
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="d-flex justify-content-center align-items-center gap-100 mar-top-50">
-					<input type="submit" class="btn btn-dark btn-st fs-2 fw-bold" value="등록" style="width: 150px; height: 60px;">
+					<input type="button" class="btn btn-dark btn-st fs-2 fw-bold" value="등록" style="width: 150px; height: 60px;" @click="store.tradeInsertData()">
 					<input type="button" class="btn btn-white btn-st fs-2 fw-bold" style="border: 2px solid black; back-color: gray; width: 150px; height: 60px;" value="취소" onclick="javascript:history.back()">
 				</div>
 			</div>
 		</div>
 	</div>
+	<script src="/vue/axios.js"></script>
+	<script src="/vue/trade/tradeInsertStore.js"></script>
 	<script>
 		const {onMounted, ref, createApp} = Vue
 		const {createPinia} = Pinia
@@ -253,6 +262,9 @@ input[type="number"]::-webkit-inner-spin-button {
 			        directRef, 
 			        addressRef
 			    }
+			},
+			mounted() {
+				this.store.loadCategoryFirst()
 			}
 		})
 		tradeInsertApp.use(createPinia())
