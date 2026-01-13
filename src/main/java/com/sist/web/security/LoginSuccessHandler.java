@@ -30,7 +30,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 		HttpSession session= request.getSession();
 		session.setAttribute("username", vo.getUsername());
 		session.setAttribute("no", vo.getNo());
+		String prevPage = (String)session.getAttribute("prevPage");
+		if(prevPage !=null)
+		{
+			response.sendRedirect(prevPage);
+		}
+		else {
+			response.sendRedirect("/");
+		}
 		
-		response.sendRedirect("/");
 	}
 }

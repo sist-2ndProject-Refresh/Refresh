@@ -192,7 +192,11 @@ input::placeholder {
 						<h3 style="text-align: left"><strong>상점 이름</strong></h3>
 					</div>
 					<div class="row">
-						<input type="text" class="join-input" placeholder="나만의 상점" style="width:350px;height:60px;font-size:20px;" v-model="store.storeData.storename">
+						<input type="text" class="join-input" placeholder="나만의 상점" style="width:230px;height:60px;font-size:20px;" v-model="store.storeData.storename" v-bind:readonly="store.isStoreReadOnly">
+						&nbsp;<button type="button" class="btn btn-lg btn-success" @click="store.storeNameCheck()">중복검사</button>
+					</div>
+					<div class="row">
+						<span v-if="store.storeOk!==null" :class="store.isStoreReadOnly?'success_text':'fail_text'">{{store.storeOk}}</span>
 					</div>
 					<div class="row" style="margin-top:60px;">
 						<h3 style="text-align: left"><strong>상점 소개</strong></h3>

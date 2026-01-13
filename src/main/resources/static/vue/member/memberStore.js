@@ -115,6 +115,10 @@ const memberStore = defineStore('member_store',{
 			this.storeData.image=URL.createObjectURL(file)
 		},
 		async storeNameCheck(){
+			if(this.storeData.storename==='')
+			{
+				return
+			}
 			const {data} = await api.get('/member/store_name_vue/',{
 				params:{
 					storename:this.storeData.storename
@@ -122,17 +126,22 @@ const memberStore = defineStore('member_store',{
 			})
 			if(data===0)
 			{
-				isStoreReadOnly=true
-				storeOk='사용 가능한 이름입니다.'
+				this.isStoreReadOnly=true
+				this.storeOk='사용 가능한 이름입니다.'
 			}
 			else{
-				storeOk='사용중인 이름입니다.'
+				this.storeOk='사용중인 이름입니다.'
 			}
 		},
 		async userJoin(){
 			if(this.storeData.storename==='')
 			{
 				alert('상점 이름을 입력해 주세요')
+				return
+			}
+			if(!this.isStoreReadOnly)
+			{
+				alert('상점 이름 중복을 체크해 주세요')
 				return
 			}
 			const {data} = await api.post('/member/user_join_vue/',{

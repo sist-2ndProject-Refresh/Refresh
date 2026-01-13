@@ -3,11 +3,14 @@ package com.sist.web.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class MemberController {
 	
 	@GetMapping("/member/login")
-	public String member_login_before()
+	public String member_login()
 	{
 		return "member/login_before";
 	}
@@ -20,5 +23,16 @@ public class MemberController {
 	public String member_local_join()
 	{
 		return "member/localjoin";
+	}
+	@GetMapping("/member/login_before")
+	public String member_login_before(HttpSession session,HttpServletRequest request)
+	{
+		String referer = request.getHeader("Referer");
+		if(referer != null && !referer.contains("/member/login"))
+		{
+			session.setAttribute("prevPage", referer);
+		}
+		System.out.println(referer);
+		return "redirect:/member/login";
 	}
 }
