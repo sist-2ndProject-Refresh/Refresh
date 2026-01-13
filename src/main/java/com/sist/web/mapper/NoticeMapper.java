@@ -15,6 +15,7 @@ MEM_ID               VARCHAR2(50)
 NOT_CONTENT          CLOB          
 NOT_DATE             DATE          
 VIEW_CNT             NUMBER  
+ss
 */
 @Mapper
 @Repository
