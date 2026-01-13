@@ -15,16 +15,14 @@ MEM_ID               VARCHAR2(50)
 NOT_CONTENT          CLOB          
 NOT_DATE             DATE          
 VIEW_CNT             NUMBER  
-ss
+
 */
 @Mapper
 @Repository
 public interface NoticeMapper {
-	
-	@Select("SELECT not_id,not_title,mem_id,TO_CHAR(not_date,'yyyy-mm-dd') as not_date,view_cnt "
-			+"FROM notice "
-			+"ORDER BY not_id DESC "
-			+"OFFSET #{start} ROWS FETCH NEXT 20 ROWS ONLY")
+
+	@Select("SELECT not_id,not_title,mem_id,TO_CHAR(not_date,'yyyy-mm-dd') as not_date,view_cnt " + "FROM notice "
+			+ "ORDER BY not_id DESC " + "OFFSET #{start} ROWS FETCH NEXT 20 ROWS ONLY")
 	public List<NoticeVO> noticeListData(int start);
 	// 게시물 목록 조회
 	/*
@@ -52,9 +50,7 @@ public interface NoticeMapper {
 	 * CEIL : 올림 함수
 	 * int : 총 페이지 수라는 정수값을 반환
 	 */
-	@Update("UPDATE notice SET "
-			+"view_cnt=view_cnt+1 "
-			+"WHERE not_id=#{not_id}")
+	@Update("UPDATE notice SET " + "view_cnt=view_cnt+1 " + "WHERE not_id=#{not_id}")
 	public void noticeHitIncrement(int no);
 	// 조회수 증가
 	/*
@@ -65,8 +61,7 @@ public interface NoticeMapper {
 	 */
 	
 	@Select("SELECT not_id,not_title,mem_id,TO_CHAR(not_date,'yyyy-mm-dd') as not_date,view_cnt,not_content "
-			+"FROM notice "
-			+"WHERE not_id=#{not_id}")
+			+ "FROM notice " + "WHERE not_id=#{not_id}")
 	public NoticeVO noticeDetailData(int no);
 	//상세보기
 	/*
