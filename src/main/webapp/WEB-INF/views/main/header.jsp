@@ -87,6 +87,11 @@
 	    d="M10 17l5-5-5-5v3H3v4h7v3z
 	       M13 3h8v18h-8v-2h6V5h-6V3z" />
 	</symbol>
+	<symbol xmlns="http://www.w3.org/2000/svg" id="logout" viewBox="0 0 24 24">
+  <path fill="currentColor" 
+    d="M14 17l-5-5 5-5v3h7v4h-7v3z 
+       M11 3H3v18h8v-2H5V5h6V3z" />
+	</symbol>
   </svg>
   <!-- Loader 4 -->
 
@@ -228,6 +233,14 @@
             </li>
           	</sec:authorize>
           	<sec:authorize access="isAuthenticated()">
+            <li class="pe-3">
+              <a href="/member/logout">
+                <svg class="user" width="24" height="24">
+                  <use xlink:href="#logout"></use>
+                </svg>
+                <strong>로그아웃</strong>
+              </a>
+            </li>
             <li class="pe-3">
               <a href="/mypage/list">
                 <svg class="user" width="24" height="24">

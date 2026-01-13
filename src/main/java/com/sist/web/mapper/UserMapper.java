@@ -43,4 +43,6 @@ public interface UserMapper {
 	@Delete("DELETE user_table WHERE no = #{no}")
 	void userErrorDelete(int no);
 	
+	
+	
 }

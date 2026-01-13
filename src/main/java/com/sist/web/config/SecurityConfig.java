@@ -35,7 +35,7 @@ public class SecurityConfig {
 			)
 			.formLogin(form -> form
 				.loginPage("/member/local_login")
-				.loginProcessingUrl("/member/login_proccess")
+				.loginProcessingUrl("/member/login_process")
 				.usernameParameter("username")
 				.passwordParameter("password")
 				.successHandler(loginSuccessHandler)

@@ -47,7 +47,7 @@ input::placeholder {
 					<img src="/images/main-logo.png">
 				</a>
 			</div>
-			<form action="/member/login_proccess" method="post">
+			<form action="/member/login_process" method="post">
 			<div class="row" style="margin-top:90px;">
 				<div class="row" style="margin-top:20px;">
 					<input type="text" class="login-input" placeholder="아이디 입력" name="username">

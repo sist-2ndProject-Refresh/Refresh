@@ -147,18 +147,18 @@ const memberStore = defineStore('member_store',{
 			})
 			if(data.msg==='OK')
 			{
-				const formData = new formData()
+				const formData = new FormData()
 				formData.append('no',data.no)
 				formData.append('storename',this.storeData.storename)
 				if(this.storeData.content!==''){
 					formData.append('content',this.storeData.content)
 				}
 				if(this.storeData.file){
-					formData.append('image',this.storeData.file)
+					formData.append('file',this.storeData.file)
 				}
 				const res = await api.post('/member/store_join_vue/',formData,{
-					header: {
-						'Content-type':'multipart/form-data'
+					headers: {
+						'Content-Type': 'multipart/form-data'
 					}
 				})
 				if(res.data==='OK')

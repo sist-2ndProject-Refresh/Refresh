@@ -1,11 +1,12 @@
-package com.sist.web.restcontroller;
+ package com.sist.web.restcontroller;
 
 import java.io.File;
+import java.net.http.HttpRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.kafka.common.Uuid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,8 +23,7 @@ import com.sist.web.service.UserService;
 import com.sist.web.vo.StoreVO;
 import com.sist.web.vo.UserVO;
 
-import jakarta.mail.Multipart;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -31,6 +31,10 @@ import lombok.RequiredArgsConstructor;
 public class UserRestController {
 	private final UserService uService;
 	private final PasswordEncoder encoder;
+	
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+	
 	@GetMapping("/member/idcheck_vue/")
 	public ResponseEntity<Integer> member_idCheck(@RequestParam("provider")String provider,@RequestParam("username")String username)
 	{
@@ -57,7 +61,7 @@ public class UserRestController {
 		return new ResponseEntity<Integer>(count,HttpStatus.OK);
 	}
 	@PostMapping("/member/user_join_vue/")
-	public ResponseEntity<Map> user_join_vue(@ModelAttribute UserVO vo)
+	public ResponseEntity<Map> user_join_vue(@RequestBody UserVO vo)
 	{
 		Map map = new HashMap<>();
 		try {
@@ -92,19 +96,24 @@ public class UserRestController {
 		return new ResponseEntity<Map>(map,HttpStatus.OK);
 	}
 	@PostMapping("/member/store_join_vue/")
-	public ResponseEntity<String> store_join_vue(@ModelAttribute StoreVO vo,@RequestParam(value="image",required=false)MultipartFile image){
+	public ResponseEntity<String> store_join_vue(@ModelAttribute StoreVO vo,@RequestParam(value="file",required=false)MultipartFile file,HttpServletRequest request){
 		String msg = "NO";
 		try {
-			if(image !=null && image.isEmpty())
+			if(file !=null && !file.isEmpty())
 			{
-				String imagename = image.getOriginalFilename();
+				File dir = new File(uploadDir+"store");
+				if(!dir.exists())
+				{
+					dir.mkdirs();
+				}
+				String imagename = file.getOriginalFilename();
 				String ext = imagename.substring(imagename.lastIndexOf("."));
+				String storeUploadPath = uploadDir+"store"+File.separator;
 				
-				String savename = Uuid.randomUuid()+ext;
-				String savePath = "/images/store/"+savename;
-				
-				image.transferTo(new File(savePath));
-				vo.setImage(savePath);
+				String savename = UUID.randomUUID()+ext;
+				String image = "/userimages/store/"+savename;
+				file.transferTo(new File(storeUploadPath+savename));
+				vo.setImage(image);
 			}
 			else {
 				vo.setImage("/images/store/default-shop.jpg");
