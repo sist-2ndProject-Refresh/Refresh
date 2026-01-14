@@ -33,7 +33,7 @@ public interface TradeMapper {
 	// 상품 등록
 	@Insert("INSERT INTO trade_goods("
 			+ "no, name, description, price, originprice, qty, salestatus, condition, imagecount, "
-			+ "imageurl, describedat, category, lat, lon, address, trades) "
+			+ "imageurl, describedat, category, lat, lon, address, trades, user_no) "
 			+ "VALUES("
 			+ "trade_no_seq.nextval, "
 			+ "#{name}, "
@@ -50,6 +50,7 @@ public interface TradeMapper {
 			+ "#{lat}, "
 			+ "#{lon}, "
 			+ "#{address}, "
-			+ "#{trades})")
+			+ "#{trades}, "
+			+ "#{user_no})")
 	public void productInsertData(TradeVO vo);
 }

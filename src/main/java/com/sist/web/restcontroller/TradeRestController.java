@@ -17,6 +17,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import com.sist.web.vo.*;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.sist.web.service.CategoryService;
 import com.sist.web.service.TradeService;
 
@@ -64,11 +67,22 @@ public class TradeRestController {
 	}
 	
 	@PostMapping("/product/insert_vue/")
-	public ResponseEntity<Map> product_insert_vue(@RequestBody TradeVO vo)
+	public ResponseEntity<Map> product_insert_vue(@RequestBody TradeVO vo, HttpSession session)
 	{
 		Map map = new HashMap();
 		
+		Object userNoObj = session.getAttribute("no");
+		
+		if(userNoObj == null)
+		{
+			map.put("msg", "NO_SESSION");
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 		try {
+			int user_no = Integer.parseInt(userNoObj.toString());
+			System.out.println(user_no);
+			vo.setUser_no(user_no);
 			tService.productInsertData(vo);
 			map.put("msg", "yes");
 		} catch (Exception e) {
@@ -143,12 +157,8 @@ public class TradeRestController {
 			String oname = file.getOriginalFilename();	// 원본 파일명 저장
 			String ext = oname.substring(oname.lastIndexOf("."));	// 확장자만 출력
 			String lastName = uuid + "_" + count + "_w_{res}" + ext;
-			
-			Path path = Paths.get(uploadDir + "product/", lastName);
-			//File f = new File(directory + lastName);
-			
-			//Path path = Paths.get(uploadDir, f.getName());	// 파일 저장
-			Files.copy(file.getInputStream(), path);
+			Path path = Paths.get(uploadDir + "product/", lastName); // 경로 지정
+			Files.copy(file.getInputStream(), path);	// 파일 저장
 			count++;
 		}
 		//return uploadDir + "product/" + uuid;
