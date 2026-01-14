@@ -5,7 +5,7 @@ const useInsertStore = defineStore('trade_insert', {
         name: '', 			// 상품명
         description: '',	// 상품 설명
         price: 0,			// 상품 가격
-        qty: 0,				// 상품 수량
+        qty: 1,				// 상품 수량
         condition: 'NEW',	// 상품 상태
         imagecount: 1,		// 이미지 갯수
         imageurl: '',		// 이미지 URL
@@ -33,6 +33,9 @@ const useInsertStore = defineStore('trade_insert', {
     }),
     actions: {
         async tradeInsertData() {
+			if(!this.checkData()) return true
+			
+			
             // 일반 배송 여부
             let normalDelivery = this.includeDelivery == 0 ? "무료배송||" : "일반" + this.normalPrice + "||"
 
@@ -54,7 +57,7 @@ const useInsertStore = defineStore('trade_insert', {
             let categoryFull = 0
             categoryFull = this.category2 == 0 ? this.category1 : this.category2
             categoryFull = this.category3 == 0 ? this.category2 : this.category3
-
+			
             this.imageurl = await this.uploadImages()
 
             const uploadData = {
@@ -74,12 +77,15 @@ const useInsertStore = defineStore('trade_insert', {
             }
             const res = await api.post('/product/insert_vue/', uploadData)
 
-            if (res.data.msg === 'yes') {
-                location.href = "/product/list"
-            }
-            else {  // 유효성검사 store에서 하기
-                alert("상품 등록에 실패하였습니다")
-            }
+            if(res.data.msg ==="yes")
+			{
+				alert("상품이 정상적으로 등록됐습니다!")
+				location.href="/product/list"
+			}
+			else
+			{
+				alert("등록에 실패했습니다.")
+			}
         },
         async loadCategoryFirst() {
             const res = await api.get('/product/category1_vue/')
@@ -148,7 +154,34 @@ const useInsertStore = defineStore('trade_insert', {
 		removeImage(index){
 			this.previewList.splice(index, 1)
 			this.imagecount--
+		},
+		checkData(){
+			if(this.imageList.length < 1)
+			{
+				alert("이미지를 선택해주세요")
+				return false
+			}
+			if(!this.name || this.name.trim() === "")
+			{
+				alert("상품명을 입력해주세요")
+				return false
+			}
+			if(this.category1 === 0)
+			{
+				alert("카테고리를 설정해주세요")
+				return false
+			}
+			if(!this.description || this.description.trim() === "")
+			{
+				alert("상품 설명을 입력해주세요")
+				return false
+			}
+			if(this.price <= 0)
+			{
+				alert("가격을 설정해주세요")
+				return false
+			}
+			return true
 		}
-		
     }
 })
