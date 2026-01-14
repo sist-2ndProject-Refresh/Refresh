@@ -1,5 +1,6 @@
 package com.sist.web.restcontroller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +8,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import com.sist.web.vo.*;
 import com.sist.web.service.CategoryService;
@@ -19,6 +27,9 @@ import lombok.RequiredArgsConstructor;
 public class TradeRestController {
 	private final TradeService tService;
 	private final CategoryService cService;
+	
+	@Value("${file.upload-dir}")
+	private String uploadDir;
 	
 	@GetMapping("/product/list_vue/")
 	public ResponseEntity<Map> product_list_vue(@RequestParam(name = "page") int page)
@@ -114,5 +125,33 @@ public class TradeRestController {
 		}
 		
 		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	@PostMapping("/product/image_vue/")
+	public String product_image_vue(@RequestParam("files") List<MultipartFile> files) throws IOException
+	{
+		if(files.get(0).isEmpty())
+			return "실패";
+		File directory = new File(uploadDir + "product/");
+		if(!directory.exists())
+			directory.mkdirs();
+		
+		int count = 1;
+		String uuid = UUID.randomUUID().toString();	// 랜덤 이름 생성
+		for(MultipartFile file : files)
+		{
+			String oname = file.getOriginalFilename();	// 원본 파일명 저장
+			String ext = oname.substring(oname.lastIndexOf("."));	// 확장자만 출력
+			String lastName = uuid + "_" + count + "_w_{res}" + ext;
+			
+			Path path = Paths.get(uploadDir + "product/", lastName);
+			//File f = new File(directory + lastName);
+			
+			//Path path = Paths.get(uploadDir, f.getName());	// 파일 저장
+			Files.copy(file.getInputStream(), path);
+			count++;
+		}
+		//return uploadDir + "product/" + uuid;
+		return uuid;
 	}
 }

@@ -9,34 +9,49 @@
 .container {
 	margin-top: 100px;
 }
-.mar-top-50{
+
+.mar-top-50 {
 	margin-top: 50px;
 }
-.gap-100{
+
+.gap-100 {
 	gap: 100px;
 }
+
 .hr-st {
 	border-top: 1px solid gray;
 	opacity: 0.5;
 	margin: 15px 0;
 }
-.btn-st{
-	margin-left: 10px; 
-	height: 40px; 
-	margin-top: 10px; 
+
+.btn-st {
+	margin-left: 10px;
+	height: 40px;
+	margin-top: 10px;
 	margin-left: 20px;
 }
-.btn-dark:active, 
-.btn-dark:focus, 
-.btn-dark:hover {
-    color: #fff !important; 
-    background-color: #212529;
-    border-color: #212529;
+
+.btn-dark:active, .btn-dark:focus, .btn-dark:hover {
+	color: #fff !important;
+	background-color: #212529;
+	border-color: #212529;
 }
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button
+	{
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.x-btn {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	border-radius: 50%;
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	line-height: 1;
 }
 </style>
 <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
@@ -56,14 +71,20 @@ input[type="number"]::-webkit-inner-spin-button {
 					<label for="input_img" style="cursor: pointer">
 						<img src="/images/test/image_icon.png" style="width: 200px; height: 200px; margin-top: 10px; border: 2px solid black">
 					</label>
-					<input id="input_img" type="file" v-model="store.imageurl" ref="imagesRef" multiple accept="image/*" style="display: none" required>
+					<input id="input_img" type="file" ref="imagesRef" multiple accept="image/*" style="display: none" @change="store.catchImages">
+					<div v-if="store.imagecount > 0" class="d-flex flex-wrap" style="width: 100%;">
+					    <div v-for="(url, index) in store.previewList" :key="index" style="width: calc(25% - 20px); margin: 10px; position: relative; min-width: 120px;">
+					         <img :src="url" class="rounded border" style="width: 100%; height: 150px; object-fit: cover; display: block;">
+					         <button @click="store.removeImage(index)" class="btn btn-danger btn-sm x-btn">&times;</button>
+					    </div>
+					</div>
 				</div>
 			</div>
 			<div>
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="mar-top-50 d-flex align-items-center gap-100">
 					<span class="fs-2 fw-normal" style="min-width:100px;">상품명</span>
-					<input class="form-control fs-2" v-model="store.name" ref="nameRef"  type="text" size="115" style="height: 40px;" placeholder="상품명을 작성해주세요" required>
+					<input class="form-control fs-2" v-model="store.name" ref="nameRef"  type="text" size="115" style="height: 40px;" placeholder="상품명을 작성해주세요" >
 				</div>			
 			</div>
 			<div>
@@ -73,7 +94,7 @@ input[type="number"]::-webkit-inner-spin-button {
 			    	<div class="d-flex align-items-stretch">
 				        <div class="category-scroll-box px-3 py-2 border rounded" style="max-height: 200px; overflow-y: auto; width: 200px; max-width: 500px;">
 				            <label class="d-flex align-items-center mb-2" v-for="cate1 in store.cate1List" :key="cate1" style="cursor: pointer;">
-				                <input type="radio" v-model="store.category1" ref="categoryRef_1" :value="cate1.first_id" @change="store.loadCategorySecond(cate1.first_id)" class="form-check-input me-2" required>
+				                <input type="radio" v-model="store.category1" ref="categoryRef_1" :value="cate1.first_id" @change="store.loadCategorySecond(cate1.first_id)" class="form-check-input me-2" >
 				                <span class="fs-3 fw-normal">{{cate1.first_title}}</span>
 				            </label>
 				    	</div>
@@ -81,7 +102,7 @@ input[type="number"]::-webkit-inner-spin-button {
 						<div v-if="store.cate2List.length > 0">
 					        <div class="category-scroll-box px-3 py-2 border rounded" style="max-height: 200px; overflow-y: auto; width: 200px; max-width: 500px;">
 					            <label class="d-flex align-items-center mb-2" v-for="cate2 in store.cate2List" :key="cate2" style="cursor: pointer;">
-					                <input type="radio" v-model="store.category2" ref="categoryRef_2" :value="cate2.second_id" @change="store.loadCategoryThird(cate2.second_id)" class="form-check-input me-2" required>
+					                <input type="radio" v-model="store.category2" ref="categoryRef_2" :value="cate2.second_id" @change="store.loadCategoryThird(cate2.second_id)" class="form-check-input me-2" >
 					                <span class="fs-3 fw-normal">{{cate2.second_title}}</span>
 					            </label>
 					    	</div>
@@ -90,7 +111,7 @@ input[type="number"]::-webkit-inner-spin-button {
 				    	<div v-if="store.cate3List.length > 0">
 					        <div class="category-scroll-box px-3 py-2 border rounded" style="max-height: 200px; overflow-y: auto; width: 200px; max-width: 500px;">
 					            <label class="d-flex align-items-center mb-2" v-for="cate3 in store.cate3List" :key="cate3" style="cursor: pointer;">
-					                <input type="radio" v-model="store.category3" ref="categoryRef_3" :value="cate3.third_id" class="form-check-input me-2" required>
+					                <input type="radio" v-model="store.category3" ref="categoryRef_3" :value="cate3.third_id" class="form-check-input me-2" >
 					                <span class="fs-3 fw-normal">{{cate3.third_title}}</span>
 					            </label>
 					    	</div>
@@ -105,7 +126,7 @@ input[type="number"]::-webkit-inner-spin-button {
 					    <span class="fs-2 fw-normal" style="min-width: 200px;">상품 상태</span>
 					    <div class="align-items-center" ref="conditionRef">
 					        <label class="d-flex align-items-center" style="cursor: pointer;">
-					            <input type="radio" v-model="store.condition" name="condition" value="NEW" class="form-check-input me-2" checked required>
+					            <input type="radio" v-model="store.condition" name="condition" value="NEW" class="form-check-input me-2" checked >
 					            <span class="fs-2 fw-normal">미사용 상품</span>
 					        </label>
 					        <label class="d-flex align-items-center" style="cursor: pointer;">
@@ -132,7 +153,7 @@ input[type="number"]::-webkit-inner-spin-button {
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="mar-top-50 d-flex  gap-100">
 					<span class="fs-2 fw-normal" style="min-width:100px;">상품 설명</span>
-					<textarea class="form-control fs-2" v-model="store.description" ref="descriptionRef" rows="10" cols="100" maxlength="4000" style="resize: none;" placeholder="상품에 대한 설명을 최대한 자세히 적어주세요" required></textarea>
+					<textarea class="form-control fs-2" v-model="store.description" ref="descriptionRef" rows="10" cols="100" maxlength="4000" style="resize: none;" placeholder="상품에 대한 설명을 최대한 자세히 적어주세요" ></textarea>
 				</div>
 			</div>
 			<div>
@@ -140,7 +161,7 @@ input[type="number"]::-webkit-inner-spin-button {
 				<div class="mar-top-50 d-flex align-items-center gap-100">
 					<span class="fs-2 fw-normal" style="min-width:100px;">상품 가격</span>
 					<div class="d-flex align-items-center gap-2">	
-						<input class="form-control fs-2 text-right" v-model="store.price" ref="priceRef" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" required>
+						<input class="form-control fs-2 text-right" v-model="store.price" ref="priceRef" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" >
 						<span class="fs-2">원</span>
 					</div>
 				</div>
@@ -150,7 +171,7 @@ input[type="number"]::-webkit-inner-spin-button {
 				<div class="mar-top-50 d-flex align-items-center gap-100">
 					<span class="fs-2 fw-normal" style="min-width:100px;">상품 수량</span>
 					<div class="d-flex align-items-center gap-2">	
-						<input class="form-control fs-2 text-right" v-model="store.qty" ref="qtyRef" type="number" min="1" value="1" style="width: 200px; height: 40px;" required>
+						<input class="form-control fs-2 text-right" v-model="store.qty" ref="qtyRef" type="number" min="1" value="1" style="width: 200px; height: 40px;" >
 						<span class="fs-2">개</span>
 					</div>
 				</div>
@@ -183,17 +204,15 @@ input[type="number"]::-webkit-inner-spin-button {
 							</div>
 							<div class="d-flex align-items-center gap-2" style="margin-top: 20px;">	
 								<span class="fs-2" style="min-width: 120px;">일반 택배</span>
-								<input class="form-control fs-2 text-right" v-model="store.normalPrice" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" required>
+								<input class="form-control fs-2 text-right" v-model="store.normalPrice" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" >
 								<span class="fs-2">원</span>
 							</div>
 							<div class="d-flex align-items-center gap-2" style="margin-top: 20px;" v-if="">	
 								<span class="fs-2" style="min-width: 120px;">편의점 택배</span>
-								<input class="form-control fs-2 text-right" v-model="store.cvsPrice" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" required>
+								<input class="form-control fs-2 text-right" v-model="store.cvsPrice" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" >
 								<span class="fs-2">원</span>
 							</div>
 						</div>
-						
-						
 					</div>
 				</div>
 			</div>
@@ -205,13 +224,12 @@ input[type="number"]::-webkit-inner-spin-button {
 			            <input type="checkbox" v-model="store.isDirect" ref="directRef" class="form-check-input me-2" style="width: 17px; height: 17px;">
 			            <span class="fs-3 fw-normal">직거래 여부</span>
 			        </label>
-					<div style="margin-bottom:50px" ref="addressRef" v-if="store.isDirect">	<!-- 직거래 체크 되었을 때 보이도록 하기 display:none  -->
-						<input class="form-control fs-2" type="text" style="width: 250px; height: 40px;" readonly>
+					<div style="margin-bottom:50px" ref="addressRef" v-if="store.isDirect">	
 						<div class="d-flex align-items-center">
-							<input class="form-control fs-2" type="text" v-model="store.address1" style="width: 250px; height: 40px; margin-top: 10px;" readonly required>
-							<input type="button" class="btn btn-dark btn-sm btn-st" value="주소 찾기">
+							<input class="form-control fs-2" type="text" v-model="store.address1" style="width: 250px; height: 40px; margin-top: 10px;" readonly >
+							<input type="button" class="btn btn-dark btn-sm btn-st" value="주소 찾기" @click="store.postFind()">
 						</div>
-						<input class="form-control fs-2" type="text" v-model="store.address2" style="width: 300px; height: 40px; margin-top: 10px;" placeholder="거래 상세 위치를 작성해주세요" required>
+						<input class="form-control fs-2" type="text" v-model="store.address2" style="width: 300px; height: 40px; margin-top: 10px;" placeholder="거래 상세 위치를 작성해주세요">
 					</div>
 				</div>
 			</div>
@@ -269,7 +287,6 @@ input[type="number"]::-webkit-inner-spin-button {
 		})
 		tradeInsertApp.use(createPinia())
 		tradeInsertApp.mount('#trade_insert')
-		
 	</script>
 </body>
 </html>

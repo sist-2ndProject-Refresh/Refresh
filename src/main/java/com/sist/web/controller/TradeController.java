@@ -44,11 +44,20 @@ public class TradeController {
 			vo.setHow("택배");
 		}
 		
-		String updateImagUrl[] = new String[vo.getImagecount()];
+		String updateImgUrl[] = new String[vo.getImagecount()];
 		for(int i = 1; i <= vo.getImagecount(); i++)
 		{
-			updateImagUrl[i-1] = vo.getImageurl().replace("{cnt}", String.valueOf(i));
-			vo.setImageurl(vo.getImageurl().replace("{res}", "720"));
+			if(vo.getImageurl().startsWith("http"))
+			{
+				updateImgUrl[i-1] = vo.getImageurl().replace("{cnt}", String.valueOf(i));
+				//vo.setImageurl(vo.getImageurl().replace("{res}", "720"));
+			}
+			else
+			{
+				String fileName = vo.getImageurl().replace("{cnt}", String.valueOf(i));
+				updateImgUrl[i - 1] = "/userimages/product/" + fileName + ".png";
+			}
+			
 		}
 		
 		// condition 한글화
@@ -61,7 +70,7 @@ public class TradeController {
 		}
 		
 		model.addAttribute("vo", vo);
-		model.addAttribute("updateImagUrl", updateImagUrl);
+		model.addAttribute("updateImagUrl", updateImgUrl);
 		model.addAttribute("main_jsp", "../products/product_detail.jsp");
 		return "main/main";
 	}

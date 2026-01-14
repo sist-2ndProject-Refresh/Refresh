@@ -43,7 +43,7 @@ public interface TradeMapper {
 			+ "#{qty}, "
 			+ "'SELLING', "
 			+ "#{condition}, "
-			+ "1, "	//#{imagecount}
+			+ "#{imagecount}, "	
 			+ "#{imageurl}, "
 			+ "SYSDATE, "
 			+ "#{category}, "
