@@ -73,20 +73,23 @@ const memberStore = defineStore('member_store',{
 			}).open()
 		},
 		continue(){
-			if(this.isReadOnly===false)
+			if(this.userData.provider==='local')
 			{
-				alert('아이디 중복을 확인해 주세요')
-				return
-			}
-			if(this.userData.pwd==='')
-			{
-				alert('비밀번호를 입력해 주세요')
-				return
-			}
-			if(this.userData.pwdck==='' || this.pwdOk!=='')
-			{
-				alert('비밀번호 확인을 해주세요')
-				return
+				if(this.isReadOnly===false)
+							{
+								alert('아이디 중복을 확인해 주세요')
+								return
+							}
+							if(this.userData.pwd==='')
+							{
+								alert('비밀번호를 입력해 주세요')
+								return
+							}
+							if(this.userData.pwdck==='' || this.pwdOk!=='')
+							{
+								alert('비밀번호 확인을 해주세요')
+								return
+							}
 			}
 			if(this.userData.email1==='' || this.userData.email2==='')
 			{
@@ -144,6 +147,10 @@ const memberStore = defineStore('member_store',{
 				alert('상점 이름 중복을 체크해 주세요')
 				return
 			}
+			if(this.userData.provider==='local')
+			{
+				
+			}
 			const {data} = await api.post('/member/user_join_vue/',{
 				provider:this.userData.provider,
 				username:this.userData.username,
@@ -173,7 +180,14 @@ const memberStore = defineStore('member_store',{
 				if(res.data==='OK')
 				{
 					alert('가입이 완료되었습니다.')
-					location.href='/member/local_login'
+					if(this.userData.provider==='local')
+					{
+						location.href='/member/local_login'
+					}
+					else
+					{
+						location.href='/member/login'
+					}
 				}
 				else{
 					await api.delete('/member/user_error_delete/',{
@@ -182,12 +196,27 @@ const memberStore = defineStore('member_store',{
 						}
 					})
 					alert('오류가 발생했습니다 \n다시 시도해주세요')
-					location.href='/member/local_join'
+					if(this.userData.provider==='local')
+					{
+						location.href='/member/local_join'
+					}
+					else
+					{
+						location.href='/member/social_join'
+					}
+					
 				}
 			}
 			else{
 				alert('오류가 발생했습니다 \n다시 시도해주세요')
-				location.href='/member/local_join'
+				if(this.userData.provider==='local')
+				{
+					location.href='/member/local_join'
+				}
+				else
+				{
+					location.href='/member/social_join'
+				}
 			}
 		}
 		

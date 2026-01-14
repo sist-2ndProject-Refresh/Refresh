@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sist.web.service.UserService;
+import com.sist.web.service.MemberService;
 import com.sist.web.vo.StoreVO;
-import com.sist.web.vo.UserVO;
+import com.sist.web.vo.MemberVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class UserRestController {
-	private final UserService uService;
+public class MemberRestController {
+	private final MemberService uService;
 	private final PasswordEncoder encoder;
 	
     @Value("${file.upload-dir}")
@@ -61,12 +61,12 @@ public class UserRestController {
 		return new ResponseEntity<Integer>(count,HttpStatus.OK);
 	}
 	@PostMapping("/member/user_join_vue/")
-	public ResponseEntity<Map> user_join_vue(@RequestBody UserVO vo)
+	public ResponseEntity<Map> user_join_vue(@RequestBody MemberVO vo)
 	{
 		Map map = new HashMap<>();
 		try {
 			String msg = "NO";
-			if(vo.getProvider()==null || vo.getUsername()==null || vo.getPassword()==null || vo.getPost()==null || vo.getAddr1() == null ||vo.getPhone()==null || vo.getEmail() == null)
+			if(vo.getProvider()==null || vo.getUsername()==null || vo.getPost()==null || vo.getAddr1() == null ||vo.getPhone()==null || vo.getEmail() == null)
 			{
 				map.put("msg", msg);
 				return new ResponseEntity<Map>(map,HttpStatus.OK);
@@ -96,7 +96,7 @@ public class UserRestController {
 		return new ResponseEntity<Map>(map,HttpStatus.OK);
 	}
 	@PostMapping("/member/store_join_vue/")
-	public ResponseEntity<String> store_join_vue(@ModelAttribute StoreVO vo,@RequestParam(value="file",required=false)MultipartFile file,HttpServletRequest request){
+	public ResponseEntity<String> store_join_vue(@ModelAttribute StoreVO vo,@RequestParam(value="file",required=false)MultipartFile file){
 		String msg = "NO";
 		try {
 			if(file !=null && !file.isEmpty())

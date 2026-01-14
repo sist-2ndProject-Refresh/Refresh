@@ -14,7 +14,7 @@ public interface MyPageMapper {
 	@Select("SELECT no,username,password,post,addr1,addr2,phone,regdate,email,point "
 			+ "FROM user_table "
 			+ "WHERE no=#{no}")
-	public UserVO myPageInfoData(int no);
+	public MemberVO myPageInfoData(int no);
 	
 	// 마이페이지 유저 네임
 	@Select("SELECT username "
@@ -35,11 +35,11 @@ public interface MyPageMapper {
 	
 	// 정보 수정
 	@Update("UPDATE user_table SET username=#{username} WHERE no=#{no}")
-	public void usernameUpdate(UserVO vo);
+	public void usernameUpdate(MemberVO vo);
 	@Update("UPDATE user_table SET email=#{email} WHERE no=#{no}")
-	public void emailUpdate(UserVO vo);
+	public void emailUpdate(MemberVO vo);
 	@Update("UPDATE user_table SET phone=#{phone} WHERE no=#{no}")
-	public void phoneUpdate(UserVO vo);
+	public void phoneUpdate(MemberVO vo);
 	
 	// 마이페이지 소개란 수정
 	@Select("SELECT content FROM store WHERE no=#{no}")

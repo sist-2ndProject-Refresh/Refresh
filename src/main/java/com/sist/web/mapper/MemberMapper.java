@@ -9,26 +9,26 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.StoreVO;
-import com.sist.web.vo.UserVO;
+import com.sist.web.vo.MemberVO;
 import java.util.*;
 @Mapper
 @Repository
-public interface UserMapper {
+public interface MemberMapper {
 	@Insert("INSERT INTO user_table(no,provider,username,password,post,addr1,addr2,phone,email) VALUES"
 			+ "(user_no_seq.nextval,#{provider},#{username},#{password},#{post},#{addr1},#{addr2},#{phone},#{email})")
-	void userInsert(UserVO vo); 
+	void userInsert(MemberVO vo); 
 	@Insert("INSERT INTO user_roles(user_no) SELECT no FROM user_table WHERE provider = #{provider} AND username = #{username}")
-	void userRoleInsert(UserVO vo);
+	void userRoleInsert(MemberVO vo);
 	@Select("SELECT no FROM user_table WHERE provider = #{provider} AND username = #{username}")
-	int userNoData(UserVO vo);
+	int userNoData(MemberVO vo);
 	@Select("SELECT * FROM user_table WHERE provider = #{provider} AND username= #{username}")
-	public UserVO userInfoData(UserVO vo);
+	public MemberVO userInfoData(MemberVO vo);
 	
-	@Select("SELECT role_name FROM user_roles WHERE user_id = #{userid}")
-	public List<String> findRolesByUserId(int userid);
+	@Select("SELECT role_name FROM user_roles WHERE user_no = #{userno}")
+	public String findRolesByUserId(int userno);
 	
-	@Select("SELECT username,password,status,no FROM user_table WHERE provider ='local' AND username = #{username}")
-	UserVO localUserLoginInfoData(String username);
+	@Select("SELECT username,password,state,no FROM user_table WHERE provider ='local' AND username = #{username}")
+	MemberVO localUserLoginInfoData(String username);
 	
 	@Select("SELECT count(*) from user_table WHERE provider=#{provider} AND username=#{username}")
 	int usernameIdCk(@Param("provider")String provider , @Param("username")String username);
@@ -42,6 +42,8 @@ public interface UserMapper {
 	
 	@Delete("DELETE user_table WHERE no = #{no}")
 	void userErrorDelete(int no);
+	@Select("SELECT perm_name FROM role_permissions WHERE ROLE_NAME = (SELECT ROLE_NAME FROM user_roles WHERE user_no = (SELECT no FROM user_table WHERE provider=#{provider} AND username = #{username}))")
+	List<String> userAuthoritiesByUsernameAndProvider(@Param("username") String username,@Param("provider")String provider);
 	
 	
 	

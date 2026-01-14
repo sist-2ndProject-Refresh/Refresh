@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.sist.web.mapper.MyPageMapper;
-import com.sist.web.vo.UserVO;
+import com.sist.web.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +16,7 @@ public class MyPageServiceImpl implements MyPageService {
 	private final MyPageMapper mMapper;
 
 	@Override
-	public UserVO myPageInfoData(int no) {
+	public MemberVO myPageInfoData(int no) {
 		// TODO Auto-generated method stub
 		return mMapper.myPageInfoData(no);
 	}
@@ -46,7 +46,7 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 	
 	@Override
-	public String update(UserVO vo) {
+	public String update(MemberVO vo) {
 		if(vo.getUsername()!=null)
 		{
 			int count=mMapper.myPageUsernameCheck(vo.getUsername());

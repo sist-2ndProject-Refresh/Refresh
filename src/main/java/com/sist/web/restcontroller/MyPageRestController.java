@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sist.web.service.MyPageService;
-import com.sist.web.vo.UserVO;
+import com.sist.web.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,9 +22,9 @@ public class MyPageRestController {
 	private final MyPageService mService;
 	
 	@GetMapping("/mypage/info_vue")
-	public ResponseEntity<UserVO> mypage_list_vue(@RequestParam("no") int no)
+	public ResponseEntity<MemberVO> mypage_list_vue(@RequestParam("no") int no)
 	{
-		UserVO vo=new UserVO();
+		MemberVO vo=new MemberVO();
 		try
 		{
 			vo=mService.myPageInfoData(no);
@@ -37,7 +37,7 @@ public class MyPageRestController {
 	}
 	
 	@PostMapping("/mypage/update_vue")
-	public ResponseEntity<Map> mypage_update_vue(@RequestBody UserVO vo)
+	public ResponseEntity<Map> mypage_update_vue(@RequestBody MemberVO vo)
 	{
 		Map map=new HashMap();
 		try

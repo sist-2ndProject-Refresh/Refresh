@@ -28,10 +28,10 @@
 			</div>
 			<div class="row text-center" style="margin-top:90px;">
 				<div class="row" style="margin-top:10px;">
-					<a href="#" class="btn" style="background-color: #03C75A;text-decoration: none;color:white;width:280px;height:60px;line-height: 50px;border-radius: 12px;"><span style="font-size:20px;font-weight: bold">네이버로 로그인</span></a>
+					<a href="/oauth2/authorization/naver" class="btn" style="background-color: #03C75A;text-decoration: none;color:white;width:280px;height:60px;line-height: 50px;border-radius: 12px;"><span style="font-size:20px;font-weight: bold">네이버로 로그인</span></a>
 				</div>
 				<div class="row" style="margin-top:10px;">
-					<a href="#" class="btn" style="background-color: #FEE500;text-decoration: none;color:black;width:280px;height:60px;line-height: 50px;border-radius: 12px;"><span style="font-size:20px;font-weight: bold">카카오로 로그인</span></a>
+					<a href="/oauth2/authorization/kakao" class="btn" style="background-color: #FEE500;text-decoration: none;color:black;width:280px;height:60px;line-height: 50px;border-radius: 12px;"><span style="font-size:20px;font-weight: bold">카카오로 로그인</span></a>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<a href="/member/local_login" class="btn btn-danger" style="width:280px;height:60px;line-height: 50px;border-radius: 12px;"><span style="font-size:20px;font-weight: bold;">로그인</span></a>

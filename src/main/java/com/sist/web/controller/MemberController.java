@@ -1,7 +1,11 @@
 package com.sist.web.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -10,11 +14,12 @@ import jakarta.servlet.http.HttpSession;
 public class MemberController {
 	
 	@GetMapping("/member/login")
+	@PostMapping("/member/login")
 	public String member_login()
 	{
 		return "member/login_before";
 	}
-	@GetMapping("/member/local_login")
+	@RequestMapping("/member/local_login")
 	public String member_local_login()
 	{
 		return "member/locallogin";
@@ -32,7 +37,15 @@ public class MemberController {
 		{
 			session.setAttribute("prevPage", referer);
 		}
-		System.out.println(referer);
+//		System.out.println(referer);
 		return "redirect:/member/login";
+	}
+	@GetMapping("/member/social_join")
+	public String member_social_join(@RequestParam("username")String username,@RequestParam("provider")String provider,Model model)
+	{
+		
+		model.addAttribute("provider", provider);
+		model.addAttribute("username",username);
+		return "member/social_join"; 
 	}
 }

@@ -20,7 +20,7 @@ state
  * 
  */
 @Data
-public class UserVO {
+public class MemberVO {
 	private int no,point,state;
 	private String provider,username,password,post,addr1,addr2,phone,dbday,email;
 	private Date regdate;
