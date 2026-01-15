@@ -24,7 +24,6 @@ const useTradeStore = defineStore('trade', {
                     page: this.curPage
                 }
             })
-            console.log(res.data)
             this.loadPage(res.data)
         },
         loadPage(data) {
@@ -32,8 +31,8 @@ const useTradeStore = defineStore('trade', {
             this.list = data.list.map(vo => {
                 if (vo.trades) {
                     const parts = vo.trades.split('||')
-                    const addressFull = parts[3]
-
+					let addressFull = parts.length === 6 ? parts[4] : parts[3]
+					
                     if (addressFull) {
                         const addrArray = addressFull.trim().split(' ')
                         vo.realAddress = addrArray.slice(0, 2).join(' ')

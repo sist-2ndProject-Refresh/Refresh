@@ -75,6 +75,7 @@ a:hover {
                 </tr>
                 <tr>
                 	<td colspan="2" class="text-right fs-4">
+                		<a href="/product/update?no=${vo.no }" style="opacity: 0.7">수정하기</a>
                 		<a href="#" style="opacity: 0.7">차단하기</a>
                 		<a href="#" style="opacity: 0.7; margin-left: 10px;">신고하기</a>
                 	</td>

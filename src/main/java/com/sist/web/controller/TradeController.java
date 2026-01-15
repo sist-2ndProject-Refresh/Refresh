@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.sist.web.service.TradeService;
 import com.sist.web.vo.TradeVO;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -28,9 +29,9 @@ public class TradeController {
 		
 		String parts[] = vo.getTrades().split("\\|\\|");
 
+		String addrPart = parts.length >= 5 ? parts[4] : "-";
 		if(parts.length >= 4)
 		{
-			String addrPart = parts[3];
 			if(addrPart != null)
 			{
 				String[] addrArray = addrPart.trim().split(" ");
@@ -40,7 +41,6 @@ public class TradeController {
 		}
 		else
 		{
-			vo.setAddress("-");
 			vo.setHow("택배");
 		}
 		
@@ -50,7 +50,6 @@ public class TradeController {
 			if(vo.getImageurl().startsWith("http"))
 			{
 				updateImgUrl[i-1] = vo.getImageurl().replace("{cnt}", String.valueOf(i));
-				//vo.setImageurl(vo.getImageurl().replace("{res}", "720"));
 			}
 			else
 			{
@@ -83,6 +82,11 @@ public class TradeController {
 		return "main/main";
 	}
 	
-	
+	@GetMapping("/product/update")
+	public String gproduct_update(Model model)
+	{
+		model.addAttribute("main_jsp", "../products/product_update.jsp");
+		return "main/main";
+	}
 	
 }

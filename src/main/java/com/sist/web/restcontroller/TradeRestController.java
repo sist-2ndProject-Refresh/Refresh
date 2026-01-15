@@ -10,16 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 import com.sist.web.vo.*;
 
 import jakarta.servlet.http.HttpSession;
-
 import com.sist.web.service.CategoryService;
 import com.sist.web.service.TradeService;
 
@@ -33,6 +29,7 @@ public class TradeRestController {
 	
 	@Value("${file.upload-dir}")
 	private String uploadDir;
+
 	
 	@GetMapping("/product/list_vue/")
 	public ResponseEntity<Map> product_list_vue(@RequestParam(name = "page") int page)
@@ -161,7 +158,36 @@ public class TradeRestController {
 			Files.copy(file.getInputStream(), path);	// 파일 저장
 			count++;
 		}
-		//return uploadDir + "product/" + uuid;
 		return uuid;
 	}
+	
+	@GetMapping("/product/getVoData_vue/")
+	public ResponseEntity<TradeVO> product_getVoData_vue(@RequestParam("no") int no)
+	{
+		TradeVO vo = new TradeVO();
+		
+		try {
+			vo = tService.productDetailData(no);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(vo, HttpStatus.OK);
+	}
+	
+	@PostMapping("/product/update_vue/")
+	public ResponseEntity<Map> product_update_vue(@RequestBody TradeVO vo)
+	{
+		Map map = new HashMap();
+		try {
+			tService.productUpdate(vo);
+			map.put("msg", "OK");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	
 }

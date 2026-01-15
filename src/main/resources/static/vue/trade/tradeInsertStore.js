@@ -37,14 +37,14 @@ const useInsertStore = defineStore('trade_insert', {
 			
 			
             // 일반 배송 여부
-            let normalDelivery = this.includeDelivery == 0 ? "무료배송||" : "일반" + this.normalPrice + "||"
+            let normalDelivery = this.includeDelivery == 0 ? "무료배송||" : "일반 " + this.normalPrice + "원||"
 
             // 편의점 택배 여부
             let cvsDeliveryType = ""
 
-            if (this.isGS && this.isCU) cvsDeliveryType = "GS반값 • CU알뜰 " + this.cvsPrice + "||"
-            else if (this.isGS && !this.isCU) cvsDeliveryType = "GS반값 " + this.cvsPrice + "||"
-            else if (!this.isGS && this.isCU) cvsDeliveryType = "CU알뜰 " + this.cvsPrice + "||"
+            if (this.isGS && this.isCU) cvsDeliveryType = "GS반값 • CU알뜰 " + this.cvsPrice + "원||"
+            else if (this.isGS && !this.isCU) cvsDeliveryType = "GS반값 " + this.cvsPrice + "원||"
+            else if (!this.isGS && this.isCU) cvsDeliveryType = "CU알뜰 " + this.cvsPrice + "원||"
             else cvsDeliveryType = ""
 
             address2 = this.address2

@@ -3,6 +3,7 @@ package com.sist.web.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 import com.sist.web.vo.*;
@@ -53,4 +54,20 @@ public interface TradeMapper {
 			+ "#{trades}, "
 			+ "#{user_no})")
 	public void productInsertData(TradeVO vo);
+	
+	@Update("UPDATE trade_goods SET "
+		      + "name = #{name}, "
+		      + "description = #{description}, "
+		      + "price = #{price}, "
+		      + "originprice = #{price}, "
+		      + "qty = #{qty}, "
+		      + "condition = #{condition}, "
+		      + "imagecount = #{imagecount}, "
+		      + "imageurl = #{imageurl}, "
+		      + "lat = #{lat}, "
+		      + "lon = #{lon}, "
+		      + "address = #{address}, "
+		      + "trades = #{trades} "
+		      + "WHERE no = #{no}")
+	public void productUpdate(TradeVO vo);
 }
