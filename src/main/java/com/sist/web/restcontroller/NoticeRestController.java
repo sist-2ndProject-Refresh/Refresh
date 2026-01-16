@@ -5,6 +5,9 @@ import java.util.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,5 +66,74 @@ public class NoticeRestController {
 		}
 		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
-
+	@PostMapping("/notice/insert_vue/")
+	// @PostMapping() : Spring 프레임워크에서 HTTP POST 요청을 특정 메서드에 매핑(연결)하기 위해 사용하는
+	// 어노테이션임
+	// "/notice/insert_vue/" : 브라우저나 Vue 앱에서 접근할 상세 주소
+	public ResponseEntity<Map> notice_insert_vue(@RequestBody NoticeVO vo)
+	// ResponseEntity<Map> : 단순히 데이터만 보내는 것 이 아닌 성공(200 OK) 혹은 에러(500 Error)같은 HTTP
+	// 					     상태 코드를 데이터와 함께 격식 있게 보내기 위해 사용한다
+	
+	// @RequestBody : 클라이언트(브라우저,Vue,앱) 가 보낸 HTTP(Request)요청의 본문(Body)에 담긴 데이터를 자바 객체로 통째로 변환해 주는
+	// 				  어노테이션
+	
+	// @RequestBody NoticeVO vo :클라이언트가 보낸 JSON 데이터를 자바 객체로 변환해주는 핵심 키워드
+	//					   의미 : Vue.js에서 axios등으로 보낸 JSON형식의 데이터 EX:{ "not_title": "안녕", ... }를
+	//							 자바의 NoticeVO 객체 안에 자동으로 넣어달라는 뜻
+	
+	{
+		System.out.println(vo);
+		Map map=new HashMap();
+		try
+		{
+			nService.noticeInsert(vo);
+			// 서비스 계층을 통해 DB에 데이터를 저장합니다
+			map.put("msg", "yes"); // 성공하면 map에 "yes"라고 적음
+            
+            // [수정 포인트 1] map(데이터)을 담아서 응답을 보냅니다. 
+            // 그래야 Vue에서 res.data.msg를 확인할 수 있습니다.
+            return new ResponseEntity<>(map, HttpStatus.OK); 
+		}catch(Exception ex)
+			// 실패하면 여기로 넘어와서 map에 데이터가 안 담기거나 다른 처리를 함
+		{
+            // [수정 포인트 2] 에러의 진짜 원인을 서버 콘솔에 출력합니다 (디버깅용)
+            ex.printStackTrace(); 
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR); // 실패 500에러
+		}
+		// try { ... } catch (Exception ex) : 프로그램 실행중에 발생할 수 있는 예외 상황을 처리하는 안전장치
+	}
+	
+	@GetMapping("/notice/update_vue/")
+	public ResponseEntity<NoticeVO> notice_update_vue(
+		@RequestParam("no") int no
+	)
+	{
+		NoticeVO vo=new NoticeVO();
+		try
+		{
+			vo=nService.noticeUpdateData(no);
+		}catch(Exception ex)
+		{
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(vo,HttpStatus.OK);
+	}
+	
+	@PutMapping("/notice/update_ok_vue/")
+	public ResponseEntity<Map> notice_update_ok_vue(@RequestBody NoticeVO vo)
+	{
+		Map map = new HashMap();
+		try
+		{
+			nService.noticeUpdate(vo); 
+			
+			map.put("msg", "yes"); 
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
 }
