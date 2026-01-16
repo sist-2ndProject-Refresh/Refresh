@@ -1,6 +1,7 @@
 package com.sist.web.restcontroller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sist.web.service.MyPageService;
+import com.sist.web.service.ReviewService;
+import com.sist.web.vo.ReviewVO;
+import com.sist.web.vo.StoreVO;
+import com.sist.web.vo.TradeVO;
 import com.sist.web.vo.UserVO;
 
 import lombok.RequiredArgsConstructor;
@@ -22,18 +27,51 @@ public class MyPageRestController {
 	private final MyPageService mService;
 	
 	@GetMapping("/mypage/info_vue")
-	public ResponseEntity<UserVO> mypage_list_vue(@RequestParam("no") int no)
+	public ResponseEntity<UserVO> mypage_list_vue(@RequestParam(name = "no",required = false,defaultValue = "0") int no)
 	{
 		UserVO vo=new UserVO();
 		try
 		{
-			vo=mService.myPageInfoData(no);
+			vo=mService.myPageListData(no);
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();
 			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<>(vo,HttpStatus.OK);
+	}
+	
+	@PostMapping("/mypage/store_update_vue/")
+	public ResponseEntity<Map> store_update_vue(@RequestBody StoreVO vo)
+	{
+		Map map=new HashMap();
+		try
+		{
+			String msg=mService.usernameUpdate(vo);
+			map.put("msg", msg);
+			
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	@PostMapping("/mypage/content_update_vue/")
+	public ResponseEntity<Map> content_update_vue(@RequestBody StoreVO vo)
+	{
+		Map map=new HashMap();
+		try
+		{;
+			mService.contentUpdate(vo);
+			map.put("svo", vo);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
 	
 	@PostMapping("/mypage/update_vue/")
@@ -44,6 +82,27 @@ public class MyPageRestController {
 		{
 			String msg=mService.update(vo);
 			map.put("msg", msg);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	@GetMapping("/mypage/trade_list_vue/")
+	public ResponseEntity<Map> mypage_trade_list_vue(@RequestParam(name="no",required = false,defaultValue = "0") int no,
+													 @RequestParam("page") int page)
+	{
+		Map map=new HashMap();
+		try
+		{
+			List<TradeVO> tList=mService.mypageTradeList(no, (page-1)*3);
+			int tcount=mService.mypageTradeCount(no);
+			int tTotalpage=(int)Math.ceil(tcount/3.0);
+			map.put("tList", tList);
+			map.put("tcount", tcount);
+			map.put("tTotalpage",tTotalpage);
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();

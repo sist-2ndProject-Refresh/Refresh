@@ -19,27 +19,27 @@
 			<table class="table">
 				<tbody>
 					<tr>
-						<th width="20%">닉네임</th>
-						<td width="80%"><input type="text" v-model="username">
+						<th width="20%">상점명</th>
+						<td width="80%"><input type="text" v-model="storename">
 							<button type="button" class="btn btn-xs btn-primary" @click="updateUsername()">변경</button>
 						</td>
 					</tr>
 					<tr>
 						<th width="20%">비밀번호</th>
-						<td width="80%"><input type="text">
+						<td width="80%"><input type="password">
 							<button type="button" class="btn btn-xs btn-primary">변경</button>
 						</td>
 					</tr>
 					<tr>
 						<th width="20%">이메일</th>
 						<td width="80%"><input type="text" v-model="email">
-							<button type="button" class="btn btn-xs btn-primary">변경</button>
+							<button type="button" class="btn btn-xs btn-primary" @click="updateEmail()">변경</button>
 						</td>
 					</tr>
 					<tr>
 						<th width="20%">전화번호</th>
 						<td width="80%"><input type="text" v-model="phone">
-							<button type="button" class="btn btn-xs btn-primary">변경</button>
+							<button type="button" class="btn btn-xs btn-primary" @click="updatePhone()">변경</button>
 						</td>
 					</tr>
 					<tr class="post">
@@ -48,7 +48,7 @@
 							<button type="button" class="btn btn-xs btn-primary" @click="postFind()">우편번호 검색</button> 
 							<input type="text" v-model="addr1">
 							<input type="text" v-model="addr2">
-							<button type="button" class="btn btn-xs btn-primary">변경</button>
+							<button type="button" class="btn btn-xs btn-primary" @click="updatePost()">변경</button>
 						</td>
 					</tr>
 				</tbody>
@@ -63,7 +63,7 @@
 			data(){
 				return {
 					no:'${sessionScope.no}',
-					username:'',
+					storename:'',
 					post:'',
 					addr1:'',
 					addr2:'',
@@ -85,7 +85,7 @@
 						}
 					}).then(response => {
 						console.log(response.data)
-						this.username=response.data.username
+						this.storename=response.data.svo.storename
 						this.post=response.data.post
 						this.addr1=response.data.addr1
 						this.addr2=response.data.addr2
@@ -105,13 +105,39 @@
 					}).open()
 				},
 				updateUsername(){
-					axios.post('/mypage/update_vue/',{
+					axios.post('/mypage/store_update_vue/',{
 						no:this.no,
-						username:this.username
+						storename:this.storename
 					}).then(response => 
 						alert(response.data.msg)
 					)
-				}
+				},
+				updateEmail(){
+					axios.post('/mypage/update_vue/',{
+						no:this.no,
+						email:this.email
+					}).then(response => 
+						alert(response.data.msg)
+					)
+				},
+				updatePhone(){
+					axios.post('/mypage/update_vue/',{
+						no:this.no,
+						phone:this.phone
+					}).then(response => 
+						alert(response.data.msg)
+					)
+				},
+				updatePost(){
+					axios.post('/mypage/update_vue/',{
+						no:this.no,
+						post:this.post,
+						addr1:this.addr1,
+						addr2:this.addr2
+					}).then(response => 
+						alert(response.data.msg)
+					)
+				},
 			}
 		})
 		updateApp.mount('#update_modal')		

@@ -242,7 +242,7 @@
               </a>
             </li>
             <li class="pe-3">
-              <a href="/mypage/list">
+              <a href="/mypage/list?no=${sessionScope.no }">
                 <svg class="user" width="24" height="24">
                   <use xlink:href="#user"></use>
                 </svg>
