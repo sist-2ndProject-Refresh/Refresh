@@ -218,6 +218,7 @@ public class MemberRestController {
 	{
 		String result = "NO";
 		try {
+			vo.setPassword(encoder.encode(vo.getPassword()));
 			uService.passwordUpdateByEmail(vo);
 			result = "OK";
 		}catch(Exception ex) {
@@ -232,6 +233,7 @@ public class MemberRestController {
 	{
 		String result = "NO";
 		try {
+			vo.setPassword(encoder.encode(vo.getPassword()));
 			uService.passwordUpdateByPhone(vo);
 			result = "OK";
 		}catch(Exception ex) {
