@@ -24,9 +24,9 @@ const useUpdateStore = defineStore('trade_update', {
             address1: '',		// 기본 주소
             address2: '',		// 상세 주소
             includeDelivery: 0,
-            isDirect: false,
-            isGS: false,
-            isCU: false,
+            Direct: false,
+            GS: false,
+            CU: false,
             normalPrice: 0,		// 일반 택배 배송비
             cvsPrice: 0,		// 편의점 택배 배송비
             trades: ''
@@ -46,6 +46,14 @@ const useUpdateStore = defineStore('trade_update', {
             this.detailData.imagecount = res.data.imagecount
             this.detailData.imageurl = res.data.imageurl
             this.detailData.addressFull = res.data.address
+			this.detailData.Direct = res.data.direct
+			this.detailData.GS = res.data.gs
+			this.detailData.CU = res.data.cu
+			this.detailData.includeDelivery = res.data.howDeliver
+			this.detailData.normalPrice = res.data.nomalDeliverPrice
+			this.detailData.cvsPrice = res.data.cvsDeliverPrice
+			console.log(res.data)
+			console.log(this.detailData)
         },
         async dataUpdate() {
             const res = await api.post('/product/update_vue/', this.detailData)

@@ -78,7 +78,6 @@ public class TradeRestController {
 		
 		try {
 			int user_no = Integer.parseInt(userNoObj.toString());
-			System.out.println(user_no);
 			vo.setUser_no(user_no);
 			tService.productInsertData(vo);
 			map.put("msg", "yes");
@@ -161,6 +160,72 @@ public class TradeRestController {
 		return uuid;
 	}
 	
+	private int howDeleverPrice(TradeVO vo, String slice)	// 배송비 포함 여부
+	{
+		if(slice.contains("일반"))
+    	{
+    		vo.setHowDeliverPrice(1);	// 배송비 별도
+    		String[] sliceSS = slice.split(" ");
+    		for(String price : sliceSS)
+    		{
+    			if(price.contains("원"))
+    			{
+    				price = price.substring(0, price.lastIndexOf("원"));
+    				price = price.trim().replace(",", "");
+    				vo.setNomalDeliverPrice(Integer.parseInt(price));
+    			}
+    		}
+    		return 1;
+    	}
+    	else
+    		return 0;	// 배송비 포함
+	}
+	
+	private boolean isGS(TradeVO vo, String slice)
+	{
+		
+		if(slice.contains("GS"))
+    	{
+    		
+    		String[] sliceCvs = slice.split(" ");
+    		for(String price : sliceCvs)
+    		{
+    			if(price.contains("원"))
+    			{
+    				price = price.substring(0, price.lastIndexOf("원"));
+    				price = price.trim().replace(",", "");
+    				//System.out.println("GS: "+price);
+    				vo.setCvsDeliverPrice(Integer.parseInt(price));
+    			}
+    		}
+    		return true;
+    	}
+    	else
+    		return false;
+	}
+	
+	private boolean isCU(TradeVO vo, String slice)
+	{
+		if(slice.contains("CU"))
+    	{
+    		String[] sliceCvs = slice.split(" ");
+    		for(String price : sliceCvs)
+    		{
+    			if(price.contains("원"))
+    			{
+    				price = price.substring(0, price.lastIndexOf("원"));
+    				price = price.trim().replace(",", "");
+    				System.out.println(price);
+    				vo.setCvsDeliverPrice(Integer.parseInt(price));
+    				System.out.println("편의점 CU: " + vo.getCvsDeliverPrice());
+    			}
+    		}
+    		return true;
+    	}
+    	else
+    		return false;
+	}
+	
 	@GetMapping("/product/getVoData_vue/")
 	public ResponseEntity<TradeVO> product_getVoData_vue(@RequestParam("no") int no)
 	{
@@ -168,6 +233,28 @@ public class TradeRestController {
 		
 		try {
 			vo = tService.productDetailData(no);
+			String trades = vo.getTrades();
+		    String[] sliceTrades = trades.trim().split("\\|\\|");
+		    for(String ss : sliceTrades)
+		    {
+		    	//배송비||일반 334원||GS반값 • CU알뜰 4343원||직거래 희망 장소||제주특별자치도 서귀포시 가가로 15 1234||
+		    	System.out.println(ss);
+
+		    	if(vo.getHowDeliverPrice() == 0)
+		    		vo.setHowDeliverPrice(howDeleverPrice(vo, ss));
+		    
+		    	if(!vo.isGS())
+		    		vo.setGS(isGS(vo, ss));
+
+		    	
+		    	if(!vo.isCU())
+		    		vo.setCU(isCU(vo,ss));
+		    	
+		    	System.out.println(vo.isGS());
+		    	System.out.println(vo.isCU());
+		    	
+		    	vo.setDirect(ss.contains("직거래") ? true: false);
+		    }
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
