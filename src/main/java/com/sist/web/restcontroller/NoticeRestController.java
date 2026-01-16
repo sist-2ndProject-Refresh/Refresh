@@ -122,16 +122,18 @@ public class NoticeRestController {
 	@PutMapping("/notice/update_ok_vue/")
 	public ResponseEntity<Map> notice_update_ok_vue(@RequestBody NoticeVO vo)
 	{
-		Map map=new HashMap();
+		Map map = new HashMap();
 		try
 		{
-			//String res=nService.noticeUpdate(vo);
-			map.put("msg", res);
-		}catch(Exception ex)
-		{
-			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+			nService.noticeUpdate(vo); 
+			
+			map.put("msg", "yes"); 
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<>(map,HttpStatus.OK);
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	
 }
