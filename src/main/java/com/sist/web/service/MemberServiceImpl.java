@@ -61,6 +61,47 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		uMapper.userErrorDelete(no);
 	}
+	@Override
+	public int useremailCheck(String email) {
+		// TODO Auto-generated method stub
+		return uMapper.useremailCheck(email);
+	}
+	@Override
+	public int userPhoneCheck(String phone) {
+		// TODO Auto-generated method stub
+		return uMapper.userPhoneCheck(phone);
+	}
+	@Override
+	public int userAcountByEmailCheck(String username, String email) {
+		// TODO Auto-generated method stub
+		return uMapper.userAcountByEmailCheck(username, email);
+	}
+	@Override
+	public int userAcountByPhoneCheck(String username, String phone) {
+		// TODO Auto-generated method stub
+		return uMapper.userAcountByPhoneCheck(username, phone);
+	}
+	@Override
+	public String findUsernameByEmail(String email) {
+		// TODO Auto-generated method stub
+		return uMapper.findUsernameByEmail(email);
+	}
+	@Override
+	public String findUsernameByPhone(String phone) {
+		// TODO Auto-generated method stub
+		return uMapper.findUsernameByPhone(phone);
+	}
+	@Override
+	public void passwordUpdateByEmail(MemberVO vo) {
+		// TODO Auto-generated method stub
+		uMapper.passwordUpdateByEmail(vo);
+	}
+	@Override
+	public void passwordUpdateByPhone(MemberVO vo) {
+		// TODO Auto-generated method stub
+		uMapper.passwordUpdateByPhone(vo);
+	}
+	
 	
 	
 	

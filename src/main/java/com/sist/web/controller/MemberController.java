@@ -48,4 +48,14 @@ public class MemberController {
 		model.addAttribute("username",username);
 		return "member/social_join"; 
 	}
+	@GetMapping("/member/idfind")
+	public String member_idfind()
+	{
+		return "member/idfind";
+	}
+	@GetMapping("/member/passwordfind")
+	public String member_passwordfind()
+	{
+		return "member/passwordfind";
+	}
 }

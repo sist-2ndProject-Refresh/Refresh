@@ -82,7 +82,7 @@ input::placeholder {
 							<span v-if="store.idOK!=''" :class="store.isReadOnly?'success_text':'fail_text'">{{store.idOk}}</span>
 						</td>
 						<td width="15%" class="text-left" style="line-height: 35px;"> 
-							<button type="button" class="btn btn-sm btn-primary" @click=store.idCheck>중복 체크</button>
+							<button type="button" class="btn btn-sm btn-primary" @click=!store.isReadOnly?store.idCheck():store.idChange()>{{!store.isReadOnly?'중복 체크':'아이디 변경'}}</button>
 						<td>
 					</tr>
 					<tr>
@@ -108,23 +108,29 @@ input::placeholder {
 						<td width="30%" class="text-center" style="line-height: 40px;">
 							이메일
 						</td>
-						<td colspan="2" class="text-left" >
-							<input type="text" class="join-input" style="width:140px;" placeholder="example" v-model="store.userData.email1">
+						<td width="55%" class="text-left" >
+							<input type="email" class="join-input" style="width:130px;" placeholder="example" v-model="store.userData.email1" v-bind:readonly="store.isEmailReadonly">
 							@
-							<input type="text" class="join-input" style="width:140px;" placeholder="example.com" v-model="store.userData.email2">
+							<input type="text" class="join-input" style="width:130px;" placeholder="example.com" v-model="store.userData.email2" v-bind:readonly="store.isEmailReadonly">
 						</td>
+						<td width="15%" class="text-left" style="line-height: 35px;"> 
+							<button type="button" class="btn btn-sm btn-primary" @click="!store.isEmailReadonly?store.emailCheck():store.emailChange()">{{!store.isEmailReadonly?'중복 체크':'이메일 변경'}}</button>
+						<td>
 					</tr>
 					<tr>
 						<td width="30%" class="text-center" style="line-height: 40px;">
 							전화번호
 						</td>
-						<td colspan="2" class="text-left">
-							<input type="text" class="join-input" style="width:60px;" placeholder="010" v-model="store.userData.phone1">
+						<td width="55%" class="text-left">
+							<input type="text" class="join-input" style="width:60px;" placeholder="010" v-model="store.userData.phone1" maxlength="3" oninput="this.value = this.value.replace(/[^0-9]/g,'')" v-bind:readonly="store.isPhoneReadonly">
 							-
-							<input type="text" class="join-input" style="width:80px;" placeholder="0000" v-model="store.userData.phone2">
+							<input type="text" class="join-input" style="width:80px;" placeholder="0000" v-model="store.userData.phone2" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g,'')" v-bind:readonly="store.isPhoneReadonly">
 							-
-							<input type="text" class="join-input" style="width:80px;" placeholder="0000" v-model="store.userData.phone3">
+							<input type="text" class="join-input" style="width:80px;" placeholder="0000" v-model="store.userData.phone3" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g,'')" v-bind:readonly="store.isPhoneReadonly"	>
 						</td>
+						<td width="15%" class="text-left" style="line-height: 35px;"> 
+							<button type="button" class="btn btn-sm btn-primary" @click="!store.isPhoneReadonly?store.phoneCheck():store.phoneChange()">{{!store.isPhoneReadonly?'중복 체크':'전화번호 변경'}}</button>
+						<td>
 					</tr>
 					<tr>
 						<td width="30%" class="text-center" style="line-height: 40px;">

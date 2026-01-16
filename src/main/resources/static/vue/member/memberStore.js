@@ -26,7 +26,13 @@ const memberStoreState =()=>({
 	storeOk:'',
 	joinContinue:true,
 	isReadOnly:false,
-	isStoreReadOnly:false
+	isStoreReadOnly:false,
+	isEmailReadonly:false,
+	isPhoneReadonly:false,
+	idFindToggle:true,
+	findErrorMsg:'',
+	findResultMsg:'',
+	passwordUpdate:true
 })
 const memberStore = defineStore('member_store',{
 	state:memberStoreState,
@@ -91,14 +97,14 @@ const memberStore = defineStore('member_store',{
 								return
 							}
 			}
-			if(this.userData.email1==='' || this.userData.email2==='')
+			if(this.isEmailReadOnly===false)
 			{
-				alert('이메일을 입력해 주세요')
-				return	
+				alert('이메일 중복을 확인해 주세요')
+				return
 			}
-			if(this.userData.phone1===''|| this.userData.phone2===''||this.userData.phone3==='')
+			if(this.isPhoneReadOnly===false)
 			{
-				alert('전화번호를 입력해 주세요')
+				alert('전화번호 중복을 확인해 주세요')
 				return
 			}
 			if(this.userData.post==='')
@@ -218,7 +224,234 @@ const memberStore = defineStore('member_store',{
 					location.href='/member/social_join'
 				}
 			}
+		},
+		async phoneCheck(){
+			if(this.userData.phone1==='' || this.userData.phone2==='' || this.userData.phone3 ==='')
+			{
+				alert('전화번호를 입력해주세요')
+				return
+			}
+			const phone = this.userData.phone1+"-"+this.userData.phone2+"-"+this.userData.phone3
+			const {data} = await api.get('/member/phone_check/',{
+				params:{
+					phone:phone
+				}
+			})
+			if(data===0)
+			{
+				alert('사용 가능한 전화번호 입니다.')
+				this.isPhoneReadonly=true
+			}
+			else
+			{
+				alert('이미 가입된 전화번호 입니다.')
+				return
+			}
+		},
+		async emailCheck(){
+			if(this.userData.email1==='' || this.userData.email2==='')
+			{
+				alert('이메일을 입력해주세요')
+				return
+			}
+			const email = this.userData.email1+"@"+this.userData.email2
+			const {data} = await api.get('/member/email_check/',{
+				params:{
+					email:email
+				}
+			})
+			if(data===0)
+			{
+				alert('사용 가능한 이메일 입니다.')
+				this.isEmailReadonly=true
+			}
+			else
+			{
+				alert('이미 가입된 이메일 입니다.')
+				return
+			}
+		},
+		idChange(){
+			this.idOk=''
+			this.isReadOnly=false
+		},
+		emailChange(){
+			this.isEmailReadonly=false
+		},
+		phoneChange(){
+			this.isPhoneReadonly=false
+		},
+		findByEmailBtn(){
+			this.idFindToggle=true
+			this.userData.phone1=''
+			this.userData.phone2=''
+			this.userData.phone3=''
+		},
+		findByPhoneBtn(){
+			this.idFindToggle=false
+			this.userData.email1=''
+			this.userData.email2=''
+		},
+		async findId(){
+			if(this.idFindToggle)
+			{
+				if(this.userData.email1==='' || this.userData.email2==='')
+				{
+					this.findErrorMsg='이메일을 입력해주세요'
+					return
+				}
+				const {data} = await api.get('/member/email_check/',{
+					params:{
+						email:this.userData.email1+"@"+this.userData.email2
+					}
+				})
+				if(data===1)
+				{
+					const res = await api.get('/member/find/email/',{
+						params:{
+							email:this.userData.email1+"@"+this.userData.email2
+						}
+					})
+					this.findResultMsg='가입하신 아이디는 '+res.data+' 입니다.'
+					return
+				}
+				else if(data===0){
+					this.findErrorMsg='가입되지 않은 이메일입니다.'
+					return	
+				}
+				else{
+					this.findErrorMsg='오류가 발생하였습니다.'
+					return
+				}
+			}
+			else{
+				if(this.userData.phone1==='' || this.userData.phone2==='' || this.userData.phone3==='')
+				{
+					this.findErrorMsg='전화번호를 입력해주세요'
+					return
+				}
+				const {data} = await api.get('/member/phone_check/',{
+					params:{
+						phone:this.userData.phone1+"-"+this.userData.phone2+"-"+this.userData.phone3
+					}
+				})
+				if(data===1)
+				{
+					const res = await api.get('/member/find/phone/',{
+						params:{
+							phone:this.userData.phone1+"-"+this.userData.phone2+"-"+this.userData.phone3
+						}
+					})
+					this.findResultMsg='가입하신 아이디는 '+res.data+' 입니다.'
+					return
+				}
+				else if(data===0){
+					this.findErrorMsg='가입되지 않은 전화번호입니다.'
+					return	
+				}
+				else{
+					this.findErrorMsg='오류가 발생하였습니다.'
+					return
+				}
+			}
+		},
+		async findPassword(){
+			if(this.userData.username==='')
+			{
+				this.findErrorMsg='찾는 아이디를 입력해주세요'
+				return
+			}
+			if(this.idFindToggle)
+			{
+				
+				if(this.userData.email1==='' || this.userData.email2==='')
+				{
+					this.findErrorMsg='이메일을 입력해주세요'
+					return
+				}
+				const {data} = await api.get('/member/find/id_email/',{
+					params:{
+						username:this.userData.username,
+						email:this.userData.email1+"@"+this.userData.email2
+					}
+				})
+				if (data===1)
+				{
+					this.passwordUpdate=false
+				}
+				else {
+					this.findErrorMsg='해당하는 아이디가 존재하지 않습니다.'
+				}
+				
+			}
+			else{
+				
+				if(this.userData.phone1==='' || this.userData.phone2==='' || this.userData.phone3==='')
+				{
+					this.findErrorMsg='전화번호를 입력해주세요'
+					return
+				}
+				const {data} = await api.get('/member/find/id_phone/',{
+					params:{
+						username:this.userData.username,
+						phone:this.userData.phone1+"-"+this.userData.phone2+"-"+this.userData.phone3
+					}
+				})
+				if (data===1)
+				{
+					this.passwordUpdate=false
+				}
+				else {
+					this.findErrorMsg='해당하는 아이디가 존재하지 않습니다.'
+				}
+			}
+		},
+		async updatePassword(){
+			if(this.userData.pwd==='')
+			{
+				alert('설정할 비밀번호를 입력해주세요')
+				return
+			}
+			if(this.pwdOk!=='')
+			{
+				alert('비밀번호를 확인해 주세요')
+				return
+			}
+			if(this.idFindToggle)
+			{
+				const {data} = await api.put('/member/pwdUpdate/email/',{
+					username:this.userData.username,
+					email:this.userData.email1+"@"+this.userData.email2,
+					password:this.userData.pwd			
+				})
+				if(data==='OK')
+				{
+					alert('비밀번호가 재설정 되었습니다.')
+					location.href='/member/local_join'
+				}
+				else{
+					alert('오류가 발생했습니다.')
+				}
+			}
+			else{
+				const {data} = await api.put('/member/pwdUpdate/phone/',{
+					username:this.userData.username,
+					phone:this.userData.phone1+"-"+this.userData.phone2+"-"+this.userData.phone3,
+					password:this.userData.pwd			
+				})
+				if(data==='OK')
+				{
+					alert('비밀번호가 재설정 되었습니다.')
+					location.href='/member/local_login'
+				}
+				else{
+					alert('오류가 발생했습니다.')
+				}
+			}
+			
 		}
+		
+		
 		
 		
 	}

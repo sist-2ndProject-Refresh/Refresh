@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.StoreVO;
@@ -45,6 +46,28 @@ public interface MemberMapper {
 	@Select("SELECT perm_name FROM role_permissions WHERE ROLE_NAME = (SELECT ROLE_NAME FROM user_roles WHERE user_no = (SELECT no FROM user_table WHERE provider=#{provider} AND username = #{username}))")
 	List<String> userAuthoritiesByUsernameAndProvider(@Param("username") String username,@Param("provider")String provider);
 	
+	@Select("SELECT count(*) from user_table where phone = #{phone}")
+	int userPhoneCheck(String phone);
+	
+	@Select("SELECT count(*) from user_table where email = #{email}")
+	int useremailCheck(String email);
+	
+	@Select("Select username from user_table where email = #{email}")
+	String findUsernameByEmail(String email);
+	
+	@Select("Select username from user_table where phone = #{phone}")
+	String findUsernameByPhone(String phone);
+	
+	@Select("SELECT count(*) from user_table where username = #{username} AND email = #{email}")
+	int userAcountByEmailCheck(@Param("username")String username,@Param("email")String email);
+	
+	@Select("SELECT count(*) from user_table where username = #{username} AND phone = #{phone}")
+	int userAcountByPhoneCheck(@Param("username")String username,@Param("phone")String phone);
+	
+	@Update("UPDATE user_table SET password = #{password} WHERE username= #{username} AND email = #{email}")
+	void passwordUpdateByEmail(MemberVO vo);
+	@Update("UPDATE user_table SET password = #{password} WHERE username= #{username} AND phone = #{phone}")
+	void passwordUpdateByPhone(MemberVO vo);
 	
 	
 }

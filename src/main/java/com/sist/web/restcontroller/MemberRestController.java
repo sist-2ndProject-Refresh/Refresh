@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -133,5 +134,111 @@ public class MemberRestController {
 	public void member_error_delete(@RequestParam("no")int no)
 	{
 		uService.userErrorDelete(no);
+	}
+	@GetMapping("/member/phone_check/")
+	public ResponseEntity<Integer> member_phoneCheck(@RequestParam("phone")String phone)
+	{
+		int count = 1;
+		try {
+			count = uService.userPhoneCheck(phone);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<Integer>(count,HttpStatus.OK);
+	}
+	@GetMapping("/member/email_check/")
+	public ResponseEntity<Integer> member_emailCheck(@RequestParam("email")String email)
+	{
+		int count = 1;
+		try {
+			count = uService.useremailCheck(email);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<Integer>(count,HttpStatus.OK);
+	}
+	@GetMapping("/member/find/email/")
+	public ResponseEntity<String> member_find_email(@RequestParam("email")String email)
+	{
+		String username = "";
+		try {
+			username=uService.findUsernameByEmail(email);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<String>(username,HttpStatus.OK);
+	}
+	@GetMapping("/member/find/phone/")
+	public ResponseEntity<String> member_find_phone(@RequestParam("phone")String phone)
+	{
+		String username = "";
+		try {
+			username = uService.findUsernameByPhone(phone);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<String>(username,HttpStatus.OK);
+	}
+	@GetMapping("/member/find/id_email/")
+	public ResponseEntity<Integer> member_pwd_emailCheck(@RequestParam("email")String email,@RequestParam("username")String username)
+	{
+		int count = 0;
+		try {
+			count = uService.userAcountByEmailCheck(username,email);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<Integer>(count,HttpStatus.OK);
+	}
+	@GetMapping("/member/find/id_phone/")
+	public ResponseEntity<Integer> member_pwd_phoneCheck(@RequestParam("phone")String phone,@RequestParam("username")String username)
+	{
+		int count = 0;
+		try {
+			count = uService.userAcountByPhoneCheck(username, phone);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<Integer>(count,HttpStatus.OK);
+	}
+	@PutMapping("/member/pwdUpdate/email/")
+	public ResponseEntity<String> member_pwd_update_email(@RequestBody MemberVO vo)
+	{
+		String result = "NO";
+		try {
+			uService.passwordUpdateByEmail(vo);
+			result = "OK";
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<String>(result,HttpStatus.OK);
+	}
+	@PutMapping("/member/pwdUpdate/phone/")
+	public ResponseEntity<String> member_pwd_update_phone(@RequestBody MemberVO vo)
+	{
+		String result = "NO";
+		try {
+			uService.passwordUpdateByPhone(vo);
+			result = "OK";
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<String>(result,HttpStatus.OK);
 	}
 }

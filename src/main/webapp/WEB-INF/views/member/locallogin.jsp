@@ -68,8 +68,8 @@ input::placeholder {
 					<input type="checkbox" name="remember-me">&nbsp; 자동로그인
 					</div>
 					<div class="col-sm-5">
-					<a href="#" style="color:black;text-decoration: none">아이디 찾기</a> / 
-					<a href="#" style="color:black;text-decoration: none">비밀번호 찾기</a>
+					<a href="/member/idfind" style="color:black;text-decoration: none">아이디 찾기</a> / 
+					<a href="/member/passwordfind" style="color:black;text-decoration: none">비밀번호 찾기</a>
 					</div>
 					<div class="col-sm-2">
 					</div>			
