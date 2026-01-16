@@ -22,7 +22,7 @@ state
 @Data
 public class MemberVO {
 	private int no,point,state;
-	private String provider,username,password,post,addr1,addr2,phone,dbday,email;
+	private String provider,username,password,post,addr1,addr2,phone,dbday,email,diffday;
 	private Date regdate;
-	
+	private StoreVO svo=new StoreVO();
 }
