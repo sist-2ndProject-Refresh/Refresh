@@ -185,7 +185,7 @@
                 <a class="nav-link me-5" href="/notice/list">공지사항</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-5" href="#">관리자 페이지</a>
+                <a class="nav-link me-5" href="/admin/home">관리자 페이지</a>
               </li>
           <!--     <li class="nav-item dropdown">
                 <a class="nav-link me-5 active dropdown-toggle border-0" href="#" data-bs-toggle="dropdown"
