@@ -13,7 +13,9 @@
 			<div class="row">
 				<div class="col-lg-12 text-left">
 					<div class="breadcrumb__text">
-						<h2>공지사항</h2>
+						<h1
+							style="font-size: 3.5rem; font-weight: 800; color: #111; letter-spacing: -0.03em; margin-bottom: 15px;">
+							공지사항</h1>
 						<div class="breadcrumb__option"
 							style="font-size: 1.2rem; color: #888;">
 							<span><a href="/notice/list"

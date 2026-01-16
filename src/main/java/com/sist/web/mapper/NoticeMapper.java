@@ -1,5 +1,6 @@
 package com.sist.web.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -98,6 +99,17 @@ public interface NoticeMapper {
 	 * 0,0 : 보통 조회수나 추천수처럼 초기값이 0이어야 하는 컬럼에 직접 값을 할당
 	 *
 	 */
+	
+	//수정
+	@Update("UPDATE notice SET "
+			+"not_title=#{not_title},not_content=#{not_content},mem_id=#{mem_id}" 
+			+"WHERE not_id=#{not_id}")
+	public void noticeUpdate(NoticeVO vo);
+	//삭제
+	@Delete("DELETE FROM notice "
+			+"WHERE not_id=#{not_id}")
+	public void noticeDelete(int no);
+	
 	
 
 }

@@ -37,4 +37,23 @@ public class NoticeServiceImpl implements NoticeService {
 		// TODO Auto-generated method stub
 		mapper.noticeInsert(vo);
 	}
+
+	@Override
+	public void noticeUpdate(NoticeVO vo) {
+		// TODO Auto-generated method stub
+		mapper.noticeUpdate(vo);
+	}
+
+	
+	@Override
+	public void noticeDelete(int no) {
+		// TODO Auto-generated method stub
+		mapper.noticeDelete(no);
+	}
+
+	@Override
+	public NoticeVO noticeUpdateData(int no) {
+		// TODO Auto-generated method stub
+		return mapper.noticeDetailData(no);
+	}
 }

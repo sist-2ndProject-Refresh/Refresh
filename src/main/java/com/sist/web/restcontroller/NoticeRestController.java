@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -101,4 +102,36 @@ public class NoticeRestController {
 		}
 		// try { ... } catch (Exception ex) : 프로그램 실행중에 발생할 수 있는 예외 상황을 처리하는 안전장치
 	}
+	
+	@GetMapping("/notice/update_vue/")
+	public ResponseEntity<NoticeVO> notice_update_vue(
+		@RequestParam("no") int no
+	)
+	{
+		NoticeVO vo=new NoticeVO();
+		try
+		{
+			vo=nService.noticeUpdateData(no);
+		}catch(Exception ex)
+		{
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(vo,HttpStatus.OK);
+	}
+	
+	@PutMapping("/notice/update_ok_vue/")
+	public ResponseEntity<Map> notice_update_ok_vue(@RequestBody NoticeVO vo)
+	{
+		Map map=new HashMap();
+		try
+		{
+			//String res=nService.noticeUpdate(vo);
+			map.put("msg", res);
+		}catch(Exception ex)
+		{
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
 }

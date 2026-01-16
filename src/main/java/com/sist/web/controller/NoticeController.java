@@ -33,4 +33,16 @@ public class NoticeController {
 		model.addAttribute("main_jsp", "../notice/insert.jsp");
 		return "main/main";
 	}
+	
+	@GetMapping("/notice/update")
+	public String notice_update(Model model) {
+		model.addAttribute("main_jsp","../notice/update.jsp");
+		return "main/main";
+	}
+	
+	@GetMapping("/notice/delete")
+	public String notice_delete(Model model) {
+		model.addAttribute("main_jsp","../notice/delete.jsp");
+		return "main/main";
+	}
 }

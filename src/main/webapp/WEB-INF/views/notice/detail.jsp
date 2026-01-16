@@ -33,25 +33,23 @@
 						<div class="d-flex gap-5 align-items-baseline">
 							<div class="info-item">
 								<small class="text-uppercase fw-bold d-block"
-									style="letter-spacing: 1px; font-size: 0.85rem; margin-bottom: -4px;">번호</small>
+									style="letter-spacing: 1px; font-size: 1.0rem; margin-bottom: -4px;">번호</small>
 								<span class="fw-bold text-dark"
-									style="font-size: 2.2rem; line-height: 1.1;">{{store.vo.not_id}}</span>
+									style="font-size: 2.0rem; line-height: 1.1;">{{store.vo.not_id}}</span>
 							</div>
-							<div class="vr opacity-25"
-								style="height: 40px; align-self: center;"></div>
+
 							<div class="info-item">
 								<small class="text-uppercase fw-bold d-block"
-									style="letter-spacing: 1px; font-size: 0.85rem; margin-bottom: -4px;">작성자</small>
+									style="letter-spacing: 1px; font-size: 1.0rem; margin-bottom: -4px;">작성자</small>
 								<span class="fw-medium text-dark"
-									style="font-size: 2.2rem; line-height: 1.1;">{{store.vo.mem_id}}</span>
+									style="font-size: 2.0rem; line-height: 1.1;">{{store.vo.mem_id}}</span>
 							</div>
-							<div class="vr opacity-25"
-								style="height: 40px; align-self: center;"></div>
+
 							<div class="info-item">
 								<small class="text-uppercase fw-bold d-block"
-									style="letter-spacing: 1px; font-size: 0.85rem; margin-bottom: -4px;">작성일</small>
+									style="letter-spacing: 1px; font-size: 1.0rem; margin-bottom: -4px;">작성일</small>
 								<span class="fw-medium text-dark"
-									style="font-size: 2.2rem; line-height: 1.1;">{{store.vo.not_date}}</span>
+									style="font-size: 2.0rem; line-height: 1.1;">{{store.vo.not_date}}</span>
 							</div>
 						</div>
 
@@ -59,21 +57,30 @@
 							<small class="text-uppercase fw-bold d-block text-secondary"
 								style="letter-spacing: 1px; font-size: 0.85rem; margin-bottom: -4px;">조회수</small>
 							<span class="fw-black text-dark"
-								style="font-size: 3rem; line-height: 1.1;">{{store.vo.view_cnt}}</span>
+								style="font-size: 2.0rem; line-height: 1.1;">{{store.vo.view_cnt}}</span>
 						</div>
 					</div>
 				</div>
 
 				<div class="article-body mb-0" style="min-height: 300px;">
 					<div
-						style="font-size: 1.85rem; line-height: 2.1; white-space: pre-wrap; color: #1a1a1a; letter-spacing: -0.01em;">
+						style="font-size: 1.8rem; line-height: 2.1; white-space: pre-wrap; color: #1a1a1a; letter-spacing: -0.01em;">
 						{{store.vo.not_content}}</div>
 				</div>
 
 				<div class="d-flex justify-content-end mt-1 pt-4 border-top">
-					<a href="/notice/list" class="btn btn-dark px-5 py-3 shadow-sm"
-						style="border-radius: 4px; font-size: 1.4rem; font-weight: 600; min-width: 160px;">
+					<a href="#" class="btn btn-dark px-5 py-3 shadow-sm"
+						style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 70px;">
+						수정 </a> 
+					<a href="#" class="btn btn-dark px-5 py-3 shadow-sm"
+						style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 70px;">
+						삭제 </a> 
+					<a href="/notice/list"
+						class="btn btn-dark px-5 py-3 shadow-sm"
+						style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 70px;">
 						목록 </a>
+
+
 				</div>
 			</div>
 		</div>
