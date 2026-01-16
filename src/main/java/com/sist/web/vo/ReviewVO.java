@@ -18,6 +18,6 @@ public class ReviewVO {
 	private String content,dbday;
 	private Date created_date,modified_date;
 	private double rating;
-	private UserVO uvo=new UserVO();
+	private MemberVO uvo=new MemberVO();
 	private StoreVO svo=new StoreVO();
 }

@@ -3,7 +3,7 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sist.web.mapper.MyPageMapper">	
-	<resultMap type="com.sist.web.vo.UserVO" id="storeMap">
+	<resultMap type="com.sist.web.vo.MemberVO" id="storeMap">
 		<result property="svo.storename" column="storename"/>
 		<result property="svo.image" column="image"/>
 		<result property="svo.sellcount" column="sellcount"/>

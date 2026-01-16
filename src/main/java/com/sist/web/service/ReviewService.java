@@ -3,7 +3,7 @@ package com.sist.web.service;
 import java.util.List;
 
 import com.sist.web.vo.ReviewVO;
-import com.sist.web.vo.UserVO;
+import com.sist.web.vo.MemberVO;
 
 public interface ReviewService {
 /*

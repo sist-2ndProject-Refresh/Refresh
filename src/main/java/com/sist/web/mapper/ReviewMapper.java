@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.ReviewVO;
-import com.sist.web.vo.UserVO;
+import com.sist.web.vo.MemberVO;
 
 @Mapper
 @Repository

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.sist.web.mapper.ReviewMapper;
 import com.sist.web.vo.ReviewVO;
-import com.sist.web.vo.UserVO;
+import com.sist.web.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 

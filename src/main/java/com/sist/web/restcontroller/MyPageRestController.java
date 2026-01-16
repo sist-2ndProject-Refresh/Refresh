@@ -13,15 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sist.web.service.MyPageService;
-<<<<<<< HEAD
 import com.sist.web.vo.MemberVO;
-=======
 import com.sist.web.service.ReviewService;
 import com.sist.web.vo.ReviewVO;
 import com.sist.web.vo.StoreVO;
 import com.sist.web.vo.TradeVO;
-import com.sist.web.vo.UserVO;
->>>>>>> origin/jusub3
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,11 +27,7 @@ public class MyPageRestController {
 	private final MyPageService mService;
 	
 	@GetMapping("/mypage/info_vue")
-<<<<<<< HEAD
-	public ResponseEntity<MemberVO> mypage_list_vue(@RequestParam("no") int no)
-=======
-	public ResponseEntity<UserVO> mypage_list_vue(@RequestParam(name = "no",required = false,defaultValue = "0") int no)
->>>>>>> origin/jusub3
+	public ResponseEntity<MemberVO> mypage_list_vue(@RequestParam(name = "no",required = false,defaultValue = "0") int no)
 	{
 		MemberVO vo=new MemberVO();
 		try
@@ -49,10 +41,6 @@ public class MyPageRestController {
 		return new ResponseEntity<>(vo,HttpStatus.OK);
 	}
 	
-<<<<<<< HEAD
-	@PostMapping("/mypage/update_vue")
-	public ResponseEntity<Map> mypage_update_vue(@RequestBody MemberVO vo)
-=======
 	@PostMapping("/mypage/store_update_vue/")
 	public ResponseEntity<Map> store_update_vue(@RequestBody StoreVO vo)
 	{
@@ -87,8 +75,7 @@ public class MyPageRestController {
 	}
 	
 	@PostMapping("/mypage/update_vue/")
-	public ResponseEntity<Map> mypage_update_vue(@RequestBody UserVO vo)
->>>>>>> origin/jusub3
+	public ResponseEntity<Map> mypage_update_vue(@RequestBody MemberVO vo)
 	{
 		Map map=new HashMap();
 		try

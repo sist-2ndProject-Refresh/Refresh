@@ -13,7 +13,7 @@
 		<result property="rating" column="rating"/>
 		<result property="dbday" column="dbday"/>
 		
-		<association property="uvo" javaType="com.sist.web.vo.UserVO">
+		<association property="uvo" javaType="com.sist.web.vo.MemberVO">
 			<id property="no" column="user_no"/>
 			<result property="email" column="email"/>
 		</association>
