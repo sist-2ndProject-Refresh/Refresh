@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,8 +68,10 @@ a:hover {
 		    <div class="col-auto ms-auto px-0">
 		        <a href="">최신순</a> &nbsp;|&nbsp;  <a href="">저가순</a> &nbsp;|&nbsp;  <a href="">고가순</a>
 		    </div>
-		    <div class="text-right" style="margin-top: 20px;"><!-- 로그인 체크하기 -->
-		    	<a href="/product/new" class="btn btn-dark">판매하기</a>
+		    <div class="text-right" style="margin-top: 20px;">
+		    	<sec:authorize access="hasRole('USER')">
+		    		<a href="/product/new" class="btn btn-dark">판매하기</a>
+		    	</sec:authorize>
 		    </div>
 		</div>
 		<!-- 상품 출력 -->
@@ -79,7 +81,7 @@ a:hover {
 					<div class="product-card position-relative">
 						<a :href="'/product/detail?no=' + vo.no">
 							<div class="card-img zoom-effect">
-								<img :src="vo.imageurl" class="product-image img-fluid product-st">
+								<img :src="store.changeImageUrl(vo.imageurl)" class="product-image img-fluid product-st">
 							</div>
 							<div class="card-detail mt-3 ">
 								<h3 class="card-title fs-4 fw-normal m-0 text-secondary product_name">{{vo.name}}</h3>

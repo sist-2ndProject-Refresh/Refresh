@@ -30,4 +30,9 @@ public class TradeServiceImpl implements TradeService{
 	public void productInsertData(TradeVO vo) {
 		mapper.productInsertData(vo);
 	}
+	
+	@Override
+	public void productUpdate(TradeVO vo) {
+		mapper.productUpdate(vo);
+	}
 }
