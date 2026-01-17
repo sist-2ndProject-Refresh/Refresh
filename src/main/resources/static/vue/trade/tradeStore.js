@@ -64,7 +64,7 @@ const useTradeStore = defineStore('trade', {
 			// 첫번째 이미지를 대표이미지로 사용
             const fileName = url.replace('{cnt}', '1');
 
-            return '/userimages/product/' + fileName + '.png';
+            return '/userimages/product/' + fileName;
         }
     }
 })

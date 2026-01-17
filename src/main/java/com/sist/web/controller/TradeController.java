@@ -54,7 +54,7 @@ public class TradeController {
 			else
 			{
 				String fileName = vo.getImageurl().replace("{cnt}", String.valueOf(i));
-				updateImgUrl[i - 1] = "/userimages/product/" + fileName + ".png";
+				updateImgUrl[i - 1] = "/userimages/product/" + fileName;
 			}
 			
 		}

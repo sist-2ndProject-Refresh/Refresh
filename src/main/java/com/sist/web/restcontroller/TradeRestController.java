@@ -194,7 +194,6 @@ public class TradeRestController {
     			{
     				price = price.substring(0, price.lastIndexOf("원"));
     				price = price.trim().replace(",", "");
-    				//System.out.println("GS: "+price);
     				vo.setCvsDeliverPrice(Integer.parseInt(price));
     			}
     		}
@@ -215,9 +214,7 @@ public class TradeRestController {
     			{
     				price = price.substring(0, price.lastIndexOf("원"));
     				price = price.trim().replace(",", "");
-    				System.out.println(price);
     				vo.setCvsDeliverPrice(Integer.parseInt(price));
-    				System.out.println("편의점 CU: " + vo.getCvsDeliverPrice());
     			}
     		}
     		return true;
@@ -238,7 +235,7 @@ public class TradeRestController {
 		    for(String ss : sliceTrades)
 		    {
 		    	//배송비||일반 334원||GS반값 • CU알뜰 4343원||직거래 희망 장소||제주특별자치도 서귀포시 가가로 15 1234||
-		    	System.out.println(ss);
+		    	//System.out.println(ss);
 
 		    	if(vo.getHowDeliverPrice() == 0)
 		    		vo.setHowDeliverPrice(howDeleverPrice(vo, ss));
@@ -250,10 +247,8 @@ public class TradeRestController {
 		    	if(!vo.isCU())
 		    		vo.setCU(isCU(vo,ss));
 		    	
-		    	System.out.println(vo.isGS());
-		    	System.out.println(vo.isCU());
-		    	
-		    	vo.setDirect(ss.contains("직거래") ? true: false);
+		    	if(!vo.isDirect())
+		    		vo.setDirect(ss.contains("직거래")); 
 		    }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -275,6 +270,5 @@ public class TradeRestController {
 		}
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
-	
 	
 }

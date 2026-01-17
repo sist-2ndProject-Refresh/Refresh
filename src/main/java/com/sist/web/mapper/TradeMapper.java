@@ -55,6 +55,7 @@ public interface TradeMapper {
 			+ "#{user_no})")
 	public void productInsertData(TradeVO vo);
 	
+	// 상품 수정
 	@Update("UPDATE trade_goods SET "
 		      + "name = #{name}, "
 		      + "description = #{description}, "
@@ -69,5 +70,7 @@ public interface TradeMapper {
 		      + "address = #{address}, "
 		      + "trades = #{trades} "
 		      + "WHERE no = #{no}")
-	public void productUpdate(TradeVO vo);
+	public void productUpdate(TradeVO vo);	
+	
+	
 }

@@ -24,9 +24,9 @@ const useUpdateStore = defineStore('trade_update', {
             address1: '',		// 기본 주소
             address2: '',		// 상세 주소
             includeDelivery: 0,
-            Direct: false,
-            GS: false,
-            CU: false,
+            direct: false,
+            gs: false,
+            cu: false,
             normalPrice: 0,		// 일반 택배 배송비
             cvsPrice: 0,		// 편의점 택배 배송비
             trades: ''
@@ -46,14 +46,16 @@ const useUpdateStore = defineStore('trade_update', {
             this.detailData.imagecount = res.data.imagecount
             this.detailData.imageurl = res.data.imageurl
             this.detailData.addressFull = res.data.address
-			this.detailData.Direct = res.data.direct
-			this.detailData.GS = res.data.gs
-			this.detailData.CU = res.data.cu
-			this.detailData.includeDelivery = res.data.howDeliver
-			this.detailData.normalPrice = res.data.nomalDeliverPrice
-			this.detailData.cvsPrice = res.data.cvsDeliverPrice
-			console.log(res.data)
-			console.log(this.detailData)
+            this.detailData.direct = res.data.direct
+            this.detailData.gs = res.data.gs
+            this.detailData.cu = res.data.cu
+            this.detailData.includeDelivery = res.data.howDeliverPrice
+            this.detailData.normalPrice = res.data.nomalDeliverPrice
+            this.detailData.cvsPrice = res.data.cvsDeliverPrice
+            this.detailData.category = res.data.category
+            console.log(res.data)
+            console.log(this.detailData)
+            await this.findCategory()
         },
         async dataUpdate() {
             const res = await api.post('/product/update_vue/', this.detailData)
@@ -65,11 +67,29 @@ const useUpdateStore = defineStore('trade_update', {
                 alert("작성 내용을 확인해주세요")
             }
         },
+        async findCategory() {	// 저장된 카테고리 정보를 찾아 파싱
+            const sliceCategory = String(this.detailData.category)
+            const result = []
+
+            for (let i = 0;i < sliceCategory.length;i += 3) {
+                result.push(sliceCategory.slice(i, i + 3));
+            }
+            if (result.length > 0) this.detailData.category1 = Number(result[0]);
+            if (result.length > 1) this.detailData.category2 = Number(result[0]+result[1]);
+            if (result.length > 2) this.detailData.category3 = Number(this.detailData.category);
+			
+            await this.firstLoadCategory()
+        },
+        async firstLoadCategory() {
+            await this.loadCategoryFirst();
+			await this.loadCategorySecond(this.detailData.category1, false)
+			await this.loadCategoryThird(this.detailData.category2, false)
+        },
         async loadCategoryFirst() {
             const res = await api.get('/product/category1_vue/')
             this.detailData.cate1List = res.data.cateFir
         },
-        async loadCategorySecond(first_id) {
+        async loadCategorySecond(first_id, isLoad) {
             if (first_id === 0) {
                 this.detailData.cate2List = []
                 return
@@ -79,10 +99,13 @@ const useUpdateStore = defineStore('trade_update', {
             })
             this.detailData.cate2List = res.data.cateSec;
             this.detailData.cate3List = []
+			if(isLoad)
+			{
             this.detailData.category2 = 0;
-            this.detailData.category3 = 0;
+            this.detailData.category3 = 0;				
+			}
         },
-        async loadCategoryThird(second_id) {
+        async loadCategoryThird(second_id, isLoad) {
             if (second_id === 0) {
                 this.cate3List = []
                 return
@@ -91,7 +114,10 @@ const useUpdateStore = defineStore('trade_update', {
                 params: { second_id }
             })
             this.detailData.cate3List = res.data.cateThr
-            this.detailData.category3 = 0;
+			if(isLoad)
+			{
+            this.detailData.category3 = 0;				
+			}
         },
         postFind() {
             let _this = this

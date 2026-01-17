@@ -143,12 +143,15 @@ const useInsertStore = defineStore('trade_insert', {
                 formData.append('files', i);
 
             }
+			const fileName = this.imageList[0].name
+			const ext = fileName.slice(fileName.lastIndexOf("."))
             const res = await axios.post('/product/image_vue/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            const dbImgName = res.data + "_{cnt}_w_{res}";
+            const dbImgName = res.data + "_{cnt}_w_{res}" + ext;
+			console.log(dbImgName)
             return dbImgName
         },
 		removeImage(index){
