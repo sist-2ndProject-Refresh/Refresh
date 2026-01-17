@@ -71,11 +71,11 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					<label for="input_img" style="cursor: pointer">
 						<img src="/images/test/image_icon.png" style="width: 200px; height: 200px; margin-top: 10px; border: 2px solid black">
 					</label>
-					<input id="input_img" type="file" ref="imagesRef" multiple accept="image/*" style="display: none" @change="store.detailData.catchImages">
+					<input id="input_img" type="file" ref="imagesRef" multiple accept="image/*" style="display: none" @change="store.catchImages">
 					<div v-if="store.detailData.imagecount > 0" class="d-flex flex-wrap" style="width: 100%;">
 					    <div v-for="(url, index) in store.detailData.previewList" :key="index" style="width: calc(25% - 20px); margin: 10px; position: relative; min-width: 120px;">
 					         <img :src="url" class="rounded border" style="width: 100%; height: 150px; object-fit: cover; display: block;">
-					         <button @click="store.detailData.removeImage(index)" class="btn btn-danger btn-sm x-btn">&times;</button>
+					         <button @click="store.removeImage(index)" class="btn btn-danger btn-sm x-btn">&times;</button>
 					    </div>
 					</div>
 				</div>
@@ -237,7 +237,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			<div>
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="d-flex justify-content-center align-items-center gap-100 mar-top-50">
-					<input type="button" class="btn btn-dark btn-st fs-2 fw-bold" value="등록" style="width: 150px; height: 60px;" @click="store.detailData.tradeInsertData()">
+					<input type="button" class="btn btn-dark btn-st fs-2 fw-bold" value="등록" style="width: 150px; height: 60px;" @click="store.tradeInsertData()">
 					<input type="button" class="btn btn-white btn-st fs-2 fw-bold" style="border: 2px solid black; back-color: gray; width: 150px; height: 60px;" value="취소" onclick="javascript:history.back()">
 				</div>
 			</div>
@@ -256,7 +256,6 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
             	const no = urlParams.get('no');
 				onMounted(async () => {
 					await store.loadDetailData(no);
-					/* await store.loadCategoryFirst(); */
 				})
 				
 				return {

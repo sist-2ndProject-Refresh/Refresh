@@ -56,6 +56,7 @@ const useUpdateStore = defineStore('trade_update', {
             console.log(res.data)
             console.log(this.detailData)
             await this.findCategory()
+            this.loadImageList()
         },
         async dataUpdate() {
             const res = await api.post('/product/update_vue/', this.detailData)
@@ -75,15 +76,15 @@ const useUpdateStore = defineStore('trade_update', {
                 result.push(sliceCategory.slice(i, i + 3));
             }
             if (result.length > 0) this.detailData.category1 = Number(result[0]);
-            if (result.length > 1) this.detailData.category2 = Number(result[0]+result[1]);
+            if (result.length > 1) this.detailData.category2 = Number(result[0] + result[1]);
             if (result.length > 2) this.detailData.category3 = Number(this.detailData.category);
-			
+
             await this.firstLoadCategory()
         },
         async firstLoadCategory() {
             await this.loadCategoryFirst();
-			await this.loadCategorySecond(this.detailData.category1, false)
-			await this.loadCategoryThird(this.detailData.category2, false)
+            await this.loadCategorySecond(this.detailData.category1, false)
+            await this.loadCategoryThird(this.detailData.category2, false)
         },
         async loadCategoryFirst() {
             const res = await api.get('/product/category1_vue/')
@@ -99,11 +100,10 @@ const useUpdateStore = defineStore('trade_update', {
             })
             this.detailData.cate2List = res.data.cateSec;
             this.detailData.cate3List = []
-			if(isLoad)
-			{
-            this.detailData.category2 = 0;
-            this.detailData.category3 = 0;				
-			}
+            if (isLoad) {
+                this.detailData.category2 = 0;
+                this.detailData.category3 = 0;
+            }
         },
         async loadCategoryThird(second_id, isLoad) {
             if (second_id === 0) {
@@ -114,10 +114,18 @@ const useUpdateStore = defineStore('trade_update', {
                 params: { second_id }
             })
             this.detailData.cate3List = res.data.cateThr
-			if(isLoad)
-			{
-            this.detailData.category3 = 0;				
-			}
+            if (isLoad) {
+                this.detailData.category3 = 0;
+            }
+        },
+        loadImageList() {
+            const originName = this.detailData.imageurl
+            for (let i = 1;i <= this.detailData.imagecount;i++) {
+                const fileName = originName.replace("{cnt}", i)
+                this.detailData.imageList.push('/userimages/product/' + fileName)
+                this.detailData.previewList.push('/userimages/product/' + fileName)
+                console.log(fileName)
+            }
         },
         postFind() {
             let _this = this
@@ -129,16 +137,17 @@ const useUpdateStore = defineStore('trade_update', {
         },
         catchImages(e) {
             const files = Array.from(e.target.files);
-            this.imageList = files;
-            this.imagecount = files.length;
-
+            this.detailData.imageList = files;
+            this.detailData.imagecount = files.length;
+			console.log(this.detailData)
+			
             // 이전 미리보기 주소 해제
-            if (this.previewList) {
-                this.previewList.forEach(url => URL.revokeObjectURL(url));
+            if (this.detailData.previewList) {
+                this.detailData.previewList.forEach(url => URL.revokeObjectURL(url));
             }
 
             // 파일을 임시 URL로 변경
-            this.previewList = files.map(file => URL.createObjectURL(file));
+            this.detailData.previewList = files.map(file => URL.createObjectURL(file));
         },
         async uploadImages() {
             const formData = new FormData()
@@ -156,8 +165,8 @@ const useUpdateStore = defineStore('trade_update', {
             return dbImgName
         },
         removeImage(index) {
-            this.previewList.splice(index, 1)
-            this.imagecount--
-        }
+            this.detailData.previewList.splice(index, 1)
+            this.detailData.imagecount--
+        },
     }
 })
