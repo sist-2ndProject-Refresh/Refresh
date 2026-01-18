@@ -65,6 +65,7 @@ public interface TradeMapper {
 		      + "condition = #{condition}, "
 		      + "imagecount = #{imagecount}, "
 		      + "imageurl = #{imageurl}, "
+		      + "category = #{category}, "
 		      + "lat = #{lat}, "
 		      + "lon = #{lon}, "
 		      + "address = #{address}, "

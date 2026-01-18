@@ -263,6 +263,7 @@ public class TradeRestController {
 		Map map = new HashMap();
 		try {
 			tService.productUpdate(vo);
+			System.out.println(vo);
 			map.put("msg", "OK");
 		} catch (Exception e) {
 			e.printStackTrace();

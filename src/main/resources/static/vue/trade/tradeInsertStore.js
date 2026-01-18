@@ -184,6 +184,11 @@ const useInsertStore = defineStore('trade_insert', {
 				alert("가격을 설정해주세요")
 				return false
 			}
+			if(this.isDirect && this.address1.trim() === "")
+			{
+				alert("주소를 입력해주세요")
+				return false
+			}
 			return true
 		}
     }

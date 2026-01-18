@@ -28,11 +28,40 @@ public class TradeController {
 		TradeVO vo = tService.productDetailData(no);
 		
 		String parts[] = vo.getTrades().split("\\|\\|");
-
-		String addrPart = parts.length >= 5 ? parts[4] : "-";
+		int partLength = 0;
+		boolean checkCvs = false;
+		for(String part : parts)
+		{
+			if(!checkCvs)
+			{
+				if(part.contains("GS") || part.contains("CU"))
+				{
+					partLength = 5;
+					String cvs = "";
+					if(part.contains("GS") && part.contains("CU"))
+						cvs = "택배/GS반값/CU알뜰";
+					else if(part.contains("GS"))
+						cvs = "택배/GS반값";
+					else if(part.contains("CU"))
+						cvs = "택배/CU알뜰";
+					
+					vo.setHow(cvs);
+					checkCvs = true;
+				}
+				else
+				{
+					partLength = 4;
+				}
+			}
+			
+			System.out.println("택배: " + part);
+		}
+		
+		String addrPart = parts.length >= partLength ? parts[partLength - 1] : "-";		// 편택 있을 때랑 없을 때랑 길이 차이가 나서 편택있으면 길이 5와 같거나 이상 아니면 4
+		System.out.println(addrPart);
 		if(parts.length >= 4)
 		{
-			if(addrPart != null)
+			if(addrPart != "-")
 			{
 				String[] addrArray = addrPart.trim().split(" ");
 				vo.setAddress(addrArray[0] + " " + addrArray[1]);
@@ -41,7 +70,7 @@ public class TradeController {
 		}
 		else
 		{
-			vo.setHow("택배");
+			vo.setAddress("-");
 		}
 		
 		String updateImgUrl[] = new String[vo.getImagecount()];
