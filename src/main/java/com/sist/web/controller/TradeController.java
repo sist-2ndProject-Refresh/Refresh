@@ -2,6 +2,7 @@ package com.sist.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.sist.web.service.TradeService;
@@ -112,10 +113,16 @@ public class TradeController {
 	}
 	
 	@GetMapping("/product/update")
-	public String gproduct_update(Model model)
+	public String product_update(Model model)
 	{
 		model.addAttribute("main_jsp", "../products/product_update.jsp");
 		return "main/main";
+	}
+	
+	@GetMapping("/product/delete")
+	public String product_delete()
+	{
+		return "products/product_delete";
 	}
 	
 }

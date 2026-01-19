@@ -35,4 +35,9 @@ public class TradeServiceImpl implements TradeService{
 	public void productUpdate(TradeVO vo) {
 		mapper.productUpdate(vo);
 	}
+	
+	@Override
+	public void productDeleteData(int no) {
+		mapper.productDeleteData(no);	
+	}
 }

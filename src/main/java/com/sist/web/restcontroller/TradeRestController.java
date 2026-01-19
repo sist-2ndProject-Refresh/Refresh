@@ -3,8 +3,11 @@ package com.sist.web.restcontroller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -257,18 +260,33 @@ public class TradeRestController {
 		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
 	
-	@PostMapping("/product/update_vue/")
+	@PutMapping("/product/update_vue/")
 	public ResponseEntity<Map> product_update_vue(@RequestBody TradeVO vo)
 	{
 		Map map = new HashMap();
 		try {
 			tService.productUpdate(vo);
-			System.out.println(vo);
 			map.put("msg", "OK");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/product/delete_vue/")
+	public ResponseEntity<Map> product_delete_ok(@RequestParam("no") int no)
+	{
+		Map map = new HashMap();
+		System.out.println(no);
+		try {
+			tService.productDeleteData(no);
+			map.put("msg", "OK");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	

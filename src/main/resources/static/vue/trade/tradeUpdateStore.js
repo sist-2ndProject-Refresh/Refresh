@@ -107,7 +107,7 @@ const useUpdateStore = defineStore('trade_update', {
                 trades: "배송비||" + normalDelivery + cvsDeliveryType + directText + addressText
             }
             console.log(uploadData)
-            const res = await api.post('/product/update_vue/', uploadData)
+            const res = await api.put('/product/update_vue/', uploadData)
             console.log(res.data.msg)
             if (res.data.msg === "OK") {
                 alert("수정이 완료되었습니다.")

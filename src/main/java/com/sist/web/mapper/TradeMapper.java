@@ -1,5 +1,6 @@
 package com.sist.web.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -73,5 +74,8 @@ public interface TradeMapper {
 		      + "WHERE no = #{no}")
 	public void productUpdate(TradeVO vo);	
 	
-	
+	// 상품 삭제
+	@Delete("DELETE FROM trade_goods "
+			+ "WHERE no = #{no}")
+	public void productDeleteData(int no);
 }
