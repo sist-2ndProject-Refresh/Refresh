@@ -1,0 +1,48 @@
+package com.sist.web.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.sist.web.mapper.RentalMapper;
+import com.sist.web.vo.RentalVO;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class RentalServiceImpl implements RentalService{
+	private final RentalMapper mapper;
+
+	@Override
+	public List<RentalVO> rentalListData(int start) {
+		return mapper.rentalListData(start);
+	}
+
+	@Override
+	public int rentalTotalPage() {
+		return mapper.rentalTotalPage();
+	}
+
+	@Override
+	public RentalVO rentalDetailData(int no) {
+		return mapper.rentalDetailData(no);
+	}
+
+	@Override
+	public void rentalInsertData(RentalVO vo) {
+		mapper.rentalInsertData(vo);
+	}
+
+	@Override
+	public void rentalUpdate(RentalVO vo) {
+		mapper.rentalUpdate(vo);
+	}
+
+	@Override
+	public void rentalDeleteData(int no) {
+		mapper.rentalDeleteData(no);
+	}
+	
+	
+}

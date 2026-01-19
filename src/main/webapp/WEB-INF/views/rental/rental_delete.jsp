@@ -23,18 +23,18 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-	<div id="trade_delete">
+	<div id="rental_delete">
 		<h3 class="text-center" style="margin-top: 60px">삭제하기</h3>
 		<p class=" text-center" style="margin-top: 20px">정말 삭제하시겠습니까?</p>
 		<p class=" text-center" style="color: red">삭제된 내용은 다시 불러올 수 없습니다.</p>
 		<div class="d-flex justify-content-center align-items-center gap-5" style="margin-top: 50px;">
-			<a type="button" class="btn btn-sm btn-dark" @click="store.tradeDelete(no)">삭제</a>
+			<a type="button" class="btn btn-sm btn-dark" @click="store.rentalDelete(no)">삭제</a>
 			<input type="button" class="btn btn-sm btn-dark" value="취소" @click="windowClose">
 		</div>
 	</div>
 </body>
 <script src="/vue/axios.js"></script>
-<script src="/vue/trade/tradeDeleteStore.js"></script>
+<script src="/vue/rental/rentalDeleteStore.js"></script>
 <script>
 	const {createApp, onMounted} = Vue
 	const {createPinia} = Pinia
@@ -42,7 +42,7 @@
 	const urlParams = new URLSearchParams(window.location.search);
     const no = urlParams.get('no');
 	
-	const tradeDeleteApp = createApp({
+	const rentalDeleteApp = createApp({
 		setup(){
 			store = useDeleteStore()
 			const windowClose = () =>{
@@ -55,7 +55,7 @@
 			}
 		}
 	})
-	tradeDeleteApp.use(createPinia())
-	tradeDeleteApp.mount('#trade_delete')
+	rentalDeleteApp.use(createPinia())
+	rentalDeleteApp.mount('#rental_delete')
 </script>
 </html>

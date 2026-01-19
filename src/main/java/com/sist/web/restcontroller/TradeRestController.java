@@ -275,19 +275,17 @@ public class TradeRestController {
 	}
 	
 	@DeleteMapping("/product/delete_vue/")
-	public ResponseEntity<Map> product_delete_ok(@RequestParam("no") int no)
+	public ResponseEntity<Void> product_delete_ok(@RequestParam("no") int no)
 	{
-		Map map = new HashMap();
 		System.out.println(no);
 		try {
 			tService.productDeleteData(no);
-			map.put("msg", "OK");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		return new ResponseEntity<>(map, HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }
