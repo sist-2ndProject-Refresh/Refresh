@@ -16,9 +16,7 @@
         <div class="col-md-6">
           <p>중고물품 판매 & 대여 & 경매 , 지역 커뮤니티 웹사이트 프로젝트 새로고침</p>
         </div>
-        <div class="col-md-6 text-lg-end">
-          <p>Free HTML by <a href="#" target="_blank">TemplatesJungle</a><br> Distributed by <a href="https://themewagon.com" target="blank">ThemeWagon</a> </p>
-        </div>
+        
       </div>
     </div>
   </footer>

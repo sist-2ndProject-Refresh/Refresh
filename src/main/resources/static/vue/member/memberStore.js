@@ -427,7 +427,7 @@ const memberStore = defineStore('member_store',{
 				if(data==='OK')
 				{
 					alert('비밀번호가 재설정 되었습니다.')
-					location.href='/member/local_join'
+					location.href='/member/local_login'
 				}
 				else{
 					alert('오류가 발생했습니다.')

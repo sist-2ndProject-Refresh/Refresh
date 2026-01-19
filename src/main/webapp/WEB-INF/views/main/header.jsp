@@ -88,9 +88,13 @@
 	       M13 3h8v18h-8v-2h6V5h-6V3z" />
 	</symbol>
 	<symbol xmlns="http://www.w3.org/2000/svg" id="logout" viewBox="0 0 24 24">
-  <path fill="currentColor" 
-    d="M14 17l-5-5 5-5v3h7v4h-7v3z 
-       M11 3H3v18h8v-2H5V5h6V3z" />
+	  <path fill="currentColor" 
+	    d="M14 17l-5-5 5-5v3h7v4h-7v3z 
+	       M11 3H3v18h8v-2H5V5h6V3z" />
+		</symbol>
+	<symbol xmlns="http://www.w3.org/2000/svg" id="faq" viewBox="0 0 24 24">
+	  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+	    d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01M21 12a9 9 0 1 1-18 0a9 9 0 0 1 18 0Z"/>
 	</symbol>
   </svg>
   <!-- Loader 4 -->
@@ -132,9 +136,9 @@
           <use xlink:href="#close"></use>
         </svg>
       </div>
-      <form id="search-form" class="text-lg-center text-md-left pt-3" action="index.html" method="get">
-        <input type="text" class="search-input" placeholder="Search...">
-        <svg class="search">
+      <form id="search-form" class="text-lg-center text-md-left pt-3" action="/search" method="get">
+        <input type="text" class="search-input" placeholder="Search..." name="fd">
+        <svg class="search" style="cursor:pointer"  onclick="document.getElementById('search-form').submit()" >
           <use xlink:href="#search"></use>
         </svg>
       </form>
@@ -250,11 +254,11 @@
               </a>
             </li>
             <li class="pe-3">
-              <a href="#" style="text-decoration: none;">
-                <svg class="shopping-cart" width="24" height="24">
-                  <use xlink:href="#shopping-cart"></use>
+              <a href="/faq">
+                <svg class="user" width="24" height="24">
+                  <use xlink:href="#faq"></use>
                 </svg>
-                <strong>장바구니</strong>
+                <strong>문의하기</strong>
               </a>
             </li>
             </sec:authorize>
