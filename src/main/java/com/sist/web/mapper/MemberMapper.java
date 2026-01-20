@@ -43,7 +43,7 @@ public interface MemberMapper {
 	
 	@Delete("DELETE user_table WHERE no = #{no}")
 	void userErrorDelete(int no);
-	@Select("SELECT perm_name FROM role_permissions WHERE ROLE_NAME = (SELECT ROLE_NAME FROM user_roles WHERE user_no = (SELECT no FROM user_table WHERE provider=#{provider} AND username = #{username}))")
+	@Select("SELECT ROLE_NAME FROM user_roles WHERE user_no = (SELECT no FROM user_table WHERE provider=#{provider} AND username = #{username})")
 	List<String> userAuthoritiesByUsernameAndProvider(@Param("username") String username,@Param("provider")String provider);
 	
 	@Select("SELECT count(*) from user_table where phone = #{phone}")
