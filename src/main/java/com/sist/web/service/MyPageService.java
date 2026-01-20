@@ -16,4 +16,6 @@ public interface MyPageService {
 	public void contentUpdate(StoreVO vo);	
 	public List<TradeVO> mypageTradeList(int no, int start);
 	public int mypageTradeCount(int no);
+	public List<TradeVO> mypageTradeEndList(int no, int start);
+	public int mypageTradeEndCount(int no);
 }

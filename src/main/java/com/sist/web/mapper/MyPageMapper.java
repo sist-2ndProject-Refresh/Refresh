@@ -79,4 +79,15 @@ public interface MyPageMapper {
 	@Select("SELECT COUNT(*) FROM trade_goods "
 			+ "WHERE salestatus='RESERVED' AND user_no=#{no}")
 	public int mypageTradeCount(int no);
+	
+	@Select("SELECT name,price,qty,salestatus,imageurl,TO_CHAR(describedat,'YYYY-MM-DD HH24:MI:SS') as dbday,user_no "
+			+ "FROM trade_goods "
+			+ "WHERE salestatus='SOLD_OUT' AND user_no=#{no} "
+			+ "ORDER BY user_no DESC "
+			+ "OFFSET #{start} ROWS FETCH NEXT 3 ROWS ONLY")
+	public List<TradeVO> mypageTradeEndList(@Param("no") int no, @Param("start") int start);
+	
+	@Select("SELECT COUNT(*) FROM trade_goods "
+			+ "WHERE salestatus='SOLD_OUT' AND user_no=#{no}")
+	public int mypageTradeEndCount(int no);
 }

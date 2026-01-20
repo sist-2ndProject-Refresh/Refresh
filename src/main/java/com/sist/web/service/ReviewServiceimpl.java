@@ -1,6 +1,7 @@
 package com.sist.web.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,6 @@ public class ReviewServiceimpl implements ReviewService {
 	private final ReviewMapper rMapper;
 
 	@Override
-	public List<ReviewVO> reviewListData(int no) {
-		// TODO Auto-generated method stub
-		return rMapper.reviewListData(no);
-	}
-
-	@Override
 	public void reviewInsert(ReviewVO vo) {
 		// TODO Auto-generated method stub
 		rMapper.reviewInsert(vo);
@@ -32,4 +27,18 @@ public class ReviewServiceimpl implements ReviewService {
 		// TODO Auto-generated method stub
 		return rMapper.reviewCount(seller_id);
 	}
+
+	@Override
+	public void reviewUpdate(ReviewVO vo) {
+		// TODO Auto-generated method stub
+		rMapper.reviewUpdate(vo);
+	}
+
+	@Override
+	public List<ReviewVO> reviewListData(int no, int start) {
+		// TODO Auto-generated method stub
+		return rMapper.reviewListData(no, start);
+	}
+
+	
 }

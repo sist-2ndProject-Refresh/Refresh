@@ -1,9 +1,9 @@
 package com.sist.web.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sist.web.vo.ReviewVO;
-import com.sist.web.vo.MemberVO;
 
 public interface ReviewService {
 /*
@@ -18,7 +18,8 @@ public interface ReviewService {
 		ORDER BY r.created_date DESC
 	</select> 
  */
-	public List<ReviewVO> reviewListData(int no);
+	public List<ReviewVO> reviewListData(int no, int start);
 	public void reviewInsert(ReviewVO vo);
 	public int reviewCount(int seller_id);
+	public void reviewUpdate(ReviewVO vo);
 }

@@ -113,5 +113,17 @@ public class MyPageServiceImpl implements MyPageService {
 		mMapper.contentUpdate(vo);
 	}
 
+	@Override
+	public int mypageTradeEndCount(int no) {
+		// TODO Auto-generated method stub
+		return mMapper.mypageTradeEndCount(no);
+	}
+
+	@Override
+	public List<TradeVO> mypageTradeEndList(int no, int start) {
+		// TODO Auto-generated method stub
+		return mMapper.mypageTradeEndList(no, start);
+	}
+
 
 }

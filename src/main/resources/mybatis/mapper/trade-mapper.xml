@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.web.mapper.TradeMapper">
+	<resultMap type="com.sist.web.vo.TradeVO" id="tradeMap">
+		<result property="stvo.storename" column="storename"/>
+		<result property="stvo.image" column="image"/>
+		<result property="stvo.no" column="no"/>
+	</resultMap>
+	
+	<select id="tradeDetailUserInfo" resultMap="tradeMap" parameterType="int">
+		SELECT t.user_no,s.storename,s.image,s.no
+		FROM trade_goods t JOIN user_table u ON t.user_no=u.no
+		JOIN store s ON u.no=s.no
+		WHERE t.no=#{no}
+	</select>
+</mapper>

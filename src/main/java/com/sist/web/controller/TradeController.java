@@ -26,6 +26,7 @@ public class TradeController {
 	public String product_detail(Model model, @RequestParam("no") int no)
 	{
 		TradeVO vo = tService.productDetailData(no);
+		TradeVO svo = tService.tradeDetailUserInfo(no);
 		
 		String parts[] = vo.getTrades().split("\\|\\|");
 
@@ -69,6 +70,7 @@ public class TradeController {
 		}
 		
 		model.addAttribute("vo", vo);
+		model.addAttribute("svo", svo);
 		model.addAttribute("updateImagUrl", updateImgUrl);
 		model.addAttribute("main_jsp", "../products/product_detail.jsp");
 		return "main/main";

@@ -32,4 +32,6 @@ public class TradeVO {
 	private String name,description,salestatus,condition,imageurl,dbday,address,trades, how;
 	private Date describedat;
 	private boolean isGS, isCU, isDirect;
+	
+	private StoreVO stvo=new StoreVO();
 }

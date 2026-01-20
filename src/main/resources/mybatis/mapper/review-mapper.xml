@@ -28,7 +28,7 @@
 		</association>
 	</resultMap>
 	
-	<select id="reviewListData" resultMap="reviewMap" parameterType="int">
+	<select id="reviewListData" resultMap="reviewMap">
 		SELECT r.review_id,r.seller_id,r.reviewer_id,r.content,TO_CHAR(r.created_date,'YYYY-MM-DD HH24:MI:SS') as dbday,r.modified_date,r.rating,
 		       u.no as user_no,u.email,
 		       s.no as store_no,s.storename,s.image
@@ -37,5 +37,6 @@
 		JOIN store s ON s.no=r.reviewer_id
 		WHERE r.seller_id=#{no}
 		ORDER BY r.created_date DESC
+		OFFSET #{start} ROWS FETCH NEXT 3 ROWS ONLY
 	</select>
 </mapper>

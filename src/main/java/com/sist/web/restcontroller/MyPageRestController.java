@@ -1,5 +1,6 @@
 package com.sist.web.restcontroller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,17 +93,42 @@ public class MyPageRestController {
 	
 	@GetMapping("/mypage/trade_list_vue/")
 	public ResponseEntity<Map> mypage_trade_list_vue(@RequestParam(name="no",required = false,defaultValue = "0") int no,
-													 @RequestParam("page") int page)
+													 @RequestParam("page") int page,
+													 @RequestParam(name = "mode",required = false,defaultValue = "t") String mode)
 	{
 		Map map=new HashMap();
 		try
 		{
-			List<TradeVO> tList=mService.mypageTradeList(no, (page-1)*3);
-			int tcount=mService.mypageTradeCount(no);
-			int tTotalpage=(int)Math.ceil(tcount/3.0);
-			map.put("tList", tList);
-			map.put("tcount", tcount);
-			map.put("tTotalpage",tTotalpage);
+			List<TradeVO> list=new ArrayList<>();
+			int count=0;
+			int ecount=mService.mypageTradeEndCount(no);
+			
+			if("t".equals(mode))
+			{
+				list=mService.mypageTradeList(no, (page-1)*3);
+				count=mService.mypageTradeCount(no);
+			}
+			if("e".equals(mode))
+			{
+				list=mService.mypageTradeEndList(no, (page-1)*3);
+				count=mService.mypageTradeEndCount(no);
+			}
+			
+			int totalpage=(int)Math.ceil(count/3.0);
+			final int BLOCK=10;
+			int startPage=((page-1)/BLOCK*BLOCK)+1;
+			int endPage=((page-1)/BLOCK*BLOCK)+BLOCK;
+			if(endPage>totalpage)
+				endPage=totalpage;
+			
+			map.put("start", (page-1)*3);
+			map.put("list", list);
+			map.put("totalpage", totalpage);
+			map.put("startPage", startPage);
+			map.put("endPage", endPage);
+			map.put("curpage", page);
+			map.put("count", count);
+			map.put("ecount", ecount);
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();

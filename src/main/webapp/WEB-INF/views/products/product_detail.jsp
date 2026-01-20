@@ -83,7 +83,7 @@ a:hover {
                 <tr>
                 	<td>
                 		<img src="${vo.imageurl }" class="border-circle" style="width: 50px; height: 50px; margin-left: 50px;">
-                		<span class="fs-3" style="padding-left: 15px;">닉네임</span>
+                		<a href="/mypage/list?no=${svo.stvo.no }"><span class="fs-3" style="padding-left: 15px;">${svo.stvo.storename }</span></a>
                 	</td>
                 </tr>
                 <tr><td colspan="2" style="padding-left: 50px;"><hr class="hr-st"></td></tr>
