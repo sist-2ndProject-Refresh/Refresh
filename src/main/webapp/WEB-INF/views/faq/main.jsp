@@ -12,11 +12,16 @@
 	font-weight: bold
 }
 </style>
+<script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+<script src="https://unpkg.com/vue-demi"></script>
+<script src="https://unpkg.com/pinia@2.1.7/dist/pinia.iife.prod.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 </head>
 <body>
-	<div class="container" style="margin-top:50px;">
-		<div class="row" style="margin-top:50px;padding-top:50px;display: flex;justify-content: center;border:2px solid #B9B9B9;border-radius:8px;box-shadow:2px 2px 2px 2px #E9E9E9;margin-bottom:60px;">
-			<table style="width:90%;border:none">
+	<div class="container" style="margin-top:50px;" id="faq_container">
+		<div class="row" style="margin-top:50px;padding-top:50px;display: flex;justify-content: center;border:2px solid #B9B9B9;border-radius:8px;box-shadow:2px 2px 2px 2px #E9E9E9;margin-bottom:60px;" >
+			<table style="width:90%;">
 				<tr>
 					<td width="33%" class="text-center">
 						<img src="/images/faq/faq.png" width="120px" height="120px">
@@ -36,19 +41,19 @@
 						<table class="table">
 							<tr>
 								<td>
-									<button type="button" class="btn btn-default">거래 신고</button>
-									<button type="button" class="btn btn-default">계정 관련</button>
-									<button type="button" class="btn btn-default">결제 관련</button>
-									<button type="button" class="btn btn-default">오류 관련</button>
-									<button type="button" class="btn btn-default">신고/제안</button>
-									<button type="button" class="btn btn-default">기타</button>
+									<button type="button" class="btn btn-default" @click="store.FAQListData(1)">거래 신고</button>
+									<button type="button" class="btn btn-default" @click="store.FAQListData(2)">계정 관련</button>
+									<button type="button" class="btn btn-default" @click="store.FAQListData(3)">결제 관련</button>
+									<button type="button" class="btn btn-default" @click="store.FAQListData(4)">오류 관련</button>
+									<button type="button" class="btn btn-default" @click="store.FAQListData(5)">신고/제안</button>
+									<button type="button" class="btn btn-default" @click="store.FAQListData(6)">기타</button>
 								</td>
 							</tr>
-							<tr>
+							<tr v-for="(fvo,index) in store.faq_list" :key="index" @click="store.showFAQ(fvo.no)" style="border:none;">
 								<td style="cursor:pointer;display: flex;justify-content: center" class="text-center report">
-									<div style="width:80%;">
-									<div style="color:black;font-size:19px;font-weight: bold;border:2px solid #C5C5C5;border-radius: 8px;">자주 하는 질문 List</div>
-									<div style="color:black;font-size:17px; margin-top:10px;border:2px solid #C5C5C5;border-radius: 8px;padding:10px 10px 10px 10px;">상세 보기</div>
+									<div style="width:70%;">
+									<div style="color:black;font-size:19px;font-weight: bold;border:2px solid #C5C5C5;border-radius: 8px;">{{fvo.subject}}</div>
+									<div style="color:black;font-size:17px; margin-top:10px;border:2px solid #C5C5C5;border-radius: 8px;padding:10px 10px 10px 10px;" v-if="store.cur_FAQ===fvo.no">{{fvo.content}}</div>
 									</div>
 								</td>
 							</tr>
@@ -270,6 +275,9 @@
 				</tr>
 			</table>
 		</div>
+		<script src="/vue/api.js"></script>
+		<script src="/vue/faq/faqStore.js"></script>
+		<script src="/vue/faq/faq.js"></script>
 	</div>
 </body>
 </html>
