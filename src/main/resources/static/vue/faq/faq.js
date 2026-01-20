@@ -13,4 +13,4 @@ const faqApp = createApp({
 })
 
 faqApp.use(createPinia())
-faqApp.mount('#faq_container')
+faqApp.mount('#faq_area')

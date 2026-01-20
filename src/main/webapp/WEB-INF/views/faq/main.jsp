@@ -19,23 +19,38 @@
 
 </head>
 <body>
-	<div class="container" style="margin-top:50px;" id="faq_container">
-		<div class="row" style="margin-top:50px;padding-top:50px;display: flex;justify-content: center;border:2px solid #B9B9B9;border-radius:8px;box-shadow:2px 2px 2px 2px #E9E9E9;margin-bottom:60px;" >
-			<table style="width:90%;">
-				<tr>
-					<td width="33%" class="text-center">
+	<div class="container" style="margin-top:50px;">
+		<div class="row" style="margin-top:50px;padding-top:50px;border:2px solid #B9B9B9;border-radius:8px;box-shadow:2px 2px 2px 2px #E9E9E9;margin-bottom:60px;" >
+			<div class="col-sm-4 text-center" >
+						<a @click="store.formChange(1)">
 						<img src="/images/faq/faq.png" width="120px" height="120px">
 						<h2>자주하는 질문</h2>
-					</td>
-					<td width="34%" class="text-center">
+						</a>
+			</div>
+			<div class="col-sm-4 text-center" @click="store.formChange(2)">
+			
 						<img src="/images/faq/문의.png" width="120px" height="120px">
 						<h2>문의 하기</h2>
-					</td>
-					<td width="33%" class="text-center">
+			</div>
+			<div class="col-sm-4 text-center" @click="store.formChange(3)">
 						<img src="/images/faq/11문의.png" width="120px" height="120px">
 						<h2>내 문의 내역</h2>
-					</td>
-				</tr>
+			</div>
+			<div class="row text-center" id="faq_area">
+				<div class="row text-center">
+					<button type="button" class="btn btn-default btn-sm" @click="store.FAQListData(1)">거래 신고</button>
+					<button type="button" class="btn btn-default" @click="store.FAQListData(2)">계정 관련</button>
+					<button type="button" class="btn btn-default" @click="store.FAQListData(3)">결제 관련</button>
+					<button type="button" class="btn btn-default" @click="store.FAQListData(4)">오류 관련</button>
+					<button type="button" class="btn btn-default" @click="store.FAQListData(5)">신고/제안</button>
+					<button type="button" class="btn btn-default" @click="store.FAQListData(6)">기타</button>
+				</div>
+				<div class="row text-center" v-for="(fvo,index) in store.faq_list" :key="index">
+				<div style="color:black;font-size:19px;font-weight: bold;border:2px solid #C5C5C5;border-radius: 8px;">{{fvo.subject}}</div>
+				<div style="color:black;font-size:17px; margin-top:10px;border:2px solid #C5C5C5;border-radius: 8px;padding:10px 10px 10px 10px;" v-if="store.cur_FAQ===fvo.no">{{fvo.content}}</div>
+				</div>
+			</div>
+				<!-- </tr>
 				<tr>
 					<td colspan="3" class="text-center">
 						<table class="table">
@@ -273,7 +288,7 @@
 						</table>
 					</td>
 				</tr>
-			</table>
+			</table> -->
 		</div>
 		<script src="/vue/api.js"></script>
 		<script src="/vue/faq/faqStore.js"></script>
