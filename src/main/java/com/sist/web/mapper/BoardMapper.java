@@ -1,6 +1,8 @@
 package com.sist.web.mapper;
 
 import java.util.*;
+
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -35,4 +37,8 @@ public interface BoardMapper {
     @Insert("INSERT INTO board(id, title, mem_id, content, time, hit, region, category) "
           + "VALUES(#{id}, #{title}, #{mem_id}, #{content}, SYSDATE, 0, #{region}, #{category})")
     public void boardInsert(BoardVO vo);
+    
+    @Delete("DELETE FROM board "
+    		+"WHERE id=#{id}")
+    public void boardDelete(int no);
 }

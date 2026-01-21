@@ -47,8 +47,8 @@
                                 <select v-model="store.category" ref="catRef"
                                     style="width: 100%; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px;">
                                     <option value="" disabled selected hidden>카테고리 선택</option>
-                                    <option value="일상">일상/잡담</option>
-                                    <option value="맛집">맛집추천</option>
+                                    <option value="일상/잡담">일상/잡담</option>
+                                    <option value="맛집추천">맛집추천</option>
                                     <option value="동네소식">동네소식</option>
                                     <option value="모임/동호회">모임/동호회</option>
                                 </select>

@@ -25,4 +25,10 @@ public class BoardController {
 		model.addAttribute("main_jsp","../board/insert.jsp");
 		return "main/main";
 	}
+	
+	@GetMapping("/board/delete")
+	public String board_delete(Model model) {
+		model.addAttribute("main_jsp","../board/delete.jsp");
+		return "main/main";
+	}
 }

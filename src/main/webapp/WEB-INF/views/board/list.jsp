@@ -74,7 +74,7 @@
 									<option value="전체">전체 카테고리</option>
 									<option value="일상">일상</option>
 									<option value="질문">질문</option>
-									<option value="맛집">맛집추천</option>
+									<option value="맛집추천">맛집추천</option>
 									<option value="동네소식">동네소식</option>
 									<option value="모임/동호회">모임/동호회</option>
 								</select> <a href="/board/insert"

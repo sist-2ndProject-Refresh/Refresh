@@ -19,12 +19,11 @@
 </style>
 </head>
 <body>
-    <section class="breadcrumb-section py-5" id="board_detail" style="background: transparent;">
+    <section class="breadcrumb-section py-5" id="board_detail" style="background: transparent;" v-if="store.vo">
         <div class="container" style="max-width: 1500px;">
             <div class="row">
                 <div class="col-lg-12 text-left px-0">
                     <div class="breadcrumb__text">
-
                         <h1 style="font-size: 3.5rem; font-weight: 800; color: #111; letter-spacing: -0.03em; margin-bottom: 15px;">
                             {{store.vo.title}}
                         </h1>
@@ -88,8 +87,11 @@
                 <div class="d-flex justify-content-end mt-5 pt-4 border-top gap-3">
                     <a href="#" class="btn btn-outline-dark px-5 py-3 shadow-sm"
                         style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 120px;">수정</a>
-                    <a href="#" class="btn btn-outline-danger px-5 py-3 shadow-sm"
+                    
+                    <a href="#" @click.prevent="deleteStore.deleteBoardData(store.vo.id)" 
+                        class="btn btn-outline-danger px-5 py-3 shadow-sm"
                         style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 120px;">삭제</a>
+                        
                     <a href="/board/list" class="btn btn-dark px-5 py-3 shadow-sm"
                         style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 120px;">목록으로</a>
                 </div>
@@ -103,6 +105,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
     
     <script src="/boardjs/boardListStore.js"></script>
+    <script src="/boardjs/boardDeleteStore.js"></script>
 
     <script>
     (function() {
@@ -112,6 +115,8 @@
         const app = createApp({
             setup() {
                 const store = useBoardListStore();
+                const deleteStore = useBoardDeleteStore();
+                
                 const params = new URLSearchParams(location.search);
                 const no = params.get('no');
                 
@@ -121,7 +126,10 @@
                     }
                 });
                 
-                return { store };
+                return { 
+                    store,
+                    deleteStore 
+                };
             }
         });
 

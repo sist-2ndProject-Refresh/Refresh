@@ -4,7 +4,9 @@ import java.util.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,18 +25,18 @@ public class BoardRestController {
 
 	@GetMapping("/board/list_vue")
 	public ResponseEntity<Map> board_list_vue(@RequestParam("page") int page) {
-	    Map map = new HashMap();
-	    try {
-	        List<BoardVO> list = bService.BoardListData((page - 1) * 10);
-	              
-	        int totalpage = bService.BoardTotalPage();
-	        map.put("list", list);
-	        map.put("curpage", page);
-	        map.put("totalpage", totalpage);
-	    } catch (Exception ex) {
-	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
-	    return new ResponseEntity<>(map, HttpStatus.OK);
+		Map map = new HashMap();
+		try {
+			List<BoardVO> list = bService.BoardListData((page - 1) * 10);
+
+			int totalpage = bService.BoardTotalPage();
+			map.put("list", list);
+			map.put("curpage", page);
+			map.put("totalpage", totalpage);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 
 	@GetMapping("/board/detail_vue")
@@ -47,20 +49,30 @@ public class BoardRestController {
 		}
 		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/board/insert_vue")
-	public ResponseEntity<Map> board_insert_vue(@RequestBody BoardVO vo)
-	{
+	public ResponseEntity<Map> board_insert_vue(@RequestBody BoardVO vo) {
 		System.out.println(vo);
-		Map map=new HashMap();
-		try
-		{
+		Map map = new HashMap();
+		try {
 			bService.boardInsert(vo);
 			map.put("msg", "yes");
 			return new ResponseEntity<>(map, HttpStatus.OK);
-		}catch(Exception ex)
-		{
-			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@DeleteMapping("/board/delete_vue/{no}") 
+	public ResponseEntity<Map> board_delete_vue(@PathVariable("no") int no) {
+	    Map map = new HashMap();
+	    try {
+	        bService.boardDelete(no);
+	        map.put("msg", "yes");
+	        return new ResponseEntity<>(map, HttpStatus.OK);
+	    } catch (Exception ex) {
+	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+
 }
