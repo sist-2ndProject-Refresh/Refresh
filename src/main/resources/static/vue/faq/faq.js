@@ -4,7 +4,10 @@ const {createApp,onMounted,ref} = Vue
 const faqApp = createApp({
 	setup(){
 	const store = useFAQStore()
-	
+	onMounted(()=>{
+		store.FAQListData(1)
+		store.reporter = USERNO
+	})
 	return {
 		store
 	}
