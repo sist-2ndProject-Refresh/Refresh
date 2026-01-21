@@ -1,4 +1,3 @@
-// boardListStore.js
 const useBoardListStore = () => {
 	const { defineStore } = Pinia;
 
@@ -9,12 +8,11 @@ const useBoardListStore = () => {
 			totalpage: 0,
 			pageSize: 20,
 			vo: {},
-			// ⭐ 1. 필터링을 위한 기준 변수 추가
-			selectedRegion: '전체',   // 상단 버튼 지역값
-			selectedCategory: '전체'  // 셀렉트 박스 카테고리값
+
+			selectedRegion: '전체',   
+			selectedCategory: '전체'  
 		}),
 
-		// ⭐ 2. Getters 추가: 원본 list는 보존하고, 화면용 필터 리스트를 따로 계산함
 		getters: {
 		    filteredList(state) {
 		        return state.list.filter(vo => {

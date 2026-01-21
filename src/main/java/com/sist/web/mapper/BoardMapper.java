@@ -25,7 +25,7 @@ public interface BoardMapper {
     @Update("UPDATE board SET hit = hit + 1 WHERE id = #{no}")
     public void boardHitIncrement(int no);
     
-    @Select("SELECT id, title, content, time, hit, mem_id, region, category " // 여기에 추가!
+    @Select("SELECT id, title, content, time, hit, mem_id, region, category "
           + "FROM board WHERE id = #{no}")
     public BoardVO boardDetailData(int no);
     

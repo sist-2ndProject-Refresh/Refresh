@@ -89,25 +89,22 @@
 		</section>
 
 		<style>
-    /* 테이블 전체 글씨 크기 상향 */
     .table {
-        font-size: 1.15rem; /* 기본보다 약 15% 키움 */
+        font-size: 1.15rem;
     }
     .table thead th {
         font-size: 1.2rem;
         background-color: #f8f9fa;
-        padding: 18px 10px !important; /* 헤더 여백 확보 */
+        padding: 18px 10px !important;
     }
     .table tbody td {
-        padding: 20px 10px !important; /* 줄 간격 넓혀서 눈 편하게 */
+        padding: 20px 10px !important;
         vertical-align: middle;
     }
-    /* 뱃지 글씨 크기 */
     .badge {
         font-size: 0.95rem !important;
         padding: 8px 15px !important;
     }
-    /* 제목 강조 */
     .board-title {
         font-size: 1.25rem;
         letter-spacing: -0.02em;

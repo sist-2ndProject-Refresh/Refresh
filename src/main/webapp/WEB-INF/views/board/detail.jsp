@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <title>지역 커뮤니티 상세</title>
 <style>
-    /* 뱃지 및 디자인 커스텀 스타일 */
     .detail-badge {
         font-size: 1.1rem !important;
         padding: 8px 18px !important;
@@ -15,7 +14,7 @@
         vertical-align: middle;
     }
     .info-item {
-        flex-shrink: 0; /* 항목이 좁아지지 않게 고정 */
+        flex-shrink: 0;
     }
 </style>
 </head>

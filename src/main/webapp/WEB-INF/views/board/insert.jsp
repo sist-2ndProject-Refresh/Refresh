@@ -93,20 +93,18 @@
         const app = createApp({
             setup() {
                 const store = useBoardInsertStore();
-                
-                // ⭐ 중요: store.boardInsert에 전달할 모든 ref를 선언해줘야 해!
                 const memRef = ref(null); 
                 const titRef = ref(null);
-                const regRef = ref(null); // 추가
-                const catRef = ref(null); // 추가
+                const regRef = ref(null); 
+                const catRef = ref(null); 
                 const contRef = ref(null);
                 
                 return {
                     store,
                     memRef,
                     titRef,
-                    regRef,   // 리턴에 포함
-                    catRef,   // 리턴에 포함
+                    regRef,  
+                    catRef,  
                     contRef,
                 }
             }

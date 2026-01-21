@@ -26,10 +26,7 @@ public class BoardRestController {
 	    Map map = new HashMap();
 	    try {
 	        List<BoardVO> list = bService.BoardListData((page - 1) * 10);
-	        
-	        // 만약 DB에 region 컬럼이 없다면 여기서 강제로 세팅하겠지만, 
-	        // insert 할 때 region을 넣기로 했으니 DB에서 가져온 값이 vo에 들어있을 거야!
-	        
+	              
 	        int totalpage = bService.BoardTotalPage();
 	        map.put("list", list);
 	        map.put("curpage", page);
