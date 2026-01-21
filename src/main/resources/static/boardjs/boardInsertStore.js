@@ -1,55 +1,62 @@
 const { defineStore } = Pinia
 
 const useBoardInsertStore = defineStore('board_insert', {
-						/*	 Pinia에서 애플리케이션의 상태를 중앙에서 관리하기 위한 함수
-							 첫번째 인자인 'board_insert는 고유한 이름이 됨*/
-	state: () => ({
-		mem_id: '',
-		title: '',
-		content: '',
-		// 컴포넌트에 전체에 공유할 데이터 그자체 작성자의 id, 제목, 내용이 상태로
-		// 정의 되어있음
-	}),
-	actions: {
-		async boardInsert({ memRef, titRef, contRef }) {
-		// async : 함수가 비동기적으로 작동함을 선언
-		// ref : 참조의 약자
-			if (this.mem_id === '') {
-				// this.### === '' : 현재 값이 비어있는 상태인가?를 묻는 조건
-				memRef.value.focus()
-				// .value: vue의 ref 객체 내부의 실제 HTML 요소에 접근하기 위한 속성
-				// .focus() : 해당 입력창으로 커서를 강제로 이동시키는 함수
-				return
-			}
-			if (this.title === '') {
-				titRef.value.focus()
-				return
-			}
-			if (this.content === '') {
-				contRef.value.focus()
-				return
-			}
+    state: () => ({
+        mem_id: '',
+        title: '',
+        content: '',
+        region: '',   // insert.jsp의 <select v-model="store.region">과 연결
+        category: ''  // insert.jsp의 <select v-model="store.category">와 연결
+    }),
+    actions: {
+        // JSP에서 보낸 5개의 ref 객체들을 받아서 유효성 검사 진행
+        async boardInsert({ regRef, catRef, memRef, titRef, contRef }) {
+            
+            // 1. 유효성 검사 (비어있는 값이 있으면 해당 위치로 포커스)
+            if (this.mem_id === '') {
+                memRef.value.focus();
+                return;
+            }
+            if (this.title === '') {
+                titRef.value.focus();
+                return;
+            }
+            if (this.region === '') {
+                alert("지역을 선택해 주세요.");
+                regRef.value.focus();
+                return;
+            }
+            if (this.category === '') {
+                alert("카테고리를 선택해 주세요.");
+                catRef.value.focus();
+                return;
+            }
+            if (this.content === '') {
+                contRef.value.focus();
+                return;
+            }
 
-			try {
+            try {
+                // 2. 서버 전송 (이제 region과 category에는 '서울', '일상' 같은 한글이 담겨 있음)
+                const res = await axios.post('http://localhost:8080/board/insert_vue', {
+                    mem_id: this.mem_id,
+                    title: this.title,
+                    content: this.content,
+                    region: this.region,     
+                    category: this.category  
+                });
 
-				const res = await axios.post('http://localhost:8080/board/insert_vue', {
-							// await : 비동기 작업이 완료될 때까지 다음줄로 넘어가지 않고 기다리게 함
-					mem_id: this.mem_id,
-					title: this.title,
-					content: this.content
-				})
-
-				// 3. 응답 처리
-				// 서버에서 ResponseEntity(HttpStatus.OK)를 보냈으므로 상태 코드로도 확인 가능합니다.
-				if (res.status === 200 || res.data.msg === 'yes') {
-					location.href = "/board/list"
-				} else {
-					alert('글쓰기 입력에 실패했습니다')
-				}
-			} catch (error) {
-				console.error("통신 에러 발생:", error)
-				alert('서버와 연결할 수 없습니다.')
-			}
-		}
-	}
-})
+                // 3. 결과 처리
+                if (res.status === 200 || res.data.msg === 'yes') {
+                    alert("게시글이 성공적으로 등록되었습니다!");
+                    location.href = "/board/list"; // 목록 페이지로 이동
+                } else {
+                    alert('글쓰기 입력에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error("통신 에러 발생:", error);
+                alert('서버와 연결할 수 없습니다.');
+            }
+        }
+    }
+});

@@ -13,11 +13,10 @@ import com.sist.web.vo.BoardVO;
 @Repository
 public interface BoardMapper {
 
-
-    @Select("SELECT id, title, content, time, hit, mem_id "
-          + "FROM (SELECT id, title, content, time, hit, mem_id, rownum as num "
-          + "FROM (SELECT id, title, content, time, hit, mem_id FROM board ORDER BY id DESC)) "
-          + "WHERE num BETWEEN #{start} + 1 AND #{start} + 12")
+    @Select("SELECT id, title, mem_id, time, hit, region, category " + 
+            "FROM (SELECT id, title, mem_id, time, hit, region, category, rownum as num " + 
+            "FROM (SELECT id, title, mem_id, time, hit, region, category FROM board ORDER BY id DESC)) " + 
+            "WHERE num BETWEEN #{start} + 1 AND #{start} + 12")
     public List<BoardVO> BoardListData(int start);
     
     @Select("SELECT CEIL(COUNT(*) / 12.0) FROM board")
@@ -26,13 +25,14 @@ public interface BoardMapper {
     @Update("UPDATE board SET hit = hit + 1 WHERE id = #{no}")
     public void boardHitIncrement(int no);
     
-    @Select("SELECT id, title, content, time, hit, mem_id "
+    @Select("SELECT id, title, content, time, hit, mem_id, region, category " // 여기에 추가!
           + "FROM board WHERE id = #{no}")
     public BoardVO boardDetailData(int no);
     
     @SelectKey(keyProperty = "id", resultType = int.class, before = true,
-    		   statement = "SELECT NVL(MAX(id)+1, 1) as id FROM board")
-    @Insert("INSERT INTO board(id, title, mem_id, content, time, hit) "
-    		+"VALUES(#{id}, #{title}, #{mem_id}, #{content}, SYSDATE, 0)")
+               statement = "SELECT NVL(MAX(id)+1, 1) as id FROM board")
+
+    @Insert("INSERT INTO board(id, title, mem_id, content, time, hit, region, category) "
+          + "VALUES(#{id}, #{title}, #{mem_id}, #{content}, SYSDATE, 0, #{region}, #{category})")
     public void boardInsert(BoardVO vo);
 }

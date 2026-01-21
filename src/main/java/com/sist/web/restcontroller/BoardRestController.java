@@ -23,17 +23,21 @@ public class BoardRestController {
 
 	@GetMapping("/board/list_vue")
 	public ResponseEntity<Map> board_list_vue(@RequestParam("page") int page) {
-		Map map = new HashMap();
-		try {
-			List<BoardVO> list = bService.BoardListData((page - 1) * 10);
-			int totalpage = bService.BoardTotalPage();
-			map.put("list", list);
-			map.put("curpage", page);
-			map.put("totalpage", totalpage);
-		} catch (Exception ex) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		return new ResponseEntity<>(map, HttpStatus.OK);
+	    Map map = new HashMap();
+	    try {
+	        List<BoardVO> list = bService.BoardListData((page - 1) * 10);
+	        
+	        // 만약 DB에 region 컬럼이 없다면 여기서 강제로 세팅하겠지만, 
+	        // insert 할 때 region을 넣기로 했으니 DB에서 가져온 값이 vo에 들어있을 거야!
+	        
+	        int totalpage = bService.BoardTotalPage();
+	        map.put("list", list);
+	        map.put("curpage", page);
+	        map.put("totalpage", totalpage);
+	    } catch (Exception ex) {
+	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	    return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 
 	@GetMapping("/board/detail_vue")

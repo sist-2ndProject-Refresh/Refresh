@@ -18,4 +18,6 @@ MEM_ID            VARCHAR2(300)
 	private int id,hit;
 	private String title,category,mem_id,content;
 	private Date time;
+	
+	private String region;
 }
