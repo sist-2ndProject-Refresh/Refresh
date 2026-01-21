@@ -75,9 +75,9 @@ a:hover {
                 </tr>
                 <tr>
                 	<td colspan="2" class="text-right fs-4">
-                		<a href="javascript:void(0)" onclick="openDeleteWindow('${vo.no}')" style="opacity: 0.7">삭제하기</a>	
+                		<a href="javascript:void(0)" onclick="openDeleteWindow('${vo.no}, 1')" style="opacity: 0.7">삭제하기</a>	
                 		<a href="/product/update?no=${vo.no }" style="opacity: 0.7; margin-left: 10px;">수정하기</a>
-                		<a href="javascript:void(0)" onclick="openBlockInsertWindow('${vo.user_no}')" style="opacity: 0.7; margin-left: 10px;">차단하기</a>
+                		<a href="javascript:void(0)" onclick="openBlockInsertWindow('${vo.user_no}', '1')" style="opacity: 0.7; margin-left: 10px;">차단하기</a>
                 		<a href="#" style="opacity: 0.7; margin-left: 10px;">신고하기</a>
                 	</td>
                 </tr>
@@ -143,9 +143,9 @@ a:hover {
 		var options = "width=450, height=300, top=200, left=500, resizable=no, scrollbars=no"
 		window.open(url, windowName, options)
 	}
-	function openBlockInsertWindow(other_no)
+	function openBlockInsertWindow(other_no, type)
 	{
-		var url = '../blocklist/insert?user_no=' + other_no
+		var url = '../blocklist/insert?user_no=' + other_no + "&type=" + type
 		var windowName = "BlockInsert"
 		var options = "width=450, height=300, top=200, left=500, resizable=no, scrollbars=no"
 		window.open(url, windowName, options)

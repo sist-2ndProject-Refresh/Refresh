@@ -27,7 +27,7 @@
 		<h3 class="text-center" style="margin-top: 60px">차단하기</h3>
 		<p class=" text-center" style="margin-top: 40px; color: red">정말 차단하시겠습니까?</p>
 		<div class="d-flex justify-content-center align-items-center gap-5" style="margin-top: 50px;">
-			<a type="button" class="btn btn-sm btn-dark" @click="store.blocking(other_no)">차단</a>
+			<a type="button" class="btn btn-sm btn-dark" @click="store.blocking(other_no, type)">차단</a>
 			<input type="button" class="btn btn-sm btn-dark" value="취소" @click="windowClose">
 		</div>
 	</div>
@@ -38,8 +38,9 @@
 	const {createApp, onMounted} = Vue
 	const {createPinia} = Pinia
 	
-	const urlParams = new URLSearchParams(window.location.search);
-    const other_no = urlParams.get('user_no');
+	const urlParams = new URLSearchParams(window.location.search)
+    const other_no = urlParams.get('user_no')
+    const type = urlParams.get('type')
 	const blockingeApp = createApp({
 		setup(){
 			store = useBlockListStore()
@@ -49,6 +50,7 @@
 			return {
 				store,
 				other_no,
+				type,
 				windowClose
 			}
 		}
