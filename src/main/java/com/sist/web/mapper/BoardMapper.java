@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 import com.sist.web.vo.BoardVO;
+import com.sist.web.vo.NoticeVO;
 
 @Mapper
 @Repository
@@ -37,6 +38,11 @@ public interface BoardMapper {
     @Insert("INSERT INTO board(id, title, mem_id, content, time, hit, region, category) "
           + "VALUES(#{id}, #{title}, #{mem_id}, #{content}, SYSDATE, 0, #{region}, #{category})")
     public void boardInsert(BoardVO vo);
+    
+	@Update("UPDATE board SET "
+			+"title=#{title},content=#{content},mem_id=#{mem_id}" 
+			+"WHERE id=#{id}")
+	public void boardUpdate(BoardVO vo);
     
     @Delete("DELETE FROM board "
     		+"WHERE id=#{id}")

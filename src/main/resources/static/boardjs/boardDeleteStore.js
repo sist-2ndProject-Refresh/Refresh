@@ -1,4 +1,3 @@
-// Pinia 스토어 정의
 const useBoardDeleteStore = Pinia.defineStore("boardDeleteStore", {
   state: () => ({
     deleteResult: "",
@@ -12,14 +11,13 @@ const useBoardDeleteStore = Pinia.defineStore("boardDeleteStore", {
 
       this.isDeleting = true;
       try {
-        // Spring Boot의 @DeleteMapping("/board/delete_vue/{no}") 호출
         const response = await axios.delete('http://localhost:8080/board/delete_vue/' + no);
         
         this.deleteResult = response.data.msg;
 
         if (this.deleteResult === "yes") {
           alert("게시글이 성공적으로 삭제되었습니다.");
-          location.href = "/board/list"; // 목록으로 이동
+          location.href = "/board/list";
         } else {
           alert("삭제에 실패했습니다.");
         }

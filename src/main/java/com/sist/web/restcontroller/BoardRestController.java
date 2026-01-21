@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,6 +62,19 @@ public class BoardRestController {
 		} catch (Exception ex) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@PutMapping("/board/update_ok_vue")
+	public ResponseEntity<Map> board_update_ok_vue(@RequestBody BoardVO vo) {
+	    Map map = new HashMap();
+	    try {
+	        bService.boardUpdate(vo);
+	        map.put("msg", "yes");
+	        return new ResponseEntity<>(map, HttpStatus.OK);
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
 
 	@DeleteMapping("/board/delete_vue/{no}") 

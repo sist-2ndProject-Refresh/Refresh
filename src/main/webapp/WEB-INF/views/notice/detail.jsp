@@ -71,13 +71,14 @@
 				</div>
 
 				<div class="d-flex justify-content-end mt-5 pt-4 border-top gap-3">
-					<a href="/notice/update"
+					<a :href="'/notice/update?no=' + store.vo.not_id"
 						class="btn btn-outline-dark px-5 py-3 shadow-sm"
 						style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 120px;">
-						수정 </a> <a href="#" @click.prevent="deleteStore.deleteNoticeData(store.vo.not_id)" 
-   class="btn btn-outline-danger px-5 py-3 shadow-sm"
-   style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 120px;">삭제</a> <a
-						href="/notice/list" class="btn btn-dark px-5 py-3 shadow-sm"
+						수정 </a> <a href="#"
+						@click.prevent="deleteStore.deleteNoticeData(store.vo.not_id)"
+						class="btn btn-outline-danger px-5 py-3 shadow-sm"
+						style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 120px;">
+						삭제 </a> <a href="/notice/list" class="btn btn-dark px-5 py-3 shadow-sm"
 						style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 120px;">
 						목록 </a>
 				</div>

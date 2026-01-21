@@ -108,10 +108,23 @@ public class NoticeRestController {
 
 	@DeleteMapping("/notice/delete_vue/{not_id}")
 	public ResponseEntity<Map> notice_delete(@PathVariable("not_id") int not_id) {
+		Map map = new HashMap();
+		try {
+			nService.noticeDelete(not_id);
+
+			map.put("msg", "yes");
+			return new ResponseEntity<>(map, HttpStatus.OK);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PutMapping("/notice/update_ok_vue")
+	public ResponseEntity<Map> notice_update_ok_vue(@RequestBody NoticeVO vo) {
 	    Map map = new HashMap();
 	    try {
-	        nService.noticeDelete(not_id); 
-	        
+	        nService.noticeUpdate(vo); // 서비스의 수정 로직 호출
 	        map.put("msg", "yes");
 	        return new ResponseEntity<>(map, HttpStatus.OK);
 	    } catch (Exception ex) {
@@ -119,20 +132,4 @@ public class NoticeRestController {
 	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	}
-
-	@PutMapping("/notice/update_ok_vue/")
-	public ResponseEntity<Map> notice_update_ok_vue(@RequestBody NoticeVO vo) {
-		Map map = new HashMap();
-		try {
-			nService.noticeUpdate(vo);
-
-			map.put("msg", "yes");
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		return new ResponseEntity<>(map, HttpStatus.OK);
-	}
-
 }
