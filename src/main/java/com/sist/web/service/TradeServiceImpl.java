@@ -12,8 +12,8 @@ public class TradeServiceImpl implements TradeService{
 	private final TradeMapper mapper;
 	
 	@Override
-	public List<TradeVO> productListData(int start) {
-		return mapper.productListData(start);
+	public List<TradeVO> productListData(int start, int user_no) {
+		return mapper.productListData(start, user_no);
 	}
 	
 	@Override

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상품 삭제</title>
+<title>유저 차단</title>
 <link rel="stylesheet" href="/css/vendor.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/style.css">
@@ -23,39 +23,37 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-	<div id="trade_delete">
-		<h3 class="text-center" style="margin-top: 60px">삭제하기</h3>
-		<p class=" text-center" style="margin-top: 20px">정말 삭제하시겠습니까?</p>
-		<p class=" text-center" style="color: red">삭제된 내용은 다시 불러올 수 없습니다.</p>
+	<div id="block_insert">
+		<h3 class="text-center" style="margin-top: 60px">차단하기</h3>
+		<p class=" text-center" style="margin-top: 40px; color: red">정말 차단하시겠습니까?</p>
 		<div class="d-flex justify-content-center align-items-center gap-5" style="margin-top: 50px;">
-			<a type="button" class="btn btn-sm btn-dark" @click="store.tradeDelete(no)">삭제</a>
+			<a type="button" class="btn btn-sm btn-dark" @click="store.blocking(other_no)">차단</a>
 			<input type="button" class="btn btn-sm btn-dark" value="취소" @click="windowClose">
 		</div>
 	</div>
 </body>
 <script src="/vue/axios.js"></script>
-<script src="/vue/trade/tradeDeleteStore.js"></script>
+<script src="/vue/blocklist/blocklistStore.js"></script>
 <script>
 	const {createApp, onMounted} = Vue
 	const {createPinia} = Pinia
 	
 	const urlParams = new URLSearchParams(window.location.search);
-    const no = urlParams.get('no');
-	
-	const tradeDeleteApp = createApp({
+    const other_no = urlParams.get('user_no');
+	const blockingeApp = createApp({
 		setup(){
-			store = useDeleteStore()
+			store = useBlockListStore()
 			const windowClose = () =>{
 				window.close();
 			}
 			return {
 				store,
-				no,
+				other_no,
 				windowClose
 			}
 		}
 	})
-	tradeDeleteApp.use(createPinia())
-	tradeDeleteApp.mount('#trade_delete')
+	blockingeApp.use(createPinia())
+	blockingeApp.mount('#block_insert')
 </script>
 </html>

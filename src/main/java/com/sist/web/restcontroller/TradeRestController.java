@@ -35,13 +35,19 @@ public class TradeRestController {
 
 	
 	@GetMapping("/product/list_vue/")
-	public ResponseEntity<Map> product_list_vue(@RequestParam(name = "page") int page)
+	public ResponseEntity<Map> product_list_vue(@RequestParam(name = "page") int page, HttpSession session)
 	{
 		Map map = new HashMap();
+		Object userNoObj = session.getAttribute("no");
+		int user_no = 0;
 		
+		if(userNoObj != null)
+			user_no = Integer.parseInt(userNoObj.toString());
+		
+		System.out.println(user_no);
 		try {
 			int start = (page - 1) * 20;
-			List<TradeVO> list = tService.productListData(start);
+			List<TradeVO> list = tService.productListData(start, user_no);
 			int totalPage = tService.productTotalPage();
 			
 			final int BLOCK = 10;
@@ -277,7 +283,6 @@ public class TradeRestController {
 	@DeleteMapping("/product/delete_vue/")
 	public ResponseEntity<Void> product_delete_ok(@RequestParam("no") int no)
 	{
-		System.out.println(no);
 		try {
 			tService.productDeleteData(no);
 		} catch (Exception e) {

@@ -3,6 +3,7 @@ package com.sist.web.mapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
@@ -18,16 +19,17 @@ public interface TradeMapper {
 	// 상품 리스트 출력
 	@Select("SELECT no, name, price, salestatus, imageurl, imagecount, category, address, trades, TO_CHAR(describedat, 'yyyy-mm-dd' )as dbday "
 			+ "FROM trade_goods "
+			+ "WHERE user_no NOT IN (SELECT blocked_user FROM block_list WHERE blocking_user = #{user_no})"
 			+ "ORDER BY describedat DESC "
 			+ "OFFSET #{start} ROWS FETCH NEXT 20 ROWS ONLY")
-	public List<TradeVO> productListData(int start);
+	public List<TradeVO> productListData(@Param("start") int start, @Param("user_no") int user_no);
 	
 	// 판매 리스트 총 페이지 출력
 	@Select("SELECT CEIL(COUNT(*) / 20.0) FROM trade_goods")
 	public int productTotalPage();
 	
 	// 상품 디테일 출력
-	@Select("SELECT no, name, price, salestatus, condition, description, imageurl, imagecount, qty, category, address, trades, TO_CHAR(describedat, 'yyyy-mm-dd' )as dbday "
+	@Select("SELECT no, name, price, salestatus, condition, description, imageurl, imagecount, qty, category, address, trades, TO_CHAR(describedat, 'yyyy-mm-dd' )as dbday, user_no "
 			+ "FROM trade_goods "
 			+ "WHERE no=#{no}")
 	public TradeVO productDetailData(int no);

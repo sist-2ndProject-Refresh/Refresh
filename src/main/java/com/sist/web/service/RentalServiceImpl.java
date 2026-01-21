@@ -15,8 +15,8 @@ public class RentalServiceImpl implements RentalService{
 	private final RentalMapper mapper;
 
 	@Override
-	public List<RentalVO> rentalListData(int start) {
-		return mapper.rentalListData(start);
+	public List<RentalVO> rentalListData(int start, int user_no) {
+		return mapper.rentalListData(start, user_no);
 	}
 
 	@Override

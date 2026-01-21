@@ -5,7 +5,7 @@ import java.util.List;
 import com.sist.web.vo.RentalVO;
 
 public interface RentalService {
-	public List<RentalVO> rentalListData(int start);
+	public List<RentalVO> rentalListData(int start, int user_no);
 	public int rentalTotalPage();
 	public RentalVO rentalDetailData(int no);
 	public void rentalInsertData(RentalVO vo);

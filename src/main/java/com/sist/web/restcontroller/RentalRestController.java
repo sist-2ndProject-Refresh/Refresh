@@ -37,13 +37,18 @@ public class RentalRestController {
 	private String uploadDir;
 	
 	@GetMapping("/rental/list_vue/")
-	public ResponseEntity<Map> rental_list_vue(@RequestParam(name = "page") int page)
+	public ResponseEntity<Map> rental_list_vue(@RequestParam(name = "page") int page, HttpSession session)
 	{
 		Map map = new HashMap();
+		Object userNoObj = session.getAttribute("no");
+		int user_no = 0;
+		
+		if(userNoObj != null)
+			user_no = Integer.parseInt(userNoObj.toString());
 		
 		try {
 			int start = (page - 1) * 20;
-			List<RentalVO> list = rService.rentalListData(start);
+			List<RentalVO> list = rService.rentalListData(start, user_no);
 			int totalPage = rService.rentalTotalPage();
 			
 			final int BLOCK = 10;
