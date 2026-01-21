@@ -113,7 +113,7 @@
  				 			:(콜론): 데이터 바인딩을 의미함
  				 			   key: Vue가 각 줄을 식별하기 위한 고유 신분증 글 번호(not_id)를 주로 사용함 -->
                             <td class="text-center">{{vo.id}}</td>
-                            <td class="text-left"><a :href="'http://localhost:8080/board/detail?no=' + vo.not_id">
+                            <td class="text-left"><a :href="'http://localhost:8080/board/detail?no=' + vo.id">
                                     {{vo.title}} </a></td>
                             <td class="text-center">{{vo.mem_id}}</td>
                             <td class="text-center">{{vo.date}}</td>

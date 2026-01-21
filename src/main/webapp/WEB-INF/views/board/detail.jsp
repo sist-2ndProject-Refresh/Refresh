@@ -19,8 +19,8 @@
 						<div class="breadcrumb__option"
 							style="font-size: 1.2rem; color: #888;">
 							<span><a href="/board/list"
-								class="text-decoration-none text-muted">동네 생활 게시판</a> &nbsp; > &nbsp;
-								{{store.vo.title}}</span>
+								class="text-decoration-none text-muted">지역 커뮤니티</a> &nbsp; >
+								&nbsp; {{store.vo.title}}</span>
 						</div>
 					</div>
 				</div>
@@ -49,7 +49,8 @@
 								<small class="text-uppercase fw-bold d-block"
 									style="letter-spacing: 1px; font-size: 1.0rem; margin-bottom: -4px;">작성일</small>
 								<span class="fw-medium text-dark"
-									style="font-size: 2.0rem; line-height: 1.1;">{{store.vo.date}}</span>
+									style="font-size: 2.0rem; line-height: 1.1;"> {{
+									store.vo.time ? store.vo.time.split('T')[0] : '' }} </span>
 							</div>
 						</div>
 
@@ -71,12 +72,9 @@
 				<div class="d-flex justify-content-end mt-1 pt-4 border-top">
 					<a href="#" class="btn btn-dark px-5 py-3 shadow-sm"
 						style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 70px;">
-						수정 </a> 
-					<a href="#" class="btn btn-dark px-5 py-3 shadow-sm"
+						수정 </a> <a href="#" class="btn btn-dark px-5 py-3 shadow-sm"
 						style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 70px;">
-						삭제 </a> 
-					<a href="/board/list"
-						class="btn btn-dark px-5 py-3 shadow-sm"
+						삭제 </a> <a href="/board/list" class="btn btn-dark px-5 py-3 shadow-sm"
 						style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 70px;">
 						목록 </a>
 
