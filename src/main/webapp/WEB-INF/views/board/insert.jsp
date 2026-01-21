@@ -7,52 +7,75 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<section class="breadcrumb-section set-bg"
-		data-setbg="../images/breadcrumb.jpg">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-left">
-					<div class="breadcrumb__text">
-						<h1
-							style="font-size: 3.5rem; font-weight: 800; color: #111; letter-spacing: -0.03em; margin-bottom: 15px;">
-							지역 커뮤니티</h1>
-						<div class="breadcrumb__option"
-							style="font-size: 1.2rem; color: #888;">
-							<span><a href="/board/list"
-								class="text-decoration-none text-muted">지역 커뮤니티</a> &nbsp; > &nbsp;
-								글 작성</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 	<section class="product-details spad" id="board_insert">
 		<div class="container">
 			<div class="row">
-				<table class="table">
+				<table class="table" style="border-top: 2px solid #333;">
 					<tbody>
+
 						<tr>
-							<td width=10% class="text-center">이름</td>
-							<td width=90% class="text-left"><input type=text
-								ref="memRef" v-model="store.mem_id" size="20"></td>
+							<td class="text-center"
+								style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">이름</td>
+							<td colspan="3" class="text-left"><input type="text"
+								ref="memRef" v-model="store.mem_id"
+								style="width: 250px; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px;"
+								placeholder="작성자 이름을 입력하세요"></td>
 						</tr>
+
 						<tr>
-							<td width=10% class="text-center">제목</td>
-							<td width=90% class="text-left"><input type=text
-								ref="titRef" v-model="store.title" size="60"></td>
+							<td class="text-center"
+								style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">제목</td>
+							<td colspan="3" class="text-left"><input type="text"
+								ref="titRef" v-model="store.title"
+								style="width: 100%; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px;"
+								placeholder="제목을 입력해 주세요"></td>
 						</tr>
+
 						<tr>
-							<td width=10% class="text-center">내용</td>
-							<td width=90% class="text-left"><textarea rows="10"
-									cols="60" ref="contRef" v-model="store.content"
-									style="resize: none;"></textarea></td>
+							<td width="15%" class="text-center"
+								style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">지역
+								설정</td>
+							<td width="35%" class="text-left"><select
+								v-model="store.region" ref="regRef"
+								style="width: 100%; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px;">
+									<option value="" >지역을 선택하세요</option>
+									<option value="seoul">서울</option>
+									<option value="gyeonggi">경기/인천</option>
+									<option value="busan">부산/경상</option>
+									<option value="daejeon">대전/충청</option>
+									<option value="other">기타 지역</option>
+							</select></td>
+							<td width="15%" class="text-center"
+								style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">카테고리</td>
+							<td width="35%" class="text-left"><select
+								v-model="store.category" ref="catRef"
+								style="width: 100%; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px;">
+									<option value="" disabled selected hidden>카테고리 선택</option>
+									<option value="chat">일상/잡담</option>
+									<option value="market">맛집추천</option>
+									<option value="news">동네소식</option>
+									<option value="team">모임/동호회</option>
+							</select></td>
 						</tr>
+
 						<tr>
-							<td colspan="2" class="text-center">
+							<td class="text-center"
+								style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">내용</td>
+							<td colspan="3" class="text-left"><textarea rows="12"
+									ref="contRef" v-model="store.content"
+									style="width: 100%; border: 1px solid #ddd; border-radius: 4px; padding: 15px; resize: none;"
+									placeholder="내용을 입력해 주세요"></textarea></td>
+						</tr>
+
+						<tr>
+							<td colspan="4" class="text-center"
+								style="padding-top: 30px; border-top: none;">
 								<button class="btn-sm btn-success"
-									@click="store.boardInsert({memRef,titRef,contRef})">글쓰기</button>
+									style="padding: 10px 30px; font-size: 1rem; font-weight: 600; margin-right: 10px; border-radius: 5px;"
+									@click="store.boardInsert({regRef, catRef, memRef, titRef, contRef})">글
+									등록하기</button>
 								<button class="btn-sm btn-info"
+									style="padding: 10px 30px; font-size: 1rem; font-weight: 600; background-color: #888; border: none; border-radius: 5px;"
 									onclick="javascript:history.back()">취소</button>
 							</td>
 						</tr>
