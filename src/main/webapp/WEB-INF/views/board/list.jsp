@@ -54,17 +54,13 @@
                             background-color: #ffffff;
                             color: #111;
                             transform: translateY(-3px) scale(1.05);
-                            /* 위로 살짝 뜨면서 커짐 */
                             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-                            /* 그림자 강화 */
                         }
 
                         .category-item:active {
                             transform: translateY(-1px) scale(0.95);
-                            /* 꾹 눌리는 효과 */
                             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
                             transition: all 0.1s;
-                            /* 누를 때는 더 빠르게 반응 */
                         }
 
                         .category-item.active {
@@ -86,7 +82,7 @@
                                 <option value="맛집">맛집추천</option>
                                 <option value="소식">동네소식</option>
                                 <option value="모임/동호회">모임/동호회</option>
-                            </select> <a href="#" class="btn btn-dark px-3 py-2 shadow-sm" style="border-radius: 15px; font-size: 1.2rem; font-weight: 600; min-width: 100px; line-height: 2.0;">
+                            </select> <a href="/board/insert" class="btn btn-dark px-3 py-2 shadow-sm" style="border-radius: 15px; font-size: 1.2rem; font-weight: 600; min-width: 100px; line-height: 2.0;">
                                 글 작성 </a>
                         </div>
                     </div>
