@@ -98,6 +98,8 @@
                     <thead>
                         <tr>
                             <th width="5%" class="text-center">번호</th>
+                            <th width="5%" class="text-center">지역</th>
+                            <th width="5%" class="text-center">카테고리</th>
                             <th width="40%" class="text-center">제목</th>
                             <th width="5%" class="text-center">이름</th>
                             <th width="10%" class="text-center">작성일</th>
@@ -112,6 +114,8 @@
                             <!-- :key="vo.not_id"
  				 			:(콜론): 데이터 바인딩을 의미함
  				 			   key: Vue가 각 줄을 식별하기 위한 고유 신분증 글 번호(not_id)를 주로 사용함 -->
+                            <td class="text-center">{{vo.id}}</td>
+                            <td class="text-center">{{vo.id}}</td>
                             <td class="text-center">{{vo.id}}</td>
                             <td class="text-left"><a :href="'http://localhost:8080/board/detail?no=' + vo.id">
                                     {{vo.title}} </a></td>
