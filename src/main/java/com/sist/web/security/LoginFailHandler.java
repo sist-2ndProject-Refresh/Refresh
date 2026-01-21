@@ -18,6 +18,7 @@ public class LoginFailHandler implements AuthenticationFailureHandler{
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 		// TODO Auto-generated method stub
+//		System.out.println("페일러핸들러 호출");
 		String errorMsg="";
 		try {
 			if(exception instanceof BadCredentialsException)

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
@@ -185,7 +185,7 @@
                 <a class="nav-link me-5" href="/notice/list">공지사항</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-5" href="#">관리자 페이지</a>
+                <a class="nav-link me-5" href="/admin/home">관리자 페이지</a>
               </li>
           <!--     <li class="nav-item dropdown">
                 <a class="nav-link me-5 active dropdown-toggle border-0" href="#" data-bs-toggle="dropdown"
@@ -224,7 +224,7 @@
           <ul class="d-flex justify-content-end list-unstyled align-item-center m-0">
           	<sec:authorize access="isAnonymous()">
           	<li class="pe-3">
-              <a href="/member/login" style="text-decoration: none;">
+              <a href="/member/login_before" style="text-decoration: none;">
                 <svg class="login" width="24" height="24">
                   <use xlink:href="#login"></use>
                 </svg>
@@ -242,7 +242,7 @@
               </a>
             </li>
             <li class="pe-3">
-              <a href="/mypage/list">
+              <a href="/mypage/list?no=${sessionScope.no }">
                 <svg class="user" width="24" height="24">
                   <use xlink:href="#user"></use>
                 </svg>

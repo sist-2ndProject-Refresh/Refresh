@@ -9,4 +9,5 @@ public interface TradeService {
 	public int productTotalPage();
 	public TradeVO productDetailData(int no);
 	public void productInsertData(TradeVO vo);
+	public void productUpdate(TradeVO vo);
 }

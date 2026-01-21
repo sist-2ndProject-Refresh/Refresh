@@ -3,6 +3,7 @@ package com.sist.web.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 import com.sist.web.vo.*;
@@ -32,23 +33,41 @@ public interface TradeMapper {
 	
 	// 상품 등록
 	@Insert("INSERT INTO trade_goods("
-			+ "no, name, description, price, originprice, qty, salestatus, condition, imagecount"
-			+ "imageurl, descrivedat, category, lat, lon, address, trades) "
+			+ "no, name, description, price, originprice, qty, salestatus, condition, imagecount, "
+			+ "imageurl, describedat, category, lat, lon, address, trades, user_no) "
 			+ "VALUES("
 			+ "trade_no_seq.nextval, "
 			+ "#{name}, "
 			+ "#{description}, "
 			+ "#{price}, "
-			+ "#{price}), " // price와 originprice가 같기에 price 입력
+			+ "#{price}, " // price와 originprice가 같기에 price 입력
 			+ "#{qty}, "
 			+ "'SELLING', "
 			+ "#{condition}, "
+			+ "#{imagecount}, "	
 			+ "#{imageurl}, "
 			+ "SYSDATE, "
 			+ "#{category}, "
 			+ "#{lat}, "
 			+ "#{lon}, "
 			+ "#{address}, "
-			+ "#{trades}")
+			+ "#{trades}, "
+			+ "#{user_no})")
 	public void productInsertData(TradeVO vo);
+	
+	@Update("UPDATE trade_goods SET "
+		      + "name = #{name}, "
+		      + "description = #{description}, "
+		      + "price = #{price}, "
+		      + "originprice = #{price}, "
+		      + "qty = #{qty}, "
+		      + "condition = #{condition}, "
+		      + "imagecount = #{imagecount}, "
+		      + "imageurl = #{imageurl}, "
+		      + "lat = #{lat}, "
+		      + "lon = #{lon}, "
+		      + "address = #{address}, "
+		      + "trades = #{trades} "
+		      + "WHERE no = #{no}")
+	public void productUpdate(TradeVO vo);
 }
