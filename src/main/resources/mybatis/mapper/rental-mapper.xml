@@ -2,11 +2,11 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.sist.web.mapper.TradeMapper" >
-	<select id="productListData" resultType="com.sist.web.vo.TradeVO" parameterType="hashmap">
-		SELECT no, name, price, salestatus, imageurl, imagecount, category, address, trades, TO_CHAR(describedat, 'yyyy-mm-dd' )as dbday
-		FROM trade_goods
-		WHERE user_no NOT IN (SELECT blocked_user FROM block_list WHERE blocking_user = #{user_no})
+ <mapper namespace="com.sist.web.mapper.RentalMapper">
+ 	<select id="rentalListData" resultType="com.sist.web.vo.RentalVO" parameterType="hashmap">
+		SELECT no, name, price, salestatus, imageurl, imagecount, category, address, trades, TO_CHAR(describedat, 'yyyy-mm-dd' )as dbday, days 
+		FROM rental 
+		WHERE user_no NOT IN (SELECT blocked_user FROM block_list WHERE blocking_user = #{user_no}) 
 		<choose>
 			<when test="type == 1">
 				ORDER BY describedat DESC		

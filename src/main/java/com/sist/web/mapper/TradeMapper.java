@@ -17,12 +17,15 @@ public interface TradeMapper {
 	public List<TradeVO> tradeToRental();
 	
 	// 상품 리스트 출력
+	/*
 	@Select("SELECT no, name, price, salestatus, imageurl, imagecount, category, address, trades, TO_CHAR(describedat, 'yyyy-mm-dd' )as dbday "
 			+ "FROM trade_goods "
 			+ "WHERE user_no NOT IN (SELECT blocked_user FROM block_list WHERE blocking_user = #{user_no})"
 			+ "ORDER BY describedat DESC "
 			+ "OFFSET #{start} ROWS FETCH NEXT 20 ROWS ONLY")
 	public List<TradeVO> productListData(@Param("start") int start, @Param("user_no") int user_no);
+	*/
+	public List<TradeVO> productListData(Map map);
 	
 	// 판매 리스트 총 페이지 출력
 	@Select("SELECT CEIL(COUNT(*) / 20.0) FROM trade_goods")

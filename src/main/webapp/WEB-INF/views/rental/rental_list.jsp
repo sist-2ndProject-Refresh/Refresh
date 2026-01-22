@@ -52,6 +52,10 @@ a:hover {
     background-color: #f8f9fa !important;
     color: #000 !important;
 }
+.choose-tag {
+	color: #007bff;
+	font-weight: bold
+}
 </style>
 <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
 <script src="https://unpkg.com/vue-demi"></script>
@@ -66,7 +70,10 @@ a:hover {
 		        <span><strong>000</strong>의 검색결과 <strong>{{}}</strong>개</span>
 		    </div>
 		    <div class="col-auto ms-auto px-0">
-		        <a href="">최신순</a> &nbsp;|&nbsp;  <a href="">저가순</a> &nbsp;|&nbsp;  <a href="">고가순</a>
+		        <a :class="store.curType == 1 ? 'choose-tag' : ''" @click="store.rentalListData(1)">최신순</a> &nbsp;|&nbsp;  
+		        <a :class="store.curType == 2 ? 'choose-tag' : ''" @click="store.rentalListData(2)">오랜순</a> &nbsp;|&nbsp;  
+		        <a :class="store.curType == 4 ? 'choose-tag' : ''" @click="store.rentalListData(4)">저가순</a> &nbsp;|&nbsp;  
+		        <a :class="store.curType == 3 ? 'choose-tag' : ''" @click="store.rentalListData(3)">고가순</a>
 		    </div>
 		    <div class="text-right" style="margin-top: 20px;">
 		    	<sec:authorize access="hasRole('USER')">
@@ -127,7 +134,7 @@ a:hover {
 				const store = useRentalStore()
 				
 				onMounted(()=>{
-					store.rentalListData()
+					store.rentalListData(1)
 				})
 				return {
 					store

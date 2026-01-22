@@ -6,7 +6,8 @@ const useRentalStore = defineStore('rental', {
         curPage: 1,
         totalPage: 0,
         startPage: 0,
-        endPage: 0
+        endPage: 0,
+		curType: 1
     }),
     getters: {
         range: (state) => {
@@ -18,10 +19,12 @@ const useRentalStore = defineStore('rental', {
         }
     },
     actions: {
-        async rentalListData() {
+        async rentalListData(type) {
+			this.curType = type
             const res = await api.get('/rental/list_vue/', {
                 params: {
-                    page: this.curPage
+                    page: this.curPage,
+					type: this.curType
                 }
             })
             this.loadPage(res.data)
@@ -51,7 +54,7 @@ const useRentalStore = defineStore('rental', {
         },
         changePage(page) {
             this.curPage = page
-            this.rentalListData()
+            this.rentalListData(this.curType)
         },
         changeImageUrl(url) {
             if (!url) return '';

@@ -1,11 +1,12 @@
 package com.sist.web.service;
 
-import java.util.List;
+import java.util.*;
 
 import com.sist.web.vo.TradeVO;
 
 public interface TradeService {
-	public List<TradeVO> productListData(int start, int user_no);
+	//public List<TradeVO> productListData(int start, int user_no);
+	public List<TradeVO> productListData(Map map);
 	public int productTotalPage();
 	public TradeVO productDetailData(int no);
 	public void productInsertData(TradeVO vo);

@@ -9,11 +9,16 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class BlockListServiceImpl implements BlockListService{
+public class BlockListServiceImpl implements BlockListService {
 	private final BlockListMapper mapper;
-	
+
 	@Override
-		public void blockInsert(BlockListVO vo) {
-				mapper.blockInsert(vo);
-		}
+	public void blockInsert(BlockListVO vo) {
+		mapper.blockInsert(vo);
+	}
+
+	@Override
+	public void blockDelete(BlockListVO vo) {
+		mapper.blockDelete(vo);
+	}
 }

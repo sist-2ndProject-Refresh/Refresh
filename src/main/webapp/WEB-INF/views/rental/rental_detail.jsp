@@ -75,10 +75,14 @@ a:hover {
                 </tr>
                 <tr>
                 	<td colspan="2" class="text-right fs-4">
-                		<a href="javascript:void(0)" onclick="openDeleteWindow('${vo.no}')" style="opacity: 0.7">삭제하기</a>
-                		<a href="/rental/update?no=${vo.no }" style="opacity: 0.7; margin-left: 10px;">수정하기</a>
-                		<a href="javascript:void(0)" onclick="openBlockInsertWindow('${vo.user_no}', '2')" style="opacity: 0.7; margin-left: 10px;">차단하기</a>
-                		<a href="#" style="opacity: 0.7; margin-left: 10px;">신고하기</a>
+                		<c:if test="${vo.user_no == sessionScope.no}">
+                			<a href="javascript:void(0)" onclick="openDeleteWindow('${vo.no}')" style="opacity: 0.7">삭제하기</a>
+                			<a href="/rental/update?no=${vo.no }" style="opacity: 0.7; margin-left: 10px;">수정하기</a>
+                		</c:if>
+                		<c:if test="${vo.user_no != sessionScope.no}">
+                			<a href="javascript:void(0)" onclick="openBlockInsertWindow('${vo.user_no}', '2')" style="opacity: 0.7; margin-left: 10px;">차단하기</a>
+                			<a href="#" style="opacity: 0.7; margin-left: 10px;">신고하기</a>
+                		</c:if>	
                 	</td>
                 </tr>
                 <tr>

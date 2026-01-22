@@ -11,9 +11,15 @@ import lombok.RequiredArgsConstructor;
 public class TradeServiceImpl implements TradeService{
 	private final TradeMapper mapper;
 	
+	/*
 	@Override
 	public List<TradeVO> productListData(int start, int user_no) {
 		return mapper.productListData(start, user_no);
+	}
+	*/
+	@Override
+	public List<TradeVO> productListData(Map map) {
+		return mapper.productListData(map);
 	}
 	
 	@Override

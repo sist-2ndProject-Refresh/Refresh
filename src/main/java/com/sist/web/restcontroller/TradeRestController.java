@@ -35,7 +35,7 @@ public class TradeRestController {
 
 	
 	@GetMapping("/product/list_vue/")
-	public ResponseEntity<Map> product_list_vue(@RequestParam(name = "page") int page, HttpSession session)
+	public ResponseEntity<Map> product_list_vue(@RequestParam(name = "page") int page, @RequestParam("type") int type, HttpSession session)
 	{
 		Map map = new HashMap();
 		Object userNoObj = session.getAttribute("no");
@@ -44,10 +44,17 @@ public class TradeRestController {
 		if(userNoObj != null)
 			user_no = Integer.parseInt(userNoObj.toString());
 		
-		System.out.println(user_no);
+		if(type == 0)
+			type = 1;
+		
 		try {
 			int start = (page - 1) * 20;
-			List<TradeVO> list = tService.productListData(start, user_no);
+			
+			map.put("start", start);
+			map.put("type", type);
+			map.put("user_no", user_no);
+			
+			List<TradeVO> list = tService.productListData(map);
 			int totalPage = tService.productTotalPage();
 			
 			final int BLOCK = 10;
@@ -57,6 +64,8 @@ public class TradeRestController {
 			
 			if(endPage > totalPage)
 				endPage = totalPage;
+			
+			map = new HashMap();
 			
 			map.put("list", list);
 			map.put("curPage", page);

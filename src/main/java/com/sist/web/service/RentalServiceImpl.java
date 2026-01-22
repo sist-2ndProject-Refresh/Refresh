@@ -1,6 +1,7 @@
 package com.sist.web.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,14 @@ import lombok.RequiredArgsConstructor;
 public class RentalServiceImpl implements RentalService{
 	private final RentalMapper mapper;
 
+	/*
 	@Override
 	public List<RentalVO> rentalListData(int start, int user_no) {
 		return mapper.rentalListData(start, user_no);
+	}*/
+	@Override
+	public List<RentalVO> rentalListData(Map map) {
+		return mapper.rentalListData(map);
 	}
 
 	@Override
