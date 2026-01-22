@@ -25,5 +25,15 @@ public class ReportServiceImpl implements ReportService{
 		// TODO Auto-generated method stub
 		return rMapper.reportUserListData(reporter, start);
 	}
+	@Override
+	public int subjectNoFindByStorename(String storename) {
+		// TODO Auto-generated method stub
+		return rMapper.subjectNoFindByStorename(storename);
+	}
+	@Override
+	public int subjectStoreNameCheck(String storename) {
+		// TODO Auto-generated method stub
+		return rMapper.subjectStoreNameCheck(storename);
+	}
 	
 }

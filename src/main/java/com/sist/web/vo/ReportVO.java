@@ -19,7 +19,7 @@ REPORTTYPE NOT NULL NUMBER
 @Data
 public class ReportVO {
 	private int no,reporter,subject,state,reporttype;
-	private String subphone,subaccount,msg,image1,image2,image3,dbday,title;
+	private String subphone,subaccount,msg,image1,image2,image3,dbday,title,subStorename;
 	private Date regdate;
 	private MemberVO reportVO;
 	private MemberVO subjectVO;

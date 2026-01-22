@@ -3,6 +3,7 @@ package com.sist.web.restcontroller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,11 +37,11 @@ public class ReportRestController {
 			String dirPath = uploadDir+"report";
 			File dir = new File(dirPath);
 			
-			if(dir.exists())
+			if(!dir.exists())
 			{
 				dir.mkdirs();
 			}
-			if(!file1.isEmpty())
+			if(file1!=null && !file1.isEmpty())
 			{
 				String filename=file1.getOriginalFilename();
 				String savename="";
@@ -50,7 +51,7 @@ public class ReportRestController {
 					String name=filename.substring(0,filename.lastIndexOf("."));
 					String ext = filename.substring(filename.lastIndexOf("."));
 					int count=1;
-					while(!f.exists())
+					while(f.exists())
 					{
 						savename=name+"("+count+")"+ext;
 						f = new File(dirPath+File.separator+savename);
@@ -63,7 +64,7 @@ public class ReportRestController {
 				file1.transferTo(f);
 				vo.setImage1("/userimages/store/"+savename);
 			}
-			if(!file2.isEmpty())
+			if(file2!=null && !file2.isEmpty())
 			{
 				String filename=file2.getOriginalFilename();
 				String savename="";
@@ -73,7 +74,7 @@ public class ReportRestController {
 					String name=filename.substring(0,filename.lastIndexOf("."));
 					String ext = filename.substring(filename.lastIndexOf("."));
 					int count=1;
-					while(!f.exists())
+					while(f.exists())
 					{
 						savename=name+"("+count+")"+ext;
 						f = new File(dirPath+File.separator+savename);
@@ -84,9 +85,9 @@ public class ReportRestController {
 					savename=filename;
 				}
 				file2.transferTo(f);
-				vo.setImage1("/userimages/store/"+savename);
+				vo.setImage2("/userimages/store/"+savename);
 			}
-			if(!file3.isEmpty())
+			if(file3!=null && !file3.isEmpty())
 			{
 				String filename=file3.getOriginalFilename();
 				String savename="";
@@ -96,7 +97,7 @@ public class ReportRestController {
 					String name=filename.substring(0,filename.lastIndexOf("."));
 					String ext = filename.substring(filename.lastIndexOf("."));
 					int count=1;
-					while(!f.exists())
+					while(f.exists())
 					{
 						savename=name+"("+count+")"+ext;
 						f = new File(dirPath+File.separator+savename);
@@ -107,9 +108,18 @@ public class ReportRestController {
 					savename=filename;
 				}
 				file3.transferTo(f);
-				vo.setImage1("/userimages/store/"+savename);
+				vo.setImage3("/userimages/store/"+savename);
+			}
+			if(vo.getSubStorename()!=null)
+			{
+				int subject=rService.subjectNoFindByStorename(vo.getSubStorename());
+				if(subject==0 ) {
+					res="NOID";
+					return new ResponseEntity<String>(res,HttpStatus.OK);
+				}
 			}
 			rService.reportUserInsert(vo);
+			res="OK";
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();
@@ -117,5 +127,17 @@ public class ReportRestController {
 		}
 		
 		return new ResponseEntity<String>(res,HttpStatus.OK);
+	}
+	@GetMapping("/report/subjectId_Check/")
+	public ResponseEntity<Integer> subjectId_check(@RequestParam("subStorename")String subStorename)
+	{
+		int count = 0;
+		try {
+			count = rService.subjectStoreNameCheck(subStorename);
+		}catch(Exception ex)
+		{
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Integer>(count,HttpStatus.OK);
 	}
 }

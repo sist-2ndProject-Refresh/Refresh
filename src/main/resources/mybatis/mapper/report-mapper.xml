@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.sist.web.mapper.ReportMapper">
+ 	<insert id="reportUserInsert">
+ 	INSERT INTO report 
+ 	(no,reporter,
+ 	<if test="subject!=null">
+ 	subject,
+ 	</if>
+ 	<if test="subphone!=null">
+ 	subphone,
+ 	</if>
+ 	<if test="subaccount!=null">
+ 	subaccount,
+ 	</if>
+ 	msg,
+ 	<if test="image1!=null">
+ 	image1,
+ 	</if>
+ 	<if test="image2!=null">
+ 	image2,
+ 	</if>
+ 	<if test="image3!=null">
+ 	image3,
+ 	</if>
+ 	reporttype,title)
+ 	VALUES(report_no_seq.nextval,#{reporter},
+ 	<if test="subject!=null">
+ 	#{subject},
+ 	</if>
+ 	<if test="subphone!=null">
+ 	#{subphone},
+ 	</if>
+ 	<if test="subaccount!=null">
+ 	#{subaccount},
+ 	</if>
+ 	#{msg},
+ 	<if test="image1!=null">
+ 	#{image1},
+ 	</if>
+ 	<if test="image2!=null">
+ 	#{image2},
+ 	</if>
+ 	<if test="image3!=null">
+ 	#{image3},
+ 	</if>
+ 	#{reporttype},#{title})
+ 	</insert>
+ </mapper>

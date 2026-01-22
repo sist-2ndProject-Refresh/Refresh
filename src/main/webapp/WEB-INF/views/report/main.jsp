@@ -68,7 +68,7 @@ const USERNO = '${sessionScope.no}'
 					<td colspan="3" class="text-center">
 						<table class="table" style="border: 2px solid #C3C3C3;box-shadow: 2px 2px 2px 2px #D8D8D8;border-radius: 4px;">
 							<tr>
-								<td colspan="2" class="text-left" style="font-size:22px;font-weight:bold;color:black;padding-left:55px;">
+								<td colspan="3" class="text-left" style="font-size:22px;font-weight:bold;color:black;padding-left:55px;">
 									1대1 문의 등록
 								</td>
 							</tr>
@@ -76,8 +76,8 @@ const USERNO = '${sessionScope.no}'
 								<td width="15%" class="text-right" style="color:black;font-weight: bold;font-size: 16px;line-height: 35px;">
 									문의 종류 : 
 								</td>
-								<td width="85%" class="text-left">
-									  <select class="form-control" id="sel1" style="width:300px;color:black;font-weight: bold" v-model="store.reporttype" @change="console.log(store.reporttype)">
+								<td colspan="2" class="text-left">
+									  <select class="form-control" id="sel1" style="width:300px;color:black;font-weight: bold" v-model="store.reporttype" @change="store.reporttypeChange">
 									    <option value=1>거래 신고</option>
 									    <option value=2>계정 관련</option>
 									    <option value=3>결제 관련</option>
@@ -91,31 +91,34 @@ const USERNO = '${sessionScope.no}'
 								<td width="15%" class="text-right" style="color:black;font-weight: bold;font-size: 16px;line-height: 35px;">
 									문의 제목 : 
 								</td>
-								<td width="85%" class="text-left">
-									<input type="text" class="form-control" id="usr" v-model="store.title">
+								<td colspan="2" class="text-left">
+									<input type="text" class="form-control" id="usr" v-model="store.title" ref="titleRef">
 								</td>
 							</tr>
 							<tr v-show="store.reporttype==='1'">
 								<td width="15%" class="text-right" style="color:black;font-weight: bold;font-size: 16px;line-height: 35px;">
 									신고 제목 : 
 								</td>
-								<td width="85%" class="text-left">
-									<input type="text" class="form-control" id="usr" v-model="store.title">
+								<td colspan="2" class="text-left">
+									<input type="text" class="form-control" id="usr" v-model="store.title" ref="subTitleRef">
 								</td>
 							</tr>
 							<tr v-show="store.reporttype==='1'">
 								<td width="15%" class="text-right" style="color:black;font-weight: bold;font-size: 16px;line-height: 35px;">
 									신고 대상 상점이름 : 
 								</td>
-								<td width="85%" class="text-left">
-									<input type="text" class="form-control" id="usr" style="width:300px;" placeholder="필수 입력" v-model="store.subject">
+								<td width="40%" class="text-left">
+									<input type="text" class="form-control" id="usr" placeholder="필수 입력" v-model="store.subject" ref="subjectRef" v-bind:readonly="store.subjectIdCk">
+								</td>
+								<td width="45%" class="text-left" style="line-height: 25px;">
+									<button type="button" class="btn btn-info btn-sm" @click="store.subjectidCheckBtn(subjectRef)">닉네임 확인</button>
 								</td>
 							</tr>
 							<tr v-show="store.reporttype==='1'">
 								<td width="15%" class="text-right" style="color:black;font-weight: bold;font-size: 16px;line-height: 35px;">
 									신고 대상 계좌번호 : 
 								</td>
-								<td width="85%" class="text-left">
+								<td colspan="2" class="text-left">
 									<input type="text" class="form-control" id="usr" style="width:300px;" v-model="store.subaccount"> 
 								</td>
 							</tr>
@@ -123,7 +126,7 @@ const USERNO = '${sessionScope.no}'
 								<td width="15%" class="text-right" style="color:black;font-weight: bold;font-size: 16px;line-height: 35px;">
 									신고 대상 전화번호 : 
 								</td>
-								<td width="85%" class="text-left">
+								<td colspan="2" class="text-left">
 									<input type="text" class="form-control" id="usr" style="width:300px;" v-model="store.subphone">
 								</td>
 							</tr>
@@ -131,45 +134,45 @@ const USERNO = '${sessionScope.no}'
 								<td width="15%" class="text-right" style="color:black;font-weight: bold;font-size: 16px;line-height: 35px;">
 									신고 내용 : 
 								</td>
-								<td width="85%" class="text-left">
-									<textarea class="form-control" rows="8" id="comment" style="resize: none" placeholder="신고 내용은 관리자에 의해 확인 된 후 처리되며, 허위 신고 시 불이익이 있을 수 있습니다." v-model="store.msg"></textarea>
+								<td colspan="2" class="text-left">
+									<textarea class="form-control" rows="8" id="comment" style="resize: none" placeholder="신고 내용은 관리자에 의해 확인 된 후 처리되며, 허위 신고 시 불이익이 있을 수 있습니다." v-model="store.msg" ref="submsgRef"></textarea>
 								</td>
 							</tr>
 							<tr v-show="store.reporttype!=='1'">
 								<td width="15%" class="text-right" style="color:black;font-weight: bold;font-size: 16px;line-height: 35px;">
 									문의 내용 : 
 								</td>
-								<td width="85%" class="text-left">
-									<textarea class="form-control" rows="8" id="comment" style="resize: none" v-model="store.msg"></textarea>
+								<td colspan="2" class="text-left">
+									<textarea class="form-control" rows="8" id="comment" style="resize: none" v-model="store.msg" ref="msgRef"></textarea>
 								</td>
 							</tr>
 							<tr>
 								<td width="15%" class="text-right" style="color:black;font-weight: bold;font-size: 16px;line-height: 35px;">
 									첨부파일 1 
 								</td>
-								<td width="85%" class="text-left">
-									<input type="file" class="form-control" id="usr" @change="store.fileUpload1($event)">
+								<td colspan="2" class="text-left">
+									<input type="file" class="form-control" id="file1" @change="store.fileUpload1($event)">
 								</td>
 							</tr>
 							<tr>
 								<td width="15%" class="text-right" style="color:black;font-weight: bold;font-size: 16px;line-height: 35px;">
 									첨부파일 2  
 								</td>
-								<td width="85%" class="text-left">
-									<input type="file" class="form-control" id="usr" @change="store.fileUpload2($event)">
+								<td colspan="2" class="text-left">
+									<input type="file" class="form-control" id="file2" @change="store.fileUpload2($event)">
 								</td>
 							</tr>
 							<tr>
 								<td width="15%" class="text-right" style="color:black;font-weight: bold;font-size: 16px;line-height: 35px;">
 									첨부파일 3  
 								</td>
-								<td width="85%" class="text-left">
-									<input type="file" class="form-control" id="usr" @change="store.fileUpload3($event)">
+								<td colspan="2" class="text-left">
+									<input type="file" class="form-control" id="file3" @change="store.fileUpload3($event)">
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2" class="text-right">
-									<button type="button" class="btn btn-default">등록</button>
+								<td colspan="3" class="text-right">
+									<button type="button" class="btn btn-default" @click="store.reportInsert(titleRef,subTitleRef,subjectRef,submsgRef,msgRef)">등록</button>
 								</td>
 							</tr>
 						</table>
