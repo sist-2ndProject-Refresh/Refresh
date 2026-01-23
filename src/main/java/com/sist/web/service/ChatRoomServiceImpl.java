@@ -1,11 +1,13 @@
 package com.sist.web.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.sist.web.mapper.ChatRoomMapper;
 import com.sist.web.vo.ChatRoomVO;
+import com.sist.web.vo.ChatVO;
 import com.sist.web.vo.StoreVO;
 import com.sist.web.vo.TradeVO;
 
@@ -38,5 +40,17 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 	public TradeVO findByProductId(int productId) {
 		// TODO Auto-generated method stub
 		return cMapper.findByProductId(productId);
+	}
+
+	@Override
+	public void chatMessageInsert(ChatVO vo) {
+		// TODO Auto-generated method stub
+		cMapper.chatMessageInsert(vo);
+	}
+
+	@Override
+	public List<ChatVO> chatMessageData(int chatroom_id) {
+		// TODO Auto-generated method stub
+		return cMapper.chatMessageData(chatroom_id);
 	}
 }

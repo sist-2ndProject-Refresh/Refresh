@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.web.mapper.ChatRoomMapper">
+	<resultMap type="com.sist.web.vo.ChatVO" id="chatMap">
+		<id property="chat_id" column="chat_id"/>
+		<result property="content" column="content"/>
+		<result property="dbday" column="dbday"/>
+		
+		<association property="cvo" javaType="com.sist.web.vo.ChatRoomVO">
+			<id property="chatroom_id" column="chatroom_id"/>
+			<result property="buyerId" column="buyer_id"/>
+			<result property="sellerId" column="seller_id"/>
+		</association>
+		
+		<association property="svo" javaType="com.sist.web.StoreVO">
+			<id property="no" column="no"/>
+			<result property="storename" column="storename"/>
+			<result property="image" column="image"/>
+		</association>
+	</resultMap>
+	
+	<select id="chatListData" resultMap="chatMap" parameterType="int">
+		SELECT chat_id,c.chatroom_id,content,TO_CHAR(chat_time,'HH24:MI') as dbday,
+		       buyer_id,seller_id,s.no
+	</select>
+</mapper>

@@ -109,22 +109,23 @@ const loginUser='${sessionScope.no}'
 			  </div>
 			</div>
 		</div>
-      </div>
 		<div v-for="m in store.messages">
           <!-- 상대방 -->
-          <div v-if="m.sender!==store.loginUser"
+          <div v-if="m.sender!==Number(store.loginUser)"
                class="bubble left">
-            <b>123124</b><br>
-			12312412
+            <b>{{m.sender}}</b><br>
+			{{m.content}}
           </div>
 
           <!-- 나 -->
           <div v-else
                class="bubble right">
-            123124
+            {{m.content}}
           </div>
 
         </div>
+      </div>
+		
 
       <!-- 입력 -->
       <div class="chat-footer">

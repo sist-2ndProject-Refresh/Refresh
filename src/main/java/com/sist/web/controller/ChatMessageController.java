@@ -4,6 +4,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import com.sist.web.service.ChatRoomService;
 import com.sist.web.vo.ChatVO;
 
 import lombok.RequiredArgsConstructor;
@@ -12,11 +13,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ChatMessageController {
 	private final SimpMessagingTemplate template;
+	private final ChatRoomService cService;
 	
 	@MessageMapping("/chat.send")
-	public void sendMessage(ChatVO message) {
-		int roomId=message.getChatroom_id();
+	public void sendMessage(ChatVO vo) {
+		int roomId=vo.getChatroom_id();
 		
-		template.convertAndSend("/topic/chatroom/"+roomId,message);
+		cService.chatMessageInsert(vo);
+		
+		template.convertAndSend("/topic/chatroom/"+roomId,vo);
 	}
 }

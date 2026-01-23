@@ -28,9 +28,8 @@ const useChatStore=defineStore('chat',{
 				this.stomp.subscribe('/topic/users',msg=>{
 					this.users=JSON.parse(msg.body)
 						.filter(u => u!==this.loginUser) // 본인 제외
-					this.subscribeRoom()
 				})
-				
+				this.subscribeRoom()
 			})
 		},
 		subscribeRoom() {
@@ -73,6 +72,15 @@ const useChatStore=defineStore('chat',{
 			this.name=res.data.name
 			this.imageurl=res.data.imageurl
 			this.price=res.data.price
+		},
+		async messageList() {
+			const res=await axios.get('/chat/message_data/',{
+				params:{
+					chatroom_id:this.chatroomId
+				}
+			})
+			this.messages=res.data
+			this.scrollToBottom()
 		}
 	}
 }) 

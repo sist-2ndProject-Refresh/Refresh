@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sist.web.service.ChatRoomService;
 import com.sist.web.vo.ChatRoomVO;
+import com.sist.web.vo.ChatVO;
 import com.sist.web.vo.TradeVO;
 
 import lombok.RequiredArgsConstructor;
@@ -42,5 +43,20 @@ public class ChatRoomRestController {
 		}
 		return new ResponseEntity<>(map,HttpStatus.OK);
 		
+	}
+	
+	@GetMapping("/chat/message_data/")
+	public ResponseEntity<List<ChatVO>> chat_message_data(@RequestParam("chatroom_id") int chatroom_id)
+	{
+		List<ChatVO> list=new ArrayList();
+		try
+		{
+			list=cService.chatMessageData(chatroom_id);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
 }

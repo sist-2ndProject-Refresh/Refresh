@@ -1,5 +1,6 @@
 package com.sist.web.mapper;
 
+import java.util.*;
 import java.sql.Date;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.ChatRoomVO;
+import com.sist.web.vo.ChatVO;
 import com.sist.web.vo.StoreVO;
 import com.sist.web.vo.TradeVO;
 
@@ -35,10 +37,14 @@ public interface ChatRoomMapper {
 	
 	@Select("SELECT name,imageurl,price FROM trade_goods WHERE no=#{productId}")
 	public TradeVO findByProductId(int productId);
+	/*
+	 * 	private int chat_id,chatroom_id,sender;
+		private String content,dbday;
+		private Date chat_time;
+	 */
+	@Insert("INSERT INTO chat(chat_id,chatroom_id,sender,content,chat_time) VALUES(cr_no_seq.nextval,#{chatroom_id},#{sender},#{content},SYSDATE)")
+	public void chatMessageInsert(ChatVO vo);
 	
-	//@Select("SELECT storename,image FROM store WHERE buyer_id=#{buyerId}")
-	//public StoreVO findByBuyerId(int buyerId);
-	
-	//@Select("SELECT storename,image FROM store WHERE seller_id=#{sellerId}")
-	//public StoreVO findBySellerId(int sellerId);
+	@Select("SELECT chat_id,chatroom_id,sender,content,TO_CHAR(chat_time,'HH24:MI') as dbday FROM chat WHERE chatroom_id=#{chatroom_id}")
+	public List<ChatVO> chatMessageData(int chatroom_id);
 }
