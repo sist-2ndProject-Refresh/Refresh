@@ -64,9 +64,10 @@ a:hover {
 </head>
 <body>
 	<div class="container" id="rental_list">
+		<h1>대여리스트</h1>
 		<div style="height: 80px;"></div> <!-- 공백용 추후 카테고리 선택하여 검색 기능 추가할 수도-->
 		<div class="row mx-0 align-items-center" style="width: 100%;">
-		    <div class="col-auto px-0">
+		    <div class="col-auto px-0"">
 		        <span><strong>000</strong>의 검색결과 <strong>{{}}</strong>개</span>
 		    </div>
 		    <div class="col-auto ms-auto px-0">

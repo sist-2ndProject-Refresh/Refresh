@@ -119,7 +119,7 @@ a:hover {
         </table>
         <div class="container">
         	<div class="text-right">
-	        	<input type="button" class="btn-st fw-bold fs-1" style="background-color: #FFB38A; color: white;" value="바로 구매">
+	        	<a href="${sessionScope.no == null ? '../member/login' : '/product/buying?no=' += vo.no}"><input type="button" class="btn-st fw-bold fs-1" style="background-color: #FFB38A; color: white;" value="바로 구매"></a>
 				<input type="button" class="btn-st fw-bold fs-1" style="background-color: #A9C2C4; color: white;" value="구매 문의">
 				<a href="javascript:history.back()"><input type="button" class="btn-st fw-bold fs-1" style="background-color: #E0E0E0; color: #333;" value="목록"></a>
 	        </div>

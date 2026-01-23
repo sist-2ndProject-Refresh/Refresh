@@ -125,4 +125,10 @@ public class TradeController {
 		return "products/product_delete";
 	}
 	
+	@GetMapping("/product/buying")
+	public String product_buying(Model model)
+	{
+		model.addAttribute("main_jsp", "../products/product_buying.jsp");
+		return "main/main";
+	}
 }

@@ -64,6 +64,7 @@ a:hover {
 </head>
 <body>
 	<div class="container" id="trade_list">
+		<h1>중고 리스트</h1>
 		<div style="height: 80px;"></div> <!-- 공백용 추후 카테고리 선택하여 검색 기능 추가할 수도-->
 		<div class="row mx-0 align-items-center" style="width: 100%;">
 		    <div class="col-auto px-0">
