@@ -185,7 +185,7 @@
                 <a class="nav-link me-5" href="#">신고 조회</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-5" href="#">지역 커뮤니티</a>
+                <a class="nav-link me-5" href="/board/list">지역 커뮤니티</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link me-5" href="/notice/list">공지사항</a>
