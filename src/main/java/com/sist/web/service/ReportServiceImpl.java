@@ -35,5 +35,10 @@ public class ReportServiceImpl implements ReportService{
 		// TODO Auto-generated method stub
 		return rMapper.subjectStoreNameCheck(storename);
 	}
+	@Override
+	public ReportVO reportDetailData(Map map) {
+		// TODO Auto-generated method stub
+		return rMapper.reportDetailData(map);
+	}
 	
 }

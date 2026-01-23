@@ -19,7 +19,10 @@ const useFAQStore = defineStore({
 		title:'',
 		page:1,
 		totalPage:0,
-		subjectIdCk:false
+		subjectIdCk:false,
+		page:1,
+		reportDetailNo:null,
+		reportDetail:{}
 		
 	}),
 	actions:{
@@ -76,6 +79,8 @@ const useFAQStore = defineStore({
 				}
 				else
 				{
+					this.reportClean()
+					this.page=1
 					this.reportListData()
 				}
 			}
@@ -90,7 +95,7 @@ const useFAQStore = defineStore({
 			this.file3=null
 			this.reporttype="1"
 			this.title='',
-			this.subjectIdck=false
+			this.subjectIdCk=false
 		},
 		reporttypeChange(){
 					this.subject=''
@@ -222,10 +227,33 @@ const useFAQStore = defineStore({
 		async reportListData(){
 			const {data} = await api.get('/report/userReport_list/',{
 				params:{
-					reporter:this.reporter
+					reporter:this.reporter,
+					page:this.page
 				}
 			})
+			console.log(data)
 			this.report_list=data
+		},
+		async reportDetailShow(no,state,reporttype){
+			
+			if(this.reportDetailNo===no)
+			{
+				this.reportDetailNo=null
+				this.reportDetail={}
+				return
+			}
+			else{
+				this.reportDetailNo=no
+				const {data} = await api.get('/report/detail_vue/',{
+					params:{
+						no:no,
+						state:state,
+						reporttype:reporttype
+					}
+				})
+				console.log(data)
+				this.reportDetail = data
+			}
 		}
 		
 	}

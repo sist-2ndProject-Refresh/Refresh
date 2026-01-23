@@ -117,6 +117,7 @@ public class ReportRestController {
 					res="NOID";
 					return new ResponseEntity<String>(res,HttpStatus.OK);
 				}
+				vo.setSubject(subject);
 			}
 			rService.reportUserInsert(vo);
 			res="OK";
@@ -140,4 +141,38 @@ public class ReportRestController {
 		}
 		return new ResponseEntity<Integer>(count,HttpStatus.OK);
 	}
+	@GetMapping("/report/userReport_list/")
+	public ResponseEntity<List<ReportVO>> user_report_list(@RequestParam("reporter")int reporter,@RequestParam("page")int page)
+	{
+		List<ReportVO> list = null;
+		try {
+			list = rService.reportUserListData(reporter,(page-1)*10);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<>(list,HttpStatus.OK);
+	}
+	@GetMapping("/report/detail_vue/")
+	public ResponseEntity<ReportVO> report_detail_vue(@RequestParam("no")int no,@RequestParam("state")int state,@RequestParam("reporttype")int reporttype)
+	{
+		ReportVO vo = null;
+		try {
+			Map map = new HashMap();
+			map.put("no",no);
+			map.put("state",state);
+			map.put("reporttype",reporttype);
+			
+			vo = rService.reportDetailData(map);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<>(vo,HttpStatus.OK);
+	}
+	
 }

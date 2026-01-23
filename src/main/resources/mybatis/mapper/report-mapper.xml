@@ -48,4 +48,40 @@
  	</if>
  	#{reporttype},#{title})
  	</insert>
+ 	<resultMap type="ReportVO" id="reportMap">
+ 		<result column="rd.msg" property="rdVO.msg"/>
+ 		<result column="rd.dbday" property="rdVO.dbday"/>
+ 		<result column="respond" property="rdVO.respond"/>
+ 		<result column="storename" property="subjectVO.svo.storename"/>
+ 	</resultMap>
+ 	<select id="reportDetailData" resultMap="reportMap" parameterType="hashMap">
+ 		<if test="state==1">
+ 			SELECT r.no,reporter,msg,image1,image2,image3,state,reporttype
+ 			 <if test="reporttype==1">
+ 			 ,subject,subphone,subaccount,storename
+ 			 </if>
+ 			FROM report r
+ 			<if test="reporttype==1">
+ 			, store s
+ 			</if>
+ 			WHERE r.no = #{no}
+ 			<if test="reporttype==1">
+ 			 AND subject = s.no
+ 			 </if>
+ 		</if>
+ 		<if test="state!=1">
+ 			SELECT r.no,reporter,r.msg,image1,image2,image3,state,reporttype,rd.msg,TO_CHAR(rd.regdate,'yyyy-mm-dd') as rd.dbday,respond
+ 			 <if test="reporttype==1">
+ 			 ,subject,subphone,subaccount,storename
+ 			 </if>
+ 			FROM report r, respond rd
+ 			<if test="reporttype==1">
+ 			, store s
+ 			</if>
+ 			WHERE r.no = #{no} AND r.no = rd.no
+ 			<if test="reporttype==1">
+ 			 AND subject = s.no
+ 			 </if>
+ 		</if>
+ 	</select>
  </mapper>

@@ -23,4 +23,5 @@ public class ReportVO {
 	private Date regdate;
 	private MemberVO reportVO;
 	private MemberVO subjectVO;
+	private RespondVO rdVO;
 }

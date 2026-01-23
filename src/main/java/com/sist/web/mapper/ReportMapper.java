@@ -1,6 +1,7 @@
 package com.sist.web.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,7 +26,7 @@ public interface ReportMapper {
 		@Result(column="image1",property = "svo.image1"),
 		@Result(column="address",property = "svo.address")		
 	})*/
-	@Select("SELECT no,title,state,TO_CHAR(regdate,'yyyy-mm-dd') as dbday FROM report WHERE reporter = #{reporter} ORDER BY no DESC OFFSET #{start} ROWS FETCH NEXT 10 ROWS ONLY")
+	@Select("SELECT no,title,state,TO_CHAR(regdate,'yyyy-mm-dd') as dbday,reporttype FROM report WHERE reporter = #{reporter} ORDER BY no DESC OFFSET #{start} ROWS FETCH NEXT 10 ROWS ONLY")
 	List<ReportVO> reportUserListData(@Param("reporter")int reporter,@Param("start")int start);
 	
 	@Select("SELECT no FROM store WHERE storename=#{storename}")
@@ -33,4 +34,6 @@ public interface ReportMapper {
 	
 	@Select("SELECT count(*) from store where storename= #{storename}")
 	int subjectStoreNameCheck(String storename);
+	
+	ReportVO reportDetailData(Map map);
 }

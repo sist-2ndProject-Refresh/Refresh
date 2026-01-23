@@ -11,6 +11,12 @@
 	color:black;
 	font-weight: bold
 }
+.report:hover {
+	font-size:19px;
+}
+.report:hover td{
+	background-color:#E7E7E7;
+}
 </style>
 <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
 <script src="https://unpkg.com/vue-demi"></script>
@@ -189,102 +195,71 @@ const USERNO = '${sessionScope.no}'
 									
 								</tr>
 							</thead>
-							<tr class="report">
+							<tbody v-for="(rvo,index) in store.report_list" :key="index">
+							<tr class="report" style="height: 40px;cursor:pointer;" @click="store.reportDetailShow(rvo.no,rvo.state,rvo.reporttype)">
 								<td width="15%" class="text-center">
-									계정 관련
+									<span v-if="rvo.reporttype==1">거래 신고</span>
+									<span v-if="rvo.reporttype==2">계정 신고</span>
+									<span v-if="rvo.reporttype==3">결제 신고</span>
+									<span v-if="rvo.reporttype==4">오류 신고</span>
+									<span v-if="rvo.reporttype==5">신고/제안</span>
+									<span v-if="rvo.reporttype==6">기타/서비스</span>
 								</td>
 								<td width="70%" class="text-left">
-									문의 제목~~~~~~~~~~~<sup>답변</sup>
+									{{rvo.title}}
+									<span v-if="rvo.state==1">답변 대기</span>
+									<span v-if="rvo.state==2">답변 완료</span>
+									<span v-if="rvo.state==3">처리 완료</span>
 								</td>
 								<td width="15%" class="text-center">
-									2026-01-20
+									{{rvo.dbday}}
 								</td>
 							</tr>
-							<tr>
+							<tr style="margin-top:20px;" v-if="store.reportDetailNo===rvo.no">
 								<td colspan="3" class="text-center">
 									<div style="border:3px solid #C3C3C3; min-width:80%;border-radius:8px;display: flex;justify-content: center;box-shadow: 1px 1px 1px 1px #D8D8D8 ">
 										<table class="table">
 											<tr>
 												<td width="10%" class="text-right">
-													문의 내용
+													문의 본문
 												</td>
-												<td colspan="4">
-													<pre style="white-space: pre-wrap;width:80%;height:200px;">문의 내용</pre>
+												<td colspan="2">
+													<pre style="white-space: pre-wrap;width:80%;height:200px;text-align: left">{{store.reportDetail.msg}}</pre>
 												</td>
 											</tr>
-											<tr>
+											<tr v-if="store.reportDetail.image1 !=null || store.reportDetail.image2 !=null || store.reportDetail.image3 !=null">
 												<td width="10%" class="text-right">
-													첨부파일
+													첨부 파일
 												</td>
 												<td width="20%">
-													<a href="#">첨부파일 1</a>
-												</td>
-												<td width="20%">
-													<a href="#">첨부파일 1</a>
-												</td>
-												<td width="20%">
-													<a href="#">첨부파일 1</a>
-												</td>
-												<td width="90%" class="text-right">
-													<a href="#">2026-01-20</a>
+													<a href="#" v-if="store.reportDetail.image1!=null" style="margin-left:40px;">첨부파일 1</a>
+													<a href="#" v-if="store.reportDetail.image2!=null" style="margin-left:40px;">첨부파일 2</a>
+													<a href="#" v-if="store.reportDetail.image3!=null">첨부파일 3</a>
+												<td width="70%" class="text-right">
+													<span v-if="rvo.state!=1">{{store.reportDetail.rdVO.dbday}}</span>
 												</td>
 											</tr>
-											<tr>
+											<tr v-if="rvo.state===1">
+												<th width="10%">
+													신고 대상
+												</th>
+												<td width="20%">
+													{{store.reportDetail.subjectVO.svo.storename}}
+												</td>
+											</tr>
+											<tr v-if="rvo.state!=1">
 												<td width="10%" class="text-right">
 													답변 내용
 												</td>
-												<td colspan="4">
-													<pre style="white-space: pre-wrap;width:80%;height:200px;">답변 내용</pre>
+												<td colspan="2">
+													<pre style="white-space: pre-wrap;width:80%;height:200px;">{{store.reportDetail.rdVO.msg}}</pre>
 												</td>
 											</tr>
 										</table>
 									</div>
 								</td>
 							</tr>
-							<tr class="report">
-								<td width="15%" class="text-center">
-									계정 관련
-								</td>
-								<td width="70%" class="text-left">
-									문의 제목~~~~~~~~~~~<sup>답변</sup>
-								</td>
-								<td width="15%" class="text-center">
-									2026-01-20
-								</td>
-							</tr>
-							<tr class="report">
-								<td width="15%" class="text-center">
-									계정 관련
-								</td>
-								<td width="70%" class="text-left">
-									문의 제목~~~~~~~~~~~<sup>답변</sup>
-								</td>
-								<td width="15%" class="text-center">
-									2026-01-20
-								</td>
-							</tr>
-							<tr class="report">
-								<td width="15%" class="text-center">
-									계정 관련
-								</td>
-								<td width="70%" class="text-left">
-									문의 제목~~~~~~~~~~~<sup>답변</sup>
-								</td>
-								<td width="15%" class="text-center">
-									2026-01-20
-								</td>
-							</tr>
-							<tr class="report">
-								<td width="15%" class="text-center">
-									계정 관련
-								</td>
-								<td width="70%" class="text-left">
-									문의 제목~~~~~~~~~~~<sup>답변</sup>
-								</td>
-								<td width="15%" class="text-center">
-									2026-01-20
-								</td>
-							</tr>
+							</tbody>
 						</table>
 					</td>
 				</tr>
