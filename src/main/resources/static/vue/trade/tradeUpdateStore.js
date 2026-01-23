@@ -53,8 +53,6 @@ const useUpdateStore = defineStore('trade_update', {
             this.detailData.normalPrice = res.data.nomalDeliverPrice
             this.detailData.cvsPrice = res.data.cvsDeliverPrice
             this.detailData.category = res.data.category
-            console.log(res.data)
-            console.log(this.detailData)
             await this.findCategory()
             this.loadImageList()
         },
@@ -106,9 +104,7 @@ const useUpdateStore = defineStore('trade_update', {
 
                 trades: "배송비||" + normalDelivery + cvsDeliveryType + directText + addressText
             }
-            console.log(uploadData)
             const res = await api.put('/product/update_vue/', uploadData)
-            console.log(res.data.msg)
             if (res.data.msg === "OK") {
                 alert("수정이 완료되었습니다.")
                 location.href = '/product/detail?no=' + this.detailData.no

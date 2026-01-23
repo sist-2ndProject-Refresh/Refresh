@@ -245,7 +245,6 @@ public class TradeRestController {
 	public ResponseEntity<TradeVO> product_getVoData_vue(@RequestParam("no") int no)
 	{
 		TradeVO vo = new TradeVO();
-		
 		try {
 			vo = tService.productDetailData(no);
 			String trades = vo.getTrades();
@@ -272,6 +271,7 @@ public class TradeRestController {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		System.out.println(vo);
 		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
 	

@@ -72,7 +72,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-	<div class="container">
+	<div class="container" id="buying">
 		<div class="row">
 			<h2>결제</h2>
 			<div>
@@ -81,20 +81,23 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<div class="mar-top-50 d-flex align-items-stretch gap-100" style="margin-left: 50px">
 					<div class="d-flex gap-100">
 						<label class="d-flex align-items-center" style="cursor: pointer;"> 
-						<input type="radio" v-model="" name="delivery-price" :value="0" class="form-check-input me-2" checked> 
+						<input type="radio" v-model="store.delivery" :value="0" class="form-check-input me-2" checked @change="store.howToDelivery"> 
 							<span class="fs-2 fw-normal">직거래</span>
 						</label> 
 						<label class="d-flex align-items-center gap-5" style="cursor: pointer;">
-							<input type="radio" v-model="" name="delivery-price" :value="1" class="form-check-input m-0 me-2"> 
-							<span class="fs-2 fw-normal">일반 택배</span> <span class="fs-3 fw-normal">1000원</span>
+							<input type="radio" v-model="store.delivery" :value="1" class="form-check-input m-0 me-2" @change="store.howToDelivery"> 
+							<span class="fs-2 fw-normal">일반 택배</span> 
+							<span class="fs-3 fw-normal">{{store.normalPrice}}원</span>
 						</label>
 						<label class="d-flex align-items-center gap-5" style="cursor: pointer;">
-							<input type="radio" v-model="" name="delivery-price" :value="2" class="form-check-input m-0 me-2"> 
-							<span class="fs-2 fw-normal">GS 반값 택배</span> <span class="fs-3 fw-normal">1000원</span>
+							<input type="radio" v-model="store.delivery" :value="2" class="form-check-input m-0 me-2" @change="store.howToDelivery"> 
+							<span class="fs-2 fw-normal">GS 반값 택배</span> 
+							<span class="fs-3 fw-normal">{{store.csvPrice}}원</span>
 						</label>
 						<label class="d-flex align-items-center gap-5" style="cursor: pointer;">
-							<input type="radio" v-model="" name="delivery-price" :value="3" class="form-check-input m-0 me-2"> 
-							<span class="fs-2 fw-normal">CU 알뜰 택배</span> <span class="fs-3 fw-normal">1000원</span>
+							<input type="radio" v-model="store.delivery" :value="3" class="form-check-input m-0 me-2" @change="store.howToDelivery"> 
+							<span class="fs-2 fw-normal">CU 알뜰 택배</span> 
+							<span class="fs-3 fw-normal">{{store.csvPrice}}원</span>
 						</label>
 					</div>
 				</div>
@@ -103,9 +106,9 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<div>
 					<div style="margin-bottom:50px; margin-left: 100px;">	
 						<div class="align-items-center">
-							<input class="form-control fs-2" type="text" v-model="" style="width: 250px; height: 40px; margin-top: 10px;" readonly>
+							<input class="form-control fs-2" type="text" v-model="store.post" style="width: 250px; height: 40px; margin-top: 10px;" readonly>
 							<div class="d-flex">
-								<input class="form-control fs-2" type="text" v-model="" style="width: 400px; height: 40px; margin-top: 10px;" readonly>
+								<input class="form-control fs-2" type="text" v-model="store.address1" style="width: 400px; height: 40px; margin-top: 10px;" readonly>
 								<input type="button" class="btn btn-dark btn-sm btn-st" value="주소 변경" @click="store.postFind()">
 							</div>
 						</div>
@@ -118,41 +121,41 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					<div class="d-flex align-items-center" style="border: 2px solid rgba(0, 0, 0, 0.3); border-radius: 20px; margin-left: 100px; width: 500px; ">
 						<img src="/images/test/박명수.jpg" style="width: 90px; height: 90px; border-radius: 20px">
 						<div style="margin-left: 50px">
-							<div class="fs-3 fw-bold">가격 공간입니다.</div>
-							<div style="color: #999;">상품 이름 공간입니다.</div>
+							<div class="fs-3 fw-bold">{{store.price}} 원</div>
+							<div style="color: #999;">{{store.name}}</div>
 						</div>
 					</div>
 				</div>
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<span class="fs-1 fw-normal" style="min-width: 100px">포인트</span>
 				<div class="d-flex align-items-center gap-2" style="margin-top: 20px;">	
-					<input class="form-control fs-2 text-right" v-model="" type="number" min="1" style="width: 400px; height: 40px; margin-left: 100px;" readonly>
-					<span class="fs-2">점</span>
+					<input class="form-control fs-2 text-right" v-model="store.point" type="number" min="1" style="width: 400px; height: 40px; margin-left: 100px;" readonly>
+					<span class="fs-2">P</span>
 				</div>
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<span class="fs-1 fw-normal" style="min-width: 100px">결제 포인트</span>
 				<div class="mar-top-50" style="border: 2px solid rgba(0, 0, 0, 0.3); border-radius: 20px; margin-left: 100px;">
 					<div class="d-flex justify-content-between" style="margin-left: 70px; margin-top: 20px">
 						<div class="fs-3 fw-normal" style="min-width: 200px; color: #999;">상품 금액</div>
-						<div class="fs-3 fw-bold" style="min-width: 200px">10000원</div>
+						<div class="fs-3 fw-bold" style="min-width: 200px">{{store.price}} 원</div>
 					</div>
 					<div class="d-flex justify-content-between" style="margin-left: 70px; margin-top: 20px">
 						<div class="fs-3 fw-normal" style="min-width: 200px; color: #999;">배송비</div>
-						<div class="fs-3 fw-bold" style="min-width: 200px">+3000원</div>
+						<div class="fs-3 fw-bold" style="min-width: 200px">+{{store.deliveryFee}} 원</div>
 					</div>
 					<div class="d-flex justify-content-between" style="margin-left: 70px; margin-top: 20px">
 						<div class="fs-3 fw-normal" style="min-width: 200px; color: #999;">사용 포인트</div>
-						<div class="fs-3 fw-bold" style="min-width: 200px">10000원</div>
+						<div class="fs-3 fw-bold" style="min-width: 200px">{{store.price}} P</div>
 					</div>
 					<hr class="hr-st" style="width: 100%; margin-top: 20px;">
 					<div class="d-flex justify-content-between " style="margin-left: 70px; margin-top: 20px">
-						<div class="fs-3 fw-normal" style="min-width: 200px; color: #999;">총 경제 금액</div>
-						<div class="fs-3 fw-bold" style="min-width: 200px">45원</div>
+						<div class="fs-3 fw-normal" style="min-width: 200px; color: #999;">총 결제 금액</div>
+						<div class="fs-3 fw-bold" style="min-width: 200px">{{store.totalPrice}} 원</div>
 					</div>	
 					<hr class="hr-st" style="width: 100%; margin-top: 20px;">				
 					<div class="d-flex justify-content-between" style="margin-left: 70px; margin-top: 20px; margin-bottom: 20px;">
 						<div class="fs-3 fw-normal" style="min-width: 200px; color: #999;">잔여 포인트</div>
-						<div class="fs-3 fw-bold" style="min-width: 200px">10000점</div>
+						<div class="fs-3 fw-bold" style="min-width: 200px">{{store.extraPoint}}P</div>
 					</div>					
 				</div>
 				<div>
@@ -165,5 +168,29 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			</div>
 		</div>
 	</div>
+	<script src="/vue/axios.js"></script>
+	<script src="/vue/trade/buyStore.js"></script>
+	<script>
+		const {createPinia} = Pinia
+		const {createApp, onMounted} = Vue
+		
+		const buyApp = createApp({
+			setup(){
+				const store = useBuyStore()
+				const urlParams = new URLSearchParams(window.location.search);
+            	const no = urlParams.get('no');
+            	const type = urlParams.get('type')
+            	const userNo = '${sessionScope.no}'
+				onMounted(()=>{
+					store.loadBuyData(no, type, userNo)
+				})
+				return {
+            		store
+				}
+			}	
+		})
+		buyApp.use(createPinia())
+		buyApp.mount('#buying')
+	</script>
 </body>
 </html>
