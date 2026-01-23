@@ -33,7 +33,7 @@ public interface ChatRoomMapper {
 	@Select("SELECT no FROM user_table WHERE username=#{username}")
 	public int noFindByUsername(String username);
 	
-	@Select("SELECT name,imageurl,price FROM trade_goods WHERE product_id=#{productId}")
+	@Select("SELECT name,imageurl,price FROM trade_goods WHERE no=#{productId}")
 	public TradeVO findByProductId(int productId);
 	
 	//@Select("SELECT storename,image FROM store WHERE buyer_id=#{buyerId}")

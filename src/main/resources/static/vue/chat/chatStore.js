@@ -28,16 +28,18 @@ const useChatStore=defineStore('chat',{
 				this.stomp.subscribe('/topic/users',msg=>{
 					this.users=JSON.parse(msg.body)
 						.filter(u => u!==this.loginUser) // 본인 제외
+					this.subscribeRoom()
 				})
+				
 			})
 		},
 		subscribeRoom() {
 			if(!this.chatroomId)
 				return
 			
-			this.stomp.subscribe('/topic/chatroom/${this.chatroomId}',msg => {
+			this.stomp.subscribe('/topic/chatroom/' + this.chatroomId,msg => {
 				this.messages.push(JSON.parse(msg.body))
-				this.scrollToBottom()
+				 this.scrollToBottom()
 			})
 		},
 		async scrollToBottom() {
@@ -47,7 +49,7 @@ const useChatStore=defineStore('chat',{
 			}
 		},
 		send() {
-			if(this.msg===''||this.chatroomId)
+			if(this.msg===''||!this.chatroomId)
 				return
 			
 			this.stomp.send('/app/chat.send', {}, 
@@ -56,7 +58,9 @@ const useChatStore=defineStore('chat',{
 					sender:this.loginUser,
 					content:this.msg
 				})
+				
 			)
+			console.log(this.msg)
 			this.msg=''
 			this.scrollToBottom()
 		},

@@ -77,24 +77,15 @@
 </style>
 </head>
 <script>
-const productId='<%= request.getAttribute("productId") %>'
+const chatroomId='${chatroomId}'
+const productId='${productId}'
+const buyerId='${buyerId}'
+const loginUser='${sessionScope.no}'
 </script>
 <body>
 
 <div class="container" id="app">
   <div class="row">
-
-    <!-- ================= 접속자 목록 ================= -->
-    <div class="col-sm-3 user-panel">
-      <h4 class="text-center">접속자</h4>
-      <ul class="list-group">
-        <li class="list-group-item"
-            style="cursor:pointer">
-        </li>
-        <li class="list-group-item"
-            style="cursor: pointer;">전체 채팅</li>
-      </ul>
-    </div>
 
     <!-- ================= 채팅 ================= -->
     <div class="col-sm-9 chat-panel">
@@ -105,43 +96,42 @@ const productId='<%= request.getAttribute("productId") %>'
 
       <!-- 메시지 -->
       <div class="chat-body" ref="chatBody">
-        <div v-for="">
-		  <div class="tradegoods" style="display:flex; align-items:flex-start; margin-bottom:10px; padding:10px; border:1px solid #ccc; border-radius:8px; background:#fff;">
-
-		  <div style="flex-shrink:0; margin-right:10px;">
-		    <img src="/path/to/image.jpg" alt="상품" style="width4x:80px; height:80px; object-fit:cover; border-radius:5px;">
-		  </div>
-
-		  <div style="flex-grow:1; display:flex; flex-direction:column; justify-content:center;">
-		    <div style="font-weight:bold; font-size:14px; margin-bottom:5px;">{{store.name}}</div>
-		    <div style="font-size:13px; color:#555;">{{store.price}}</div>
-		  </div>
+        <div>
+			  <div class="tradegoods" style="display:flex; align-items:flex-start; margin-bottom:10px; padding:10px; border:1px solid #ccc; border-radius:8px; background:#fff;">
+	
+			  <div style="flex-shrink:0; margin-right:10px;">
+			    <img :src="store.imageurl" style="width4x:80px; height:80px; object-fit:cover; border-radius:5px;">
+			  </div>
+	
+			  <div style="flex-grow:1; display:flex; flex-direction:column; justify-content:center;">
+			    <div style="font-weight:bold; font-size:14px; margin-bottom:5px;">{{store.name}}</div>
+			    <div style="font-size:13px; color:#555;"><span>{{store.price}}</span>&nbsp;<span>원</span></div>
+			  </div>
+			</div>
 		</div>
+      </div>
+		<div v-for="m in store.messages">
           <!-- 상대방 -->
-          <div v-if=""
+          <div v-if="m.sender!==store.loginUser"
                class="bubble left">
-            <b></b><br>
-
+            <b>123124</b><br>
+			12312412
           </div>
 
           <!-- 나 -->
           <div v-else
                class="bubble right">
-            
+            123124
           </div>
 
         </div>
-      </div>
 
       <!-- 입력 -->
       <div class="chat-footer">
         <div class="input-group">
-          <input type="text"
-                 class="form-control"
-                 placeholder="메시지 입력">
+          <input type="text" class="form-control" v-model="store.msg" @keyup.enter="store.send()" placeholder="메시지 입력">
           <span class="input-group-btn">
-            <button class="btn btn-warning"
-                    >전송</button>
+            <button class="btn btn-warning" @click="store.send()">전송</button>
           </span>
         </div>
       </div>
@@ -152,13 +142,20 @@ const productId='<%= request.getAttribute("productId") %>'
 <script src="/vue/chat/chatStore.js"></script>
 	<script>
 	const {createPinia} = Pinia
-	const {createApp,onMounted} = Vue
+	const {createApp,ref,onMounted} = Vue
 	const app=createApp({
 		setup() {
 			const store=useChatStore()
-			
+			const chatBody=ref(null)
 			onMounted(()=>{
+				
+				store.connect()
+				store.chatroomId=chatroomId
 				store.chatTradeData(productId)
+				store.loginUser=loginUser
+				store.chatBodyEl=chatBody.value
+				
+				//store.subscribeRoom()
 			})
 			
 			return {

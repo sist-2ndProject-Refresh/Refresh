@@ -21,8 +21,19 @@ public class ChatController {
 	private final ChatRoomService cService;
 	
 	@GetMapping("/chat/chat")
-	public String chat_room(Model model)
+	public String chat_room(@RequestParam("productId") int productId,
+						    @RequestParam("sellerId") int sellerId,
+						    @RequestParam("chatroomId") int chatroomId,
+						    Principal principal,Model model)
 	{
+		String username=principal.getName();
+		int buyerId=cService.noFindByUsername(username);
+		
+		model.addAttribute("productId", productId);
+		model.addAttribute("sellerId", sellerId);
+		model.addAttribute("buyerId", buyerId);
+		model.addAttribute("chatroomId", chatroomId);
+		
 		model.addAttribute("main_jsp", "../chat/chat.jsp");
 		return "main/main";
 	}
