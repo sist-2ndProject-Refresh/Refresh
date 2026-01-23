@@ -1,10 +1,13 @@
 package com.sist.web.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.ReviewVO;
@@ -25,11 +28,16 @@ public interface ReviewMapper {
 				ORDER BY r.created_date DESC
 			</select> 
 	 */
-	public List<ReviewVO> reviewListData(int no);
+	public List<ReviewVO> reviewListData(@Param("no") int no, @Param("start") int start);
 	
 	@Insert("INSERT INTO review VALUES(rv_id_seq.nextval,#{seller_id},#{reviewer_id},SYSDATE,SYSDATE,#{content,jdbcType=CLOB},#{rating})")
 	public void reviewInsert(ReviewVO vo);
 	
 	@Select("SELECT COUNT(*) FROM review WHERE seller_id=#{seller_id}")
 	public int reviewCount(int seller_id);
+	
+	@Update("UPDATE review SET "
+			+ "content=#{content},rating=#{rating} "
+			+ "WHERE review_id=#{review_id} AND reviewer_id=#{reviewer_id}")
+	public void reviewUpdate(ReviewVO vo);
 }

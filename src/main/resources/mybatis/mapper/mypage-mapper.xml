@@ -20,5 +20,4 @@
 		ON u.no=s.no
 		WHERE u.no=#{no} 
 	</select>
-
 </mapper>

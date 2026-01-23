@@ -35,4 +35,10 @@ public class TradeServiceImpl implements TradeService{
 	public void productUpdate(TradeVO vo) {
 		mapper.productUpdate(vo);
 	}
+
+	// 상품 상세 페이지 유저 닉네임과 이미지 출력
+	@Override
+	public TradeVO tradeDetailUserInfo(int no) {
+		return mapper.tradeDetailUserInfo(no);
+	}
 }

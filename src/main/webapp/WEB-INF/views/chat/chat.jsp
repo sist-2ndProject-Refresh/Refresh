@@ -1,0 +1,172 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+<script src="https://unpkg.com/vue-demi"></script>
+<script src="https://unpkg.com/pinia@2.1.7/dist/pinia.iife.prod.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<style type="text/css">
+/* ===== 접속자 영역 ===== */
+.user-panel {
+  height: 100vh;
+  border-right: 1px solid #ddd;
+  background: #fff;
+}
+
+/* ===== 채팅 영역 ===== */
+.chat-panel {
+  height: 80vh;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== 메시지 영역 ===== */
+.chat-body {
+  overflow-y: auto;
+  padding: 15px;
+  background: #b2c7da; /* 카카오톡 배경색 */
+  height: 800px;
+}
+
+/* ===== 말풍선 공통 ===== */
+.bubble {
+  max-width: 60%;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  clear: both;
+}
+
+/* ===== 상대방 말풍선 ===== */
+.bubble.left {
+  background: #fff;
+  float: left;
+}
+
+/* ===== 내 말풍선 ===== */
+.bubble.right {
+  background: #ffeb33;
+  float: right;
+}
+
+/* ===== 시간 ===== */
+.time {
+  font-size: 11px;
+  color: #666;
+  margin-top: 3px;
+  text-align: right;
+}
+
+/* ===== 입력 영역 ===== */
+.chat-footer {
+  padding: 10px;
+  background: #eee;
+}
+.trade-goods {
+	justify-content: center;
+	margin-top: 50px;
+}
+</style>
+</head>
+<script>
+const chatroomId='${chatroomId}'
+const productId='${productId}'
+const buyerId='${buyerId}'
+const loginUser='${sessionScope.no}'
+</script>
+<body>
+
+<div class="container" id="app">
+  <div class="row">
+
+    <!-- ================= 채팅 ================= -->
+    <div class="col-sm-9 chat-panel">
+
+      <!-- 헤더 -->
+      <div class="panel-heading">
+      </div>
+
+      <!-- 메시지 -->
+      <div class="chat-body" ref="chatBody">
+        <div>
+			  <div class="tradegoods" style="display:flex; align-items:flex-start; margin-bottom:10px; padding:10px; border:1px solid #ccc; border-radius:8px; background:#fff;">
+	
+			  <div style="flex-shrink:0; margin-right:10px;">
+			    <img :src="store.imageurl" style="width4x:80px; height:80px; object-fit:cover; border-radius:5px;">
+			  </div>
+	
+			  <div style="flex-grow:1; display:flex; flex-direction:column; justify-content:center;">
+			    <div style="font-weight:bold; font-size:14px; margin-bottom:5px;">{{store.name}}</div>
+			    <div style="font-size:13px; color:#555;"><span>{{store.price}}</span>&nbsp;<span>원</span></div>
+			  </div>
+			</div>
+		</div>
+		<div v-for="m in store.messages">
+          <!-- 상대방 -->
+          <div v-if="m.sender!==Number(store.loginUser)"
+               class="bubble left">
+            <b>{{m.sender}}</b><br>
+			{{m.content}}
+          </div>
+
+          <!-- 나 -->
+          <div v-else
+               class="bubble right">
+            {{m.content}}
+          </div>
+
+        </div>
+      </div>
+		
+
+      <!-- 입력 -->
+      <div class="chat-footer">
+        <div class="input-group">
+          <input type="text" class="form-control" v-model="store.msg" @keyup.enter="store.send()" placeholder="메시지 입력">
+          <span class="input-group-btn">
+            <button class="btn btn-warning" @click="store.send()">전송</button>
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="/vue/chat/chatStore.js"></script>
+	<script>
+	const {createPinia} = Pinia
+	const {createApp,ref,onMounted} = Vue
+	const app=createApp({
+		setup() {
+			const store=useChatStore()
+			const chatBody=ref(null)
+			onMounted(()=>{
+				
+				store.connect()
+				store.chatroomId=chatroomId
+				store.chatTradeData(productId)
+				store.loginUser=loginUser
+				store.chatBodyEl=chatBody.value
+				
+				//store.subscribeRoom()
+			})
+			
+			return {
+				store
+			}
+		},
+		
+	})
+	app.use(createPinia())
+	app.mount('#app')
+	</script>
+</body>
+</html>

@@ -26,10 +26,20 @@ public interface TradeMapper {
 	public int productTotalPage();
 	
 	// 상품 디테일 출력
-	@Select("SELECT no, name, price, salestatus, condition, description, imageurl, imagecount, qty, category, address, trades, TO_CHAR(describedat, 'yyyy-mm-dd' )as dbday "
+	@Select("SELECT no, name, price, salestatus, condition, description, imageurl, imagecount, qty, category, address, trades, TO_CHAR(describedat, 'yyyy-mm-dd' )as dbday, user_no "
 			+ "FROM trade_goods "
 			+ "WHERE no=#{no}")
 	public TradeVO productDetailData(int no);
+	
+	// 상품 디테일 페이지 닉네임, 이미지 출력
+	/*
+	 * 		<select id="tradeDetailUserInfo" resultMap="tradeMap" parameterType="int">
+				SELECT t.user_no,s.storename,s.image,s.no
+				FROM trade_goods t JOIN store s ON t.user_no=s.no
+				WHERE t.user_no=#{no}
+			</select>
+	 */
+	public TradeVO tradeDetailUserInfo(int no);
 	
 	// 상품 등록
 	@Insert("INSERT INTO trade_goods("
