@@ -61,13 +61,13 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-	<div class="container" id="trade_update">
+	<div class="container" id="rental_update">
 		<div class="row">
-			<h2>상품 정보 수정</h2>
+			<h2>대여물품 정보 수정</h2>
 			<div>
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="mar-top-50 d-flex align-items-stretch gap-100">
-					<span class="fs-2 fw-normal" style="min-width: 100px">상품 이미지</span>
+					<span class="fs-2 fw-normal" style="min-width: 100px">대여물품 이미지</span>
 					<label for="input_img" style="cursor: pointer">
 						<img src="/images/test/image_icon.png" style="width: 200px; height: 200px; margin-top: 10px; border: 2px solid black">
 					</label>
@@ -83,7 +83,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			<div>
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="mar-top-50 d-flex align-items-center gap-100">
-					<span class="fs-2 fw-normal" style="min-width:100px;">상품명</span>
+					<span class="fs-2 fw-normal" style="min-width:100px;">대여 물품명</span>
 					<input class="form-control fs-2" v-model="store.detailData.name" ref="nameRef"  type="text" size="115" style="height: 40px;" placeholder="상품명을 작성해주세요" >
 				</div>			
 			</div>
@@ -123,7 +123,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="mar-top-50 d-flex align-items-center">
 					<div class="mar-top-50 d-flex align-items-stretch">
-					    <span class="fs-2 fw-normal" style="min-width: 200px;">상품 상태</span>
+					    <span class="fs-2 fw-normal" style="min-width: 200px;">대여 물품 상태</span>
 					    <div class="align-items-center" ref="conditionRef">
 					        <label class="d-flex align-items-center" style="cursor: pointer;">
 					            <input type="radio" v-model="store.detailData.condition" name="condition" value="NEW" class="form-check-input me-2" checked >
@@ -152,14 +152,14 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			<div>
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="mar-top-50 d-flex  gap-100">
-					<span class="fs-2 fw-normal" style="min-width:100px;">상품 설명</span>
+					<span class="fs-2 fw-normal" style="min-width:100px;">대여 물품 설명</span>
 					<textarea class="form-control fs-2" v-model="store.detailData.description" ref="descriptionRef" rows="10" cols="100" maxlength="4000" style="resize: none;" placeholder="상품에 대한 설명을 최대한 자세히 적어주세요" ></textarea>
 				</div>
 			</div>
 			<div>
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="mar-top-50 d-flex align-items-center gap-100">
-					<span class="fs-2 fw-normal" style="min-width:100px;">상품 가격</span>
+					<span class="fs-2 fw-normal" style="min-width:100px;">대여 물품 가격</span>
 					<div class="d-flex align-items-center gap-2">	
 						<input class="form-control fs-2 text-right" v-model="store.detailData.price" ref="priceRef" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" >
 						<span class="fs-2">원</span>
@@ -169,7 +169,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			<div>
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="mar-top-50 d-flex align-items-center gap-100">
-					<span class="fs-2 fw-normal" style="min-width:100px;">상품 수량</span>
+					<span class="fs-2 fw-normal" style="min-width:100px;">대여 물품 수량</span>
 					<div class="d-flex align-items-center gap-2">	
 						<input class="form-control fs-2 text-right" v-model="store.detailData.qty" ref="qtyRef" type="number" min="1" style="width: 200px; height: 40px;" >
 						<span class="fs-2">개</span>
@@ -237,18 +237,18 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			<div>
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="d-flex justify-content-center align-items-center gap-100 mar-top-50">
-					<input type="button" class="btn btn-dark btn-st fs-2 fw-bold" value="수정" style="width: 150px; height: 60px;" @click="store.tradeUpdateData()">
+					<input type="button" class="btn btn-dark btn-st fs-2 fw-bold" value="수정" style="width: 150px; height: 60px;" @click="store.rentalUpdateData()">
 					<input type="button" class="btn btn-white btn-st fs-2 fw-bold" style="border: 2px solid black; back-color: gray; width: 150px; height: 60px;" value="취소" onclick="javascript:history.back()">
 				</div>
 			</div>
 		</div>
 	</div>
 	<script src="/vue/axios.js"></script>
-	<script src="/vue/trade/tradeUpdateStore.js"></script>
+	<script src="/vue/rental/rentalUpdateStore.js"></script>
 	<script>
 		const {onMounted, ref, createApp} = Vue
 		const {createPinia} = Pinia
-		const tradeUpdateApp=createApp({
+		const rentalUpdateApp=createApp({
 			setup(){
 				const store=useUpdateStore()
 				
@@ -263,8 +263,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			    }
 			}
 		})
-		tradeUpdateApp.use(createPinia())
-		tradeUpdateApp.mount('#trade_update')
+		rentalUpdateApp.use(createPinia())
+		rentalUpdateApp.mount('#rental_update')
 	</script>
 </body>
 </html>

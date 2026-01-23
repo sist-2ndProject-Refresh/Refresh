@@ -2,32 +2,30 @@ package com.sist.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.sist.web.service.TradeService;
-import com.sist.web.vo.TradeVO;
 
-import jakarta.servlet.http.HttpSession;
+import com.sist.web.service.RentalService;
+import com.sist.web.vo.*;
+
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class TradeController {
-	private final TradeService tService;
+public class RentalController {
+	private final RentalService rService;
 	
-	@GetMapping("/product/list")
-	public String product_list(Model model)
+	@GetMapping("/rental/list")
+	public String rental_list(Model model)
 	{
-		model.addAttribute("main_jsp", "../products/product_list.jsp");
+		model.addAttribute("main_jsp", "../rental/rental_list.jsp");
 		return "main/main";
 	}
 	
-	@GetMapping("/product/detail")
+	@GetMapping("/rental/detail")
 	public String product_detail(Model model, @RequestParam("no") int no)
 	{
-		TradeVO vo = tService.productDetailData(no);
-		TradeVO svo = tService.tradeDetailUserInfo(no);
+		RentalVO vo = rService.rentalDetailData(no);
 		
 		String parts[] = vo.getTrades().split("\\|\\|");
 		int partLength = 0;
@@ -59,7 +57,7 @@ public class TradeController {
 			System.out.println("택배: " + part);
 		}
 		
-		String addrPart = parts.length >= partLength ? parts[partLength - 1] : "-";		// 편택 있을 때랑 없을 때랑 길이 차이가 나서 편택있으면 길이 5와 같거나 이상 아니면 4
+		String addrPart = parts.length >= partLength ? parts[partLength - 1] : "-";
 		System.out.println(addrPart);
 		if(parts.length >= 4)
 		{
@@ -85,7 +83,7 @@ public class TradeController {
 			else
 			{
 				String fileName = vo.getImageurl().replace("{cnt}", String.valueOf(i));
-				updateImgUrl[i - 1] = "/userimages/product/" + fileName;
+				updateImgUrl[i - 1] = "/userimages/rental/" + fileName;
 			}
 			
 		}
@@ -100,37 +98,29 @@ public class TradeController {
 		}
 		
 		model.addAttribute("vo", vo);
-		model.addAttribute("svo", svo);
 		model.addAttribute("updateImagUrl", updateImgUrl);
-		model.addAttribute("main_jsp", "../products/product_detail.jsp");
+		model.addAttribute("main_jsp", "../rental/rental_detail.jsp");
 		return "main/main";
 	}
 	
-	
-	@GetMapping("/product/new")
-	public String product_new(Model model)
+	@GetMapping("/rental/new")
+	public String rental_new(Model model)
 	{
-		model.addAttribute("main_jsp", "../products/product_new.jsp");
+		model.addAttribute("main_jsp", "../rental/rental_new.jsp");
 		return "main/main";
 	}
 	
-	@GetMapping("/product/update")
-	public String product_update(Model model)
+	@GetMapping("/rental/update")
+	public String rental_update(Model model)
 	{
-		model.addAttribute("main_jsp", "../products/product_update.jsp");
+		model.addAttribute("main_jsp", "../rental/rental_update.jsp");
 		return "main/main";
 	}
 	
-	@GetMapping("/product/delete")
-	public String product_delete()
+	@GetMapping("/rental/delete")
+	public String rental_delete()
 	{
-		return "products/product_delete";
+		return "rental/rental_delete";
 	}
 	
-	@GetMapping("/product/buying")
-	public String product_buying(Model model)
-	{
-		model.addAttribute("main_jsp", "../products/product_buying.jsp");
-		return "main/main";
-	}
 }

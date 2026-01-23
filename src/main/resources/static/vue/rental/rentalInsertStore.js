@@ -1,6 +1,6 @@
 const { defineStore } = Pinia
 
-const useInsertStore = defineStore('trade_insert', {
+const useInsertStore = defineStore('rental_insert', {
     state: () => ({
         name: '', 			// 상품명
         description: '',	// 상품 설명
@@ -29,10 +29,11 @@ const useInsertStore = defineStore('trade_insert', {
         isCU: false,		// CU 택배 여부
         normalPrice: 0,		// 일반택배 가격
         cvsPrice: 0,		// 편의점 택배 가격
-        trades: ''			// 배송비||일반 {택배비용} || GS반값 · CU알뜰 {택배비용} || 직거래 희망 장소 || {기본 주소} {상세주소}||
+        trades: '',			// 배송비||일반 {택배비용} || GS반값 · CU알뜰 {택배비용} || 직거래 희망 장소 || {기본 주소} {상세주소}||
+		days: 0,			// 대여 기간
     }),
     actions: {
-        async tradeInsertData() {
+        async rentalInsertData() {
 			if(!this.checkData()) return true
 			
 			
@@ -72,15 +73,15 @@ const useInsertStore = defineStore('trade_insert', {
                 lat: 0/*this.lat*/,
                 lon: 0/*this.lon*/,
                 address: this.isDirect ? (this.address1 + " " + this.address2) : '',
-
-                trades: "배송비||" + normalDelivery + cvsDeliveryType + directText + addressText
+                trades: "배송비||" + normalDelivery + cvsDeliveryType + directText + addressText,
+				days : this.days
             }
-            const res = await api.post('/product/insert_vue/', uploadData)
+            const res = await api.post('/rental/insert_vue/', uploadData)
 
             if(res.data.msg ==="yes")
 			{
-				alert("상품이 정상적으로 등록됐습니다!")
-				location.href="/product/list"
+				alert("대여 물품이 정상적으로 등록됐습니다!")
+				location.href="/rental/list"
 			}
 			else
 			{
@@ -141,11 +142,10 @@ const useInsertStore = defineStore('trade_insert', {
 
             for (let i of this.imageList) {
                 formData.append('files', i);
-
             }
 			const fileName = this.imageList[0].name
 			const ext = fileName.slice(fileName.lastIndexOf("."))
-            const res = await axios.post('/product/image_vue/', formData, {
+            const res = await axios.post('/rental/image_vue/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -166,7 +166,7 @@ const useInsertStore = defineStore('trade_insert', {
 			}
 			if(!this.name || this.name.trim() === "")
 			{
-				alert("상품명을 입력해주세요")
+				alert("대여 물품명을 입력해주세요")
 				return false
 			}
 			if(this.category1 === 0)
@@ -176,7 +176,7 @@ const useInsertStore = defineStore('trade_insert', {
 			}
 			if(!this.description || this.description.trim() === "")
 			{
-				alert("상품 설명을 입력해주세요")
+				alert("대여 물품 설명을 입력해주세요")
 				return false
 			}
 			if(this.price <= 0)
@@ -187,6 +187,11 @@ const useInsertStore = defineStore('trade_insert', {
 			if(this.isDirect && this.address1.trim() === "")
 			{
 				alert("주소를 입력해주세요")
+				return false
+			}
+			if(this.days <= 0)
+			{
+				alert("대여 기간을 설정해주세요")
 				return false
 			}
 			return true

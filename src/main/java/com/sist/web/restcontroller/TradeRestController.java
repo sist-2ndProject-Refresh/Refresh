@@ -3,8 +3,11 @@ package com.sist.web.restcontroller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,13 +35,26 @@ public class TradeRestController {
 
 	
 	@GetMapping("/product/list_vue/")
-	public ResponseEntity<Map> product_list_vue(@RequestParam(name = "page") int page)
+	public ResponseEntity<Map> product_list_vue(@RequestParam(name = "page") int page, @RequestParam("type") int type, HttpSession session)
 	{
 		Map map = new HashMap();
+		Object userNoObj = session.getAttribute("no");
+		int user_no = 0;
+		
+		if(userNoObj != null)
+			user_no = Integer.parseInt(userNoObj.toString());
+		
+		if(type == 0)
+			type = 1;
 		
 		try {
 			int start = (page - 1) * 20;
-			List<TradeVO> list = tService.productListData(start);
+			
+			map.put("start", start);
+			map.put("type", type);
+			map.put("user_no", user_no);
+			
+			List<TradeVO> list = tService.productListData(map);
 			int totalPage = tService.productTotalPage();
 			
 			final int BLOCK = 10;
@@ -48,6 +64,8 @@ public class TradeRestController {
 			
 			if(endPage > totalPage)
 				endPage = totalPage;
+			
+			map = new HashMap();
 			
 			map.put("list", list);
 			map.put("curPage", page);
@@ -194,7 +212,6 @@ public class TradeRestController {
     			{
     				price = price.substring(0, price.lastIndexOf("원"));
     				price = price.trim().replace(",", "");
-    				//System.out.println("GS: "+price);
     				vo.setCvsDeliverPrice(Integer.parseInt(price));
     			}
     		}
@@ -215,9 +232,7 @@ public class TradeRestController {
     			{
     				price = price.substring(0, price.lastIndexOf("원"));
     				price = price.trim().replace(",", "");
-    				System.out.println(price);
     				vo.setCvsDeliverPrice(Integer.parseInt(price));
-    				System.out.println("편의점 CU: " + vo.getCvsDeliverPrice());
     			}
     		}
     		return true;
@@ -230,7 +245,6 @@ public class TradeRestController {
 	public ResponseEntity<TradeVO> product_getVoData_vue(@RequestParam("no") int no)
 	{
 		TradeVO vo = new TradeVO();
-		
 		try {
 			vo = tService.productDetailData(no);
 			String trades = vo.getTrades();
@@ -238,7 +252,7 @@ public class TradeRestController {
 		    for(String ss : sliceTrades)
 		    {
 		    	//배송비||일반 334원||GS반값 • CU알뜰 4343원||직거래 희망 장소||제주특별자치도 서귀포시 가가로 15 1234||
-		    	System.out.println(ss);
+		    	//System.out.println(ss);
 
 		    	if(vo.getHowDeliverPrice() == 0)
 		    		vo.setHowDeliverPrice(howDeleverPrice(vo, ss));
@@ -250,19 +264,18 @@ public class TradeRestController {
 		    	if(!vo.isCU())
 		    		vo.setCU(isCU(vo,ss));
 		    	
-		    	System.out.println(vo.isGS());
-		    	System.out.println(vo.isCU());
-		    	
-		    	vo.setDirect(ss.contains("직거래") ? true: false);
+		    	if(!vo.isDirect())
+		    		vo.setDirect(ss.contains("직거래")); 
 		    }
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		System.out.println(vo);
 		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
 	
-	@PostMapping("/product/update_vue/")
+	@PutMapping("/product/update_vue/")
 	public ResponseEntity<Map> product_update_vue(@RequestBody TradeVO vo)
 	{
 		Map map = new HashMap();
@@ -276,5 +289,17 @@ public class TradeRestController {
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	
+	@DeleteMapping("/product/delete_vue/")
+	public ResponseEntity<Void> product_delete_ok(@RequestParam("no") int no)
+	{
+		try {
+			tService.productDeleteData(no);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 }

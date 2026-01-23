@@ -29,12 +29,13 @@ const useUpdateStore = defineStore('trade_update', {
             cu: false,			// CU 편택 여부
             normalPrice: 0,		// 일반 택배 배송비
             cvsPrice: 0,		// 편의점 택배 배송비
-            trades: ''
+            trades: '',
+			days: 0				// 대여 물품 기간
         }
     }),
     actions: {
         async loadDetailData(no) {
-            const res = await api.get('/product/getVoData_vue/', {
+            const res = await api.get('/rental/getVoData_vue/', {
                 params: { no }
             })
             this.detailData.no = res.data.no
@@ -53,10 +54,13 @@ const useUpdateStore = defineStore('trade_update', {
             this.detailData.normalPrice = res.data.nomalDeliverPrice
             this.detailData.cvsPrice = res.data.cvsDeliverPrice
             this.detailData.category = res.data.category
+			this.detailData.days = res.data.days
+            console.log(res.data)
+            console.log(this.detailData)
             await this.findCategory()
             this.loadImageList()
         },
-        async tradeUpdateData() {
+        async rentalUpdateData() {
             if (!this.checkData()) return true
 
             // 일반 배송 여부
@@ -81,7 +85,7 @@ const useUpdateStore = defineStore('trade_update', {
             categoryFull = this.detailData.category3 == 0 ? this.detailData.category2 : this.detailData.category3
 
             this.detailData.imageurl = await this.uploadImages()
-
+			
             const uploadData = {
                 no: this.detailData.no,
                 name: this.detailData.name,
@@ -99,15 +103,15 @@ const useUpdateStore = defineStore('trade_update', {
                 lat: 0/*this.lat*/,
                 lon: 0/*this.lon*/,
                 address: this.detailData.direct ? (this.detailData.address1 + " " + this.detailData.address2) : '',
-
-                // 주소 값 이랑 trades를 어떻게 설정할 지 고민하기 
-
-                trades: "배송비||" + normalDelivery + cvsDeliveryType + directText + addressText
+                trades: "배송비||" + normalDelivery + cvsDeliveryType + directText + addressText,
+				days: this.detailData.days
             }
-            const res = await api.put('/product/update_vue/', uploadData)
+            console.log(uploadData)
+            const res = await api.put('/rental/update_vue/', uploadData)
+            console.log(res.data.msg)
             if (res.data.msg === "OK") {
                 alert("수정이 완료되었습니다.")
-                location.href = '/product/detail?no=' + this.detailData.no
+                location.href = '/rental/detail?no=' + this.detailData.no
             }
             else {
                 alert("작성 내용을 확인해주세요")
@@ -167,8 +171,8 @@ const useUpdateStore = defineStore('trade_update', {
             const originName = this.detailData.imageurl
             for (let i = 1;i <= this.detailData.imagecount;i++) {
                 const fileName = originName.replace("{cnt}", i)
-                this.detailData.imageList.push('/userimages/product/' + fileName)
-                this.detailData.previewList.push('/userimages/product/' + fileName)
+                this.detailData.imageList.push('/userimages/rental/' + fileName)
+                this.detailData.previewList.push('/userimages/rental/' + fileName)
                 console.log(fileName)
             }
         },
@@ -205,7 +209,7 @@ const useUpdateStore = defineStore('trade_update', {
             }
 			const fileName = this.detailData.imageList[0].name
 			const ext = fileName.slice(fileName.lastIndexOf("."))
-            const res = await axios.post('/product/image_vue/', formData, {
+            const res = await axios.post('/rental/image_vue/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -242,6 +246,10 @@ const useUpdateStore = defineStore('trade_update', {
                 alert("주소를 입력해주세요")
                 return false
             }
+			if(this.detailData.days <= 0){
+				alert("기간을 설정해주세요")
+				return false
+			}
             return true
         }
     }

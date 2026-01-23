@@ -6,7 +6,8 @@ const useTradeStore = defineStore('trade', {
         curPage: 1,
         totalPage: 0,
         startPage: 0,
-        endPage: 0
+        endPage: 0,
+		curType: 1
     }),
     getters: {
         range: (state) => {
@@ -18,10 +19,12 @@ const useTradeStore = defineStore('trade', {
         }
     },
     actions: {
-        async tradeListData() {
+        async tradeListData(type) {
+			this.curType = type
             const res = await api.get('/product/list_vue/', {
                 params: {
-                    page: this.curPage
+                    page: this.curPage,
+					type: this.curType
                 }
             })
             this.loadPage(res.data)
@@ -51,7 +54,7 @@ const useTradeStore = defineStore('trade', {
         },
         changePage(page) {
             this.curPage = page
-            this.tradeListData()
+            this.tradeListData(this.curType)
         },
         changeImageUrl(url) {
             if (!url) return '';
@@ -64,7 +67,7 @@ const useTradeStore = defineStore('trade', {
 			// 첫번째 이미지를 대표이미지로 사용
             const fileName = url.replace('{cnt}', '1');
 
-            return '/userimages/product/' + fileName + '.png';
+            return '/userimages/product/' + fileName;
         }
     }
 })

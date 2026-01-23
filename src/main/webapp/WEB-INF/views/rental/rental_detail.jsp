@@ -64,33 +64,31 @@ a:hover {
 									</div>
 								</div>
 							<div class="swiper-pagination" style="margin-top: 30px;"></div>
-						</div> 
+						</div> <!-- </section> -->
 					</td>
 					<td colspan="2" class="text-left display-4 fw-normal" style="padding-left: 50px; border-top: none;">${vo.name }</td>
 				</tr>
 				<tr>
                     <td colspan="2" class="text-left display-3 fw-normal" style="padding-left: 50px;">
-                    	<fmt:formatNumber value="${vo.price}" type="number" />원
+                    	<fmt:formatNumber value="${vo.price}" type="number" />원 / ${vo.days }일
                     </td>
                 </tr>
                 <tr>
                 	<td colspan="2" class="text-right fs-4">
-                		<!-- 본인만 수정, 삭제하기 -->
                 		<c:if test="${vo.user_no == sessionScope.no}">
-	                		<a href="javascript:void(0)" onclick="openDeleteWindow('${vo.no}, 1')" style="opacity: 0.7">삭제하기</a>	
-	                		<a href="/product/update?no=${vo.no }" style="opacity: 0.7; margin-left: 10px;">수정하기</a>
+                			<a href="javascript:void(0)" onclick="openDeleteWindow('${vo.no}')" style="opacity: 0.7">삭제하기</a>
+                			<a href="/rental/update?no=${vo.no }" style="opacity: 0.7; margin-left: 10px;">수정하기</a>
                 		</c:if>
-                		<!-- 다른 사람만 차단 신고하기 -->
                 		<c:if test="${vo.user_no != sessionScope.no}">
-	                		<a href="javascript:void(0)" onclick="openBlockInsertWindow('${vo.user_no}', '1')" style="opacity: 0.7; margin-left: 10px;">차단하기</a>
-	                		<a href="#" style="opacity: 0.7; margin-left: 10px;">신고하기</a>
-	                	</c:if>	
+                			<a href="javascript:void(0)" onclick="openBlockInsertWindow('${vo.user_no}', '2')" style="opacity: 0.7; margin-left: 10px;">차단하기</a>
+                			<a href="#" style="opacity: 0.7; margin-left: 10px;">신고하기</a>
+                		</c:if>	
                 	</td>
                 </tr>
                 <tr>
                 	<td>
                 		<img src="${vo.imageurl }" class="border-circle" style="width: 50px; height: 50px; margin-left: 50px;">
-                		<a href="/mypage/list?no=${svo.stvo.no }"><span class="fs-3" style="padding-left: 15px;">${svo.stvo.storename }</span></a>
+                		<span class="fs-3" style="padding-left: 15px;">닉네임</span>
                 	</td>
                 </tr>
                 <tr><td colspan="2" style="padding-left: 50px;"><hr class="hr-st"></td></tr>
@@ -119,9 +117,7 @@ a:hover {
         </table>
         <div class="container">
         	<div class="text-right">
-	        	<a href="${sessionScope.no == null ? '../member/login' : '/product/buying?no=' += vo.no += '&type=1'}">
-				    <input type="button" class="btn-st fw-bold fs-1" style="background-color: #FFB38A; color: white;" value="바로 구매">
-				</a>
+	        	<input type="button" class="btn-st fw-bold fs-1" style="background-color: #FFB38A; color: white;" value="바로 결제">
 				<input type="button" class="btn-st fw-bold fs-1" style="background-color: #A9C2C4; color: white;" value="구매 문의">
 				<a href="javascript:history.back()"><input type="button" class="btn-st fw-bold fs-1" style="background-color: #E0E0E0; color: #333;" value="목록"></a>
 	        </div>
@@ -146,7 +142,7 @@ a:hover {
 <script>
 	function openDeleteWindow(no)
 	{
-		var url = '../product/delete?no=' + no
+		var url = '../rental/delete?no=' + no
 		var windowName = "DeleteProduct"
 		var options = "width=450, height=300, top=200, left=500, resizable=no, scrollbars=no"
 		window.open(url, windowName, options)

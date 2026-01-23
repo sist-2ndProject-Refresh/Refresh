@@ -2,17 +2,28 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sist.web.mapper.TradeMapper">
-	<resultMap type="com.sist.web.vo.TradeVO" id="tradeMap">
-		<result property="stvo.storename" column="storename"/>
-		<result property="stvo.image" column="image"/>
-		<result property="stvo.no" column="no"/>
-	</resultMap>
-	
-	<select id="tradeDetailUserInfo" resultMap="tradeMap" parameterType="int">
-		SELECT t.user_no,s.storename,s.image,s.no
-		FROM trade_goods t JOIN user_table u ON t.user_no=u.no
-		JOIN store s ON u.no=s.no
-		WHERE t.no=#{no}
+ <mapper namespace="com.sist.web.mapper.TradeMapper" >
+	<select id="productListData" resultType="com.sist.web.vo.TradeVO" parameterType="hashmap">
+		SELECT no, name, price, salestatus, imageurl, imagecount, category, address, trades, TO_CHAR(describedat, 'yyyy-mm-dd' )as dbday
+		FROM trade_goods
+		WHERE user_no NOT IN (SELECT blocked_user FROM block_list WHERE blocking_user = #{user_no})
+		<choose>
+			<when test="type == 1">
+				ORDER BY describedat DESC		
+			</when>
+			<when test="type == 2">
+				ORDER BY describedat ASC				
+			</when>
+			<when test="type == 3">
+				ORDER BY price DESC	
+			</when>
+			<when test="type == 4">
+				ORDER BY price ASC		
+			</when>
+			<otherwise>
+        		ORDER BY describedat DESC
+    		</otherwise>
+		</choose>
+		OFFSET #{start} ROWS FETCH NEXT 20 ROWS ONLY
 	</select>
-</mapper>
+ </mapper>

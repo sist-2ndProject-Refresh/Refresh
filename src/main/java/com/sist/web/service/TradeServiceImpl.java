@@ -11,9 +11,15 @@ import lombok.RequiredArgsConstructor;
 public class TradeServiceImpl implements TradeService{
 	private final TradeMapper mapper;
 	
+	/*
 	@Override
-	public List<TradeVO> productListData(int start) {
-		return mapper.productListData(start);
+	public List<TradeVO> productListData(int start, int user_no) {
+		return mapper.productListData(start, user_no);
+	}
+	*/
+	@Override
+	public List<TradeVO> productListData(Map map) {
+		return mapper.productListData(map);
 	}
 	
 	@Override
@@ -35,10 +41,9 @@ public class TradeServiceImpl implements TradeService{
 	public void productUpdate(TradeVO vo) {
 		mapper.productUpdate(vo);
 	}
-
-	// 상품 상세 페이지 유저 닉네임과 이미지 출력
+	
 	@Override
-	public TradeVO tradeDetailUserInfo(int no) {
-		return mapper.tradeDetailUserInfo(no);
+	public void productDeleteData(int no) {
+		mapper.productDeleteData(no);	
 	}
 }
