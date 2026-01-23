@@ -1,7 +1,7 @@
 const {defineStore} = Pinia
 const {nextTick} = Vue
 
-const userChatStore=defineStore('chat',{
+const useChatStore=defineStore('chat',{
 	state:()=>({
 		stomp:null,
 		users:[],
@@ -9,12 +9,16 @@ const userChatStore=defineStore('chat',{
 		chatroomId:null,
 		loginUser:'',
 		chatBodyEl:null,
-		msg:''
+		msg:'',
+		name:'',
+		imageurl:'',
+		price:0
 	}),
 	actions:{
-		enterRoom(roomId) {
+		enterRoom(roomId,productId) {
 			this.chatroomId=roomId
 			this.messages=[]
+			this.chatTradeData(productId)
 		},
 		connect() {
 			const socket=new SockJS('/chat-ws')
@@ -55,6 +59,16 @@ const userChatStore=defineStore('chat',{
 			)
 			this.msg=''
 			this.scrollToBottom()
+		},
+		async chatTradeData(productId) {
+			const res=await axios.get('/chat/product_data_vue/',{
+				params:{
+					productId:productId
+				}
+			})
+			this.name=res.data.name
+			this.imageurl=res.data.imageurl
+			this.price=res.data.price
 		}
 	}
 }) 

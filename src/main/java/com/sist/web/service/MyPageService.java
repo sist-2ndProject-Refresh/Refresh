@@ -18,4 +18,6 @@ public interface MyPageService {
 	public int mypageTradeCount(int no);
 	public List<TradeVO> mypageTradeEndList(int no, int start);
 	public int mypageTradeEndCount(int no);
+	public List<StoreVO> blockListData(int no, int start); 
+	public int blockCountList(int no);
 }

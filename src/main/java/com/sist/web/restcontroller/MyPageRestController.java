@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sist.web.service.MyPageService;
+import com.sist.web.vo.BlockVO;
 import com.sist.web.vo.MemberVO;
 import com.sist.web.service.ReviewService;
 import com.sist.web.vo.ReviewVO;
@@ -129,6 +130,38 @@ public class MyPageRestController {
 			map.put("curpage", page);
 			map.put("count", count);
 			map.put("ecount", ecount);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	@GetMapping("/mypage/block_list_vue/")
+	public ResponseEntity<Map> mypage_block_list(@RequestParam("no") int no, @RequestParam("page") int page)
+	{
+		Map map=new HashMap();
+		try
+		{
+			List<StoreVO> list=mService.blockListData(no, page);
+			int count=mService.blockCountList(no);
+			int totalpage=(int)Math.ceil(count/8.0);
+			
+			final int BLOCK=10;
+			int startPage=((page-1)/BLOCK*BLOCK)+1;
+			int endPage=((page-1)/BLOCK*BLOCK)+BLOCK;
+			if(endPage>totalpage)
+				endPage=totalpage;
+			
+			map=new HashMap();
+			map.put("list", list);
+			map.put("start", (page-1)*8);
+			map.put("curpage", page);
+			map.put("startPage", startPage);
+			map.put("endPage", endPage);
+			map.put("totalpage", totalpage);
+			map.put("count", count);
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();

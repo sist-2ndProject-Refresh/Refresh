@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.sist.web.mapper.ChatRoomMapper;
 import com.sist.web.vo.ChatRoomVO;
+import com.sist.web.vo.StoreVO;
+import com.sist.web.vo.TradeVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,4 +34,9 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 		return cMapper.noFindByUsername(username);
 	}
 
+	@Override
+	public TradeVO findByProductId(int productId) {
+		// TODO Auto-generated method stub
+		return cMapper.findByProductId(productId);
+	}
 }

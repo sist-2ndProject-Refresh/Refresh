@@ -5,6 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+<script src="https://unpkg.com/vue-demi"></script>
+<script src="https://unpkg.com/pinia@2.1.7/dist/pinia.iife.prod.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <style type="text/css">
 /* ===== 접속자 영역 ===== */
 .user-panel {
@@ -70,7 +76,9 @@
 }
 </style>
 </head>
-
+<script>
+const productId='<%= request.getAttribute("productId") %>'
+</script>
 <body>
 
 <div class="container" id="app">
@@ -105,8 +113,8 @@
 		  </div>
 
 		  <div style="flex-grow:1; display:flex; flex-direction:column; justify-content:center;">
-		    <div style="font-weight:bold; font-size:14px; margin-bottom:5px;">상품 제목 예시</div>
-		    <div style="font-size:13px; color:#555;">상품 설명 예시: 두 줄 정도로 표시</div>
+		    <div style="font-weight:bold; font-size:14px; margin-bottom:5px;">{{store.name}}</div>
+		    <div style="font-size:13px; color:#555;">{{store.price}}</div>
 		  </div>
 		</div>
           <!-- 상대방 -->
@@ -141,6 +149,26 @@
     </div>
   </div>
 </div>
-
+<script src="/vue/chat/chatStore.js"></script>
+	<script>
+	const {createPinia} = Pinia
+	const {createApp,onMounted} = Vue
+	const app=createApp({
+		setup() {
+			const store=useChatStore()
+			
+			onMounted(()=>{
+				store.chatTradeData(productId)
+			})
+			
+			return {
+				store
+			}
+		},
+		
+	})
+	app.use(createPinia())
+	app.mount('#app')
+	</script>
 </body>
 </html>

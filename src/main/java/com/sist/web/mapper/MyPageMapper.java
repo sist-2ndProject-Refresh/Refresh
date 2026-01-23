@@ -90,4 +90,15 @@ public interface MyPageMapper {
 	@Select("SELECT COUNT(*) FROM trade_goods "
 			+ "WHERE salestatus='SOLD_OUT' AND user_no=#{no}")
 	public int mypageTradeEndCount(int no);
+	
+	@Select("SELECT s.no,storename,image "
+			+ "FROM block_list b JOIN store s ON b.blocked_user=s.no "
+			+ "WHERE b.blocking_user=#{no} "
+			+ "OFFSET #{start} ROWS FETCH NEXT 8 ROWS ONLY")
+	public List<StoreVO> blockListData(@Param("no") int no,@Param("start") int start); 
+	
+	@Select("SELECT COUNT(*) "
+			+ "FROM block_list b JOIN store s ON b.blocked_user=s.no "
+			+ "WHERE b.blocking_user=#{no}")
+	public int blockCountList(int no); 
 }

@@ -12,6 +12,8 @@
 <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 const reviewerId = <%= session.getAttribute("no") %>
+const urlParams = new URLSearchParams(window.location.search);
+const no = urlParams.get('no');
 </script>
 <style type="text/css">
 .container {
@@ -246,14 +248,24 @@ table td {
 
 				</div>
 
-				<div class="col-sm-9 right-store">
+				<div class="col-sm-9 right-store" v-if="reviewerId===Number(no) "> <!-- 나중에 수정하기 -->
 					<hr>
-					<div class="username">
-						<button type="button" class="introduce-updatebtn btn btn-info" data-toggle="modal" data-target="#myModal">정보 수정</button>
-						<div id="myModal" class="modal fade" role="dialog">
-						  <div class="modal-dialog">
-							<jsp:include page="../mypage/modal.jsp"/>
-						  </div>
+					<div class="mypage-header" style="display: flex;gap: 10px;">
+						<div class="username">
+							<button type="button" class="introduce-updatebtn btn btn-info" data-toggle="modal" data-target="#myModal">정보 수정</button>
+							<div id="myModal" class="modal fade" role="dialog">
+							  <div class="modal-dialog">
+								<jsp:include page="../mypage/modal.jsp"/>
+							  </div>
+							</div>
+						</div>
+						<div class="blockuser">
+							<button type="button" class="introduce-updatebtn btn btn-info" data-toggle="modal" data-target="#blockModal">차단 목록</button>
+							<div id="blockModal" class="modal fade" role="dialog">
+							  <div class="modal-dialog">
+								<jsp:include page="../mypage/blockmodal.jsp"/>
+							  </div>
+							</div>
 						</div>
 					</div>
 					<hr class="introduce-hr">
@@ -410,8 +422,6 @@ table td {
 		</div>
 	</div>
 	<script>
-	const urlParams = new URLSearchParams(window.location.search);
-	const no = urlParams.get('no');
 	const InfoApp=Vue.createApp({
 		data(){
 			return {

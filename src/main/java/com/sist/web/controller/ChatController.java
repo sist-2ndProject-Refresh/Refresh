@@ -41,13 +41,13 @@ public class ChatController {
 		{
 			ChatRoomVO vo=new ChatRoomVO();
 			vo.setProductId(productId);
-			vo.setSellerId(sellerId);
 			vo.setBuyerId(buyerId);
+			vo.setSellerId(sellerId);		
 			
 			cService.chatroomCreate(vo);
 			chatroom=cService.chatroomFindByIds(productId, buyerId, sellerId);
 		}
 		
-		return "redirect:/chat/chat?chatroomId="+chatroom.getChatroom_id();
+		return "redirect:/chat/chat?chatroomId="+chatroom.getChatroom_id()+"&productId="+chatroom.getProductId()+"&sellerId="+chatroom.getSellerId();
 	}
 }

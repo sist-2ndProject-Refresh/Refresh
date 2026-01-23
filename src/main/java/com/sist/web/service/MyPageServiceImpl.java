@@ -125,5 +125,17 @@ public class MyPageServiceImpl implements MyPageService {
 		return mMapper.mypageTradeEndList(no, start);
 	}
 
+	@Override
+	public int blockCountList(int no) {
+		// TODO Auto-generated method stub
+		return mMapper.blockCountList(no);
+	}
+
+	@Override
+	public List<StoreVO> blockListData(int no, int start) {
+		// TODO Auto-generated method stub
+		return mMapper.blockListData(no, start);
+	}
+
 
 }
