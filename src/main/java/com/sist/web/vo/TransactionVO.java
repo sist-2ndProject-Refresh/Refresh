@@ -5,16 +5,16 @@ import lombok.Data;
 /*
 이름              널?       유형             
 --------------- -------- -------------- 
-TXN_ID          NOT NULL NUMBER         
-TXN_TYPE        NOT NULL NUMBER         
-NAME                     VARCHAR2(1000) 
-SELLER_ID       NOT NULL NUMBER         
-SELLER_NAME          VARCHAR2(35)   
-BUYER_ID        NOT NULL NUMBER         
-BUYER_NAME           VARCHAR2(35)   
-TRADE_AMOUNT    NOT NULL NUMBER         
-FEE_RATE                 NUMBER         
-FEE_AMOUNT               NUMBER         
+TXN_ID          NOT NULL NUMBER         	거래번호
+TXN_TYPE        NOT NULL NUMBER         	거래 유형 {1: 중고 / 2: 대여}
+NAME                     VARCHAR2(1000) 	상품명
+SELLER_ID       NOT NULL NUMBER         	판매자 회원번호
+SELLER_NAME          VARCHAR2(35)   		판매자 이름
+BUYER_ID        NOT NULL NUMBER         	구매자 회원번호
+BUYER_NAME           VARCHAR2(35)   		구매자 닉네임
+TRADE_AMOUNT    NOT NULL NUMBER         	총 거래 금액
+FEE_RATE                 NUMBER         	수수료율
+FEE_AMOUNT               NUMBER         	매출
  */
 @Data
 public class TransactionVO {

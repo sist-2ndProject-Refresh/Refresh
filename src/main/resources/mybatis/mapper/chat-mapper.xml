@@ -14,7 +14,7 @@
 			<result property="sellerId" column="seller_id"/>
 		</association>
 		
-		<association property="svo" javaType="com.sist.web.StoreVO">
+		<association property="svo" javaType="com.sist.web.vo.StoreVO">
 			<id property="no" column="no"/>
 			<result property="storename" column="storename"/>
 			<result property="image" column="image"/>

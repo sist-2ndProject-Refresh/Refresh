@@ -10,13 +10,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TradeServiceImpl implements TradeService{
 	private final TradeMapper mapper;
-	
-	/*
-	@Override
-	public List<TradeVO> productListData(int start, int user_no) {
-		return mapper.productListData(start, user_no);
-	}
-	*/
+
 	@Override
 	public List<TradeVO> productListData(Map map) {
 		return mapper.productListData(map);
@@ -45,5 +39,11 @@ public class TradeServiceImpl implements TradeService{
 	@Override
 	public void productDeleteData(int no) {
 		mapper.productDeleteData(no);	
+	}
+
+	@Override
+	public TradeVO tradeDetailUserInfo(int no) {
+		// TODO Auto-generated method stub
+		return mapper.tradeDetailUserInfo(no);
 	}
 }

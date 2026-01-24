@@ -11,9 +11,6 @@ public interface TradeService {
 	public TradeVO productDetailData(int no);
 	public void productInsertData(TradeVO vo);
 	public void productUpdate(TradeVO vo);
-<<<<<<< HEAD
 	public TradeVO tradeDetailUserInfo(int no);
-=======
 	public void productDeleteData(int no);
->>>>>>> origin/jaehyeon5
 }
