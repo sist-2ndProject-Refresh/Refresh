@@ -23,6 +23,13 @@ import lombok.RequiredArgsConstructor;
 public class ChatController {
 	private final ChatRoomService cService;
 	
+	@GetMapping("/chat/mychat")
+	public String chat_mychat(Model model)
+	{
+		model.addAttribute("main_jsp", "../chat/chat.jsp");
+		return "main/main";
+	}
+	
 	@GetMapping("/chat/chat")
 	public String chat_room(@RequestParam("productId") int productId,
 						    @RequestParam("sellerId") int sellerId,
@@ -50,13 +57,16 @@ public class ChatController {
 		int buyerId=cService.noFindByUsername(username);
 		
 		ChatRoomVO chatroom=cService.chatroomFindByIds(productId, buyerId, sellerId);
-		
+	
 		if(chatroom==null)
 		{
 			ChatRoomVO vo=new ChatRoomVO();
 			vo.setProductId(productId);
 			vo.setBuyerId(buyerId);
-			vo.setSellerId(sellerId);		
+			vo.setSellerId(sellerId);	
+			System.out.println("productId:"+productId);
+			System.out.println("buyerId"+buyerId);
+			System.out.println("sellerId"+sellerId);
 			
 			cService.chatroomCreate(vo);
 			chatroom=cService.chatroomFindByIds(productId, buyerId, sellerId);

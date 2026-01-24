@@ -34,9 +34,8 @@ public interface ChatRoomMapper {
 	
 	@Select("SELECT no FROM user_table WHERE username=#{username}")
 	public int noFindByUsername(String username);
-	
-	@Select("SELECT name,imageurl,price FROM trade_goods WHERE no=#{productId}")
-	public TradeVO findByProductId(int productId);
+
+	public ChatRoomVO findTradeByChatroomid(int chatroomId);
 	/*
 	 * 	private int chat_id,chatroom_id,sender;
 		private String content,dbday;
@@ -47,4 +46,24 @@ public interface ChatRoomMapper {
 	
 	@Select("SELECT chat_id,chatroom_id,sender,content,TO_CHAR(chat_time,'HH24:MI') as dbday FROM chat WHERE chatroom_id=#{chatroom_id}")
 	public List<ChatVO> chatMessageData(int chatroom_id);
+	
+	/*
+	 * 	<select id="chatListData" resultMap="chatMap" parameterType="int">
+			SELECT chat_id,c.chatroom_id,content,TO_CHAR(chat_time,'HH24:MI') as dbday,
+			       buyer_id,seller_id,s.no,storename,image
+			FROM chat_room cr JOIN chat c 
+			ON c.chat_id=(SELECT MAX(chat_id) FROM chat WHERE chatroom_id=cr.chatroom_id)
+			
+			JOIN store s ON s.no=
+			CASE
+				WHEN seller_id=#{loginId}
+				THEN buyer_id
+				ELSE seller_id
+			END
+			
+			WHERE #{loginId} IN (seller_id,buyer_id)
+			ORDER BY chat_time DESC  
+		</select>
+	 */
+	public List<ChatVO> chatListData(@Param("loginId") int loginId);
 }

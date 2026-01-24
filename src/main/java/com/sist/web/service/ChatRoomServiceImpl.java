@@ -37,12 +37,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 	}
 
 	@Override
-	public TradeVO findByProductId(int productId) {
-		// TODO Auto-generated method stub
-		return cMapper.findByProductId(productId);
-	}
-
-	@Override
 	public void chatMessageInsert(ChatVO vo) {
 		// TODO Auto-generated method stub
 		cMapper.chatMessageInsert(vo);
@@ -52,5 +46,18 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 	public List<ChatVO> chatMessageData(int chatroom_id) {
 		// TODO Auto-generated method stub
 		return cMapper.chatMessageData(chatroom_id);
+	}
+
+	@Override
+	public List<ChatVO> chatListData(int loginId) {
+		// TODO Auto-generated method stub
+		System.out.println("loginId :"+loginId);
+		return cMapper.chatListData(loginId);
+	}
+
+	@Override
+	public ChatRoomVO findTradeByChatroomid(int chatroomId) {
+		// TODO Auto-generated method stub
+		return cMapper.findTradeByChatroomid(chatroomId);
 	}
 }

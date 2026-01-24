@@ -86,6 +86,34 @@ const loginUser='${sessionScope.no}'
 
 <div class="container" id="app">
   <div class="row">
+	 <div class="col-sm-3 user-panel">
+      <h4 class="text-center">채팅방 리스트</h4>
+      <ul class="list-group">
+        <li class="list-group-item"
+        	v-for="room in store.chatroomList"
+        	:key="room.cvo.chatroom_id"
+        	@click="store.selectRoom(room)"
+        	>
+        	<div style="display:flex; align-items:center;">
+		        <img :src="room.svo.image" style="width:40px;height:40px;border-radius:50%;margin-right:10px;">
+		
+		        <div style="flex:1">
+		          <div style="font-weight:bold;">
+		            {{ room.svo.storename }}
+		          </div>
+		          <div style="font-size:12px;color:#666;">
+		            {{ room.content }}
+		          </div>
+		        </div>
+		
+		        <div style="font-size:11px;color:#999;">
+		          {{ room.dbday }}
+		        </div>
+	        </div>
+        </li>
+        
+      </ul>
+    </div>
 
     <!-- ================= 채팅 ================= -->
     <div class="col-sm-9 chat-panel">
@@ -152,10 +180,10 @@ const loginUser='${sessionScope.no}'
 				
 				store.connect()
 				store.chatroomId=chatroomId
-				store.chatTradeData(productId)
+				store.chatTradeData(chatroomId)
 				store.loginUser=loginUser
 				store.chatBodyEl=chatBody.value
-				
+				store.chatRoomList()
 				//store.subscribeRoom()
 			})
 			

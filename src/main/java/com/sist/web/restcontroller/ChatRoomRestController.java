@@ -26,16 +26,16 @@ public class ChatRoomRestController {
 	private final ChatRoomService cService;
 	
 	@GetMapping("/chat/product_data_vue/")
-	public ResponseEntity<Map> chat_product_data(@RequestParam("productId") int productId)
+	public ResponseEntity<Map> chat_product_data(@RequestParam("chatroomId") int chatroomId)
 	{
 		Map map=new HashMap();
 		try
 		{
-			TradeVO vo=cService.findByProductId(productId);
+			ChatRoomVO vo=cService.findTradeByChatroomid(chatroomId);
 
-			map.put("imageurl", vo.getImageurl());
-			map.put("name", vo.getName());
-			map.put("price", vo.getPrice());
+			map.put("imageurl", vo.getTvo().getImageurl());
+			map.put("name", vo.getTvo().getName());
+			map.put("price", vo.getTvo().getPrice());
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();
@@ -55,6 +55,24 @@ public class ChatRoomRestController {
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(list,HttpStatus.OK);
+	}
+	
+	@GetMapping("/chat/chat_list/")
+	public ResponseEntity<List<ChatVO>> chat_list(Principal principal)
+	{
+		List<ChatVO> list=new ArrayList<>();
+		try
+		{
+			String username=principal.getName();
+			int loginId=cService.noFindByUsername(username);
+			list=cService.chatListData(loginId);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			System.out.println("채팅 리스트 오류");
 			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<>(list,HttpStatus.OK);

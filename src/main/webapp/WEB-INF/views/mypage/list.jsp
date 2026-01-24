@@ -252,7 +252,7 @@ table td {
 					<hr>
 					<div class="mypage-header" style="display: flex;gap: 10px;">
 						<div class="username">
-							<button type="button" class="introduce-updatebtn btn btn-info" data-toggle="modal" data-target="#myModal">정보 수정</button>
+							<button type="button" class="introduce-updatebtn btn" data-toggle="modal" data-target="#myModal">정보 수정</button>
 							<div id="myModal" class="modal fade" role="dialog">
 							  <div class="modal-dialog">
 								<jsp:include page="../mypage/modal.jsp"/>
@@ -260,12 +260,15 @@ table td {
 							</div>
 						</div>
 						<div class="blockuser">
-							<button type="button" class="introduce-updatebtn btn btn-info" data-toggle="modal" data-target="#blockModal">차단 목록</button>
+							<button type="button" class="introduce-updatebtn btn" data-toggle="modal" data-target="#blockModal">차단 목록</button>
 							<div id="blockModal" class="modal fade" role="dialog">
 							  <div class="modal-dialog">
 								<jsp:include page="../mypage/blockmodal.jsp"/>
 							  </div>
 							</div>
+						</div>
+						<div class="chatroom">
+							<a href="/chat/mychat" class="btn btn-sm introduce-updatebtn">채팅</a>
 						</div>
 					</div>
 					<hr class="introduce-hr">

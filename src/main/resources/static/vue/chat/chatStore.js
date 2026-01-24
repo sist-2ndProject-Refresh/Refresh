@@ -6,6 +6,7 @@ const useChatStore=defineStore('chat',{
 		stomp:null,
 		users:[],
 		messages:[],
+		chatroomList:[],
 		chatroomId:null,
 		loginUser:'',
 		chatBodyEl:null,
@@ -18,7 +19,7 @@ const useChatStore=defineStore('chat',{
 		enterRoom(roomId,productId) {
 			this.chatroomId=roomId
 			this.messages=[]
-			this.chatTradeData(productId)
+			this.chatTradeData(chatroomId)
 		},
 		connect() {
 			const socket=new SockJS('/chat-ws')
@@ -63,10 +64,10 @@ const useChatStore=defineStore('chat',{
 			this.msg=''
 			this.scrollToBottom()
 		},
-		async chatTradeData(productId) {
+		async chatTradeData(chatroomId) {
 			const res=await axios.get('/chat/product_data_vue/',{
 				params:{
-					productId:productId
+					chatroomId:chatroomId
 				}
 			})
 			this.name=res.data.name
@@ -81,6 +82,18 @@ const useChatStore=defineStore('chat',{
 			})
 			this.messages=res.data
 			this.scrollToBottom()
+		},
+		async chatRoomList() {
+			const res=await axios.get('/chat/chat_list/')
+			this.chatroomList=res.data
+		},
+		async selectRoom(room) {
+			this.chatroomId=room.cvo.chatroom_id
+			this.messages=[]
+			
+			await this.messageList()
+			await this.chatTradeData(this.chatroomId)
+			this.subscribeRoom()
 		}
 	}
 }) 
