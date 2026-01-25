@@ -15,9 +15,10 @@ BUYER_NAME           VARCHAR2(35)   		구매자 닉네임
 TRADE_AMOUNT    NOT NULL NUMBER         	총 거래 금액
 FEE_RATE                 NUMBER         	수수료율
 FEE_AMOUNT               NUMBER         	매출
+ADDRESS					 VARCHAR(500)		구매자 배송지
  */
 @Data
 public class TransactionVO {
 	private int txn_id,txn_type,seller_id,buyer_id,trade_amount,fee_rate,fee_amount;
-	private String name,seller_name;
+	private String name,seller_name, buyer_name, address;
 }

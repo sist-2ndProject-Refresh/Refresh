@@ -80,39 +80,41 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<span class="fs-1 fw-normal" style="min-width: 100px">거래방법</span>
 				<div class="mar-top-50 d-flex align-items-stretch gap-100" style="margin-left: 50px">
 					<div class="d-flex gap-100">
-						<label class="d-flex align-items-center" style="cursor: pointer;"> 
-						<input type="radio" v-model="store.delivery" :value="0" class="form-check-input me-2" checked @change="store.howToDelivery"> 
-							<span class="fs-2 fw-normal">직거래</span>
+						<label class="d-flex align-items-center" style="cursor: pointer;" v-if="store.direct"> 
+							<input type="radio" v-model="store.delivery" :value="0" class="form-check-input me-2" @change="store.howToDelivery"> 
+								<span class="fs-2 fw-normal">직거래</span>
 						</label> 
 						<label class="d-flex align-items-center gap-5" style="cursor: pointer;">
 							<input type="radio" v-model="store.delivery" :value="1" class="form-check-input m-0 me-2" @change="store.howToDelivery"> 
 							<span class="fs-2 fw-normal">일반 택배</span> 
 							<span class="fs-3 fw-normal">{{store.normalPrice}}원</span>
 						</label>
-						<label class="d-flex align-items-center gap-5" style="cursor: pointer;">
+						<label class="d-flex align-items-center gap-5" style="cursor: pointer;" v-if="store.gs">
 							<input type="radio" v-model="store.delivery" :value="2" class="form-check-input m-0 me-2" @change="store.howToDelivery"> 
 							<span class="fs-2 fw-normal">GS 반값 택배</span> 
 							<span class="fs-3 fw-normal">{{store.csvPrice}}원</span>
 						</label>
-						<label class="d-flex align-items-center gap-5" style="cursor: pointer;">
+						<label class="d-flex align-items-center gap-5" style="cursor: pointer;" v-if="store.cu">
 							<input type="radio" v-model="store.delivery" :value="3" class="form-check-input m-0 me-2" @change="store.howToDelivery"> 
 							<span class="fs-2 fw-normal">CU 알뜰 택배</span> 
 							<span class="fs-3 fw-normal">{{store.csvPrice}}원</span>
 						</label>
 					</div>
 				</div>
-				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
-				<span class="fs-1 fw-normal" style="min-width: 100px">배송지</span>
-				<div>
-					<div style="margin-bottom:50px; margin-left: 100px;">	
-						<div class="align-items-center">
-							<input class="form-control fs-2" type="text" v-model="store.post" style="width: 250px; height: 40px; margin-top: 10px;" readonly>
-							<div class="d-flex">
-								<input class="form-control fs-2" type="text" v-model="store.address1" style="width: 400px; height: 40px; margin-top: 10px;" readonly>
-								<input type="button" class="btn btn-dark btn-sm btn-st" value="주소 변경" @click="store.postFind()">
+				<div v-if="store.delivery == 1">
+					<hr class="hr-st" style="width: 100%; margin-top: 50px;">
+					<span class="fs-1 fw-normal" style="min-width: 100px">배송지</span>
+					<div>
+						<div style="margin-bottom:50px; margin-left: 100px;">	
+							<div class="align-items-center">
+								<input class="form-control fs-2" type="text" v-model="store.post" style="width: 250px; height: 40px; margin-top: 10px;" readonly>
+								<div class="d-flex">
+									<input class="form-control fs-2" type="text" v-model="store.address1" style="width: 400px; height: 40px; margin-top: 10px;" readonly>
+									<input type="button" class="btn btn-dark btn-sm btn-st" value="주소 변경" @click="store.postFind()">
+								</div>
 							</div>
+							<input class="form-control fs-2" type="text" v-model="store.address2" style="width: 500px; height: 40px; margin-top: 10px;" placeholder="상세 주소를 입력해주세요">
 						</div>
-						<input class="form-control fs-2" type="text" v-model="store.address2" style="width: 500px; height: 40px; margin-top: 10px;" placeholder="상세 주소를 입력해주세요">
 					</div>
 				</div>
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
@@ -155,12 +157,12 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					<hr class="hr-st" style="width: 100%; margin-top: 20px;">				
 					<div class="d-flex justify-content-between" style="margin-left: 70px; margin-top: 20px; margin-bottom: 20px;">
 						<div class="fs-3 fw-normal" style="min-width: 200px; color: #999;">잔여 포인트</div>
-						<div class="fs-3 fw-bold" style="min-width: 200px">{{store.extraPoint}}P</div>
+						<div class="fs-3 fw-bold" style="min-width: 200px">{{store.extraPoint}} P</div>
 					</div>					
 				</div>
 				<div>
 					<div class="d-flex justify-content-center align-items-center gap-100 mar-top-50">
-						<input type="button" class="btn btn-dark btn-st fs-2 fw-bold" value="등록" style="width: 150px; height: 60px;" @click="store.tradeInsertData()">
+						<input type="button" class="btn btn-dark btn-st fs-2 fw-bold" value="등록" style="width: 150px; height: 60px;" @click="store.buying()">
 						<input type="button" class="btn btn-white btn-st fs-2 fw-bold" style="border: 2px solid black; back-color: gray; width: 150px; height: 60px;" value="취소" onclick="javascript:history.back()">
 					</div>
 				</div>
@@ -169,7 +171,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		</div>
 	</div>
 	<script src="/vue/axios.js"></script>
-	<script src="/vue/trade/buyStore.js"></script>
+	<script src="/vue/transaction/buyStore.js"></script>
 	<script>
 		const {createPinia} = Pinia
 		const {createApp, onMounted} = Vue

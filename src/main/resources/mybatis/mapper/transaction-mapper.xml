@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.sist.web.mapper.TransactionMapper">
+ 	<update id="changeSaleStatue" parameterType="hashmap">
+		UPDATE
+		<choose>
+			<when test="type == 1">
+				trade_goods 
+			</when>
+			<when test="type == 2">
+				rental 
+			</when>
+		</choose>
+		SET salestatus = 'SOLD_OUT',
+			name = '[판매완료]' ||#{name} 
+		WHERE no = #{no}
+	</update>
+ </mapper>

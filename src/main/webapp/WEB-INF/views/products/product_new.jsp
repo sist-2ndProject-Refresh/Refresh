@@ -250,35 +250,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		const tradeInsertApp=createApp({
 			setup(){
 				const store=useInsertStore()
-				const nameRef=ref(null)
-				const imagesRef=ref(null)
-				const categoryRef_1=ref(null)
-				const categoryRef_2=ref(null)
-				const categoryRef_3=ref(null)
-				const conditionRef=ref(null)
-				const descriptionRef=ref(null)
-				const priceRef=ref(null)
-				const qtyRef=ref(null)
-				const deliveryRef=ref(null)
-				const csvRef=ref(null)
-				const directRef=ref(null)
-				const addressRef=ref(null)
-				
 				return {
-			        store,
-			        imagesRef, 
-			        nameRef, 
-			        categoryRef_1, 
-			        categoryRef_2, 
-			        categoryRef_3,
-			        conditionRef, 
-			        descriptionRef, 
-			        priceRef, 
-			        qtyRef,
-			        deliveryRef,
-			        csvRef, 
-			        directRef, 
-			        addressRef
+			        store
 			    }
 			},
 			mounted() {

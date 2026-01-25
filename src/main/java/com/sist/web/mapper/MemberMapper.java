@@ -70,4 +70,8 @@ public interface MemberMapper {
 	void passwordUpdateByPhone(MemberVO vo);
 	
 	
+	@Update("UPDATE user_table SET point = point - #{total_amount} WHERE no = #{user_no}")
+	public void decrementPoint(Map map);
+	
+	
 }
