@@ -12,4 +12,9 @@ public class ReportController {
 		model.addAttribute("main_jsp", "../report/main.jsp");
 		return "main/main";
 	}
+	@GetMapping("/admin/report")
+	public String admin_report(Model model) {
+		model.addAttribute("main_jsp", "../admin/report.jsp");
+		return "main/main";
+	}
 }

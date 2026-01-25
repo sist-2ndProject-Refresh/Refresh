@@ -12,10 +12,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.util.*;
 import com.sist.web.vo.*;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import com.sist.web.service.*;
 @RestController
 @RequiredArgsConstructor
@@ -166,6 +174,7 @@ public class ReportRestController {
 			map.put("reporttype",reporttype);
 			
 			vo = rService.reportDetailData(map);
+
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();
@@ -174,5 +183,27 @@ public class ReportRestController {
 		
 		return new ResponseEntity<>(vo,HttpStatus.OK);
 	}
+	   @GetMapping("/report/download")
+	   public void databoard_download(@RequestParam("name") String name,
+	      HttpServletRequest request,HttpServletResponse response
+	   )throws Exception
+	   {
+		   String fileName = name.substring(name.lastIndexOf("/")+1);
+		   System.out.println(fileName);
+		   File file=new File(uploadDir+"report"+File.separator+fileName);
+		   response.setHeader("Content-Disposition", "attchement;filename="+URLEncoder.encode(fileName, "UTF-8"));
+		   response.setContentLength((int)file.length());
+		   
+		   BufferedInputStream bis=new BufferedInputStream(new FileInputStream(file));
+		   BufferedOutputStream bos= new BufferedOutputStream(response.getOutputStream());
+		   int i=0;
+		   byte[] buffer=new byte[1024];
+		   while((i=bis.read(buffer, 0, 1024))!=-1)
+		   {
+			   bos.write(buffer, 0, i);
+		   }
+		   bis.close();
+		   bos.close();
+	   }
 	
 }

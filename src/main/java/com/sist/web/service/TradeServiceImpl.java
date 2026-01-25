@@ -46,4 +46,10 @@ public class TradeServiceImpl implements TradeService{
 	public void productDeleteData(int no) {
 		mapper.productDeleteData(no);	
 	}
+
+	@Override
+	public TradeVO tradeDetailUserInfo(int no) {
+		// TODO Auto-generated method stub
+		return mapper.tradeDetailUserInfo(no);
+	}
 }
