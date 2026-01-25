@@ -1,5 +1,6 @@
 package com.sist.web.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +15,11 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class TradeController {
+	@Value("${map-key}")
+	private String kakaoMapKey;
+	
 	private final TradeService tService;
+	
 	
 	@GetMapping("/product/list")
 	public String product_list(Model model)
@@ -51,16 +56,13 @@ public class TradeController {
 					checkCvs = true;
 				}
 				else
-				{
 					partLength = 4;
-				}
 			}
-			
-			System.out.println("택배: " + part);
 		}
 		
 		String addrPart = parts.length >= partLength ? parts[partLength - 1] : "-";		// 편택 있을 때랑 없을 때랑 길이 차이가 나서 편택있으면 길이 5와 같거나 이상 아니면 4
-		System.out.println(addrPart);
+		vo.setKakaoMapAddress(addrPart);
+		
 		if(parts.length >= 4)
 		{
 			if(addrPart != "-")
@@ -71,17 +73,13 @@ public class TradeController {
 			}
 		}
 		else
-		{
 			vo.setAddress("-");
-		}
 		
 		String updateImgUrl[] = new String[vo.getImagecount()];
 		for(int i = 1; i <= vo.getImagecount(); i++)
 		{
 			if(vo.getImageurl().startsWith("http"))
-			{
 				updateImgUrl[i-1] = vo.getImageurl().replace("{cnt}", String.valueOf(i));
-			}
 			else
 			{
 				String fileName = vo.getImageurl().replace("{cnt}", String.valueOf(i));
@@ -99,6 +97,7 @@ public class TradeController {
 		case "DAMAGED": {vo.setCondition("고장 / 파손"); break;}
 		}
 		
+		model.addAttribute("kakaomap_key", kakaoMapKey);
 		model.addAttribute("vo", vo);
 		model.addAttribute("svo", svo);
 		model.addAttribute("updateImagUrl", updateImgUrl);

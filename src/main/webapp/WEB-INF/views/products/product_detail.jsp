@@ -39,6 +39,13 @@ a:hover {
 .btn-st:hover {
     opacity: 0.8;
 }
+#container {overflow:hidden;height:600px;position:relative;}
+#btnRoadview,  #btnMap {position:absolute;top:5px;left:5px;padding:7px 12px;font-size:14px;border: 1px solid #dbdbdb;background-color: #fff;border-radius: 2px;box-shadow: 0 1px 1px rgba(0,0,0,.04);z-index:1;cursor:pointer;}
+#btnRoadview:hover,  #btnMap:hover{background-color: #fcfcfc;border: 1px solid #c1c1c1;}
+#container.view_map #mapWrapper {z-index: 10;}
+#container.view_map #btnMap {display: none;}
+#container.view_roadview #mapWrapper {z-index: 0;}
+#container.view_roadview #btnRoadview {display: none;}
 </style>
 </head>
 <body>
@@ -142,9 +149,24 @@ a:hover {
         </div>
         <div class="container">
         	<!-- 만약 직거래라면 지도 띄우려고 함 시간 되면 -->
+        	<div class="fs-1 fw-normal" style="margin-bottom: 20px;">직거래 지역</div>
+        	<p style="margin-top:-12px">지도의 위치는 대략적인 위치만 나타냅니다.</p>
+			<div id="container" class="view_map">
+			    <div id="mapWrapper" style="width:100%;height:600px;position:relative;">
+			        <div id="map" style="width:100%;height:100%"></div> <!-- 지도를 표시할 div 입니다 -->
+			        <input type="button" id="btnRoadview" onclick="toggleMap(false)" title="로드뷰 보기" value="로드뷰">
+			    </div>
+			    <div id="rvWrapper" style="width:100%;height:600px;position:absolute;top:0;left:0;">
+			        <div id="roadview" style="height:100%"></div> <!-- 로드뷰를 표시할 div 입니다 -->
+			        <input type="button" id="btnMap" onclick="toggleMap(true)" title="지도 보기" value="지도">
+			    </div>
+			</div>
         </div>
     </div>
 </div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaomap_key }&libraries=services"></script>
+<script>var targetAddress = '${vo.address}'</script>
+<script src="/js/kakaomap.js"></script>
 <script>
 	function openDeleteWindow(no)
 	{
