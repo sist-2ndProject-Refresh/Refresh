@@ -108,7 +108,8 @@ public class TradeController {
 	
 	@GetMapping("/product/new")
 	public String product_new(Model model)
-	{
+	{		
+		model.addAttribute("kakaomap_key", kakaoMapKey);
 		model.addAttribute("main_jsp", "../products/product_new.jsp");
 		return "main/main";
 	}

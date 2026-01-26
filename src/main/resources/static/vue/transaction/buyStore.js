@@ -102,16 +102,16 @@ const useBuyStore = defineStore('buying', {
             })
             if (res.data.msg == "OK") {
                 alert("구매가 완료되었습니다!")
-                location.href = '/mypage/list'
+                location.href = '/mypage/list?no=' + this.user_no
             }
             else {
                 alert("구매에 실패하셨습니다")
             }
         },
         checkTrade() {
-            if (this.point < this.price && this.point - this.price < 0) {
+            if (this.point < this.price && (this.point - this.price) < 0) {
                 alert('현재 잔여 포인트가 부족합니다.')
-                location.href = '/mypage/list'
+                location.href = '/mypage/list?no=' + this.user_no
                 return false
             }
             if (this.delivery == 4) {

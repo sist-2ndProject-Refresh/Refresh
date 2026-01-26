@@ -253,6 +253,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		</div>
 	</div>
 	<script src="/vue/axios.js"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaomap_key }&libraries=services"></script>
 	<script src="/vue/rental/rentalInsertStore.js"></script>
 	<script>
 		const {onMounted, ref, createApp} = Vue

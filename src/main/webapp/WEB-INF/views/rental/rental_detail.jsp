@@ -125,7 +125,7 @@ a:hover {
         <div class="container">
         	<div class="text-right">
 				<c:if test="${vo.salestatus != 'SOLD_OUT'}">
-		        	<a href="${sessionScope.no == null ? '../member/login' : '/transaction/buying?no=' += vo.no += '&type=2'}">
+		        	<a href="${sessionScope.no == null ? '../member/login_before' : '/transaction/buying?no=' += vo.no += '&type=2'}">
 					    <input type="button" class="btn-st fw-bold fs-1" style="background-color: #FFB38A; color: white;" value="바로 구매">
 					</a>
 					<input type="button" class="btn-st fw-bold fs-1" style="background-color: #A9C2C4; color: white;" value="구매 문의">
@@ -146,24 +146,30 @@ a:hover {
         <hr class="hr-st" style="width: 100%;">
         </div>
         <div class="container">
-        	<!-- 만약 직거래라면 지도 띄우려고 함 시간 되면 -->
-        	<div class="fs-1 fw-normal" style="margin-bottom: 20px;">직거래 지역</div>
-        	<p style="margin-top:-12px">지도의 위치는 대략적인 위치만 나타냅니다.</p>
-			<div id="container" class="view_map">
-			    <div id="mapWrapper" style="width:100%;height:600px;position:relative;">
-			        <div id="map" style="width:100%;height:100%"></div> <!-- 지도를 표시할 div 입니다 -->
-			        <input type="button" id="btnRoadview" onclick="toggleMap(false)" title="로드뷰 보기" value="로드뷰">
-			    </div>
-			    <div id="rvWrapper" style="width:100%;height:600px;position:absolute;top:0;left:0;">
-			        <div id="roadview" style="height:100%"></div> <!-- 로드뷰를 표시할 div 입니다 -->
-			        <input type="button" id="btnMap" onclick="toggleMap(true)" title="지도 보기" value="지도">
-			    </div>
-			</div>
+        	<c:if test="${vo.lat != 0.0 || vo.lon != 0.0}">
+	        	<div class="fs-1 fw-normal" style="margin-bottom: 20px;">직거래 지역</div>
+	        	<p style="margin-top:-12px">지도의 위치는 대략적인 위치만 나타냅니다.</p>
+				<div id="container" class="view_map">
+				    <div id="mapWrapper" style="width:100%;height:600px;position:relative;">
+				        <div id="map" style="width:100%;height:100%"></div> <!-- 지도를 표시할 div 입니다 -->
+				        <input type="button" id="btnRoadview" onclick="toggleMap(false)" title="로드뷰 보기" value="로드뷰">
+				    </div>
+				    <div id="rvWrapper" style="width:100%;height:600px;position:absolute;top:0;left:0;">
+				        <div id="roadview" style="height:100%"></div> <!-- 로드뷰를 표시할 div 입니다 -->
+				        <input type="button" id="btnMap" onclick="toggleMap(true)" title="지도 보기" value="지도">
+				    </div>
+				</div>
+			</c:if>
         </div>
     </div>
 </div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaomap_key }&libraries=services"></script>
-<script>var targetAddress = '${vo.kakaoMapAddress}'</script>
+<script>
+	var targetLat = '${vo.lat}'
+	console.log(targetLat)
+	var targetLon = '${vo.lon}'
+	console.log(targetLon)
+</script>
 <script src="/js/kakaomap.js"></script>
 <script>
 	function openDeleteWindow(no)

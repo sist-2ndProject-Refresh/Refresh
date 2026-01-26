@@ -162,7 +162,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				</div>
 				<div>
 					<div class="d-flex justify-content-center align-items-center gap-100 mar-top-50">
-						<input type="button" class="btn btn-dark btn-st fs-2 fw-bold" value="등록" style="width: 150px; height: 60px;" @click="store.buying()">
+						<input type="button" class="btn btn-dark btn-st fs-2 fw-bold" value="구매" style="width: 150px; height: 60px;" @click="store.buying()">
 						<input type="button" class="btn btn-white btn-st fs-2 fw-bold" style="border: 2px solid black; back-color: gray; width: 150px; height: 60px;" value="취소" onclick="javascript:history.back()">
 					</div>
 				</div>

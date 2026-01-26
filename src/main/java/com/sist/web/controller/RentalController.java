@@ -104,6 +104,7 @@ public class RentalController {
 	@GetMapping("/rental/new")
 	public String rental_new(Model model)
 	{
+		model.addAttribute("kakaomap_key", kakaoMapKey);
 		model.addAttribute("main_jsp", "../rental/rental_new.jsp");
 		return "main/main";
 	}

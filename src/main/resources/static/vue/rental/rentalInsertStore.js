@@ -18,8 +18,8 @@ const useInsertStore = defineStore('rental_insert', {
         cate1List: [],		// 대분류 리스트
         cate2List: [],		// 중분류 리스트
         cate3List: [],		// 소분류 리스트
-        lat: 0,				// 위도
-        lon: 0,				// 경도
+        lat: null,				// 위도
+        lon: null,				// 경도
         address: '',		// 전체 주소
         address1: '',		// 기본 주소
         address2: '',		// 상세 주소
@@ -30,13 +30,13 @@ const useInsertStore = defineStore('rental_insert', {
         normalPrice: 0,		// 일반택배 가격
         cvsPrice: 0,		// 편의점 택배 가격
         trades: '',			// 배송비||일반 {택배비용} || GS반값 · CU알뜰 {택배비용} || 직거래 희망 장소 || {기본 주소} {상세주소}||
-		days: 0,			// 대여 기간
+        days: 0,			// 대여 기간
     }),
     actions: {
         async rentalInsertData() {
-			if(!this.checkData()) return true
-			
-			
+            if (!this.checkData()) return true
+
+
             // 일반 배송 여부
             let normalDelivery = this.includeDelivery == 0 ? "무료배송||" : "일반 " + this.normalPrice + "원||"
 
@@ -58,7 +58,7 @@ const useInsertStore = defineStore('rental_insert', {
             let categoryFull = 0
             categoryFull = this.category2 == 0 ? this.category1 : this.category2
             categoryFull = this.category3 == 0 ? this.category2 : this.category3
-			
+
             this.imageurl = await this.uploadImages()
 
             const uploadData = {
@@ -70,23 +70,21 @@ const useInsertStore = defineStore('rental_insert', {
                 imagecount: this.imagecount,
                 imageurl: this.imageurl,
                 category: categoryFull,
-                lat: 0/*this.lat*/,
-                lon: 0/*this.lon*/,
+                lat: this.lat,
+                lon: this.lon,
                 address: this.isDirect ? (this.address1 + " " + this.address2) : '',
                 trades: "배송비||" + normalDelivery + cvsDeliveryType + directText + addressText,
-				days : this.days
+                days: this.days
             }
             const res = await api.post('/rental/insert_vue/', uploadData)
 
-            if(res.data.msg ==="yes")
-			{
-				alert("대여 물품이 정상적으로 등록됐습니다!")
-				location.href="/rental/list"
-			}
-			else
-			{
-				alert("등록에 실패했습니다.")
-			}
+            if (res.data.msg === "yes") {
+                alert("대여 물품이 정상적으로 등록됐습니다!")
+                location.href = "/rental/list"
+            }
+            else {
+                alert("등록에 실패했습니다.")
+            }
         },
         async loadCategoryFirst() {
             const res = await api.get('/product/category1_vue/')
@@ -118,9 +116,20 @@ const useInsertStore = defineStore('rental_insert', {
         },
         postFind() {
             let _this = this
+
+            var geocoder = new kakao.maps.services.Geocoder()
+
             new daum.Postcode({
                 oncomplete: function(data) {
                     _this.address1 = data.address
+
+                    geocoder.addressSearch(data.address, function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            _this.lat = result[0].y; // 위도 저장
+                            _this.lon = result[0].x; // 경도 저장
+                            console.log("좌표 추출 성공:", _this.lat, _this.lon);
+                        }
+                    });
                 }
             }).open()
         },
@@ -128,13 +137,13 @@ const useInsertStore = defineStore('rental_insert', {
             const files = Array.from(e.target.files);
             this.imageList = files;
             this.imagecount = files.length;
-			
-			// 이전 미리보기 주소 해제
+
+            // 이전 미리보기 주소 해제
             if (this.previewList) {
                 this.previewList.forEach(url => URL.revokeObjectURL(url));
             }
 
-			// 파일을 임시 URL로 변경
+            // 파일을 임시 URL로 변경
             this.previewList = files.map(file => URL.createObjectURL(file));
         },
         async uploadImages() {
@@ -143,58 +152,51 @@ const useInsertStore = defineStore('rental_insert', {
             for (let i of this.imageList) {
                 formData.append('files', i);
             }
-			const fileName = this.imageList[0].name
-			const ext = fileName.slice(fileName.lastIndexOf("."))
+            const fileName = this.imageList[0].name
+            const ext = fileName.slice(fileName.lastIndexOf("."))
             const res = await axios.post('/rental/image_vue/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
             const dbImgName = res.data + "_{cnt}_w_{res}" + ext;
-			console.log(dbImgName)
+            console.log(dbImgName)
             return dbImgName
         },
-		removeImage(index){
-			this.previewList.splice(index, 1)
-			this.imagecount--
-		},
-		checkData(){
-			if(this.imageList.length < 1)
-			{
-				alert("이미지를 선택해주세요")
-				return false
-			}
-			if(!this.name || this.name.trim() === "")
-			{
-				alert("대여 물품명을 입력해주세요")
-				return false
-			}
-			if(this.category1 === 0)
-			{
-				alert("카테고리를 설정해주세요")
-				return false
-			}
-			if(!this.description || this.description.trim() === "")
-			{
-				alert("대여 물품 설명을 입력해주세요")
-				return false
-			}
-			if(this.price <= 0)
-			{
-				alert("가격을 설정해주세요")
-				return false
-			}
-			if(this.isDirect && this.address1.trim() === "")
-			{
-				alert("주소를 입력해주세요")
-				return false
-			}
-			if(this.days <= 0)
-			{
-				alert("대여 기간을 설정해주세요")
-				return false
-			}
-			return true
-		}
+        removeImage(index) {
+            this.previewList.splice(index, 1)
+            this.imagecount--
+        },
+        checkData() {
+            if (this.imageList.length < 1) {
+                alert("이미지를 선택해주세요")
+                return false
+            }
+            if (!this.name || this.name.trim() === "") {
+                alert("대여 물품명을 입력해주세요")
+                return false
+            }
+            if (this.category1 === 0) {
+                alert("카테고리를 설정해주세요")
+                return false
+            }
+            if (!this.description || this.description.trim() === "") {
+                alert("대여 물품 설명을 입력해주세요")
+                return false
+            }
+            if (this.price <= 0) {
+                alert("가격을 설정해주세요")
+                return false
+            }
+            if (this.isDirect && this.address1.trim() === "") {
+                alert("주소를 입력해주세요")
+                return false
+            }
+            if (this.days <= 0) {
+                alert("대여 기간을 설정해주세요")
+                return false
+            }
+            return true
+        }
     }
 })
