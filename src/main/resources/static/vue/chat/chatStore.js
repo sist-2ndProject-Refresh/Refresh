@@ -28,7 +28,7 @@ const useChatStore=defineStore('chat',{
 			this.stomp.connect({},()=>{
 				this.stomp.subscribe('/topic/users',msg=>{
 					this.users=JSON.parse(msg.body)
-						.filter(u => u!==this.loginUser) // 본인 제외
+						.filter(u => u!==this.loginUser) 
 				})
 				this.subscribeRoom()
 			})

@@ -19,4 +19,5 @@ public interface ChatRoomService {
 	public void chatMessageInsert(ChatVO vo);
 	public List<ChatVO> chatMessageData(int chatroom_id);
 	public List<ChatVO> chatListData(int loginId);
+	public String findStorenameByBuyerId(int buyerId);
 }

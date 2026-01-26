@@ -311,8 +311,8 @@ table td {
 			<div class="list-btn">
 				<button class="btn btn-sm btn-primary" @click="changeMode('t')">등록 상품 리스트</button>
 				<button class="btn btn-sm btn-primary" @click="changeMode('e')">판매 완료 상품 리스트</button>
-				<button class="btn btn-sm btn-primary">대여 상품 리스트</button>
-				<button class="btn btn-sm btn-primary">작성 게시글 리스트</button>
+				<button class="btn btn-sm btn-primary" @click="changeMode('r')">대여 상품 리스트</button>
+				<button class="btn btn-sm btn-primary">구매 완료 리스트</button>
 				<button class="btn btn-sm btn-primary">경매 리스트</button>
 			</div>
 			<!-- 등록 상품 리스트 -->
@@ -325,6 +325,7 @@ table td {
 				        <th>상품명</th>
 				        <th>가격</th>
 				        <th>등록일</th>
+				        <th v-if="mode==='r'">대여일</th>
 				      </tr>
 				    </thead>
 				    <tbody>
@@ -333,6 +334,7 @@ table td {
 				        <td>{{t.name}}</td>
 				        <td>{{t.price.toLocaleString()}}&nbsp;<span>원</span></td>
 				        <td>{{t.dbday}}</td>
+				        <td v-if="mode==='r'"><span>{{t.days}}</span>&nbsp;<span>일</span></td>
 				      </tr>
 				    </tbody>
 				  </table>
@@ -538,8 +540,6 @@ table td {
 				})
 			},
 			reviewinsert() {
-				console.log("seller_id:", this.no)
-				console.log("reviewer_id:", reviewerId)
 				
 				axios.post('/review/insert_vue/',{
 					seller_id:this.no,
@@ -608,7 +608,12 @@ table td {
 						mode:this.mode
 					}
 				}).then(response => {
-					this.list=response.data.list
+					if(this.mode==='r') {
+						this.list=response.data.rList
+					}
+					else {
+						this.list=response.data.list
+					}
 					this.startPage=response.data.startPage
 					this.endPage=response.data.endPage
 					this.totalpage=response.data.totalpage

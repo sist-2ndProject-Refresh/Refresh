@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+const USER_ID=${sessionScope.no}
+</script>
 </head>
 <body>
 <header>
@@ -148,7 +151,7 @@
   </div>
 
 
-    <nav id="header-nav" class="navbar navbar-expand-lg">
+    <nav id="header-nav" class="navbar navbar-expand-lg" data-user-no="${sessionScope.no }">
       <div class="container-lg">
         <a class="navbar-brand" href="/">
           <img src="/images/main-logo.png" class="logo" alt="logo">
@@ -273,9 +276,10 @@
               </a>
             </li>
           </ul>
-        </div>
+        </div>   
       </div>
     </nav>
   </header>
+  <jsp:include page="../commons/toast.jsp"></jsp:include>
 </body>
 </html>

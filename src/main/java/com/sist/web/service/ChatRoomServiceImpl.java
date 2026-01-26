@@ -60,4 +60,10 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 		// TODO Auto-generated method stub
 		return cMapper.findTradeByChatroomid(chatroomId);
 	}
+
+	@Override
+	public String findStorenameByBuyerId(int buyerId) {
+		// TODO Auto-generated method stub
+		return cMapper.findStorenameByBuyerId(buyerId);
+	}
 }

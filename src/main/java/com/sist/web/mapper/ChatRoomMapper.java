@@ -47,6 +47,8 @@ public interface ChatRoomMapper {
 	@Select("SELECT chat_id,chatroom_id,sender,content,TO_CHAR(chat_time,'HH24:MI') as dbday FROM chat WHERE chatroom_id=#{chatroom_id}")
 	public List<ChatVO> chatMessageData(int chatroom_id);
 	
+	@Select("SELECT s.storename FROM store s WHERE s.no=#{buyerId}")
+	public String findStorenameByBuyerId(@Param("buyerId") int buyerId);
 	/*
 	 * 	<select id="chatListData" resultMap="chatMap" parameterType="int">
 			SELECT chat_id,c.chatroom_id,content,TO_CHAR(chat_time,'HH24:MI') as dbday,

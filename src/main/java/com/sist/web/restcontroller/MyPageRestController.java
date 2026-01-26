@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sist.web.service.MyPageService;
 import com.sist.web.vo.BlockVO;
 import com.sist.web.vo.MemberVO;
+import com.sist.web.vo.RentalVO;
 import com.sist.web.service.ReviewService;
 import com.sist.web.vo.ReviewVO;
 import com.sist.web.vo.StoreVO;
@@ -101,8 +102,8 @@ public class MyPageRestController {
 		try
 		{
 			List<TradeVO> list=new ArrayList<>();
+			List<RentalVO> rList=new ArrayList<>();
 			int count=0;
-			int ecount=mService.mypageTradeEndCount(no);
 			
 			if("t".equals(mode))
 			{
@@ -113,6 +114,11 @@ public class MyPageRestController {
 			{
 				list=mService.mypageTradeEndList(no, (page-1)*3);
 				count=mService.mypageTradeEndCount(no);
+			}
+			if("r".equals(mode))
+			{
+				rList=mService.mypageRentalList(no, (page-1)*3);
+				count=mService.mypageRentalCount(no);
 			}
 			
 			int totalpage=(int)Math.ceil(count/3.0);
@@ -129,7 +135,7 @@ public class MyPageRestController {
 			map.put("endPage", endPage);
 			map.put("curpage", page);
 			map.put("count", count);
-			map.put("ecount", ecount);
+			map.put("rList", rList);
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();

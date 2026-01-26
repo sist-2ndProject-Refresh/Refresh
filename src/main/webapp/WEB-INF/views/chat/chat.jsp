@@ -87,7 +87,7 @@ const loginUser='${sessionScope.no}'
 <div class="container" id="app">
   <div class="row">
 	 <div class="col-sm-3 user-panel">
-      <h4 class="text-center">채팅방 리스트</h4>
+      <h4 class="text-center" style="margin-bottom: 30px;">채팅방 리스트</h4>
       <ul class="list-group">
         <li class="list-group-item"
         	v-for="room in store.chatroomList"
@@ -98,10 +98,10 @@ const loginUser='${sessionScope.no}'
 		        <img :src="room.svo.image" style="width:40px;height:40px;border-radius:50%;margin-right:10px;">
 		
 		        <div style="flex:1">
-		          <div style="font-weight:bold;">
+		          <div style="font-weight:bold; font-size:17px;color:black;">
 		            {{ room.svo.storename }}
 		          </div>
-		          <div style="font-size:12px;color:#666;">
+		          <div style="font-size:12px;color:black;">
 		            {{ room.content }}
 		          </div>
 		        </div>

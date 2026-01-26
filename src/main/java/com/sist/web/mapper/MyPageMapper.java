@@ -101,4 +101,17 @@ public interface MyPageMapper {
 			+ "FROM block_list b JOIN store s ON b.blocked_user=s.no "
 			+ "WHERE b.blocking_user=#{no}")
 	public int blockCountList(int no); 
+	
+	@Select("SELECT imageurl,price,name,TO_CHAR(describedat,'yyyy-mm-dd hh24:ss:mi') as dbday,days "
+			+ "FROM rental r JOIN store s ON r.user_no=s.no "
+			+ "WHERE r.user_no=${no} "
+			+ "ORDER BY days DESC "
+			+ "OFFSET #{start} ROWS FETCH NEXT 3 ROWS ONLY")
+	public List<RentalVO> mypageRentalList(@Param("no") int no, @Param("start") int start);
+	
+	@Select("SELECT COUNT(*) "
+			+ "FROM rental r JOIN store s ON r.user_no=s.no "
+			+ "WHERE r.user_no=#{no}")
+	public int mypageRentalCount(int no);
+	
 }

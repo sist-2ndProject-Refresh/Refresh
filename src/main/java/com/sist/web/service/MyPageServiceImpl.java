@@ -9,6 +9,7 @@ import com.sist.web.mapper.MyPageMapper;
 import com.sist.web.vo.StoreVO;
 import com.sist.web.vo.TradeVO;
 import com.sist.web.vo.MemberVO;
+import com.sist.web.vo.RentalVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -135,6 +136,18 @@ public class MyPageServiceImpl implements MyPageService {
 	public List<StoreVO> blockListData(int no, int start) {
 		// TODO Auto-generated method stub
 		return mMapper.blockListData(no, start);
+	}
+
+	@Override
+	public List<RentalVO> mypageRentalList(int no, int start) {
+		// TODO Auto-generated method stub
+		return mMapper.mypageRentalList(no, start);
+	}
+
+	@Override
+	public int mypageRentalCount(int no) {
+		// TODO Auto-generated method stub
+		return mMapper.mypageRentalCount(no);
 	}
 
 

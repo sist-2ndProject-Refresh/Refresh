@@ -40,5 +40,9 @@ public class ReviewServiceimpl implements ReviewService {
 		return rMapper.reviewListData(no, start);
 	}
 
-	
+	@Override
+	public String findStorenameByReviewerId(int reviewer_id) {
+		// TODO Auto-generated method stub
+		return rMapper.findStorenameByReviewerId(reviewer_id);
+	}
 }
