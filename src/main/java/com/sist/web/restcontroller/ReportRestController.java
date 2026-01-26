@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,16 +24,18 @@ import com.sist.web.vo.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import com.sist.web.config.SecurityConfig;
 import com.sist.web.service.*;
+
 @RestController
 @RequiredArgsConstructor
 public class ReportRestController {
+
+    private final SecurityConfig securityConfig;
 	private final ReportService rService;
 	
 	@Value("${file.upload-dir}")
-	private String uploadDir;
-	
+	private String uploadDir;	
 	
 	@PostMapping("/report/insert_vue/")
 	public ResponseEntity<String> report_insert_vue(@ModelAttribute ReportVO vo,
@@ -205,5 +208,53 @@ public class ReportRestController {
 		   bis.close();
 		   bos.close();
 	   }
+	   @GetMapping("/report/admin/Report_list/")
+		public ResponseEntity<List<ReportVO>> admin_report_list()
+		{
+			List<ReportVO> list = null;
+			try {
+				list = rService.reportAdminListData();
+			}catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			return new ResponseEntity<>(list,HttpStatus.OK);
+		}
+	   @PostMapping("/report/admin/respond_insert/")
+	   public ResponseEntity<String> admin_respond_insert(@RequestBody RespondVO vo)
+	   {
+		   String result ="NO";
+		   try {
+			   
+			   System.out.println(vo);
+			   rService.respondInsert(vo);
+			   result="OK";
+			}catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			return new ResponseEntity<>(result,HttpStatus.OK);
+	   }
+	   @GetMapping("/report/user/respond_ok/")
+	   public ResponseEntity<String> user_respond_ok(@RequestParam("no")int no)
+	   {
+		   String result ="NO";
+		   try {
+			   
+			   rService.reportStateUpdate(3, no);
+			   result="OK";
+			}catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			return new ResponseEntity<>(result,HttpStatus.OK);
+	   }
 	
 }
+

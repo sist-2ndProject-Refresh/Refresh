@@ -84,4 +84,13 @@
  			 </if>
  		</if>
  	</select>
+ 	<resultMap type="ReportVO" id="adminReportMap">
+ 		<result property="reportVO.svo.storename" column="storename"/>
+ 	</resultMap>
+ 	<select id="reportAdminListData" resultMap="adminReportMap">
+ 		SELECT r.no,reporter,title,TO_CHAR(regdate,'yyyy-mm-dd') as dbday,state,reporttype,storename
+ 		FROM report r , store s
+ 		WHERE r.reporter = s.no
+ 		ORDER BY r.no DESC
+ 	</select>
  </mapper>

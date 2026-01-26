@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Data
 public class RespondVO {
-	private int no;
+	private int no,respondState;
 	private String msg,dbday,respond;
 	private Date regdate;
 }

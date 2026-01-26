@@ -1,29 +1,18 @@
 const {createPinia} = Pinia
 const {createApp,onMounted,ref} = Vue
 
-const faqApp = createApp({
+const AdminReportApp = createApp({
 	setup(){
-	const store = useFAQStore()
-	const titleRef =ref(null)
-	const subTitleRef =ref(null)
-	const subjectRef = ref(null)
-	const submsgRef = ref(null)
-	const msgRef = ref(null)
+	const store = useAdminReportStore()
 	onMounted(()=>{
-		store.FAQListData(1)
-		store.reporter = USERNO
+		store.reportListData()
 	})
 	return {
 		store,
-		titleRef,
-		subTitleRef,
-		subjectRef,
-		submsgRef,
-		msgRef
 	}
 	}
 	
 })
 
-faqApp.use(createPinia())
-faqApp.mount('#faq_area')
+AdminReportApp.use(createPinia())
+AdminReportApp.mount('#adminReport')

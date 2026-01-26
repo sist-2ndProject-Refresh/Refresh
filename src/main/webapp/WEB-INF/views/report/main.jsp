@@ -210,6 +210,7 @@ const USERNO = '${sessionScope.no}'
 									<span v-if="rvo.state==1" style="margin-left:20px;font-size:0.7em;border:2px solid #D1E9FF;border-radius: 8px;background-color: #EBF5FF;color:#3E7BFA">답변 대기</span>
 									<span v-if="rvo.state==2" style="margin-left:20px;font-size:0.7em;border:2px solid #B2F5EA;border-radius: 8px;background-color: #E6FFFA;color:#2C7A7B">답변 완료</span>
 									<span v-if="rvo.state==3" style="margin-left:20px;font-size:0.7em;border:2px solid #FEF3C7;border-radius: 8px;background-color: #FFFBEB;color:#B45309">처리 완료</span>
+									<span v-if="rvo.state==4" style="margin-left:20px;font-size:0.7em;border:2px solid #FECDD3;border-radius: 8px;background-color: #FFF1F2;color:#BE123C">신고 반려</span>
 								</td>
 								<td width="15%" class="text-center">
 									{{rvo.dbday}}
@@ -248,20 +249,20 @@ const USERNO = '${sessionScope.no}'
 													<span v-if="store.reportDetail.subphone!==null" style="margin-left:60px;"> 신고하신 전화번호 : {{store.reportDetail.subphone}}</span>
 												</th>
 											</tr>
-											<tr v-if="store.reportDetail.state!=1">
+											<tr v-if="store.reportDetail.state!=1 && store.reportDetail.rdVO">
 												<td width="10%" class="text-right" style="color:black;font-weight: bold">
 													답변 본문
 												</td>
 												<td width="70%" style="color:black">
-													<pre style="white-space: pre-wrap;width:90%;height:200px;text-align: left">{{store.reportDetail.msg}}</pre>
+													<pre style="white-space: pre-wrap;width:90%;height:200px;text-align: left">{{store.reportDetail.rdVO.msg}}</pre>
 												</td>
 												<td width="20%" class="text-left" style="color:black;font-weight: bold">
-													답변 날짜 : {{store.reportDetail.dbday}}
+													답변 날짜 : {{store.reportDetail.rdVO.dbday}}
 												</td>
 											</tr>
-											<tr v-if="store.reportDetail.state===2">
+											<tr v-if="store.reportDetail.state==2">
 												<td colspan="3" class="text-right">
-													<button type="button" class="btn btn-sm btn-info">답변 채택</button>
+													<button type="button" class="btn btn-sm btn-success" @click="store.userRespondOK(store.reportDetail.no)">답변 확인</button>
 												</td>
 											</tr>
 										</table>

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.sist.web.vo.ReportVO;
+import com.sist.web.vo.RespondVO;
 
 public interface ReportService {
 	void reportUserInsert(ReportVO vo);
@@ -13,4 +14,7 @@ public interface ReportService {
 	int subjectNoFindByStorename(String storename);
 	int subjectStoreNameCheck(String storename);
 	ReportVO reportDetailData(Map map);
+	List<ReportVO> reportAdminListData();
+	void respondInsert(RespondVO vo);
+	void reportStateUpdate(int state,int no);
 }

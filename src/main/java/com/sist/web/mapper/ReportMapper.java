@@ -10,9 +10,11 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.ReportVO;
+import com.sist.web.vo.RespondVO;
 
 @Mapper
 @Repository
@@ -36,4 +38,14 @@ public interface ReportMapper {
 	int subjectStoreNameCheck(String storename);
 	
 	ReportVO reportDetailData(Map map);
+	
+	List<ReportVO> reportAdminListData();
+	
+	@Update("UPDATE report SET state = #{state} WHERE no = #{no}")
+	void reportStateUpdate(@Param("state")int state,@Param("no")int no);
+	
+	@Insert("INSERT INTO respond VALUES (#{no},#{msg},SYSDATE,#{respond})")
+	void respondInsert(RespondVO vo);
+	
+	
 }

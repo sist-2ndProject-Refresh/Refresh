@@ -40,5 +40,22 @@ public class ReportServiceImpl implements ReportService{
 		// TODO Auto-generated method stub
 		return rMapper.reportDetailData(map);
 	}
+	@Override
+	public List<ReportVO> reportAdminListData() {
+		// TODO Auto-generated method stub
+		return rMapper.reportAdminListData();
+	}
+	@Override
+	public void respondInsert(RespondVO vo) {
+		// TODO Auto-generated method stub
+		rMapper.reportStateUpdate(vo.getRespondState(),vo.getNo());
+		rMapper.respondInsert(vo);
+	}
+	@Override
+	public void reportStateUpdate(int state, int no) {
+		// TODO Auto-generated method stub
+		rMapper.reportStateUpdate(state, no);
+	}
+	
 	
 }

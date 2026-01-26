@@ -52,7 +52,7 @@ const useFAQStore = defineStore({
 				{
 					if(confirm('해당 기능을 위해선 로그인이 필요합니다.\n 로그인 페이지로 이동하시겠습니까?'))
 					{
-						location.href='/member/login'
+						location.href='/member/login_before'
 					}
 					else{
 						this.catChange(1);
@@ -70,7 +70,7 @@ const useFAQStore = defineStore({
 				{
 					if(confirm('해당 기능을 위해선 로그인이 필요합니다.\n 로그인 페이지로 이동하시겠습니까?'))
 					{
-						location.href='/member/login'
+						location.href='/member/login_before'
 					}
 					else{
 						this.catChange(1);
@@ -254,6 +254,19 @@ const useFAQStore = defineStore({
 				})
 				console.log(data)
 				this.reportDetail = data
+			}
+		},
+		async userRespondOK(no){
+			const {data} = await api.get('/report/user/respond_ok/',{
+				params:{
+					no:no
+				}
+			})
+			if(data==='OK')
+			{
+				this.reportDetailNo=null
+				this.reportDetailShow(no,3,this.reportDetail.reporttype)
+				this.reportListData()
 			}
 		}
 		
