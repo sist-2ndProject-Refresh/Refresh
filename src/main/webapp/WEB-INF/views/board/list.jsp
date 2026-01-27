@@ -89,80 +89,84 @@
 		</section>
 
 		<style>
-    .table {
-        font-size: 1.15rem;
-    }
-    .table thead th {
-        font-size: 1.2rem;
-        background-color: #f8f9fa;
-        padding: 18px 10px !important;
-    }
-    .table tbody td {
-        padding: 20px 10px !important;
-        vertical-align: middle;
-    }
-    .badge {
-        font-size: 0.95rem !important;
-        padding: 8px 15px !important;
-    }
-    .board-title {
-        font-size: 1.25rem;
-        letter-spacing: -0.02em;
-    }
+.table {
+	font-size: 1.15rem;
+}
+
+.table thead th {
+	font-size: 1.2rem;
+	background-color: #f8f9fa;
+	padding: 18px 10px !important;
+}
+
+.table tbody td {
+	padding: 20px 10px !important;
+	vertical-align: middle;
+}
+
+.badge {
+	font-size: 0.95rem !important;
+	padding: 8px 15px !important;
+}
+
+.board-title {
+	font-size: 1.25rem;
+	letter-spacing: -0.02em;
+}
 </style>
 
-<section class="product-details spad">
-    <div class="container">
-        <div class="row">
-            <table class="table table-hover" style="table-layout: fixed; width: 100%;">
-                <thead>
-                    <tr>
-                        <th width="7%" class="text-center">번호</th>
-                        <th width="12%" class="text-center">지역</th>
-                        <th width="15%" class="text-center">카테고리</th>
-                        <th width="40%" class="text-center">제목</th>
-                        <th width="10%" class="text-center">이름</th>
-                        <th width="10%" class="text-center">작성일</th>
-                        <th width="6%" class="text-center">조회</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="vo in store.filteredList" :key="vo.id">
-                        <td class="text-center text-muted">{{vo.id}}</td>
-                        
-                        <td class="text-center">
-                            <span class="text-dark">{{ vo.region || '미정' }}</span>
-                        </td>
-                        
-                        <td class="text-center">
-                            <span class="text-dark">{{ vo.category || '기타' }}</span>
-                        </td>
-                        
-                        <td class="text-left" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                            <a :href="'/board/detail?no=' + vo.id" class="text-decoration-none text-dark fw-bold board-title">
-                                {{vo.title}}
-                            </a>
-                        </td>
-                        
-                        <td class="text-center" style="color: #555;">{{vo.mem_id}}</td>
-                        
-                        <td class="text-center text-muted">
-                            {{ vo.time ? vo.time.split('T')[0] : '' }}
-                        </td>
-                        
-                        <td class="text-center">{{vo.hit}}</td>
-                    </tr>
+		<section class="product-details spad">
+			<div class="container">
+				<div class="row">
+					<table class="table table-hover"
+						style="table-layout: fixed; width: 100%;">
+						<thead>
+							<tr>
+								<th width="7%" class="text-center">번호</th>
+								<th width="12%" class="text-center">지역</th>
+								<th width="15%" class="text-center">카테고리</th>
+								<th width="40%" class="text-center">제목</th>
+								<th width="10%" class="text-center">이름</th>
+								<th width="10%" class="text-center">작성일</th>
+								<th width="6%" class="text-center">조회</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="vo in store.filteredList" :key="vo.id">
+								<td class="text-center text-muted">{{vo.id}}</td>
 
-                    <tr v-if="store.filteredList.length === 0">
-                        <td colspan="7" class="text-center py-5" style="color: #999; font-size: 1.3rem;">
-                            <i class="fa fa-info-circle"></i> 선택하신 조건에 맞는 게시글이 없습니다.
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
+								<td class="text-center"><span class="text-dark">{{
+										vo.region || '미정' }}</span></td>
+
+								<td class="text-center"><span class="text-dark">{{
+										vo.category || '기타' }}</span></td>
+
+								<td class="text-left"
+									style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+									<a :href="'/board/detail?no=' + vo.id"
+									class="text-decoration-none text-dark fw-bold board-title">
+										{{vo.title}} </a>
+								</td>
+
+								<td class="text-center" style="color: #555;">{{vo.mem_id}}</td>
+
+								<td class="text-center text-muted">{{ vo.time ?
+									vo.time.split('T')[0] : '' }}</td>
+
+								<td class="text-center">{{vo.hit}}</td>
+							</tr>
+
+							<tr v-if="store.filteredList.length === 0">
+								<td colspan="7" class="text-center py-5"
+									style="color: #999; font-size: 1.3rem; border-bottom: none;">
+									<i class="fa fa-info-circle"></i> 선택하신 조건에 맞는 게시글이 없습니다.
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
 	</div>
 
 	<script

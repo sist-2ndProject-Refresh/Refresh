@@ -64,7 +64,7 @@
 							<td colspan="5" class="text-center">등록된 공지사항이 없습니다.</td>
 						</tr>
 
-						<td colspan="5" class="text-center pt-4"><span
+						<td colspan="5" class="text-center pt-4" style="border: none;"><span
 							@click="store.prev()" style="cursor: pointer"> [이전] </span> <span
 							v-for="page in store.totalpage" :key="page"
 							@click="store.curpage = page; store.dataRecv()"

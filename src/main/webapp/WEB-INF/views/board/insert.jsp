@@ -65,7 +65,7 @@
                         </tr>
 
                         <tr>
-                            <td colspan="4" class="text-center" style="padding-top: 30px; border-top: none;">
+                            <td colspan="4" class="text-center" style="padding-top: 30px; border-top: none; border-bottom: none;">
                                 <button class="btn btn-success"
                                     style="padding: 10px 30px; font-size: 1rem; font-weight: 600; margin-right: 10px; border-radius: 5px;"
                                     @click="store.boardInsert({regRef, catRef, memRef, titRef, contRef})">글 등록하기</button>
