@@ -91,8 +91,7 @@
 									@change="store.curpage = 1; store.dataRecv()"
 									style="width: 150px; border-radius: 500px; font-size: 1.1rem; font-weight: 600; height: 40px; border: 1px solid #ccc;">
 									<option value="전체">전체 카테고리</option>
-									<option value="일상">일상</option>
-									<option value="질문">질문</option>
+									<option value="일상/잡담">일상/잡담</option>
 									<option value="맛집추천">맛집추천</option>
 									<option value="동네소식">동네소식</option>
 									<option value="모임/동호회">모임/동호회</option>
