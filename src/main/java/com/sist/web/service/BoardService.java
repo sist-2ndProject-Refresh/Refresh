@@ -10,4 +10,5 @@ public interface BoardService {
     public void boardInsert(BoardVO vo);
     public String boardDelete(int no, String sessionId);
     public String boardUpdate(BoardVO vo, String sessionId);
+    public String getMemberAddr(String username);
 }

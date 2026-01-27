@@ -5,6 +5,7 @@ import java.util.*;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
@@ -47,4 +48,7 @@ public interface BoardMapper {
     @Delete("DELETE FROM board "
     		+"WHERE id=#{id}")
     public void boardDelete(int no);
+    
+    @Select("SELECT addr1 FROM user_table WHERE username = #{username}")
+    public String getMemberAddr(@Param("username") String username);
 }

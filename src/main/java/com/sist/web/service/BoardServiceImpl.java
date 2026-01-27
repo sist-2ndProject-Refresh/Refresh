@@ -54,4 +54,9 @@ public class BoardServiceImpl implements BoardService {
         }
         return "no"; 
     }
+    
+    @Override
+    public String getMemberAddr(String username) {
+        return mapper.getMemberAddr(username);
+    }
 }

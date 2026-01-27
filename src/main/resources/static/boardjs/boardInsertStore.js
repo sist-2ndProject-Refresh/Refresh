@@ -9,6 +9,36 @@ const useBoardInsertStore = defineStore('board_insert', {
         category: ''  
     }),
     actions: {
+
+        async fetchUserRegion(mem_id) {
+            try {
+
+                const res = await axios.get('/board/getUserAddr_vue', {
+                    params: { id: mem_id }
+                });
+                
+                const fullAddr = res.data; 
+
+                if (fullAddr.includes("서울")) {
+                    this.region = "서울";
+                } else if (fullAddr.includes("경기") || fullAddr.includes("인천")) {
+                    this.region = "경기/인천";
+                } else if (fullAddr.includes("부산") || fullAddr.includes("경남") || fullAddr.includes("경북")) {
+                    this.region = "부산/경상";
+                } else if (fullAddr.includes("대전") || fullAddr.includes("충남") || fullAddr.includes("충북") || fullAddr.includes("세종")) {
+                    this.region = "대전/충청";
+                } else if (fullAddr.includes("광주") || fullAddr.includes("전남") || fullAddr.includes("전북")) {
+                    this.region = "광주/전라";
+                } else {
+                    this.region = "기타 지역";
+                }
+
+                console.log("자동 설정된 지역:", this.region);
+            } catch (error) {
+                console.error("사용자 주소 정보를 가져오는데 실패했습니다.", error);
+            }
+        },
+
         async boardInsert(refs) {
             const { regRef, catRef, titRef, contRef } = refs;
 

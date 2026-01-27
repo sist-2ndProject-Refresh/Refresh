@@ -102,4 +102,15 @@ public class BoardRestController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@GetMapping("/board/getUserAddr_vue")
+	public ResponseEntity<String> board_user_addr(@RequestParam("id") String id) {
+	    try {
+	        String addr = bService.getMemberAddr(id);
+	        return new ResponseEntity<>(addr != null ? addr : "", HttpStatus.OK);
+	    } catch (Exception ex) {
+	        ex.printStackTrace(); 
+	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
 }
