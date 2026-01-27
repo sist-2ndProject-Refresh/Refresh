@@ -12,14 +12,6 @@
 			<div class="row">
 				<table class="table" style="border-top: 2px solid #333;">
 					<tbody>
-						<tr>
-							<td class="text-center"
-								style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">작성자</td>
-							<td colspan="3" class="text-left"><input type="text"
-								ref="memRef" v-model="store.mem_id"
-								style="width: 250px; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px; background-color: #eee;"
-								readonly></td>
-						</tr>
 
 						<tr>
 							<td class="text-center"
