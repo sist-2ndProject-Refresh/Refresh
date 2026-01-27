@@ -10,8 +10,17 @@ const faqApp = createApp({
 	const submsgRef = ref(null)
 	const msgRef = ref(null)
 	onMounted(()=>{
-		store.FAQListData(1)
+		
 		store.reporter = USERNO
+		if(SUBJECT)
+		{
+			store.catChange(2)
+			store.subjectIdCk=true
+			store.subject=SUBJECT
+		}
+		else{
+			store.FAQListData(1)
+		}
 	})
 	return {
 		store,

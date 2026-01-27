@@ -33,7 +33,7 @@
 
 		<div class="row" id="adminReport" style="width:1400px;">
 			<div class="row " style="padding-left:30px;">
-				<table class="table" style="min-width:80%;max-width:80%">
+				<table class="table" >
 					<thead>
 						<tr>
 							<th width="15%" class="text-center">종류</th>
@@ -44,7 +44,7 @@
 						</tr>
 					</thead>
 					<tbody v-for="(rvo,index) in store.report_list" :key="index">
-					<tr class="report" style="height: 40px;cursor:pointer;" @click="store.reportDetailShow(rvo.no,rvo.state,rvo.reporttype)">
+					<tr class="report" style="cursor:pointer;" @click="store.reportDetailShow(rvo.no,rvo.state,rvo.reporttype)">
 						<td width="15%" class="text-center">
 							<span v-if="rvo.reporttype==1">거래 신고</span>
 							<span v-if="rvo.reporttype==2">계정 신고</span>
@@ -68,7 +68,7 @@
 						</td>
 					</tr>
 					<tr style="margin-top:20px;" v-if="store.reportDetailNo===rvo.no">
-						<td colspan="3" class="text-center">
+						<td colspan="4" class="text-center">
 							<div style="border:3px solid #C3C3C3; min-width:80%;border-radius:8px;display: flex;justify-content: center;box-shadow: 1px 1px 1px 1px #D8D8D8 ">
 								<table class="table">
 									<tr>
@@ -125,11 +125,19 @@
 										</td>
 									</tr>
 									<tr v-if="store.reportDetail.state!=1">
+										<td width="10%" class="text-right" style="color:black;font-weight: bold;">
+											답변자
+										</td>
+										<td colspan="2" style="color:black" class="text-left">
+											{{store.reportDetail.rdVO.respond}}
+										</td>
+									</tr>
+									<tr v-if="store.reportDetail.state!=1">
 										<td width="10%" class="text-right" style="color:black;font-weight: bold">
 											답변 본문
 										</td>
 										<td width="70%" style="color:black">
-											<pre style="white-space: pre-wrap;width:90%;height:200px;text-align: left">{{store.reportDetail.msg}}</pre>
+											<pre style="white-space: pre-wrap;width:90%;height:200px;text-align: left">{{store.reportDetail.rdVO.msg}}</pre>
 										</td>
 										<td width="20%" class="text-left" style="color:black;font-weight: bold">
 											답변 날짜 : {{store.reportDetail.dbday}}
@@ -148,7 +156,19 @@
 							</div>
 						</td>
 					</tr>
+				
 					</tbody>
+					<tr>
+						<td colspan="4" class="text-center">
+							<ul class="pagination">
+							  <li v-if="store.startPage!=1"><a style="cursor:pointer" @click="store.pageChange(1)">&laquo;</a></li>
+							  <li v-if="store.startPage>1"><a style="cursor:pointer" @click="store.pageChange(store.startPage-1)">&lt;</a></li>
+							  <li v-for="(i,index) in store.range" :key="index" :class="store.page==i?'active':''"><a style="cursor:pointer" @click="store.pageChange(i)">{{i}}</a></li>
+							  <li v-if="store.endPage<store.totalPage"><a style="cursor:pointer" @click="store.pageChange(store.endPage+1)">&gt;</a></li>
+							  <li v-if="store.endPage!=store.totalPage"><a style="cursor:pointer" @click="store.pageChange(store.totalPage)">&raquo;</a></li>
+							</ul>
+						</td>
+					</tr>
 				</table>
 				</div>
 		</div>

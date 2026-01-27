@@ -153,18 +153,28 @@ public class ReportRestController {
 		return new ResponseEntity<Integer>(count,HttpStatus.OK);
 	}
 	@GetMapping("/report/userReport_list/")
-	public ResponseEntity<List<ReportVO>> user_report_list(@RequestParam("reporter")int reporter,@RequestParam("page")int page)
+	public ResponseEntity<Map> user_report_list(@RequestParam("page")int page,@RequestParam("reporter")int reporter)
 	{
-		List<ReportVO> list = null;
+	   	Map map = new HashMap();
 		try {
-			list = rService.reportUserListData(reporter,(page-1)*10);
+			int start = (page-1)*10;
+			List<ReportVO> list = rService.reportUserListData(reporter,start);
+			int startPage = ((page-1)/10*10)+1;
+			int endPage = ((page-1)/10*10)+10;
+			int totalPage = rService.reportUserTotalPage(reporter);
+			if(endPage>totalPage)
+				endPage=totalPage;
+			map.put("list", list);
+			map.put("startPage", startPage);
+			map.put("endPage", endPage);
+			map.put("totalPage", totalPage);
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();
 			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		return new ResponseEntity<>(list,HttpStatus.OK);
+		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
 	@GetMapping("/report/detail_vue/")
 	public ResponseEntity<ReportVO> report_detail_vue(@RequestParam("no")int no,@RequestParam("state")int state,@RequestParam("reporttype")int reporttype)
@@ -209,18 +219,28 @@ public class ReportRestController {
 		   bos.close();
 	   }
 	   @GetMapping("/report/admin/Report_list/")
-		public ResponseEntity<List<ReportVO>> admin_report_list()
+		public ResponseEntity<Map> admin_report_list(@RequestParam("page")int page)
 		{
-			List<ReportVO> list = null;
+		   	Map map = new HashMap();
 			try {
-				list = rService.reportAdminListData();
+				int start = (page-1)*10;
+				List<ReportVO> list = rService.reportAdminListData(start);
+				int startPage = ((page-1)/10*10)+1;
+				int endPage = ((page-1)/10*10)+10;
+				int totalPage = rService.reportAdminTotalPage();
+				if(endPage>totalPage)
+					endPage=totalPage;
+				map.put("list", list);
+				map.put("startPage", startPage);
+				map.put("endPage", endPage);
+				map.put("totalPage", totalPage);
 			}catch(Exception ex)
 			{
 				ex.printStackTrace();
 				return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
-			return new ResponseEntity<>(list,HttpStatus.OK);
+			return new ResponseEntity<>(map,HttpStatus.OK);
 		}
 	   @PostMapping("/report/admin/respond_insert/")
 	   public ResponseEntity<String> admin_respond_insert(@RequestBody RespondVO vo)

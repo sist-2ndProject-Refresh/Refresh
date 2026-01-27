@@ -11,4 +11,5 @@ public class RentalVO {
 	private String name,description,salestatus,condition,imageurl,dbday,address,trades, how,stPrice;
 	private Date describedat;
 	private boolean isGS, isCU, isDirect;
+	private StoreVO stvo=new StoreVO();
 }

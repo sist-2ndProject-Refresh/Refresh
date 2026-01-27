@@ -19,12 +19,23 @@ const useFAQStore = defineStore({
 		title:'',
 		page:1,
 		totalPage:0,
+		startPage:0,
+		endPage:0,
 		subjectIdCk:false,
-		page:1,
 		reportDetailNo:null,
 		reportDetail:{}
 		
 	}),
+		getters:{
+			range:(state)=>{
+				const arr = []
+				for(let i = state.startPage;i<=state.endPage;i++)
+				{
+					arr.push(i)
+				}
+				return arr
+			}
+	},
 	actions:{
 		async FAQListData(cat){
 			this.cat = cat
@@ -231,8 +242,10 @@ const useFAQStore = defineStore({
 					page:this.page
 				}
 			})
-			console.log(data)
-			this.report_list=data
+			this.report_list=data.list
+			this.startPage=data.startPage
+			this.endPage=data.endPage
+			this.totalPage=data.totalPage
 		},
 		async reportDetailShow(no,state,reporttype){
 			
@@ -268,6 +281,15 @@ const useFAQStore = defineStore({
 				this.reportDetailShow(no,3,this.reportDetail.reporttype)
 				this.reportListData()
 			}
+		},
+		pageChange(page){
+			if(this.page===page)
+			{
+				return
+			}
+			this.page=page
+			this.reportDetailNo=null
+			this.reportListData()
 		}
 		
 	}

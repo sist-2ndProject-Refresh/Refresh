@@ -31,6 +31,8 @@ public interface ReportMapper {
 	@Select("SELECT no,title,state,TO_CHAR(regdate,'yyyy-mm-dd') as dbday,reporttype FROM report WHERE reporter = #{reporter} ORDER BY no DESC OFFSET #{start} ROWS FETCH NEXT 10 ROWS ONLY")
 	List<ReportVO> reportUserListData(@Param("reporter")int reporter,@Param("start")int start);
 	
+	@Select("SELECT CEIL(count(*)/10.0) FROM report WHERE reporter = #{reporter}")
+	int reportUserTotalPage(int reporter);
 	@Select("SELECT no FROM store WHERE storename=#{storename}")
 	int subjectNoFindByStorename(String storename);
 	
@@ -39,7 +41,7 @@ public interface ReportMapper {
 	
 	ReportVO reportDetailData(Map map);
 	
-	List<ReportVO> reportAdminListData();
+	List<ReportVO> reportAdminListData(int start);
 	
 	@Update("UPDATE report SET state = #{state} WHERE no = #{no}")
 	void reportStateUpdate(@Param("state")int state,@Param("no")int no);
@@ -47,5 +49,7 @@ public interface ReportMapper {
 	@Insert("INSERT INTO respond VALUES (#{no},#{msg},SYSDATE,#{respond})")
 	void respondInsert(RespondVO vo);
 	
+	@Select("SELECT CEIL(COUNT(*)/10.0) FROM report")
+	int reportAdminTotalPage();
 	
 }

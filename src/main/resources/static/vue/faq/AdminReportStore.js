@@ -8,14 +8,43 @@ const useAdminReportStore = defineStore({
 		reportDetailNo:null,
 		reportDetail:{},
 		respondMsg:'',
-		respond:''
+		respond:'',
+		page:1,
+		startPage:0,
+		endPage:0,
+		totalPage:0
 		
 	}),
-	actions:{
+	getters:{
+		range:(state)=>{
+			const arr = []
+			for(let i = state.startPage;i<=state.endPage;i++)
+			{
+				arr.push(i)
+			}
+			return arr
+		}
+	}
+	,actions:{
 		async reportListData(){
-			const {data} = await api.get('/report/admin/Report_list/'
+			const {data} = await api.get('/report/admin/Report_list/',{
+				params:{
+					page:this.page
+				}
+			}
 		)
-			this.report_list=data
+			this.report_list=data.list
+			this.startPage=data.startPage
+			this.endPage=data.endPage
+			this.totalPage=data.totalPage
+		},
+		pageChange(page){
+			if(this.page===page)
+			{
+				return
+			}
+			this.page=page
+			this.reportListData()
 		},
 		async reportDetailShow(no,state,reporttype){
 			

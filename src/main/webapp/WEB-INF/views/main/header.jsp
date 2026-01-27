@@ -178,21 +178,22 @@
               <li class="nav-item">
                 <a class="nav-link me-5" href="/rental/list">대여</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link me-5" href="#">경매</a>
-              </li>
+              <sec:authorize access="isAuthenticated()">
               <li class="nav-item">
                 <a class="nav-link me-5" href="#">신고 조회</a>
               </li>
+              </sec:authorize>
               <li class="nav-item">
                 <a class="nav-link me-5" href="/board/list">지역 커뮤니티</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link me-5" href="/notice/list">공지사항</a>
               </li>
+              <sec:authorize access="hasRole('ADMIN')">
               <li class="nav-item">
                 <a class="nav-link me-5" href="/admin/home">관리자 페이지</a>
               </li>
+              </sec:authorize>
           <!--     <li class="nav-item dropdown">
                 <a class="nav-link me-5 active dropdown-toggle border-0" href="#" data-bs-toggle="dropdown"
                   aria-expanded="false">Page</a>

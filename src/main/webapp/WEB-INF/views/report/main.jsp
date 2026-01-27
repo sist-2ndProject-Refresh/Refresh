@@ -24,6 +24,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 const USERNO = '${sessionScope.no}'
+const SUBJECT = '${param.subject}'
 </script>
 </head>
 <body>
@@ -270,6 +271,17 @@ const USERNO = '${sessionScope.no}'
 								</td>
 							</tr>
 							</tbody>
+							<tr>
+								<td colspan="4" class="text-center">
+									<ul class="pagination">
+									  <li v-if="store.startPage!=1"><a style="cursor:pointer" @click="store.pageChange(1)">&laquo;</a></li>
+									  <li v-if="store.startPage>1"><a style="cursor:pointer" @click="store.pageChange(store.startPage-1)">&lt;</a></li>
+									  <li v-for="(i,index) in store.range" :key="index" :class="store.page==i?'active':''"><a style="cursor:pointer" @click="store.pageChange(i)">{{i}}</a></li>
+									  <li v-if="store.endPage<store.totalPage"><a style="cursor:pointer" @click="store.pageChange(store.endPage+1)">&gt;</a></li>
+									  <li v-if="store.endPage!=store.totalPage"><a style="cursor:pointer" @click="store.pageChange(store.totalPage)">&raquo;</a></li>
+									</ul>
+								</td>
+							</tr>
 						</table>
 					</td>
 				</tr>

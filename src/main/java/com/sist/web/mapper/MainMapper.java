@@ -20,13 +20,13 @@ public interface MainMapper {
 		+ "WHERE ROWNUM <= 15")
 	public List<TradeVO> mainProductListData();
 	
-	@Select("SELECT no, name, price, salestatus, imageurl,address,category, trades, dbday , rownum "
-			+ "FROM (SELECT no,name,price,salestatus,imageurl,address,category,trades,TO_CHAR(describedat,'yyyy-mm-dd') as dbday "
+	@Select("SELECT no, name, price, salestatus, imageurl,address,category, trades, dbday,days , rownum "
+			+ "FROM (SELECT no,name,price,salestatus,imageurl,address,category,trades,days,TO_CHAR(describedat,'yyyy-mm-dd') as dbday "
 			+ "FROM rental "
 			+ "WHERE salestatus = 'SELLING' ORDER BY DBMS_RANDOM.VALUE)"
 			+ "WHERE ROWNUM <= 15")
 	public List<RentalVO> mainRentalListData();
 	
-	@Select("select not_id,not_title,not_content,TO_CHAR(not_date,'yyyy-mm-dd') as not_date FROM notice order by not_id desc OFFSET 1 ROWS FETCH NEXT 5 ROWS ONLY")
+	@Select("select not_id,not_title,not_content,TO_CHAR(not_date,'yyyy-mm-dd') as not_date FROM notice order by not_id desc OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY")
 	public List<NoticeVO> mainNoticeListData();
 }

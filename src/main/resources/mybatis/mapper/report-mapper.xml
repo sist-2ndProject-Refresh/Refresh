@@ -70,7 +70,7 @@
  			 </if>
  		</if>
  		<if test="state!=1">
- 			SELECT r.no,reporter,r.msg as respondMsg,image1,image2,image3,state,reporttype,rd.msg,TO_CHAR(r.regdate,'YYYY-MM-dd') as dbday,TO_CHAR(rd.regdate,'yyyy-mm-dd') as repondDbday,respond
+ 			SELECT r.no,reporter,r.msg ,image1,image2,image3,state,reporttype,rd.msg as respondMsg,TO_CHAR(r.regdate,'YYYY-MM-dd') as dbday,TO_CHAR(rd.regdate,'yyyy-mm-dd') as repondDbday,respond
  			 <if test="reporttype==1">
  			 ,subject,subphone,subaccount,storename
  			 </if>
@@ -92,5 +92,6 @@
  		FROM report r , store s
  		WHERE r.reporter = s.no
  		ORDER BY r.no DESC
+ 		OFFSET #{start} ROWS FETCH NEXT 10 ROWS ONLY
  	</select>
  </mapper>

@@ -41,9 +41,9 @@ public class ReportServiceImpl implements ReportService{
 		return rMapper.reportDetailData(map);
 	}
 	@Override
-	public List<ReportVO> reportAdminListData() {
+	public List<ReportVO> reportAdminListData(int start) {
 		// TODO Auto-generated method stub
-		return rMapper.reportAdminListData();
+		return rMapper.reportAdminListData(start);
 	}
 	@Override
 	public void respondInsert(RespondVO vo) {
@@ -55,6 +55,18 @@ public class ReportServiceImpl implements ReportService{
 	public void reportStateUpdate(int state, int no) {
 		// TODO Auto-generated method stub
 		rMapper.reportStateUpdate(state, no);
+	}
+
+
+	@Override
+	public int reportAdminTotalPage() {
+		// TODO Auto-generated method stub
+		return rMapper.reportAdminTotalPage();
+	}
+	@Override
+	public int reportUserTotalPage(int reporter) {
+		// TODO Auto-generated method stub
+		return rMapper.reportUserTotalPage(reporter);
 	}
 	
 	

@@ -14,7 +14,9 @@ public interface ReportService {
 	int subjectNoFindByStorename(String storename);
 	int subjectStoreNameCheck(String storename);
 	ReportVO reportDetailData(Map map);
-	List<ReportVO> reportAdminListData();
+	List<ReportVO> reportAdminListData(int start);
 	void respondInsert(RespondVO vo);
 	void reportStateUpdate(int state,int no);
+	int reportAdminTotalPage();
+	int reportUserTotalPage(int reporter);
 }
