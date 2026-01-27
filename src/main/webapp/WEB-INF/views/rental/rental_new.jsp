@@ -219,7 +219,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							</div>
 							<div class="d-flex align-items-center gap-2" style="margin-top: 20px;" v-if="">	
 								<span class="fs-2" style="min-width: 120px;">편의점 택배</span>
-								<input class="form-control fs-2 text-right" v-model="store.cvsPrice" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" >
+								<input class="form-control fs-2 text-right" v-model="store.cvsPrice" type="number" min="1" :disabled="!store.isGS && !store.isCU" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" >
 								<span class="fs-2">원</span>
 							</div>
 						</div>

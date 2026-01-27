@@ -19,6 +19,7 @@ public class TransactionServiceImpl implements TransactionService{
 		mapper.transactionInsert(vo);
 		mapper.changeSaleStatue(map);
 		memMapper.decrementPoint(map);
+		memMapper.incrementPoint(map);
 	}
 	
 }

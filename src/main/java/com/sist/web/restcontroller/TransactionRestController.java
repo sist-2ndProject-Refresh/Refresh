@@ -29,6 +29,7 @@ public class TransactionRestController {
 			map.put("name", name);
 			map.put("msg", "OK");
 			map.put("user_no", vo.getBuyer_id());
+			map.put("seller_no", vo.getSeller_id());
 			map.put("total_amount", vo.getFee_amount());
 			tService.transactionInsert(vo, map);
 		} catch (Exception e) {

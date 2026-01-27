@@ -83,7 +83,7 @@ a:hover {
                 <tr>
                 	<td colspan="2" class="text-right fs-4">
                 		<!-- 본인만 수정, 삭제하기 -->
-                		<c:if test="${vo.user_no == sessionScope.no}">
+                		<c:if test="${vo.user_no == sessionScope.no && vo.salestatus != 'SOLD_OUT'}">	
 	                		<a href="javascript:void(0)" onclick="openDeleteWindow('${vo.no}, 1')" style="opacity: 0.7">삭제하기</a>	
 	                		<a href="/product/update?no=${vo.no }" style="opacity: 0.7; margin-left: 10px;">수정하기</a>
                 		</c:if>
@@ -126,7 +126,7 @@ a:hover {
         </table>
         <div class="container">
         	<div class="text-right">
-        		<c:if test="${vo.salestatus != 'SOLD_OUT'}">
+        		<c:if test="${vo.salestatus != 'SOLD_OUT' && vo.user_no != sessionScope.no}">
 		        	<a href="${sessionScope.no == null ? '../member/login_before' : '/transaction/buying?no=' += vo.no += '&type=1'}">
 					    <input type="button" class="btn-st fw-bold fs-1" style="background-color: #FFB38A; color: white;" value="바로 구매">
 					</a>
@@ -148,7 +148,7 @@ a:hover {
         <hr class="hr-st" style="width: 100%;">
         </div>
         <div class="container">
-        	<!-- 만약 직거래라면 지도 띄우려고 함 시간 되면 -->
+        <!-- 지도 -->
         	<c:if test="${vo.lat != 0.0 || vo.lon != 0.0}">
         		<div class="fs-1 fw-normal" style="margin-bottom: 20px;">직거래 지역</div>
 	        	<p style="margin-top:-12px">지도의 위치는 대략적인 위치만 나타냅니다.</p>
@@ -183,6 +183,13 @@ a:hover {
 	}
 	function openBlockInsertWindow(other_no, type)
 	{
+		const user_no = '${sessionScope.no}'
+		
+		if(user_no == 0)
+		{
+			alert("로그인이 필요합니다.")
+			location.href = '../member/login_before'
+		}
 		var url = '../blocklist/insert?user_no=' + other_no + "&type=" + type
 		var windowName = "BlockInsert"
 		var options = "width=450, height=300, top=200, left=500, resizable=no, scrollbars=no"

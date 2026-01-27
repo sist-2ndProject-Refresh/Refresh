@@ -38,10 +38,12 @@ public class RentalController {
 		{
 			if(!checkCvs)
 			{
+				String cvs = "택배";
+				
 				if(part.contains("GS") || part.contains("CU"))
 				{
 					partLength = 5;
-					String cvs = "";
+					
 					if(part.contains("GS") && part.contains("CU"))
 						cvs = "택배/GS반값/CU알뜰";
 					else if(part.contains("GS"))
@@ -49,17 +51,18 @@ public class RentalController {
 					else if(part.contains("CU"))
 						cvs = "택배/CU알뜰";
 					
-					vo.setHow(cvs);
 					checkCvs = true;
 				}
 				else
 					partLength = 4;
+				
+				vo.setHow(cvs);
 			}
 		}
 		
 		String addrPart = parts.length >= partLength ? parts[partLength - 1] : "-";
 		System.out.println(addrPart);
-		vo.setKakaoMapAddress(addrPart);
+		
 		if(parts.length >= 4)
 		{
 			if(addrPart != "-")

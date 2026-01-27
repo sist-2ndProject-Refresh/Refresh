@@ -41,27 +41,30 @@ public class TradeController {
 		{
 			if(!checkCvs)
 			{
+				String cvs = "택배";
+				
 				if(part.contains("GS") || part.contains("CU"))
 				{
 					partLength = 5;
-					String cvs = "";
-					if(part.contains("GS") && part.contains("CU"))
-						cvs = "택배/GS반값/CU알뜰";
-					else if(part.contains("GS"))
-						cvs = "택배/GS반값";
-					else if(part.contains("CU"))
-						cvs = "택배/CU알뜰";
 					
-					vo.setHow(cvs);
+					if(part.contains("GS") && part.contains("CU"))
+						cvs = "택배 / GS반값 / CU알뜰";
+					else if(part.contains("GS"))
+						cvs = "택배 / GS반값";
+					else if(part.contains("CU"))
+						cvs = "택배 / CU알뜰";
+					
 					checkCvs = true;
 				}
 				else
 					partLength = 4;
+				
+				vo.setHow(cvs);
 			}
 		}
 		
 		String addrPart = parts.length >= partLength ? parts[partLength - 1] : "-";		// 편택 있을 때랑 없을 때랑 길이 차이가 나서 편택있으면 길이 5와 같거나 이상 아니면 4
-		vo.setKakaoMapAddress(addrPart);
+		System.out.println(addrPart);
 		
 		if(parts.length >= 4)
 		{

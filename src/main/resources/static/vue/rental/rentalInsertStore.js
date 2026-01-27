@@ -80,7 +80,7 @@ const useInsertStore = defineStore('rental_insert', {
 
             if (res.data.msg === "yes") {
                 alert("대여 물품이 정상적으로 등록됐습니다!")
-                location.href = "/rental/list"
+                location.href = "/mypage/list?no=" + res.data.user_no
             }
             else {
                 alert("등록에 실패했습니다.")

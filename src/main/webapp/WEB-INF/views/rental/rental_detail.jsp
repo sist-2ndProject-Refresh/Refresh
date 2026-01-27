@@ -82,7 +82,7 @@ a:hover {
                 </tr>
                 <tr>
                 	<td colspan="2" class="text-right fs-4">
-                		<c:if test="${vo.user_no == sessionScope.no}">
+                		<c:if test="${vo.user_no == sessionScope.no && vo.salestatus != 'SOLD_OUT'}">
                 			<a href="javascript:void(0)" onclick="openDeleteWindow('${vo.no}')" style="opacity: 0.7">삭제하기</a>
                 			<a href="/rental/update?no=${vo.no }" style="opacity: 0.7; margin-left: 10px;">수정하기</a>
                 		</c:if>
@@ -124,7 +124,7 @@ a:hover {
         </table>
         <div class="container">
         	<div class="text-right">
-				<c:if test="${vo.salestatus != 'SOLD_OUT'}">
+				<c:if test="${vo.salestatus != 'SOLD_OUT' && vo.user_no != sessionScope.no}">
 		        	<a href="${sessionScope.no == null ? '../member/login_before' : '/transaction/buying?no=' += vo.no += '&type=2'}">
 					    <input type="button" class="btn-st fw-bold fs-1" style="background-color: #FFB38A; color: white;" value="바로 구매">
 					</a>
@@ -181,6 +181,14 @@ a:hover {
 	}
 	function openBlockInsertWindow(other_no, type)
 	{
+		const user_no = '${sessionScope.no}'
+			
+		if(user_no == 0)
+		{
+			alert("로그인이 필요합니다.")
+			location.href = '../member/login_before'
+		}
+		
 		var url = '../blocklist/insert?user_no=' + other_no + "&type=" + type
 		var windowName = "BlockInsert"
 		var options = "width=450, height=300, top=200, left=500, resizable=no, scrollbars=no"

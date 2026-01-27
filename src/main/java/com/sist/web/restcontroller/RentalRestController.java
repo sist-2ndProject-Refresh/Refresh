@@ -100,6 +100,7 @@ public class RentalRestController {
 			int user_no = Integer.parseInt(userNoObj.toString());
 			vo.setUser_no(user_no);
 			rService.rentalInsertData(vo);
+			map.put("user_no", user_no);
 			map.put("msg", "yes");
 		} catch (Exception e) {
 			e.printStackTrace();

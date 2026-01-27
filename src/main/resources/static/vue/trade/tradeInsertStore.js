@@ -77,10 +77,9 @@ const useInsertStore = defineStore('trade_insert', {
                 trades: "배송비||" + normalDelivery + cvsDeliveryType + directText + addressText
             }
             const res = await api.post('/product/insert_vue/', uploadData)
-
             if (res.data.msg === "yes") {
                 alert("상품이 정상적으로 등록됐습니다!")
-                location.href = "/product/list"
+                location.href = "/mypage/list?no=" + res.data.user_no
             }
             else {
                 alert("등록에 실패했습니다.")
