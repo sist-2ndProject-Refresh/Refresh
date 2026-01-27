@@ -101,14 +101,12 @@
                     const contRef = ref(null);
 
                     onMounted(() => {
-                        // ⭐ 핵심: 서버 세션의 username을 가져와서 스토어에 주입
                         const serverSessionId = "${sessionScope.username}";
                         
                         if(serverSessionId && serverSessionId !== "" && serverSessionId !== "null") {
-                            store.mem_id = serverSessionId; // 작성자 칸에 아이디 자동 세팅
+                            store.mem_id = serverSessionId; 
                             console.log("글쓰기 권한 확인:", store.mem_id);
                         } else {
-                            // 로그인 안 됐으면 쫓아내기
                             alert("로그인이 필요한 서비스입니다.");
                             location.href = "/member/login";
                         }
