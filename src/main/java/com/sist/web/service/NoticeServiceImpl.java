@@ -1,59 +1,50 @@
 package com.sist.web.service;
 
-import java.util.*;
-
+import java.util.List;
 import org.springframework.stereotype.Service;
-import com.sist.web.vo.*;
-import com.sist.web.mapper.*;
-
+import com.sist.web.mapper.NoticeMapper;
+import com.sist.web.vo.NoticeVO;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor 
 public class NoticeServiceImpl implements NoticeService {
-	private final NoticeMapper mapper;
 
-	@Override
-	public List<NoticeVO> noticeListData(int start) {
-		// TODO Auto-generated method stub
-		return mapper.noticeListData(start);
-	}
+    private final NoticeMapper mapper;
 
-	@Override
-	public int noticeTotalPage() {
-		// TODO Auto-generated method stub
-		return mapper.noticeTotalPage();
-	}
+    @Override
+    public List<NoticeVO> noticeListData(int start) {
+        return mapper.noticeListData(start);
+    }
 
-	@Override
-	public NoticeVO noticeDetailData(int no) {
-		// TODO Auto-generated method stub
-		mapper.noticeHitIncrement(no);
-		return mapper.noticeDetailData(no);
-	}
+    @Override
+    public int noticeTotalPage() {
+        return mapper.noticeTotalPage();
+    }
 
-	@Override
-	public void noticeInsert(NoticeVO vo) {
-		// TODO Auto-generated method stub
-		mapper.noticeInsert(vo);
-	}
+    @Override
+    public NoticeVO noticeDetailData(int no) {
+        mapper.noticeHitIncrement(no);
+        return mapper.noticeDetailData(no);
+    }
 
-	@Override
-	public void noticeUpdate(NoticeVO vo) {
-		// TODO Auto-generated method stub
-		mapper.noticeUpdate(vo);
-	}
+    @Override
+    public void noticeInsert(NoticeVO vo) {
+        mapper.noticeInsert(vo);
+    }
 
-	
-	@Override
-	public void noticeDelete(int no) {
-		// TODO Auto-generated method stub
-		mapper.noticeDelete(no);
-	}
+    @Override
+    public void noticeDelete(int no) {
+        mapper.noticeDelete(no);
+    }
 
-	@Override
-	public NoticeVO noticeUpdateData(int no) {
-		// TODO Auto-generated method stub
-		return mapper.noticeDetailData(no);
-	}
+    @Override
+    public void noticeUpdate(NoticeVO vo) {
+        mapper.noticeUpdate(vo);
+    }
+
+    @Override
+    public NoticeVO noticeUpdateData(int no) {
+        return mapper.noticeDetailData(no);
+    }
 }

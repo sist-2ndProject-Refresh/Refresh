@@ -12,22 +12,21 @@
             
             <div class="mb-3">
                 <label class="form-label">제목</label>
-                <input type="text" class="form-control" v-model="store.vo.not_title">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">작성자</label>
-                <input type="text" class="form-control" v-model="store.vo.mem_id" readonly>
+                <input type="text" class="form-control" v-model="store.vo.not_title" 
+                       style="width: 100%; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px;">
             </div>
 
             <div class="mb-3">
                 <label class="form-label">내용</label>
-                <textarea class="form-control" rows="10" v-model="store.vo.not_content"></textarea>
+                <textarea class="form-control" rows="15" v-model="store.vo.not_content" 
+                          style="width: 100%; border: 1px solid #ddd; border-radius: 4px; padding: 15px; resize: none;"></textarea>
             </div>
 
             <div class="text-end mt-4 gap-2 d-flex justify-content-end">
-                <button @click="store.updateNoticeData()" class="btn btn-primary px-5">수정완료</button>
-                <button onclick="history.back()" class="btn btn-secondary px-5">취소</button>
+                <button @click="store.updateNoticeData()" class="btn btn-primary px-5" 
+                        style="padding: 10px 30px; font-weight: 600;">수정완료</button>
+                <button onclick="history.back()" class="btn btn-secondary px-5" 
+                        style="padding: 10px 30px; font-weight: 600; background-color: #888; border: none;">취소</button>
             </div>
         </div>
     </section>

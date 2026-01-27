@@ -2,14 +2,13 @@ const { defineStore } = Pinia;
 
 const useNoticeUpdateStore = defineStore("noticeUpdateStore", {
   state: () => ({
-    vo: {}, // 서버에서 받아온 공지사항 데이터를 담는 객체
+    vo: {}, 
     updateResult: ""
   }),
   actions: {
-    // 1. 기존 데이터를 가져오는 함수
     async getDetailForUpdate(no) {
       try {
-        const res = await axios.get('http://localhost:8080/notice/detail_vue', {
+        const res = await axios.get('/notice/detail_vue', {
           params: { no: no }
         });
         this.vo = res.data;
@@ -18,14 +17,19 @@ const useNoticeUpdateStore = defineStore("noticeUpdateStore", {
       }
     },
    
-    // 2. 수정한 데이터를 서버로 보내는 함수
     async updateNoticeData() {
+      if(!this.vo.not_title || this.vo.not_title.trim() === "") {
+          alert("제목을 입력해주세요.");
+          return;
+      }
+
       try {
-        const res = await axios.put('http://localhost:8080/notice/update_ok_vue', this.vo);
+        const res = await axios.put('/notice/update_ok_vue', this.vo);
         if (res.data.msg === "yes") {
           alert("공지사항이 수정되었습니다.");
-          // 수정 완료 후 상세 페이지로 이동 (not_id 사용)
           location.href = "/notice/detail?no=" + this.vo.not_id;
+        } else {
+          alert("수정 권한이 없거나 실패했습니다.");
         }
       } catch (error) {
         console.error("수정 실패:", error);

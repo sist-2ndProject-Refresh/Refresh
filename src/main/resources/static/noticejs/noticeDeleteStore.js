@@ -12,13 +12,13 @@ const useNoticeDeleteStore = Pinia.defineStore("noticeDeleteStore", {
 
       this.isDeleting = true;
       try {
-        const response = await axios.delete('http://localhost:8080/notice/delete_vue/' + no);
+        const response = await axios.delete('/notice/delete_vue/' + no);
         
         this.deleteResult = response.data.msg;
 
         if (this.deleteResult === "yes") {
           alert("공지사항이 삭제되었습니다.");
-          location.href = "/notice/list";
+          location.href = "/notice/list"; 
         } else {
           alert("삭제 실패: 권한이 없거나 오류가 발생했습니다.");
         }
