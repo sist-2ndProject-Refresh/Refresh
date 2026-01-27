@@ -15,5 +15,5 @@ public interface FindService {
 	List<RentalVO> rentalFindData(String fd,int start);
 	int rentalFindTotalCount(String fd);
 	List<StoreVO> storeFindData(String fd,int start);
-	int storeFindTotalPage(String fd);
+	int storeFindTotalCount(String fd);
 }

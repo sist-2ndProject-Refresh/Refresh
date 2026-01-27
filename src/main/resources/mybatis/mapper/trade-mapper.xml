@@ -27,10 +27,10 @@
 				ORDER BY describedat ASC				
 			</when>
 			<when test="type == 3">
-				ORDER BY price DESC	
+				ORDER BY price DESC
 			</when>
 			<when test="type == 4">
-				ORDER BY price ASC		
+				ORDER BY price ASC
 			</when>
 			<otherwise>
         		ORDER BY describedat DESC

@@ -5,7 +5,7 @@ const useFindStore = defineStore({
 		tList:[],
 		rList:[],
 		sList:[],
-		fd:'',
+		fd:'중고',
 		page:1,
 		startPage:0,
 		endPage:0,
@@ -29,7 +29,7 @@ const useFindStore = defineStore({
 			if(this.page===page)
 				return
 			this.page=page
-			this.getFindData()
+			this.FindListData()
 		},
 		async FindListData(){
 			const {data} = await api.get('/search/find_list/',{
@@ -38,13 +38,14 @@ const useFindStore = defineStore({
 					page:this.page
 				}
 			})
+			console.log(data)
 			this.tList=data.tList
 			this.tCount=data.tCount
 			this.rList=data.rList
 			this.rCount=data.rCount
 			this.sList=data.sList
 			this.sCount=data.sCount
-			this.startPage=data.starPage
+			this.startPage=data.startPage
 			this.endPage=data.endPage
 			this.totalPage=data.totalPage
 		}

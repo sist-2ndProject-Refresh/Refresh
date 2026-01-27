@@ -6,6 +6,34 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+.hr-st {
+	border-top: 1px solid gray;
+	opacity: 0.5;
+	margin: 15px 0;
+}
+.product-st {
+	width: 300px; 
+	height: 200px; 
+	border-radius: 10px;
+}
+.product_name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.btn-dark:active, 
+.btn-dark:focus, 
+.btn-dark:hover {
+    color: #fff !important; 
+    background-color: #212529;
+    border: 1px solid #212529;
+}
+a:hover {
+    text-decoration: none;
+    color: #007bff;
+}
+</style>
 </head>
 <body>
   <section id="intro" class="position-relative mt-4" >

@@ -37,6 +37,7 @@ public class TradeRestController {
 	@GetMapping("/product/list_vue/")
 	public ResponseEntity<Map> product_list_vue(@RequestParam(name = "page") int page, @RequestParam("type") int type, HttpSession session)
 	{
+		
 		Map map = new HashMap();
 		Object userNoObj = session.getAttribute("no");
 		int user_no = 0;
@@ -53,7 +54,6 @@ public class TradeRestController {
 			map.put("start", start);
 			map.put("type", type);
 			map.put("user_no", user_no);
-			
 			List<TradeVO> list = tService.productListData(map);
 			int totalPage = tService.productTotalPage();
 			
@@ -66,7 +66,6 @@ public class TradeRestController {
 				endPage = totalPage;
 			
 			map = new HashMap();
-			
 			map.put("list", list);
 			map.put("curPage", page);
 			map.put("totalPage", totalPage);

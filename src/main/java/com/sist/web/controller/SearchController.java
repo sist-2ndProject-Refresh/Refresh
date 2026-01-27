@@ -14,7 +14,6 @@ public class SearchController {
 	@GetMapping("/search")
 	public String search_total(@RequestParam("fd")String fd,Model model)
 	{
-		
 		model.addAttribute("main_jsp", "../search/search.jsp");
 		return "main/main";
 	}

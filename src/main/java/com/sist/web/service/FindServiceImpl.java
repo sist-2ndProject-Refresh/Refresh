@@ -16,32 +16,57 @@ public class FindServiceImpl implements FindService{
 	@Override
 	public List<RentalVO> rentalFindData(String fd, int start) {
 		// TODO Auto-generated method stub
-		return null;
+		List<RentalVO> list = fMapper.rentalFindData(fd, start);
+		for(RentalVO vo : list)
+		{
+			String imgurl = vo.getImageurl();
+			imgurl = imgurl.replace("{cnt}", "1").replace("{res}", "720");
+			vo.setImageurl(imgurl);
+		}
+		return list;
 	}
 	@Override
 	public int rentalFindTotalCount(String fd) {
 		// TODO Auto-generated method stub
-		return 0;
+		return fMapper.rentalFindTotalCount(fd);
 	}
 	@Override
 	public List<StoreVO> storeFindData(String fd, int start) {
 		// TODO Auto-generated method stub
-		return null;
+		return fMapper.storeFindData(fd, start);
 	}
 	@Override
-	public int storeFindTotalPage(String fd) {
+	public int storeFindTotalCount(String fd) {
 		// TODO Auto-generated method stub
-		return 0;
+		return fMapper.storeFindTotalCount(fd);
 	}
 	@Override
 	public List<TradeVO> tradeFindData(String fd, int start) {
 		// TODO Auto-generated method stub
-		return null;
+		List<TradeVO> list = fMapper.tradeFindData(fd, start);
+		for(TradeVO vo : list)
+		{
+			String trade = vo.getTrades();
+			trade = trade.substring(0,trade.lastIndexOf("||"));
+			String[] trades = trade.split("\\|\\|");
+			int len = trades.length;
+			if(trades[len-2].contains("직거래"))
+			{
+				vo.setAddress(trades[len-1]);
+			}
+			else {
+				vo.setAddress("택배거래");
+			}
+			String imgurl = vo.getImageurl();
+			imgurl = imgurl.replace("{cnt}", "1").replace("{res}", "720");
+			vo.setImageurl(imgurl);
+		}
+		return list;
 	}
 	@Override
 	public int tradeFindTotalCount(String fd) {
 		// TODO Auto-generated method stub
-		return 0;
+		return fMapper.tradeFindTotalCount(fd);
 	}
 	
 }

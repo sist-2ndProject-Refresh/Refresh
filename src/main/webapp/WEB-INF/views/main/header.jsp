@@ -139,7 +139,7 @@
         </svg>
       </div>
       <form id="search-form" class="text-lg-center text-md-left pt-3" action="/search" method="get">
-        <input type="text" class="search-input" placeholder="Search..." name="fd">
+        <input type="text" class="search-input" placeholder="Search..." name="fd" required>
         <svg class="search" style="cursor:pointer"  onclick="document.getElementById('search-form').submit()" >
           <use xlink:href="#search"></use>
         </svg>
