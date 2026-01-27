@@ -89,8 +89,9 @@ const useBuyStore = defineStore('buying', {
                 name: String(this.name),
                 seller_id: this.seller_no,
                 buyer_id: this.user_no,
-                fee_amount: this.totalPrice,
-                fee_rate: 2,
+				trade_amount: this.totalPrice,
+                fee_rate: 10,
+                fee_amount: this.totalPrice * 0.1,
 				address: this.address1 + " " + this.address2
             };
             const res = await api.post('/transaction/insert_vue/', insertData, {

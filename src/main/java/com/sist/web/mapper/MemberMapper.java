@@ -73,6 +73,6 @@ public interface MemberMapper {
 	@Update("UPDATE user_table SET point = point - #{total_amount} WHERE no = #{user_no}")
 	public void decrementPoint(Map map);
 	
-	@Update("UPDATE user_table SET point = point + #{total_amount} WHERE no = #{seller_no}")
+	@Update("UPDATE user_table SET point = point + ROUND(#{total_amount} * 0.9, 0) WHERE no = #{seller_no}")
 	public void incrementPoint(Map map);
 }
