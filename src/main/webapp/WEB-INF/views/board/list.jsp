@@ -89,7 +89,7 @@
 							<div class="d-flex align-items-center">
 								<select class="form-select me-3" v-model="store.selectedCategory"
 									@change="store.curpage = 1; store.dataRecv()"
-									style="width: 150px; border-radius: 500px; font-size: 1.1rem; font-weight: 600; height: 50px; border: 1px solid #ccc;">
+									style="width: 150px; border-radius: 500px; font-size: 1.1rem; font-weight: 600; height: 40px; border: 1px solid #ccc;">
 									<option value="전체">전체 카테고리</option>
 									<option value="일상">일상</option>
 									<option value="질문">질문</option>
