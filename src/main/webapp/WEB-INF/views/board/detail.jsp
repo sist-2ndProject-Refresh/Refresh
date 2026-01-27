@@ -104,16 +104,24 @@
 				</div>
 
 				<div class="d-flex justify-content-end mt-5 pt-4 border-top gap-3">
-					<a :href="'/board/update?no=' + store.vo.id"
-						class="btn btn-outline-dark px-5 py-3 shadow-sm"
+					<template v-if="store.sessionId === store.vo.mem_id">
+						<a :href="'/board/update?no=' + store.vo.id"
+							class="btn btn-outline-dark px-5 py-3 shadow-sm"
+							style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 120px;">
+							수정 
+						</a> 
+						<a href="#"
+							@click.prevent="deleteStore.deleteBoardData(store.vo.id, store.vo.mem_id)"
+							class="btn btn-outline-danger px-5 py-3 shadow-sm"
+							style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 120px;">
+							삭제 
+						</a>
+					</template>
+
+					<a href="/board/list" class="btn btn-dark px-5 py-3 shadow-sm"
 						style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 120px;">
-						수정 </a> <a href="#"
-						@click.prevent="deleteStore.deleteBoardData(store.vo.id)"
-						class="btn btn-outline-danger px-5 py-3 shadow-sm"
-						style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 120px;">
-						삭제 </a> <a href="/board/list" class="btn btn-dark px-5 py-3 shadow-sm"
-						style="border-radius: 60px; font-size: 1.4rem; font-weight: 600; min-width: 120px;">
-						목록으로 </a>
+						목록으로 
+					</a>
 				</div>
 			</div>
 		</div>
@@ -131,7 +139,7 @@
 	<script src="/boardjs/boardListStore.js"></script>
 	<script src="/boardjs/boardDeleteStore.js"></script>
 
-	<script>
+<script>
     (function() {
         const { createApp, onMounted } = Vue;
         const { createPinia } = Pinia;
@@ -145,8 +153,16 @@
                 const no = params.get('no');
                 
                 onMounted(() => {
+                    const myId = "${sessionScope.username}";
+                    
+                    store.sessionId = myId;
+                    deleteStore.sessionId = myId; 
+
                     if(no) {
                         store.boardDetail(no);
+                    } else {
+                        alert("잘못된 접근입니다.");
+                        location.href = "/board/list";
                     }
                 });
                 
@@ -162,5 +178,5 @@
         app.mount("#board_detail");
     })();
     </script>
-</body>
+    </body>
 </html>

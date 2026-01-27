@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>지역 커뮤니티 수정</title>
+<title>지역 커뮤니티 글수정</title>
 </head>
 <body>
     <section class="product-details spad" id="board_update" v-if="store.vo && store.vo.id">
@@ -13,9 +13,9 @@
                 <table class="table" style="border-top: 2px solid #333;">
                     <tbody>
                         <tr>
-                            <td class="text-center" style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">이름</td>
+                            <td class="text-center" style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">작성자</td>
                             <td colspan="3" class="text-left">
-                                <input type="text" ref="memRef" v-model="store.vo.mem_id" readonly
+                                <input type="text" v-model="store.vo.mem_id" readonly
                                     style="width: 250px; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px; background-color: #eee;">
                             </td>
                         </tr>
@@ -68,7 +68,7 @@
                             <td colspan="4" class="text-center" style="padding-top: 30px; border-top: none; border-bottom: none;">
                                 <button class="btn btn-primary"
                                     style="padding: 10px 30px; font-size: 1rem; font-weight: 600; margin-right: 10px; border-radius: 5px;"
-                                    @click="store.updateBoardData({regRef, catRef, titRef, contRef})">수정 완료</button>
+                                    @click="submitUpdate">수정 완료</button>
                                 <button class="btn btn-secondary"
                                     style="padding: 10px 30px; font-size: 1rem; font-weight: 600; border-radius: 5px;"
                                     onclick="javascript:history.back()">취소</button>
@@ -80,49 +80,62 @@
         </div>
     </section>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="https://unpkg.com/vue-demi@0.14.6/lib/index.iife.js"></script>
-    <script src="https://unpkg.com/pinia@2.1.7/dist/pinia.iife.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-demi/0.14.5/index.iife.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pinia/2.1.3/pinia.iife.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
     <script src="/boardjs/boardUpdateStore.js"></script>
 
     <script>
-        const { createApp, ref, onMounted } = Vue;
-        const { createPinia } = Pinia;
+        (function() {
+            const { createApp, ref, onMounted } = Vue;
+            const { createPinia } = Pinia;
 
-        const app = createApp({
-            setup() {
-                const store = useBoardUpdateStore();
-                
-                const memRef = ref(null); 
-                const titRef = ref(null);
-                const regRef = ref(null); 
-                const catRef = ref(null); 
-                const contRef = ref(null);
+            const app = createApp({
+                setup() {
+                    const store = useBoardUpdateStore();
+                    const titRef = ref(null);
+                    const regRef = ref(null); 
+                    const catRef = ref(null); 
+                    const contRef = ref(null);
 
-                const params = new URLSearchParams(location.search);
-                const no = params.get('no');
+                    const params = new URLSearchParams(location.search);
+                    const no = params.get('no');
 
-                onMounted(() => {
-                    if(no) {
-                        store.getDetailForUpdate(no);
-                    }
-                });
-                
-                return {
-                    store,
-                    memRef,
-                    titRef,
-                    regRef,  
-                    catRef,  
-                    contRef,
+                    onMounted(async () => {
+                        const myId = "${sessionScope.username}";
+                        store.sessionId = myId;
+
+                        if(no) {
+                            await store.getDetailForUpdate(no);
+                            
+                            if (!myId || myId === 'null' || store.vo.mem_id !== myId) {
+                                alert("본인이 작성한 글만 수정할 수 있습니다.");
+                                location.href = "/board/list";
+                            }
+                        } else {
+                            alert("잘못된 접근입니다.");
+                            location.href = "/board/list";
+                        }
+                    });
+
+                    const submitUpdate = () => {
+                        if(!store.vo.title.trim()) { alert("제목을 입력해주세요."); titRef.value.focus(); return; }
+                        if(!store.vo.region) { alert("지역을 선택해주세요."); regRef.value.focus(); return; }
+                        if(!store.vo.category) { alert("카테고리를 선택해주세요."); catRef.value.focus(); return; }
+                        if(!store.vo.content.trim()) { alert("내용을 써주세요."); contRef.value.focus(); return; }
+
+                        store.updateBoardData();
+                    };
+                    
+                    return { store, titRef, regRef, catRef, contRef, submitUpdate };
                 }
-            }
-        });
+            });
 
-        const pinia = createPinia();
-        app.use(pinia);
-        app.mount("#board_update");
+            const pinia = createPinia();
+            app.use(pinia);
+            app.mount("#board_update");
+        })();
     </script>
 </body>
 </html>

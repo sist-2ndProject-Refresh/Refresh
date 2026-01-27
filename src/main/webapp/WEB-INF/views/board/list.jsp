@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>지역 커뮤니티 목록</title>
 <style>
+
 .category-container {
 	display: flex;
 	gap: 12px;
@@ -38,6 +39,31 @@
 	background-color: #111;
 	color: #fff;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.table {
+	font-size: 1.15rem;
+}
+
+.table thead th {
+	font-size: 1.2rem;
+	background-color: #f8f9fa;
+	padding: 18px 10px !important;
+}
+
+.table tbody td {
+	padding: 20px 10px !important;
+	vertical-align: middle;
+}
+
+.badge {
+	font-size: 0.95rem !important;
+	padding: 8px 15px !important;
+}
+
+.board-title {
+	font-size: 1.25rem;
+	letter-spacing: -0.02em;
 }
 </style>
 </head>
@@ -77,8 +103,8 @@
 									<option value="맛집추천">맛집추천</option>
 									<option value="동네소식">동네소식</option>
 									<option value="모임/동호회">모임/동호회</option>
-								</select> <a href="/board/insert"
-									class="btn btn-dark px-3 py-2 shadow-sm"
+								</select> <a v-if="store.sessionId && store.sessionId !== 'null'"
+									href="/board/insert" class="btn btn-dark px-3 py-2 shadow-sm"
 									style="border-radius: 15px; font-size: 1.1rem; font-weight: 600; min-width: 100px;">
 									글 작성 </a>
 							</div>
@@ -87,33 +113,6 @@
 				</div>
 			</div>
 		</section>
-
-		<style>
-.table {
-	font-size: 1.15rem;
-}
-
-.table thead th {
-	font-size: 1.2rem;
-	background-color: #f8f9fa;
-	padding: 18px 10px !important;
-}
-
-.table tbody td {
-	padding: 20px 10px !important;
-	vertical-align: middle;
-}
-
-.badge {
-	font-size: 0.95rem !important;
-	padding: 8px 15px !important;
-}
-
-.board-title {
-	font-size: 1.25rem;
-	letter-spacing: -0.02em;
-}
-</style>
 
 		<section class="product-details spad">
 			<div class="container">
@@ -132,35 +131,29 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="vo in store.filteredList" :key="vo.id">
-								<td class="text-center text-muted">{{vo.id}}</td>
+							<template
+								v-if="store.filteredList && store.filteredList.length > 0">
+								<tr v-for="vo in store.filteredList" :key="vo.id">
+									<td class="text-center text-muted">{{vo.id}}</td>
+									<td class="text-center">{{ vo.region || '미정' }}</td>
+									<td class="text-center">{{ vo.category || '기타' }}</td>
+									<td class="text-left"
+										style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+										<a :href="'/board/detail?no=' + vo.id"
+										class="text-decoration-none text-dark fw-bold board-title">
+											{{vo.title}} </a>
+									</td>
+									<td class="text-center">{{vo.mem_id}}</td>
+									<td class="text-center text-muted">{{ vo.time ?
+										vo.time.split('T')[0] : '' }}</td>
+									<td class="text-center">{{vo.hit}}</td>
+								</tr>
+							</template>
 
-								<td class="text-center"><span class="text-dark">{{
-										vo.region || '미정' }}</span></td>
-
-								<td class="text-center"><span class="text-dark">{{
-										vo.category || '기타' }}</span></td>
-
-								<td class="text-left"
-									style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-									<a :href="'/board/detail?no=' + vo.id"
-									class="text-decoration-none text-dark fw-bold board-title">
-										{{vo.title}} </a>
-								</td>
-
-								<td class="text-center" style="color: #555;">{{vo.mem_id}}</td>
-
-								<td class="text-center text-muted">{{ vo.time ?
-									vo.time.split('T')[0] : '' }}</td>
-
-								<td class="text-center">{{vo.hit}}</td>
-							</tr>
-
-							<tr v-if="store.filteredList.length === 0">
+							<tr v-if="!store.filteredList || store.filteredList.length === 0">
 								<td colspan="7" class="text-center py-5"
-									style="color: #999; font-size: 1.3rem; border-bottom: none;">
-									<i class="fa fa-info-circle"></i> 선택하신 조건에 맞는 게시글이 없습니다.
-								</td>
+									style="color: #999; font-size: 1.3rem; "><i
+									class="fa fa-info-circle"></i> 선택하신 조건에 맞는 게시글이 없습니다.</td>
 							</tr>
 						</tbody>
 					</table>
@@ -168,7 +161,6 @@
 			</div>
 		</section>
 	</div>
-
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
 	<script
@@ -187,9 +179,18 @@
             const app = createApp({
                 setup() {
                     const store = useBoardListStore();
+                    
                     onMounted(() => {
+                        const serverSessionId = "${sessionScope.username}"; 
+                        
+                        if(serverSessionId && serverSessionId !== "" && serverSessionId !== "null") {
+                            store.sessionId = serverSessionId;
+                        } else {
+                            store.sessionId = null;
+                        }
                         store.dataRecv();
                     });
+                    
                     return { store };
                 }
             });

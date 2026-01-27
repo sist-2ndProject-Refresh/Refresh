@@ -12,11 +12,11 @@
                 <table class="table" style="border-top: 2px solid #333;">
                     <tbody>
                         <tr>
-                            <td class="text-center" style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">이름</td>
+                            <td class="text-center" style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">작성자</td>
                             <td colspan="3" class="text-left">
                                 <input type="text" ref="memRef" v-model="store.mem_id"
-                                    style="width: 250px; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px;"
-                                    placeholder="작성자 이름을 입력하세요">
+                                    style="width: 250px; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px; background-color: #eee;"
+                                    readonly>
                             </td>
                         </tr>
 
@@ -80,39 +80,55 @@
         </div>
     </section>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="https://unpkg.com/vue-demi@0.14.6/lib/index.iife.js"></script>
-    <script src="https://unpkg.com/pinia@2.1.7/dist/pinia.iife.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-demi/0.14.5/index.iife.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pinia/2.1.3/pinia.iife.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
     <script src="/boardjs/boardInsertStore.js"></script>
 
     <script>
-        const { createApp, ref } = Vue;
-        const { createPinia } = Pinia;
+        (function() {
+            const { createApp, ref, onMounted } = Vue;
+            const { createPinia } = Pinia;
 
-        const app = createApp({
-            setup() {
-                const store = useBoardInsertStore();
-                const memRef = ref(null); 
-                const titRef = ref(null);
-                const regRef = ref(null); 
-                const catRef = ref(null); 
-                const contRef = ref(null);
-                
-                return {
-                    store,
-                    memRef,
-                    titRef,
-                    regRef,  
-                    catRef,  
-                    contRef,
+            const app = createApp({
+                setup() {
+                    const store = useBoardInsertStore();
+                    const memRef = ref(null); 
+                    const titRef = ref(null);
+                    const regRef = ref(null); 
+                    const catRef = ref(null); 
+                    const contRef = ref(null);
+
+                    onMounted(() => {
+                        // ⭐ 핵심: 서버 세션의 username을 가져와서 스토어에 주입
+                        const serverSessionId = "${sessionScope.username}";
+                        
+                        if(serverSessionId && serverSessionId !== "" && serverSessionId !== "null") {
+                            store.mem_id = serverSessionId; // 작성자 칸에 아이디 자동 세팅
+                            console.log("글쓰기 권한 확인:", store.mem_id);
+                        } else {
+                            // 로그인 안 됐으면 쫓아내기
+                            alert("로그인이 필요한 서비스입니다.");
+                            location.href = "/member/login";
+                        }
+                    });
+                    
+                    return {
+                        store,
+                        memRef,
+                        titRef,
+                        regRef,  
+                        catRef,  
+                        contRef,
+                    }
                 }
-            }
-        });
+            });
 
-        const pinia = createPinia();
-        app.use(pinia);
-        app.mount("#board_insert");
+            const pinia = createPinia();
+            app.use(pinia);
+            app.mount("#board_insert");
+        })();
     </script>
 </body>
 </html>

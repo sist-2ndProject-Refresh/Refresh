@@ -1,15 +1,13 @@
 package com.sist.web.service;
 
 import java.util.*;
-
-
 import com.sist.web.vo.*;
 
 public interface BoardService {
-	public List<BoardVO> BoardListData(int start);
-	public int BoardTotalPage();
-	public BoardVO boardDetailData(int no);
-	public void boardInsert(BoardVO vo);
-	public void boardDelete(int no);
-	public void boardUpdate(BoardVO vo);
+    public List<BoardVO> BoardListData(int start);
+    public int BoardTotalPage();
+    public BoardVO boardDetailData(int no);
+    public void boardInsert(BoardVO vo);
+    public String boardDelete(int no, String sessionId);
+    public String boardUpdate(BoardVO vo, String sessionId);
 }
