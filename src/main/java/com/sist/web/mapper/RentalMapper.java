@@ -30,7 +30,7 @@ public interface RentalMapper {
 	
 	// 상품 디테일 출력
 	@Select("SELECT no, name, price, salestatus, condition, description, imageurl, imagecount, "
-			+ "qty, category, address, trades, TO_CHAR(describedat, 'yyyy-mm-dd' )as dbday, days, user_no "
+			+ "qty, category, address, lat, lon, trades, TO_CHAR(describedat, 'yyyy-mm-dd' )as dbday, days, user_no "
 			+ "FROM rental "
 			+ "WHERE no=#{no}")
 	public RentalVO rentalDetailData(int no);

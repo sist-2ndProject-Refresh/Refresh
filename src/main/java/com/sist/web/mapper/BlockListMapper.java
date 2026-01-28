@@ -15,7 +15,7 @@ public interface BlockListMapper {
 	public void blockInsert(BlockListVO vo);
 	
 	@Delete("DELETE FROM block_list "
-			+ "WHERE blocking_user = #{blocked_user} "
+			+ "WHERE blocking_user = #{blocking_user} "
 			+ "AND blocked_user = #{blocked_user}")
 	public void blockDelete(BlockListVO vo);
 }

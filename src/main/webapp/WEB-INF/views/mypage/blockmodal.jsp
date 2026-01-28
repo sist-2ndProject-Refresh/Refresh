@@ -23,7 +23,7 @@
 						<td><img :src="vo.image" style="width: 40px;height: 40px;"></td>
 						<td>{{vo.storename}}</td>
 						<td></td>
-						<td><button class="btn btn-default">차단 해제</button></td>
+						<td><button class="btn btn-default" @click="unBlock(vo.no)">차단 해제</button></td>
 					</tr>
 				</tbody>
 			</table>
@@ -57,6 +57,7 @@
 					}
 					}).then(response => {
 						this.list=response.data.list
+						console.log(response.data.list[0].no)
 						this.startPage=response.data.startPage
 						this.endPage=response.data.endPage
 						this.curpage=response.data.curpage
@@ -64,7 +65,15 @@
 						this.count=response.data.count
 				})
 			},
-			
+			unBlock(otherNo){
+				axios.delete('/blocklist/block_delete_vue/', {
+					params:{
+						other_no: otherNo 
+					}
+				}).then(response=>{
+					this.blockList()
+				})
+			}
 		}
 	})
 	blockApp.mount('#block_modal')

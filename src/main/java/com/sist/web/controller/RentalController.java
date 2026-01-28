@@ -1,5 +1,6 @@
 package com.sist.web.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class RentalController {
+	@Value("${map-key}")
+	private String kakaoMapKey;
+	
 	private final RentalService rService;
 	
 	@GetMapping("/rental/list")
@@ -34,10 +38,12 @@ public class RentalController {
 		{
 			if(!checkCvs)
 			{
+				String cvs = "택배";
+				
 				if(part.contains("GS") || part.contains("CU"))
 				{
 					partLength = 5;
-					String cvs = "";
+					
 					if(part.contains("GS") && part.contains("CU"))
 						cvs = "택배/GS반값/CU알뜰";
 					else if(part.contains("GS"))
@@ -45,20 +51,18 @@ public class RentalController {
 					else if(part.contains("CU"))
 						cvs = "택배/CU알뜰";
 					
-					vo.setHow(cvs);
 					checkCvs = true;
 				}
 				else
-				{
 					partLength = 4;
-				}
+				
+				vo.setHow(cvs);
 			}
-			
-			System.out.println("택배: " + part);
 		}
 		
 		String addrPart = parts.length >= partLength ? parts[partLength - 1] : "-";
 		System.out.println(addrPart);
+		
 		if(parts.length >= 4)
 		{
 			if(addrPart != "-")
@@ -69,17 +73,13 @@ public class RentalController {
 			}
 		}
 		else
-		{
 			vo.setAddress("-");
-		}
 		
 		String updateImgUrl[] = new String[vo.getImagecount()];
 		for(int i = 1; i <= vo.getImagecount(); i++)
 		{
 			if(vo.getImageurl().startsWith("http"))
-			{
 				updateImgUrl[i-1] = vo.getImageurl().replace("{cnt}", String.valueOf(i));
-			}
 			else
 			{
 				String fileName = vo.getImageurl().replace("{cnt}", String.valueOf(i));
@@ -97,6 +97,7 @@ public class RentalController {
 		case "DAMAGED": {vo.setCondition("고장 / 파손"); break;}
 		}
 		
+		model.addAttribute("kakaomap_key", kakaoMapKey);
 		model.addAttribute("vo", vo);
 		model.addAttribute("updateImagUrl", updateImgUrl);
 		model.addAttribute("main_jsp", "../rental/rental_detail.jsp");
@@ -106,6 +107,7 @@ public class RentalController {
 	@GetMapping("/rental/new")
 	public String rental_new(Model model)
 	{
+		model.addAttribute("kakaomap_key", kakaoMapKey);
 		model.addAttribute("main_jsp", "../rental/rental_new.jsp");
 		return "main/main";
 	}

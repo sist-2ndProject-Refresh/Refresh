@@ -39,6 +39,13 @@ a:hover {
 .btn-st:hover {
     opacity: 0.8;
 }
+#container {overflow:hidden;height:600px;position:relative;}
+#btnRoadview,  #btnMap {position:absolute;top:5px;left:5px;padding:7px 12px;font-size:14px;border: 1px solid #dbdbdb;background-color: #fff;border-radius: 2px;box-shadow: 0 1px 1px rgba(0,0,0,.04);z-index:1;cursor:pointer;}
+#btnRoadview:hover,  #btnMap:hover{background-color: #fcfcfc;border: 1px solid #c1c1c1;}
+#container.view_map #mapWrapper {z-index: 10;}
+#container.view_map #btnMap {display: none;}
+#container.view_roadview #mapWrapper {z-index: 0;}
+#container.view_roadview #btnRoadview {display: none;}
 </style>
 </head>
 <body>
@@ -76,7 +83,7 @@ a:hover {
                 <tr>
                 	<td colspan="2" class="text-right fs-4">
                 		<!-- 본인만 수정, 삭제하기 -->
-                		<c:if test="${vo.user_no == sessionScope.no}">
+                		<c:if test="${vo.user_no == sessionScope.no && vo.salestatus != 'SOLD_OUT'}">	
 	                		<a href="javascript:void(0)" onclick="openDeleteWindow('${vo.no}, 1')" style="opacity: 0.7">삭제하기</a>	
 	                		<a href="/product/update?no=${vo.no }" style="opacity: 0.7; margin-left: 10px;">수정하기</a>
                 		</c:if>
@@ -119,10 +126,12 @@ a:hover {
         </table>
         <div class="container">
         	<div class="text-right">
-	        	<a href="${sessionScope.no == null ? '../member/login' : '/product/buying?no=' += vo.no += '&type=1'}">
-				    <input type="button" class="btn-st fw-bold fs-1" style="background-color: #FFB38A; color: white;" value="바로 구매">
-				</a>
-				<input type="button" class="btn-st fw-bold fs-1" style="background-color: #A9C2C4; color: white;" value="구매 문의">
+        		<c:if test="${vo.salestatus != 'SOLD_OUT' && vo.user_no != sessionScope.no}">
+		        	<a href="${sessionScope.no == null ? '../member/login_before' : '/transaction/buying?no=' += vo.no += '&type=1'}">
+					    <input type="button" class="btn-st fw-bold fs-1" style="background-color: #FFB38A; color: white;" value="바로 구매">
+					</a>
+					<input type="button" class="btn-st fw-bold fs-1" style="background-color: #A9C2C4; color: white;" value="구매 문의">
+        		</c:if>
 				<a href="javascript:history.back()"><input type="button" class="btn-st fw-bold fs-1" style="background-color: #E0E0E0; color: #333;" value="목록"></a>
 	        </div>
         </div>  
@@ -139,10 +148,31 @@ a:hover {
         <hr class="hr-st" style="width: 100%;">
         </div>
         <div class="container">
-        	<!-- 만약 직거래라면 지도 띄우려고 함 시간 되면 -->
+        <!-- 지도 -->
+        	<c:if test="${vo.lat != 0.0 || vo.lon != 0.0}">
+        		<div class="fs-1 fw-normal" style="margin-bottom: 20px;">직거래 지역</div>
+	        	<p style="margin-top:-12px">지도의 위치는 대략적인 위치만 나타냅니다.</p>
+				<div id="container" class="view_map">
+				    <div id="mapWrapper" style="width:100%;height:600px;position:relative;">
+				        <div id="map" style="width:100%;height:100%"></div> <!-- 지도를 표시할 div 입니다 -->
+				        <input type="button" id="btnRoadview" onclick="toggleMap(false)" title="로드뷰 보기" value="로드뷰">
+				    </div>
+				    <div id="rvWrapper" style="width:100%;height:600px;position:absolute;top:0;left:0;">
+				        <div id="roadview" style="height:100%"></div> <!-- 로드뷰를 표시할 div 입니다 -->
+				        <input type="button" id="btnMap" onclick="toggleMap(true)" title="지도 보기" value="지도">
+				    </div>
+				</div>
+        	</c:if>
         </div>
     </div>
 </div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaomap_key }&libraries=services"></script>
+<script>
+	var targetLat = '${vo.lat}'
+	console.log(targetLat)
+	var targetLon = '${vo.lon}'
+</script>
+<script src="/js/kakaomap.js"></script>
 <script>
 	function openDeleteWindow(no)
 	{
@@ -153,6 +183,13 @@ a:hover {
 	}
 	function openBlockInsertWindow(other_no, type)
 	{
+		const user_no = '${sessionScope.no}'
+		
+		if(user_no == 0)
+		{
+			alert("로그인이 필요합니다.")
+			location.href = '../member/login_before'
+		}
 		var url = '../blocklist/insert?user_no=' + other_no + "&type=" + type
 		var windowName = "BlockInsert"
 		var options = "width=450, height=300, top=200, left=500, resizable=no, scrollbars=no"
