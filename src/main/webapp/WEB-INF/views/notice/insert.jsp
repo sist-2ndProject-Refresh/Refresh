@@ -2,85 +2,106 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>공지사항 등록</title>
+    <meta charset="UTF-8">
+    <title>공지사항 등록</title>
+    <style>
+        .form-label {
+            vertical-align: middle;
+            background-color: #f9f9f9;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0 10px;
+        }
+
+        .form-textarea {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            resize: none;
+        }
+
+        .btn-action {
+            padding: 10px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-<section class="product-details spad" id="notice_insert">
-		<div class="container">
-			<div class="row">
-				<table class="table" style="border-top: 2px solid #333;">
-					<tbody>
+    <section class="product-details spad" id="notice_insert">
+        <div class="container">
+            <table class="table" style="border-top: 2px solid #333;">
+                <tbody>
+                    <!-- 제목 -->
+                    <tr>
+                        <td class="form-label">제목</td>
+                        <td colspan="3" class="text-left">
+                            <input type="text" v-model="store.not_title" 
+                                   class="form-input" placeholder="제목을 입력해 주세요">
+                        </td>
+                    </tr>
 
-						<tr>
-							<td class="text-center"
-								style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">제목</td>
-							<td colspan="3" class="text-left"> 
-                                <input type="text"
-								ref="titRef" v-model="store.not_title"
-								style="width: 100%; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px;"
-								placeholder="제목을 입력해 주세요">
-                            </td>
-						</tr>
+                    <!-- 내용 -->
+                    <tr>
+                        <td class="form-label">내용</td>
+                        <td colspan="3" class="text-left">
+                            <textarea rows="12" v-model="store.not_content" 
+                                      class="form-textarea" placeholder="내용을 입력해 주세요"></textarea>
+                        </td>
+                    </tr>
 
-						<tr>
-							<td class="text-center"
-								style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">내용</td>
-							<td colspan="3" class="text-left">
-                                <textarea rows="12"
-									ref="contRef" v-model="store.not_content"
-									style="width: 100%; border: 1px solid #ddd; border-radius: 4px; padding: 15px; resize: none;"
-									placeholder="내용을 입력해 주세요"></textarea>
-                            </td>
-						</tr>
+                    <!-- 버튼 -->
+                    <tr>
+                        <td colspan="4" class="text-center" 
+                            style="padding-top: 30px; border-top: none; border-bottom: none;">
+                            <button @click="store.noticeInsert()" 
+                                    class="btn btn-success btn-action me-2">
+                                글 등록하기
+                            </button>
+                            <button @click="history.back()" 
+                                    class="btn btn-secondary btn-action">
+                                취소
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-						<tr>
-							<td colspan="4" class="text-center" style="padding-top: 30px; border-top: none; border-bottom: none;">
-                                <button class="btn-sm btn-success"
-									style="padding: 10px 30px; font-size: 1rem; font-weight: 600; margin-right: 10px; border-radius: 5px;"
-									@click="store.noticeInsert({titRef, contRef})">글 등록하기</button>
-								<button class="btn-sm btn-info"
-									style="padding: 10px 30px; font-size: 1rem; font-weight: 600; background-color: #888; border: none; border-radius: 5px;"
-									onclick="javascript:history.back()">취소</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-demi/0.14.5/index.iife.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pinia/2.1.3/pinia.iife.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script src="/noticejs/noticeInsertStore.js"></script>
 
-	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-	<script src="https://unpkg.com/vue-demi@0.14.6/lib/index.iife.js"></script>
-	<script src="https://unpkg.com/pinia@2.1.7/dist/pinia.iife.js"></script>
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+    (function() {
+        const { createApp, onMounted } = Vue;
+        const { createPinia } = Pinia;
 
-	<script src="/noticejs/noticeInsertStore.js"></script>
-	<script>
-    const { createApp, ref, onMounted } = Vue;
-    const { createPinia } = Pinia;
+        createApp({
+            setup() {
+                const store = useNoticeInsertStore();
 
-    const app = createApp({
-        setup() {
-            const store = useNoticeInsertStore();
-            const titRef = ref(null);
-            const contRef = ref(null);
+                onMounted(() => {
+                    store.mem_id = 'admin';
+                });
 
-            onMounted(() => {
-                store.mem_id = 'admin';
-            });
-            
-            return {
-                store,
-                titRef,
-                contRef,
+                return { store };
             }
-        }
-    });
-
-    const pinia = createPinia();
-    app.use(pinia);
-    app.mount("#notice_insert");
-</script>
+        }).use(createPinia()).mount("#notice_insert");
+    })();
+    </script>
 </body>
 </html>

@@ -4,19 +4,26 @@ import java.util.*;
 import com.sist.web.vo.*;
 
 public interface BoardService {
-
-    public List<BoardVO> BoardListData(int start, String fd);
-    public int BoardTotalPage(String fd);
-    public Map boardDetailAllData(int no);
-    public BoardVO boardDetailData(int no);
-    public void boardInsert(BoardVO vo);
-    public String boardDelete(int no, String sessionId);
-    public String boardUpdate(BoardVO vo, String sessionId);
-    public String getMemberAddr(String username);
-
-
-    public List<BoardReplyVO> replyListData(int bno);
-    public void replyInsert(BoardReplyVO vo, int pId); 
-    public void replyDelete(int id);
-    public void replyUpdate(BoardReplyVO vo);
+	
+	// ===== 게시글 목록 =====
+	List<BoardVO> BoardListData(int start, String fd);
+	int BoardTotalPage(String fd);
+	
+	// ===== 게시글 상세 =====
+	Map<String, Object> boardDetailAllData(int no);
+	BoardVO boardDetailData(int no);
+	
+	// ===== 게시글 작성/수정/삭제 =====
+	void boardInsert(BoardVO vo);
+	String boardUpdate(BoardVO vo, String sessionId);
+	String boardDelete(int no, String sessionId);
+	
+	// ===== 회원 정보 =====
+	String getMemberAddr(String username);
+	
+	// ===== 댓글 =====
+	List<BoardReplyVO> replyListData(int bno);
+	void replyInsert(BoardReplyVO vo, int pId);
+	String replyUpdate(BoardReplyVO vo, String sessionId);
+	void replyDelete(int id);
 }
