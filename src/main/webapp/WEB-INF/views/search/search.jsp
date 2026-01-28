@@ -48,10 +48,19 @@ a:hover {
       <div class="display-header d-flex align-items-center justify-content-between">
         <h2 style="font-size:35px;text-align: left">'{{store.fd}}'로 검색한 결과</h2>
       </div>
-      <div class="display-header d-flex align-items-center justify-content-between">
+      <div class="display-header d-flex align-items-right justify-center" v-if="store.tCount+store.rCount+store.sCount!=0">
+		 	<ul class="pagination">
+		  <li v-if="store.startPage!=1"><a style="cursor:pointer" @click="store.pageChange(1)">&laquo;</a></li>
+		  <li v-if="store.startPage>1"><a style="cursor:pointer" @click="store.pageChange(store.startPage-1)">&lt;</a></li>
+		  <li v-for="(i,index) in store.range" :key="index" :class="store.page==i?'active':''"><a style="cursor:pointer" @click="store.pageChange(i)">{{i}}</a></li>
+		  <li v-if="store.endPage<store.totalPage"><a style="cursor:pointer" @click="store.pageChange(store.endPage+1)">&gt;</a></li>
+		  <li v-if="store.endPage!=store.totalPage"><a style="cursor:pointer" @click="store.pageChange(store.totalPage)">&raquo;</a></li>
+		</ul>
+		 </div>
+      <div class="display-header d-flex align-items-center justify-content-between" v-if="store.tCount+store.rCount+store.sCount!=0">
         <h2 class="section-title text-uppercase" style="font-size:25px;">중고 물품 검색 결과 : {{store.tCount}} 건</h2>
       </div>
-      <div class="product-content padding-small">
+      <div class="product-content padding-small" v-if="store.tCount+store.rCount+store.sCount!=0">
 	        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5" style="background-color:#E3F2FD;border-radius: 12px;padding-left:30px;padding-right:30px;">
 				<div class="col mb-4 mb-3"  style="margin-top: 30px;" v-for="(tvo,index) in store.tList" :key="index">
 					<div class="product-card position-relative">
@@ -76,7 +85,7 @@ a:hover {
 		</div>
     </div>
   </section>
-  <section id="featured-products" class="product-store">
+  <section id="featured-products" class="product-store" v-if="store.tCount+store.rCount+store.sCount!=0">
     <div class="container-md">
       <div class="display-header d-flex align-items-center justify-content-between">
         <h2 class="section-title text-uppercase" style="font-size:25px;">대여 검색 결과 : {{store.rCount}} 건</h2>
@@ -106,7 +115,7 @@ a:hover {
 		</div>
     </div>
   </section>
-  <section id="featured-products" class="product-store">
+  <section id="featured-products" class="product-store" v-if="store.tCount+store.rCount+store.sCount!=0">
     <div class="container-md">
       <div class="display-header d-flex align-items-center justify-content-between">
         <h2 class="section-title text-uppercase" style="font-size:25px;">상점 검색 결과 : {{store.sCount}} 건</h2>
@@ -115,7 +124,7 @@ a:hover {
 	        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4" style="background-color:#E3F2FD;border-radius: 12px;padding-left:30px;padding-right:30px;">
 				<div class="col mb-4 mb-4"  style="margin-top: 30px;" v-for="(svo,index) in store.sList" :key="index">
 					<div class="thumbnail">
-					    <a href="#">
+					    <a :href="`/mypage/list?no=`+svo.no">
 					      <img :src="svo.image" alt="Lights" style="width:100%">
 					      <div class="caption">
 					        <p style="color:black;font-size: 18px;text-align: center;font-weight: bold">{{svo.storename}}</p>
@@ -127,7 +136,7 @@ a:hover {
 		</div>
     </div>
   </section>
-  <div class="display-header d-flex align-items-center justify-center">
+  <div class="display-header d-flex align-items-center justify-center" v-if="store.tCount+store.rCount+store.sCount!=0">
   	<ul class="pagination">
 	  <li v-if="store.startPage!=1"><a style="cursor:pointer" @click="store.pageChange(1)">&laquo;</a></li>
 	  <li v-if="store.startPage>1"><a style="cursor:pointer" @click="store.pageChange(store.startPage-1)">&lt;</a></li>
@@ -136,6 +145,13 @@ a:hover {
 	  <li v-if="store.endPage!=store.totalPage"><a style="cursor:pointer" @click="store.pageChange(store.totalPage)">&raquo;</a></li>
 	</ul>
   </div>
+  <section id="featured-products" class="product-store" v-if="store.tCount+store.rCount+store.sCount==0">
+    <div class="container-md">
+      <div class="display-header d-flex align-items-center justify-content-between" style="margin:0px auto;display: flex;justify-content: center">
+        <img src="/images/nodata.png" style="width:800px;height:600px;margin-left:120px;">
+      </div>
+    </div>
+  </section>
  </div>
  <script src="/vue/api.js"></script>
  <script src="/vue/find/findStore.js"></script>

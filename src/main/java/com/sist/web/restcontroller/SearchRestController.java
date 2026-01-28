@@ -25,9 +25,9 @@ public class SearchRestController {
 			int tCount=fService.tradeFindTotalCount(fd);
 			int rCount=fService.rentalFindTotalCount(fd);
 			int sCount=fService.storeFindTotalCount(fd);
-			int tTotalPage= (int)(Math.ceil(tCount/10.0));
-			int rTotalPage= (int)(Math.ceil(rCount/10.0));
-			int sTotalPage= (int)(Math.ceil(sCount/10.0));
+			int tTotalPage= (int)(Math.ceil(tCount/15.0));
+			int rTotalPage= (int)(Math.ceil(rCount/15.0));
+			int sTotalPage= (int)(Math.ceil(sCount/8.0));
 			int totalPage=0;
 			if(tTotalPage<rTotalPage)
 			{

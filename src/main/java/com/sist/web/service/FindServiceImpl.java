@@ -17,11 +17,14 @@ public class FindServiceImpl implements FindService{
 	public List<RentalVO> rentalFindData(String fd, int start) {
 		// TODO Auto-generated method stub
 		List<RentalVO> list = fMapper.rentalFindData(fd, start);
-		for(RentalVO vo : list)
+		if(list!=null)
 		{
-			String imgurl = vo.getImageurl();
-			imgurl = imgurl.replace("{cnt}", "1").replace("{res}", "720");
-			vo.setImageurl(imgurl);
+			for(RentalVO vo : list)
+			{
+				String imgurl = vo.getImageurl();
+				imgurl = imgurl.replace("{cnt}", "1").replace("{res}", "720");
+				vo.setImageurl(imgurl);
+			}
 		}
 		return list;
 	}
@@ -44,22 +47,25 @@ public class FindServiceImpl implements FindService{
 	public List<TradeVO> tradeFindData(String fd, int start) {
 		// TODO Auto-generated method stub
 		List<TradeVO> list = fMapper.tradeFindData(fd, start);
-		for(TradeVO vo : list)
+		if(list!=null)
 		{
-			String trade = vo.getTrades();
-			trade = trade.substring(0,trade.lastIndexOf("||"));
-			String[] trades = trade.split("\\|\\|");
-			int len = trades.length;
-			if(trades[len-2].contains("직거래"))
+			for(TradeVO vo : list)
 			{
-				vo.setAddress(trades[len-1]);
+				String trade = vo.getTrades();
+				trade = trade.substring(0,trade.lastIndexOf("||"));
+				String[] trades = trade.split("\\|\\|");
+				int len = trades.length;
+				if(trades[len-2].contains("직거래"))
+				{
+					vo.setAddress(trades[len-1]);
+				}
+				else {
+					vo.setAddress("택배거래");
+				}
+				String imgurl = vo.getImageurl();
+				imgurl = imgurl.replace("{cnt}", "1").replace("{res}", "720");
+				vo.setImageurl(imgurl);
 			}
-			else {
-				vo.setAddress("택배거래");
-			}
-			String imgurl = vo.getImageurl();
-			imgurl = imgurl.replace("{cnt}", "1").replace("{res}", "720");
-			vo.setImageurl(imgurl);
 		}
 		return list;
 	}
