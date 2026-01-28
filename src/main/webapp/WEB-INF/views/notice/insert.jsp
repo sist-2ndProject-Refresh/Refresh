@@ -1,100 +1,107 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>공지사항 등록</title>
+    <style>
+        .form-label {
+            vertical-align: middle;
+            background-color: #f9f9f9;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0 10px;
+        }
+
+        .form-textarea {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            resize: none;
+        }
+
+        .btn-action {
+            padding: 10px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-<section class="product-details spad" id="board_insert">
-		<div class="container">
-			<div class="row">
-				<table class="table" style="border-top: 2px solid #333;">
-					<tbody>
+    <section class="product-details spad" id="notice_insert">
+        <div class="container">
+            <table class="table" style="border-top: 2px solid #333;">
+                <tbody>
+                    <!-- 제목 -->
+                    <tr>
+                        <td class="form-label">제목</td>
+                        <td colspan="3" class="text-left">
+                            <input type="text" v-model="store.not_title" 
+                                   class="form-input" placeholder="제목을 입력해 주세요">
+                        </td>
+                    </tr>
 
-						<tr>
-							<td class="text-center"
-								style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">이름</td>
-							<td colspan="3" class="text-left"><input type="text"
-								ref="memRef" v-model="store.mem_id"
-								style="width: 250px; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px;"
-								placeholder="작성자 이름을 입력하세요"></td>
-						</tr>
+                    <!-- 내용 -->
+                    <tr>
+                        <td class="form-label">내용</td>
+                        <td colspan="3" class="text-left">
+                            <textarea rows="12" v-model="store.not_content" 
+                                      class="form-textarea" placeholder="내용을 입력해 주세요"></textarea>
+                        </td>
+                    </tr>
 
-						<tr>
-							<td class="text-center"
-								style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">제목</td>
-							<td colspan="3" class="text-left"><input type="text"
-								ref="titRef" v-model="store.title"
-								style="width: 100%; height: 40px; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px;"
-								placeholder="제목을 입력해 주세요"></td>
-						</tr>
+                    <!-- 버튼 -->
+                    <tr>
+                        <td colspan="4" class="text-center" 
+                            style="padding-top: 30px; border-top: none; border-bottom: none;">
+                            <button @click="store.noticeInsert()" 
+                                    class="btn btn-success btn-action me-2">
+                                글 등록하기
+                            </button>
+                            <button @click="history.back()" 
+                                    class="btn btn-secondary btn-action">
+                                취소
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-						<tr>
-							<td class="text-center"
-								style="vertical-align: middle; background-color: #f9f9f9; font-weight: 700; color: #333;">내용</td>
-							<td colspan="3" class="text-left"><textarea rows="12"
-									ref="contRef" v-model="store.content"
-									style="width: 100%; border: 1px solid #ddd; border-radius: 4px; padding: 15px; resize: none;"
-									placeholder="내용을 입력해 주세요"></textarea></td>
-						</tr>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-demi/0.14.5/index.iife.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pinia/2.1.3/pinia.iife.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script src="/noticejs/noticeInsertStore.js"></script>
 
-						<tr>
-							<td colspan="4" class="text-center"
-								style="padding-top: 30px; border-top: none;">
-								<button class="btn-sm btn-success"
-									style="padding: 10px 30px; font-size: 1rem; font-weight: 600; margin-right: 10px; border-radius: 5px;"
-									@click="store.boardInsert({regRef, catRef, memRef, titRef, contRef})">글
-									등록하기</button>
-								<button class="btn-sm btn-info"
-									style="padding: 10px 30px; font-size: 1rem; font-weight: 600; background-color: #888; border: none; border-radius: 5px;"
-									onclick="javascript:history.back()">취소</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</section>
-	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+    (function() {
+        const { createApp, onMounted } = Vue;
+        const { createPinia } = Pinia;
 
-	<script src="https://unpkg.com/vue-demi@0.14.6/lib/index.iife.js"></script>
+        createApp({
+            setup() {
+                const store = useNoticeInsertStore();
 
-	<script src="https://unpkg.com/pinia@2.1.7/dist/pinia.iife.js"></script>
+                onMounted(() => {
+                    store.mem_id = 'admin';
+                });
 
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-	<script src="/noticejs/noticeInsertStore.js"></script>
-	<script>
-    const { createApp, ref } = Vue;
-    const { createPinia } = Pinia;
-
-
-    const pinia = createPinia();
-
-    const app = createApp({
-        setup() {
-          
-            const store = useNoticeInsertStore();
-            const memRef = ref(null); 
-            const titRef = ref(null);
-            const contRef = ref(null);
-            
-            return {
-                store,
-                memRef,
-                titRef,
-                contRef,
+                return { store };
             }
-        }
-    });
-
-
-    app.use(pinia);
-    
-
-    app.mount("#notice_insert");
-</script>
+        }).use(createPinia()).mount("#notice_insert");
+    })();
+    </script>
 </body>
 </html>

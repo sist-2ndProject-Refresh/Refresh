@@ -36,4 +36,5 @@ public class BoardController {
         model.addAttribute("main_jsp", "../board/update.jsp");
         return "main/main";
     }
+    
 } 
