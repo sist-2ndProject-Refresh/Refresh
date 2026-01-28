@@ -122,7 +122,7 @@ a:hover {
             </tbody>
         </table>
         <div class="container">
-        	<div class="text-right">
+        	<div class="d-flex justify-content-end align-items-center gap-2">
         		<c:if test="${vo.salestatus != 'SOLD_OUT' && vo.user_no != sessionScope.no}">
 		        	<a href="${sessionScope.no == null ? '../member/login_before' : '/transaction/buying?no=' += vo.no += '&type=1'}">
 					    <input type="button" class="btn-st fw-bold fs-1" style="background-color: #FFB38A; color: white;" value="바로 구매">

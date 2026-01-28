@@ -31,11 +31,11 @@
      	 </table>
      	<div class="row text-center">
      		<h3 v-if="store.msg!=''">{{store.msg}}</h3>
-     		<h3 v-if="store.count!=0"><span style="font-size:1.4em;color:red">{{store.count}}</span> 건 신고 되었습니다. 거래 시 주의가 필요합니다.</h3>
-     		<h3 v-if="store.count==0 && store.findCk">해당 검색어로 조회되는 신고 기록은 없습니다.</h3>
+     		<h3 v-if="store.count!=0" style="margin-top:20px;"><span style="font-size:1.4em;color:red">{{store.count}}</span> 건 신고 되었습니다. 거래 시 주의가 필요합니다.</h3>
+     		<h3 v-if="store.count==0 && store.findCk" style="margin-top:20px;">해당 검색어로 조회되는 신고 기록은 없습니다.</h3>
      	</div>
      	 </div>
-     	<div class="row" style="justify-content: center;display: flex">
+     	<div class="row" style="justify-content: center;display: flex;margin-bottom:120px;">
      	 <h2 style="margin-top:60px;">그럼에도 걱정되신다면?</h2>
      	 <img src="https://link.daangnpay.com/static/image/escrow/about_section_1_2.png" style="width:960px;">
      	 <h4 style="margin-top:15px;color:gray;padding-left: 40px;"><span style="color:#7FB069">새로고침</span>의 포인트를 <a href="/mypage/list?no=${sessionScope.no }" style="color:blue">충전</a>하고</h4>
