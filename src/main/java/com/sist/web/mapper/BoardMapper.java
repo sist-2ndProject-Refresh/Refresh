@@ -3,11 +3,15 @@ package com.sist.web.mapper;
 import java.util.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+
+import com.sist.web.vo.BoardReplyVO;
 import com.sist.web.vo.BoardVO;
 
 @Mapper
 @Repository
 public interface BoardMapper {
+
+    /* ========================= [게시글 관련] ========================= */
 
     @Select("SELECT id, title, mem_id, time, hit, region, category "
             + "FROM (SELECT id, title, mem_id, time, hit, region, category, rownum as num "
@@ -44,4 +48,30 @@ public interface BoardMapper {
 
     @Select("SELECT addr1 FROM user_table WHERE username = #{username}")
     public String getMemberAddr(@Param("username") String username);
+
+    @Select("SELECT id, bno, mem_id, msg, TO_CHAR(regdate, 'YYYY-MM-DD HH24:MI') as time, "
+            + "group_id, group_step, group_tab "
+            + "FROM board_reply WHERE bno = #{bno} "
+            + "ORDER BY group_id DESC, group_step ASC")
+    public List<BoardReplyVO> replyListData(int bno);
+
+    @Select("SELECT br_id_seq.nextval FROM dual")
+    public int replyNewId();
+
+    @Select("SELECT group_id, group_step, group_tab FROM board_reply WHERE id = #{id}")
+    public BoardReplyVO replyParentInfo(int id);
+
+    @Update("UPDATE board_reply SET group_step = group_step + 1 "
+            + "WHERE group_id = #{group_id} AND group_step > #{group_step}")
+    public void replyStepIncrement(BoardReplyVO vo);
+
+    @Insert("INSERT INTO board_reply (id, bno, mem_id, msg, regdate, group_id, group_step, group_tab) "
+            + "VALUES (#{id}, #{bno}, #{mem_id}, #{msg}, SYSDATE, #{group_id}, #{group_step}, #{group_tab})")
+    public void replyInsert(BoardReplyVO vo);
+
+    @Delete("DELETE FROM board_reply WHERE id = #{id}")
+    public void replyDelete(int id);
+    
+    @Update("UPDATE board_reply SET msg = #{msg} WHERE id = #{id}")
+    public void replyUpdate(BoardReplyVO vo);
 }

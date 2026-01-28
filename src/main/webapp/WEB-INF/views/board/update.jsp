@@ -96,11 +96,9 @@
                     const contRef = ref(null);
 
                     onMounted(async () => {
-                        // 1. 세션 정보 확인
                         const serverSessionId = "${sessionScope.username}";
                         store.sessionId = serverSessionId;
 
-                        // 2. 글 번호 가져오기 및 데이터 로드
                         const urlParams = new URLSearchParams(window.location.search);
                         const no = urlParams.get('no');
                         
