@@ -68,6 +68,15 @@ public class ReportServiceImpl implements ReportService{
 		// TODO Auto-generated method stub
 		return rMapper.reportUserTotalPage(reporter);
 	}
-	
+	@Override
+	public int findReportCount(String fd) {
+		// TODO Auto-generated method stub
+		return rMapper.findReportCount(fd);
+	}
+	@Override
+	public int reportBadCount() {
+		// TODO Auto-generated method stub
+		return rMapper.reportBadCount();
+	}
 	
 }

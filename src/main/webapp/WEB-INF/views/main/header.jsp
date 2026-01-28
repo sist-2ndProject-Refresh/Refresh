@@ -180,7 +180,7 @@
               </li>
               <sec:authorize access="isAuthenticated()">
               <li class="nav-item">
-                <a class="nav-link me-5" href="#">신고 조회</a>
+                <a class="nav-link me-5" href="/find/report">신고 조회</a>
               </li>
               </sec:authorize>
               <li class="nav-item">

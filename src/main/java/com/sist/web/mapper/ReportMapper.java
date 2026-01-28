@@ -52,4 +52,9 @@ public interface ReportMapper {
 	@Select("SELECT CEIL(COUNT(*)/10.0) FROM report")
 	int reportAdminTotalPage();
 	
+	@Select("SELECT count(*) FROM report WHERE (subject = (SELECT no FROM store WHERE storename = #{fd}) OR subaccount = #{fd} OR subphone = #{fd}) AND state = 3")
+	int findReportCount(String fd);
+	
+	@Select("SELECT count(*) FROM report WHERE state = 3")
+	int reportBadCount();
 }

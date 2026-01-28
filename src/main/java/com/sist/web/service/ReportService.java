@@ -2,9 +2,6 @@ package com.sist.web.service;
 
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.sist.web.vo.ReportVO;
 import com.sist.web.vo.RespondVO;
 
@@ -19,4 +16,6 @@ public interface ReportService {
 	void reportStateUpdate(int state,int no);
 	int reportAdminTotalPage();
 	int reportUserTotalPage(int reporter);
+	int findReportCount(String fd);
+	int reportBadCount();
 }

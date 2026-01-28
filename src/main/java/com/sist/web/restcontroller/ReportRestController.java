@@ -275,6 +275,20 @@ public class ReportRestController {
 			
 			return new ResponseEntity<>(result,HttpStatus.OK);
 	   }
-	
+	   @GetMapping("/find/report_find/")
+	   public ResponseEntity<Integer> report_find(@RequestParam("fd")String fd)
+	   {
+		   int count = 0;
+		   try {
+			   count=rService.findReportCount(fd);
+		   }catch(Exception ex)
+		   {
+			   ex.printStackTrace();
+			   return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		   }
+		   
+		   return new ResponseEntity<>(count,HttpStatus.OK);
+ 
+	   }
 }
 
