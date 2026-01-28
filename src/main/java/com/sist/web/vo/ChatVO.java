@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class ChatVO {
 	private int chat_id,chatroom_id,sender;
-	private String content,dbday;
+	private String content,dbday,type;
 	private Date chat_time;
 	private StoreVO svo=new StoreVO();
 	private ChatRoomVO cvo=new ChatRoomVO();

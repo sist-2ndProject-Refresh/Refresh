@@ -10,11 +10,21 @@ const useChatStore=defineStore('chat',{
 		chatroomId:null,
 		loginUser:'',
 		chatBodyEl:null,
+		roomSubscribe:null,
 		msg:'',
+		type:'',
 		name:'',
 		imageurl:'',
 		price:0
 	}),
+	getters:{
+		messageType(state) {
+			return state.messages.filter(m => m.type==='CHAT')
+		},
+		systemMessage(state) {
+			return state.messages.filter(m => m.type==='SYSTEM')
+		}
+	},
 	actions:{
 		enterRoom(roomId,productId) {
 			this.chatroomId=roomId
@@ -26,7 +36,7 @@ const useChatStore=defineStore('chat',{
 			this.stomp=Stomp.over(socket)
 			
 			this.stomp.connect({},()=>{
-				this.stomp.subscribe('/topic/users',msg=>{
+				this.roomSubscribe=this.stomp.subscribe('/topic/users',msg=>{
 					this.users=JSON.parse(msg.body)
 						.filter(u => u!==this.loginUser) 
 				})
@@ -56,7 +66,8 @@ const useChatStore=defineStore('chat',{
 				JSON.stringify({
 					chatroom_id:this.chatroomId,
 					sender:this.loginUser,
-					content:this.msg
+					content:this.msg,
+					type:'CHAT'
 				})
 				
 			)
@@ -94,6 +105,20 @@ const useChatStore=defineStore('chat',{
 			await this.messageList()
 			await this.chatTradeData(this.chatroomId)
 			this.subscribeRoom()
+		},
+		async chatRoomOut() {
+			await axios.post('/chat/room_delete',new URLSearchParams({
+				chatroomId:this.chatroomId,
+				buyerId:this.loginUser
+			})
+		)
+			
+			this.roomSubscribe.unsubscribe()
+			
+			this.chatroomId=null
+			this.messages=[]
+			this.msg=''
+			this.chatRoomList()
 		}
 	}
 }) 

@@ -82,7 +82,7 @@ const no = urlParams.get('no');
 	display: flex;
 }
 .list-btn .btn {
-	width: 228px;
+	width: 284.5px;
 	margin: 0;
 	border-radius: 0;
     border-right: 1px solid white;
@@ -300,7 +300,8 @@ table td {
 							</button>
 						</div>
 						<div class="point-area" v-if="Number(no) === reviewerId">
-							<button type="submit" class="btn btn-xs btn-dark">포인트 충전</button>
+							<button class="btn btn-xs btn-dark" data-toggle="modal" data-target="#paymentModal">포인트 충전</button>
+							<jsp:include page="../mypage/paymentModal.jsp"></jsp:include>
 							<textarea rows="1" cols="10" v-model="point" style="resize: none;"></textarea>&nbsp;Point
 						</div>
 					</div>
@@ -312,23 +313,37 @@ table td {
 				<button class="btn btn-sm btn-primary" @click="changeMode('t')">등록 상품 리스트</button>
 				<button class="btn btn-sm btn-primary" @click="changeMode('e')">판매 완료 상품 리스트</button>
 				<button class="btn btn-sm btn-primary" @click="changeMode('r')">대여 상품 리스트</button>
-				<button class="btn btn-sm btn-primary">구매 완료 리스트</button>
-				<button class="btn btn-sm btn-primary">경매 리스트</button>
+				<button class="btn btn-sm btn-primary" @click="changeMode('b')">구매 리스트</button>
 			</div>
 			<!-- 등록 상품 리스트 -->
 			<div class="list-contents">
 				<h5 class="list-count">상품&nbsp;<span style="color:red">{{count}}</span></h5>
 				<table class="table table-hover">
 				    <thead>
-				      <tr>
+				      <tr v-if="mode==='b'">
+				      	<th>이미지</th>
+				        <th>상품명</th>
+				        <th>가격</th>
+				        <th>판매자</th>
+				      </tr>
+				      <tr v-else>
 				      	<th>이미지</th>
 				        <th>상품명</th>
 				        <th>가격</th>
 				        <th>등록일</th>
 				        <th v-if="mode==='r'">대여일</th>
 				      </tr>
+				      
 				    </thead>
-				    <tbody>
+				    <tbody v-if="mode==='b'">
+				    	<tr v-for="(r,index) in list" :key="index">
+					      	<td><img :src="r.tvo.imageurl" style="width: 70px;height: 60px"></td>
+					        <td>{{r.name}}</td>
+					        <td>{{r.tvo.price.toLocaleString()}}&nbsp;<span>원</span></td>
+					        <td><span>{{r.seller_name}}</span></td>
+					      </tr>
+				    </tbody>
+				    <tbody v-else>
 				      <tr v-for="(t,index) in list" :key="index">
 				      	<td><img :src="t.imageurl" style="width: 70px;height: 60px"></td>
 				        <td>{{t.name}}</td>
@@ -337,6 +352,7 @@ table td {
 				        <td v-if="mode==='r'"><span>{{t.days}}</span>&nbsp;<span>일</span></td>
 				      </tr>
 				    </tbody>
+				    
 				  </table>
  				<ul class="pagination list-pagination">
 				  <li v-if="startPage>1">
@@ -610,6 +626,9 @@ table td {
 				}).then(response => {
 					if(this.mode==='r') {
 						this.list=response.data.rList
+					}
+					else if(this.mode==='b') {
+						this.list=response.data.bList
 					}
 					else {
 						this.list=response.data.list

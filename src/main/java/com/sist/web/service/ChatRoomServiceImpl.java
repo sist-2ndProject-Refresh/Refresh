@@ -66,4 +66,10 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 		// TODO Auto-generated method stub
 		return cMapper.findStorenameByBuyerId(buyerId);
 	}
+	
+	@Override
+	public void deleteChatRoom(int buyerId, int chatroomId) {
+		// TODO Auto-generated method stub
+		cMapper.deleteChatRoom(buyerId, chatroomId);
+	}
 }

@@ -20,4 +20,5 @@ public interface ChatRoomService {
 	public List<ChatVO> chatMessageData(int chatroom_id);
 	public List<ChatVO> chatListData(int loginId);
 	public String findStorenameByBuyerId(int buyerId);
+	public void deleteChatRoom(int buyerId, int chatroomId);
 }

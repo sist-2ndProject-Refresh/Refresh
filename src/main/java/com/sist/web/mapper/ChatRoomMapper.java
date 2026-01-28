@@ -4,6 +4,7 @@ import java.util.*;
 import java.sql.Date;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -41,10 +42,13 @@ public interface ChatRoomMapper {
 		private String content,dbday;
 		private Date chat_time;
 	 */
-	@Insert("INSERT INTO chat(chat_id,chatroom_id,sender,content,chat_time) VALUES(cr_no_seq.nextval,#{chatroom_id},#{sender},#{content},SYSDATE)")
+	@Insert("INSERT INTO chat(chat_id,chatroom_id,sender,content,chat_time,type) VALUES(cr_no_seq.nextval,#{chatroom_id},#{sender},#{content},SYSDATE,#{type})")
 	public void chatMessageInsert(ChatVO vo);
 	
-	@Select("SELECT chat_id,chatroom_id,sender,content,TO_CHAR(chat_time,'HH24:MI') as dbday FROM chat WHERE chatroom_id=#{chatroom_id}")
+	@Select("SELECT chat_id,chatroom_id,sender,content,type,TO_CHAR(chat_time,'HH24:MI') as dbday "
+			+ "FROM chat "
+			+ "WHERE chatroom_id=#{chatroom_id} "
+			+ "ORDER BY chat_time")
 	public List<ChatVO> chatMessageData(int chatroom_id);
 	
 	@Select("SELECT s.storename FROM store s WHERE s.no=#{buyerId}")
@@ -68,4 +72,7 @@ public interface ChatRoomMapper {
 		</select>
 	 */
 	public List<ChatVO> chatListData(@Param("loginId") int loginId);
+	
+	@Delete("DELETE FROM chat_room WHERE buyer_id=#{buyerId} AND chatroom_id=#{chatroomId}")
+	public void deleteChatRoom(@Param("buyerId") int buyerId, @Param("chatroomId") int chatroomId);
 }

@@ -20,4 +20,17 @@
 		ON u.no=s.no
 		WHERE u.no=#{no} 
 	</select>
+	
+	<resultMap type="com.sist.web.vo.TransactionVO" id="tradeMap">
+		<result property="tvo.imageurl" column="imageurl"/>
+		<result property="tvo.price" column="price"/>
+	</resultMap>
+		
+	<select id="mypageBuyList" resultMap="tradeMap" parameterType="int">
+		SELECT tg.imageurl,tg.price,t.seller_name,t.name 
+		FROM transaction t JOIN trade_goods tg ON t.name=tg.name 
+		WHERE buyer_id=#{no} 
+		ORDER BY tg.price DESC
+		OFFSET #{start} ROWS FETCH NEXT 3 ROWS ONLY
+	</select>
 </mapper>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.sist.web.mapper.MyPageMapper;
 import com.sist.web.vo.StoreVO;
 import com.sist.web.vo.TradeVO;
+import com.sist.web.vo.TransactionVO;
 import com.sist.web.vo.MemberVO;
 import com.sist.web.vo.RentalVO;
 
@@ -148,6 +149,18 @@ public class MyPageServiceImpl implements MyPageService {
 	public int mypageRentalCount(int no) {
 		// TODO Auto-generated method stub
 		return mMapper.mypageRentalCount(no);
+	}
+	
+	@Override
+	public int mypageBuyCount(int no) {
+		// TODO Auto-generated method stub
+		return mMapper.mypageBuyCount(no);
+	}
+
+	@Override
+	public List<TransactionVO> mypageBuyList(int no, int start) {
+		// TODO Auto-generated method stub
+		return mMapper.mypageBuyList(no, start);
 	}
 
 

@@ -19,10 +19,13 @@ public interface NotificationMapper {
 	
 	@Select("SELECT notify_id,receiver_id,sender_id,TO_CHAR(created_at,'yyyy-mm-dd hh24:mi:ss') as dbday,content "
 			+ "FROM notifications "
-			+ "WHERE receiver_id=#{receiver_id} "
+			+ "WHERE receiver_id=#{receiverId} "
 			+ "ORDER BY created_at DESC")
-	public List<NotificationVO> notifyListDAta(int receiver_id);
+	public List<NotificationVO> notifyListDAta(int receiverId);
 	
-	@Delete("DELETE FROM notifications WHERE notify_id=#{notify_id}")
-	public void deleteNotify(int notify_id);
+	@Select("SELECT COUNT(*) FROM notifications WHERE receiver_id=#{receiverId}")
+	public int notifyCount(int receiverId);
+	
+	@Delete("DELETE FROM notifications WHERE notify_id=#{notifyId}")
+	public void deleteNotify(int notifyId);
 }

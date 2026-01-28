@@ -22,7 +22,7 @@
 	</resultMap>
 	
 	<select id="chatListData" resultMap="chatMap" parameterType="int">
-		SELECT c.chat_id,c.chatroom_id,c.content,TO_CHAR(c.chat_time,'HH24:MI') as dbday,
+		SELECT c.chat_id,c.chatroom_id,c.content,c.type,TO_CHAR(c.chat_time,'HH24:MI') as dbday,
 		       cr.buyer_id,cr.seller_id,s.no,s.storename,s.image
 		FROM chat_room cr JOIN chat c 
 		ON c.chat_id=(SELECT MAX(c2.chat_id) FROM chat c2 WHERE c2.chatroom_id=cr.chatroom_id)

@@ -21,6 +21,7 @@ import com.sist.web.service.ReviewService;
 import com.sist.web.vo.ReviewVO;
 import com.sist.web.vo.StoreVO;
 import com.sist.web.vo.TradeVO;
+import com.sist.web.vo.TransactionVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -103,7 +104,9 @@ public class MyPageRestController {
 		{
 			List<TradeVO> list=new ArrayList<>();
 			List<RentalVO> rList=new ArrayList<>();
+			List<TransactionVO> bList=new ArrayList<>();
 			int count=0;
+			int ecount=mService.mypageTradeEndCount(no);
 			
 			if("t".equals(mode))
 			{
@@ -120,6 +123,11 @@ public class MyPageRestController {
 				rList=mService.mypageRentalList(no, (page-1)*3);
 				count=mService.mypageRentalCount(no);
 			}
+			if("b".equals(mode))
+			{
+				bList=mService.mypageBuyList(no, (page-1)*3);
+				count=mService.mypageBuyCount(no);
+			}
 			
 			int totalpage=(int)Math.ceil(count/3.0);
 			final int BLOCK=10;
@@ -130,12 +138,15 @@ public class MyPageRestController {
 			
 			map.put("start", (page-1)*3);
 			map.put("list", list);
+			map.put("rList", rList);
+			map.put("bList", bList);
 			map.put("totalpage", totalpage);
 			map.put("startPage", startPage);
 			map.put("endPage", endPage);
 			map.put("curpage", page);
 			map.put("count", count);
-			map.put("rList", rList);
+			map.put("ecount", ecount);
+			
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();

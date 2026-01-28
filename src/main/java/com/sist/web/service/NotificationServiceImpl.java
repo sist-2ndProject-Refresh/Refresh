@@ -21,14 +21,20 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public void deleteNotify(int notify_id) {
+	public void deleteNotify(int notifyId) {
 		// TODO Auto-generated method stub
-		nMapper.deleteNotify(notify_id);
+		nMapper.deleteNotify(notifyId);
 	}
 
 	@Override
-	public List<NotificationVO> notifyListDAta(int receiver_id) {
+	public List<NotificationVO> notifyListDAta(int receiverId) {
 		// TODO Auto-generated method stub
-		return nMapper.notifyListDAta(receiver_id);
+		return nMapper.notifyListDAta(receiverId);
+	}
+
+	@Override
+	public int notifyCount(int receiverId) {
+		// TODO Auto-generated method stub
+		return nMapper.notifyCount(receiverId);
 	}
 }

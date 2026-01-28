@@ -20,4 +20,5 @@ FEE_AMOUNT               NUMBER
 public class TransactionVO {
 	private int txn_id,txn_type,seller_id,buyer_id,trade_amount,fee_rate,fee_amount;
 	private String name,seller_name;
+	private TradeVO tvo=new TradeVO();
 }
