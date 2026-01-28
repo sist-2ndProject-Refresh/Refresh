@@ -29,6 +29,7 @@ public class RentalController {
 	@GetMapping("/rental/detail")
 	public String product_detail(Model model, @RequestParam("no") int no)
 	{
+		System.out.println(kakaoMapKey);
 		RentalVO vo = rService.rentalDetailData(no);
 		
 		String parts[] = vo.getTrades().split("\\|\\|");
@@ -96,7 +97,8 @@ public class RentalController {
 		case "USED": {vo.setCondition("사용감 많음"); break;}
 		case "DAMAGED": {vo.setCondition("고장 / 파손"); break;}
 		}
-		
+		RentalVO svo = rService.rentalDetailUserInfo(no);
+		model.addAttribute("svo", svo);
 		model.addAttribute("kakaomap_key", kakaoMapKey);
 		model.addAttribute("vo", vo);
 		model.addAttribute("updateImagUrl", updateImgUrl);

@@ -47,9 +47,11 @@ const useAdminReportStore = defineStore({
 			this.reportListData()
 		},
 		async reportDetailShow(no,state,reporttype){
-			
+			this.respond=''
+			this.respondMsg=''
 			if(this.reportDetailNo===no)
 			{
+				
 				this.reportDetailNo=null
 				this.reportDetail={}
 				return

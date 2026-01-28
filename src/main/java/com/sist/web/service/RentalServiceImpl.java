@@ -49,6 +49,10 @@ public class RentalServiceImpl implements RentalService{
 	public void rentalDeleteData(int no) {
 		mapper.rentalDeleteData(no);
 	}
-	
+	@Override
+	public RentalVO rentalDetailUserInfo(int no) {
+		// TODO Auto-generated method stub
+		return mapper.rentalDetailUserInfo(no);
+	}
 	
 }

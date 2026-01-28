@@ -12,4 +12,5 @@ public interface RentalService {
 	public void rentalInsertData(RentalVO vo);
 	public void rentalUpdate(RentalVO vo);	
 	public void rentalDeleteData(int no);
+	public RentalVO rentalDetailUserInfo(int no);
 }

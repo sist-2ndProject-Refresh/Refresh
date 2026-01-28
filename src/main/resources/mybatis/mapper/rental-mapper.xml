@@ -26,4 +26,15 @@
 		</choose>
 		OFFSET #{start} ROWS FETCH NEXT 20 ROWS ONLY
 	</select>
+	<resultMap type="com.sist.web.vo.RentalVO" id="rentalMap">
+		<result property="stvo.storename" column="storename"/>
+		<result property="stvo.image" column="image"/>
+		<result property="stvo.no" column="no"/>
+	</resultMap>
+	<select id="rentalDetailUserInfo" resultMap="rentalMap" parameterType="int">
+		SELECT t.user_no,s.storename,s.image,s.no
+		FROM rental t JOIN user_table u ON t.user_no=u.no
+		JOIN store s ON u.no=s.no
+		WHERE t.no=#{no}
+	</select>
  </mapper>

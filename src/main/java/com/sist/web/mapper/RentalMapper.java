@@ -83,4 +83,6 @@ public interface RentalMapper {
 	@Delete("DELETE FROM rental "
 			+ "WHERE no = #{no}")
 	public void rentalDeleteData(int no);
+	
+	public RentalVO rentalDetailUserInfo(int no);
 }

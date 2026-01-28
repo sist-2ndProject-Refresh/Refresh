@@ -1,6 +1,6 @@
 #port => 저장하지 않는 경우 : 8080 => 9090 : ufw = > 포트 허용
 #MVC => SpringFramework와 동일
-map-key: # 카카오 지도 api 
+map-key: 6ae49e824de560c4d4a79bf5be38eee9 
 spring:
  mvc:
   view:

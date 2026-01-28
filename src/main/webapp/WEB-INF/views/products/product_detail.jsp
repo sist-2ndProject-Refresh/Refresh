@@ -62,9 +62,6 @@ a:hover {
 										<div class="swiper-slide">
 											<div class="card h-100" style="border: none">
 												<img src="${img }" class=" rounded" style="width: 500px; height: 400px; object-fit: cover;">
-													<div class="cart-concern p-3 position-absolute bottom-0 start-0">
-														<h5 class="card-title light mb-0">Shoes 1</h5>
-													</div>
 												</div>
 											</div>
 										</c:forEach>
@@ -96,7 +93,7 @@ a:hover {
                 </tr>
                 <tr>
                 	<td>
-                		<img src="${vo.imageurl }" class="border-circle" style="width: 50px; height: 50px; margin-left: 50px;">
+                		<img src="${svo.stvo.image }" class="border-circle" style="width: 50px; height: 50px; margin-left: 50px;">
                 		<a href="/mypage/list?no=${svo.stvo.no }"><span class="fs-3" style="padding-left: 15px;">${svo.stvo.storename }</span></a>
                 	</td>
                 </tr>
