@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MyPageRestController {
 	private final MyPageService mService;
+	private final PasswordEncoder encoder;
 	
 	@GetMapping("/mypage/info_vue")
 	public ResponseEntity<MemberVO> mypage_list_vue(@RequestParam(name = "no",required = false,defaultValue = "0") int no)
@@ -70,6 +72,22 @@ public class MyPageRestController {
 		{;
 			mService.contentUpdate(vo);
 			map.put("svo", vo);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	@PostMapping("/mypage/pwd_update_vue/")
+	public ResponseEntity<Map> mypage_pwd_update_vue(@RequestBody MemberVO vo)
+	{
+		Map map=new HashMap();
+		try
+		{
+			String msg=mService.pwdUpdate(vo);
+			map.put("msg", msg);
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();

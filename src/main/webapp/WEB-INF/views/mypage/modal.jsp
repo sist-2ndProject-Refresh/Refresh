@@ -26,8 +26,8 @@
 					</tr>
 					<tr>
 						<th width="20%">비밀번호</th>
-						<td width="80%"><input type="password">
-							<button type="button" class="btn btn-xs btn-primary">변경</button>
+						<td width="80%"><input type="password" v-model="password">
+							<button type="button" class="btn btn-xs btn-primary" @click="updatePassword()">변경</button>
 						</td>
 					</tr>
 					<tr>
@@ -70,6 +70,7 @@
 					phone:'',
 					regdate:'',
 					email:'',
+					password:'',
 					
 					isReadOnly:false,
 				}
@@ -92,6 +93,7 @@
 						this.phone=response.data.phone
 						this.regdate=response.data.regdate
 						this.email=response.data.email
+						this.password=''
 					})
 				},
 				postFind(){
@@ -134,6 +136,14 @@
 						post:this.post,
 						addr1:this.addr1,
 						addr2:this.addr2
+					}).then(response => 
+						alert(response.data.msg)
+					)
+				},
+				updatePassword(){
+					axios.post('/mypage/pwd_update_vue/',{
+						no:this.no,
+						password:this.password
 					}).then(response => 
 						alert(response.data.msg)
 					)

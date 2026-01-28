@@ -29,4 +29,5 @@ public interface MyPageService {
 	public int mypageRentalCount(int no);
 	public List<TransactionVO> mypageBuyList(int no, int start);
 	public int mypageBuyCount(int no);
+	public String pwdUpdate(MemberVO vo);
 }

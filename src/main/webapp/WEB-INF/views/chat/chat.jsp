@@ -127,7 +127,7 @@ const loginUser='${sessionScope.no}'
     </div>
 
     <!-- ================= 채팅 ================= -->
-    <div class="col-sm-9 chat-panel">
+    <div class="col-sm-9 chat-panel" v-if="store.chatroomId">
 
       <!-- 헤더 -->
       <div class="panel-heading">
@@ -200,13 +200,12 @@ const loginUser='${sessionScope.no}'
 				store.loginUser=loginUser
 				store.chatBodyEl=chatBody.value
 				store.chatRoomList()
-				//store.subscribeRoom()
 			})
 			
 			return {
 				store
 			}
-		},
+		}
 		
 	})
 	app.use(createPinia())

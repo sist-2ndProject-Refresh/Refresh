@@ -39,7 +39,7 @@ public class ChatController {
 	@GetMapping("/chat/chat")
 	public String chat_room(@RequestParam("productId") int productId,
 						    @RequestParam("sellerId") int sellerId,
-						    @RequestParam("chatroomId") int chatroomId,
+						    @RequestParam(name = "chatroomId", required = false, defaultValue = "0") int chatroomId,
 						    @RequestParam(name = "type", required = false, defaultValue = "CHAT") String type,
 						    Principal principal,Model model)
 	{
@@ -93,7 +93,7 @@ public class ChatController {
 	@PostMapping("/chat/room_delete")
 	public String chat_room_delete(@RequestParam("buyerId") int buyerId, @RequestParam("chatroomId") int chatroomId)
 	{
-		cService.deleteChatRoom(buyerId, chatroomId);
+		// cService.deleteChatRoom(buyerId, chatroomId);
 		
 		ChatVO vo=new ChatVO();
 		vo.setSender(buyerId);

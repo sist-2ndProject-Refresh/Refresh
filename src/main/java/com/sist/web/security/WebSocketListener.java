@@ -28,11 +28,11 @@ public class WebSocketListener {
 		if(p==null)
 			return;
 		
-		int userno=Integer.parseInt(p.getName());
+		String username=p.getName();
 		String sessionId=acc.getSessionId();
 		
-		wsRegistry.register(userno, sessionId);
-		userRegistry.add(userno);
+		wsRegistry.register(username, sessionId);
+		userRegistry.add(username);
 		
 		template.convertAndSend(
 			"/topic/users",
@@ -61,10 +61,10 @@ public class WebSocketListener {
 		if(p==null)
 			return;
 		
-		int userno=Integer.parseInt(p.getName());
+		String username=p.getName();
 		String sessionId=acc.getSessionId();
 		
-		wsRegistry.unregister(userno, sessionId);
-		userRegistry.remove(userno);
+		wsRegistry.unregister(username, sessionId);
+		userRegistry.remove(username);
 	}
 }

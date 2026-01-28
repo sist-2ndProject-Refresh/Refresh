@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 public class NotificationVO {
-	private int notify_id,receiver_id,sender_id;
+	private int notify_id,receiver_id,sender_id,isRead;
 	private String content,dbday;
 	private Date created_at;
 }

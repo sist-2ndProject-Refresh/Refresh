@@ -10,6 +10,6 @@ import lombok.Data;
  */
 @Data
 public class PaymentVO {
-	private int pay_id,in_money,out_money,charge,no;
+	private int pay_id,inMoney,outMoney,charge,no;
 	private MemberVO uvo=new MemberVO();
 }

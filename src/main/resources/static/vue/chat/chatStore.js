@@ -47,9 +47,10 @@ const useChatStore=defineStore('chat',{
 			if(!this.chatroomId)
 				return
 			
-			this.stomp.subscribe('/topic/chatroom/' + this.chatroomId,msg => {
+			this.stomp.subscribe('/topic/chatroom/' + this.chatroomId, async msg => {
 				this.messages.push(JSON.parse(msg.body))
-				 this.scrollToBottom()
+				await nextTick()
+				this.scrollToBottom()
 			})
 		},
 		async scrollToBottom() {
@@ -71,7 +72,6 @@ const useChatStore=defineStore('chat',{
 				})
 				
 			)
-			console.log(this.msg)
 			this.msg=''
 			this.scrollToBottom()
 		},
@@ -84,6 +84,9 @@ const useChatStore=defineStore('chat',{
 			this.name=res.data.name
 			this.imageurl=res.data.imageurl
 			this.price=res.data.price
+			
+			await nextTick()
+			this.scrollToBottom()
 		},
 		async messageList() {
 			const res=await axios.get('/chat/message_data/',{
@@ -116,7 +119,7 @@ const useChatStore=defineStore('chat',{
 			this.roomSubscribe.unsubscribe()
 			
 			this.chatroomId=null
-			this.messages=[]
+			// this.messages=[]
 			this.msg=''
 			this.chatRoomList()
 		}

@@ -7,18 +7,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserSessionRegistry {
-	private final Set<Integer> users=ConcurrentHashMap.newKeySet();
-	public void add(int userno)
+	private final Set<String> users=ConcurrentHashMap.newKeySet();
+	public void add(String username)
 	{
-		users.add(userno);
+		users.add(username);
 	}
 	
-	public void remove(int userno)
+	public void remove(String username)
 	{
-		users.remove(userno);
+		users.remove(username);
 	}
 	
-	public Set<Integer> getUsers()
+	public Set<String> getUsers()
 	{
 		return users;
 	}

@@ -14,7 +14,7 @@ import com.sist.web.vo.NotificationVO;
 @Mapper
 @Repository
 public interface NotificationMapper {
-	@Insert("INSERT INTO notifications VALUES(notify_no_seq.nextval,#{receiver_id},#{sender_id},SYSDATE,#{content})")
+	@Insert("INSERT INTO notifications VALUES(notify_no_seq.nextval,#{receiver_id},#{sender_id},SYSDATE,#{content},0)")
 	public void insertNotify(NotificationVO vo);
 	
 	@Select("SELECT notify_id,receiver_id,sender_id,TO_CHAR(created_at,'yyyy-mm-dd hh24:mi:ss') as dbday,content "

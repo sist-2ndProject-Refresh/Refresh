@@ -24,6 +24,9 @@ public interface MyPageMapper {
 	@Select("SELECT COUNT(*) FROM user_table "
 			+ "WHERE phone=#{phone}")
 	public int myPagePhoneCheck(String phone);
+	@Select("SELECT COUNT(*) FROM user_table "
+			+ "WHERE password=#{password}")
+	public int myPagePasswordCheck(String password);
 	
 	// 정보 수정
 	@Update("UPDATE store SET storename=#{storename} WHERE no=#{no}")
@@ -34,6 +37,10 @@ public interface MyPageMapper {
 	public void emailUpdate(MemberVO vo);
 	@Update("UPDATE user_table SET phone=#{phone} WHERE no=#{no}")
 	public void phoneUpdate(MemberVO vo);
+	@Update("UPDATE user_table SET post=#{post}, addr1=#{addr1}, addr2=#{addr2} WHERE no=#{no}")
+	public void addressUpdate(MemberVO vo);
+	@Update("UPDATE user_table SET password=#{password} WHERE no=#{no}")
+	public void pwdUpdate(MemberVO vo);
 	
 	// 마이페이지 소개란 수정
 	@Select("SELECT content FROM store WHERE no=#{no}")

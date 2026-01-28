@@ -10,6 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script>
 const reviewerId = <%= session.getAttribute("no") %>
 const urlParams = new URLSearchParams(window.location.search);
@@ -171,7 +172,7 @@ const no = urlParams.get('no');
 	resize: none;
 }
 .point-area {
-	display: flex;
+
 	align-items: center;
 	gap: 10px;
 	margin-top: 50px;
@@ -300,9 +301,16 @@ table td {
 							</button>
 						</div>
 						<div class="point-area" v-if="Number(no) === reviewerId">
-							<button class="btn btn-xs btn-dark" data-toggle="modal" data-target="#paymentModal">포인트 충전</button>
-							<jsp:include page="../mypage/paymentModal.jsp"></jsp:include>
-							<textarea rows="1" cols="10" v-model="point" style="resize: none;"></textarea>&nbsp;Point
+							<div style="gap: 10px;margin-bottom: 10px;">
+								<input v-model.number="chargePoint" placeholder="충전할 포인트 입력">
+								<button class="btn btn-xs btn-dark" style="margin-left:10px;" @click="pointPayment">포인트 충전</button>
+							</div>
+							<div style="display: flex;margin-bottom: 10px;">
+								<span>보유 포인트 :</span>&nbsp;<b>{{point}}</b>&nbsp;<span >Point</span>
+								<button class="btn btn-xs btn-dark" style="margin-left: 45px;"
+								data-toggle="modal" data-target="#outMoneyModal">포인트 출금</button>
+								<jsp:include page="../mypage/outMoneyModal.jsp"></jsp:include>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -481,7 +489,10 @@ table td {
 				no:no,
 				content:'',
 				conUp: false,
-				point:'',
+				point:0,
+				chargePoint:'',
+				outPoint:'',
+				outAccount:'',
 				reviewerId: <%= session.getAttribute("no") %>
 			}		
 		},
@@ -512,6 +523,65 @@ table td {
 				else 
 				{
 					this.conUp=true
+				}
+			},
+			pointPayment() {
+				if(!this.chargePoint||this.chargePoint<=0)
+					alert('충전할 금액을 입력해주세요')
+				
+					else
+					{
+						const IMP=window.IMP
+						IMP.init("imp22037645")
+						
+						IMP.request_pay({
+							pg:'html5_inicis',
+							pay_method:'card',
+							merchant_uid:'point_'+new Date().getTime(),
+							name:'포인트 충전',
+							amount:this.chargePoint,
+							buyer_name:'테스트'
+						}, rsp => {
+							if(rsp.success)
+							{
+								axios.post('/payment/inmoney/',{
+									no:this.no,
+									inMoney:this.chargePoint
+								}).then(response => {
+									alert('[충전 완료] '+response.data.charge+'원 충전되었습니다')
+									this.chargePoint=''
+									this.point=response.data.point
+								})
+							}
+							else
+							{
+								axios.post('/payment/inmoney/',{
+									no:this.no,
+									inMoney:this.chargePoint
+								}).then(response => {
+									alert('[충전 완료] '+response.data.charge+'원 충전되었습니다')
+									this.chargePoint=''
+									this.point=response.data.point
+								})
+							}
+						})
+					}
+			},
+			pointOut() {
+				if(this.point>=this.outPoint)
+				{
+					axios.post('/payment/outmoney/',{
+						outMoney:this.outPoint
+					}).then(response => {
+						alert('[출금 완료] '+response.data.charge+'원 출금되었습니다')
+						this.outPoint=''
+						this.outAccount=''
+						this.point=response.data.point
+					})
+				}
+				else
+				{
+					alert("보유 포인트보다 많은 금액은 출금할 수 없습니다")
 				}
 			}
 		}

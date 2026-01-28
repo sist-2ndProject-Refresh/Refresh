@@ -3,6 +3,7 @@ package com.sist.web.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sist.web.mapper.MyPageMapper;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MyPageServiceImpl implements MyPageService {
 	private final MyPageMapper mMapper;
+	private final PasswordEncoder encoder;
 
 	@Override
 	public MemberVO myPageListData(int no) {
@@ -42,35 +44,55 @@ public class MyPageServiceImpl implements MyPageService {
 		
 		if(vo.getEmail()!=null)
 		{
+			MemberVO now=mMapper.myPageListData(vo.getNo());
+			
+			if(vo.getEmail().equals(now.getEmail()))
+			{
+				return "동일한 이메일로는 변경할 수 없습니다.";
+			}
+					
 			int count=mMapper.myPageEmailCheck(vo.getEmail());
-			String msg="";
-			if(count==0)
+			if(count>0)
 			{
-				mMapper.emailUpdate(vo);
-				msg="성공적으로 변경되었습니다.";
+				return "중복된 이메일입니다.";
 			}
-			else
-			{
-				msg="중복된 이메일입니다.";
-			}
-			return msg;
+			
+			mMapper.emailUpdate(vo);
+			return "성공적으로 변경되었습니다.";
 		}
 		
 		if(vo.getPhone()!=null)
 		{
+			MemberVO now=mMapper.myPageListData(vo.getNo());
+			
+			if(vo.getPhone().equals(now.getPhone()))
+			{
+				return "동일한 번호로는 변경할 수 없습니다.";
+			}
+			
 			int count=mMapper.myPagePhoneCheck(vo.getPhone());
-			String msg="";
-			if(count==0)
+			if(count>0)
 			{
-				mMapper.phoneUpdate(vo);
-				msg="성공적으로 변경되었습니다.";
+				return "중복된 전화번호입니다.";
 			}
-			else
-			{
-				msg="중복된 전화번호입니다.";
-			}
-			return msg;
+			
+			mMapper.phoneUpdate(vo);
+			return "성공적으로 변경되었습니다.";
 		}
+		
+		if(vo.getPost()!=null && vo.getAddr1()!=null && vo.getAddr2()!=null)
+		{
+			MemberVO now=mMapper.myPageListData(vo.getNo());
+			
+			if(vo.getPost().equals(now.getPost()) && vo.getAddr1().equals(now.getAddr1()) && vo.getAddr2().equals(now.getAddr2()))
+			{
+				return "동일한 주소로는 변경할 수 없습니다.";
+			}
+			
+			mMapper.addressUpdate(vo);
+			return "성공적으로 변경되었습니다.";
+		}
+		
 		return "";
 	}
 
@@ -161,6 +183,31 @@ public class MyPageServiceImpl implements MyPageService {
 	public List<TransactionVO> mypageBuyList(int no, int start) {
 		// TODO Auto-generated method stub
 		return mMapper.mypageBuyList(no, start);
+	}
+
+	@Override
+	public String pwdUpdate(MemberVO vo) {
+		// TODO Auto-generated method stub
+		if(vo.getPassword()!=null)
+		{
+			MemberVO now=mMapper.myPageListData(vo.getNo());
+			
+			if(encoder.matches(vo.getPassword(), now.getPassword()))
+			{
+				return "동일한 비밀번호로는 변경할 수 없습니다.";
+			}
+			
+			int count=mMapper.myPagePasswordCheck(vo.getPassword());
+			if(count>0)
+			{
+				return "중복된 비밀번호입니다.";
+			}
+			
+			vo.setPassword(encoder.encode(vo.getPassword()));
+			mMapper.pwdUpdate(vo);
+			return "성공적으로 변경되었습니다.";
+		}
+		return "";
 	}
 
 
