@@ -1,23 +1,19 @@
 package com.sist.web.vo;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
 public class BoardVO {
-/*
-ID       NOT NULL NUMBER        
-TITLE             VARCHAR2(100) 
-CONTENT           CLOB          
-TIME              DATE          
-HIT      NOT NULL NUMBER        
-CATEGORY          VARCHAR2(300) 
-MEM_ID            VARCHAR2(300) 
- */
-	private int id,hit,like_cnt,isLiked;
-	private String title,category,mem_id,content;
-	private Date time;
-	
+	private int id;
+	private String title;
+	private String content;
+	private String mem_id;
+	private String time;
+	private int hit;
 	private String region;
+	private String category;
+
+	private int like_cnt;
+	private int reply_cnt;
+	private int isLiked;
 }
