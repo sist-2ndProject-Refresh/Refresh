@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sist.web.service.MyPageService;
 import com.sist.web.vo.BlockVO;
 import com.sist.web.vo.MemberVO;
+import com.sist.web.vo.RentalVO;
 import com.sist.web.service.ReviewService;
 import com.sist.web.vo.ReviewVO;
 import com.sist.web.vo.StoreVO;
 import com.sist.web.vo.TradeVO;
+import com.sist.web.vo.TransactionVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MyPageRestController {
 	private final MyPageService mService;
+	private final PasswordEncoder encoder;
 	
 	@GetMapping("/mypage/info_vue")
 	public ResponseEntity<MemberVO> mypage_list_vue(@RequestParam(name = "no",required = false,defaultValue = "0") int no)
@@ -76,6 +80,22 @@ public class MyPageRestController {
 		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
 	
+	@PostMapping("/mypage/pwd_update_vue/")
+	public ResponseEntity<Map> mypage_pwd_update_vue(@RequestBody MemberVO vo)
+	{
+		Map map=new HashMap();
+		try
+		{
+			String msg=mService.pwdUpdate(vo);
+			map.put("msg", msg);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
 	@PostMapping("/mypage/update_vue/")
 	public ResponseEntity<Map> mypage_update_vue(@RequestBody MemberVO vo)
 	{
@@ -101,6 +121,8 @@ public class MyPageRestController {
 		try
 		{
 			List<TradeVO> list=new ArrayList<>();
+			List<RentalVO> rList=new ArrayList<>();
+			List<TransactionVO> bList=new ArrayList<>();
 			int count=0;
 			int ecount=mService.mypageTradeEndCount(no);
 			
@@ -114,6 +136,16 @@ public class MyPageRestController {
 				list=mService.mypageTradeEndList(no, (page-1)*3);
 				count=mService.mypageTradeEndCount(no);
 			}
+			if("r".equals(mode))
+			{
+				rList=mService.mypageRentalList(no, (page-1)*3);
+				count=mService.mypageRentalCount(no);
+			}
+			if("b".equals(mode))
+			{
+				bList=mService.mypageBuyList(no, (page-1)*3);
+				count=mService.mypageBuyCount(no);
+			}
 			
 			int totalpage=(int)Math.ceil(count/3.0);
 			final int BLOCK=10;
@@ -124,12 +156,15 @@ public class MyPageRestController {
 			
 			map.put("start", (page-1)*3);
 			map.put("list", list);
+			map.put("rList", rList);
+			map.put("bList", bList);
 			map.put("totalpage", totalpage);
 			map.put("startPage", startPage);
 			map.put("endPage", endPage);
 			map.put("curpage", page);
 			map.put("count", count);
 			map.put("ecount", ecount);
+			
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();

@@ -74,6 +74,17 @@
 	justify-content: center;
 	margin-top: 50px;
 }
+.bubble-system {
+    max-width: 80%;
+    margin: 10px auto; 
+    padding: 8px 12px;
+    background: gray;
+    color: black;
+    border-radius: 10px;
+    text-align: center;
+    font-style: italic;
+    font-size: 15px;
+}
 </style>
 </head>
 <script>
@@ -86,16 +97,49 @@ const loginUser='${sessionScope.no}'
 
 <div class="container" id="app">
   <div class="row">
+	 <div class="col-sm-3 user-panel">
+      <h4 class="text-center" style="margin-bottom: 30px;">채팅방 리스트</h4>
+      <ul class="list-group">
+        <li class="list-group-item"
+        	v-for="room in store.chatroomList"
+        	:key="room.cvo.chatroom_id"
+        	@click="store.selectRoom(room)"
+        	>
+        	<div style="display:flex; align-items:center;">
+		        <img :src="room.svo.image" style="width:40px;height:40px;border-radius:50%;margin-right:10px;">
+		
+		        <div style="flex:1">
+		          <div style="font-weight:bold; font-size:17px;color:black;">
+		            {{ room.svo.storename }}
+		          </div>
+		          <div style="font-size:12px;color:black;">
+		            {{ room.content }}
+		          </div>
+		        </div>
+		
+		        <div style="font-size:11px;color:#999;">
+		          {{ room.dbday }}
+		        </div>
+	        </div>
+        </li>
+        
+      </ul>
+    </div>
 
     <!-- ================= 채팅 ================= -->
-    <div class="col-sm-9 chat-panel">
+    <div class="col-sm-9 chat-panel" v-if="store.chatroomId">
 
       <!-- 헤더 -->
       <div class="panel-heading">
+      	
       </div>
 
       <!-- 메시지 -->
+      
       <div class="chat-body" ref="chatBody">
+      	<div class="d-flex mb-4">
+      		<button class="btn btn-warning ms-auto" @click="store.chatRoomOut()">나가기</button>
+      	</div>
         <div>
 			  <div class="tradegoods" style="display:flex; align-items:flex-start; margin-bottom:10px; padding:10px; border:1px solid #ccc; border-radius:8px; background:#fff;">
 	
@@ -109,17 +153,17 @@ const loginUser='${sessionScope.no}'
 			  </div>
 			</div>
 		</div>
-		<div v-for="m in store.messages">
+		<div v-for="m in store.messages" :key="m.chat_id"
+		:class="['bubble',m.type==='SYSTEM'?'bubble-system':
+				(m.sender!==Number(store.loginUser)?'left':'right')]">
           <!-- 상대방 -->
-          <div v-if="m.sender!==Number(store.loginUser)"
-               class="bubble left">
-            <b>{{m.sender}}</b><br>
+          <div v-if="type==='CHAT'">
+            <b v-if="m.sender!==Number(store.loginUser)">{{m.sender}}</b><br>
 			{{m.content}}
           </div>
 
           <!-- 나 -->
-          <div v-else
-               class="bubble right">
+          <div v-else>
             {{m.content}}
           </div>
 
@@ -130,9 +174,9 @@ const loginUser='${sessionScope.no}'
       <!-- 입력 -->
       <div class="chat-footer">
         <div class="input-group">
-          <input type="text" class="form-control" v-model="store.msg" @keyup.enter="store.send()" placeholder="메시지 입력">
+          <input type="text" class="form-control" v-model="store.msg" @keyup.enter="store.send()" placeholder="메시지 입력" :disabled="!store.chatroomId">
           <span class="input-group-btn">
-            <button class="btn btn-warning" @click="store.send()">전송</button>
+            <button class="btn btn-warning" @click="store.send()" :disabled="!store.chatroomId">전송</button>
           </span>
         </div>
       </div>
@@ -152,17 +196,16 @@ const loginUser='${sessionScope.no}'
 				
 				store.connect()
 				store.chatroomId=chatroomId
-				store.chatTradeData(productId)
+				store.chatTradeData(chatroomId)
 				store.loginUser=loginUser
 				store.chatBodyEl=chatBody.value
-				
-				//store.subscribeRoom()
+				store.chatRoomList()
 			})
 			
 			return {
 				store
 			}
-		},
+		}
 		
 	})
 	app.use(createPinia())

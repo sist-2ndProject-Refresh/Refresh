@@ -38,5 +38,4 @@
 		</choose>
 		OFFSET #{start} ROWS FETCH NEXT 20 ROWS ONLY
 	</select>
-	
  </mapper>

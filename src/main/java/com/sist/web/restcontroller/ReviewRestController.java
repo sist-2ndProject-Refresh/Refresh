@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sist.web.service.NotificationService;
 import com.sist.web.service.ReviewService;
+import com.sist.web.vo.NotificationVO;
 import com.sist.web.vo.ReviewVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReviewRestController {
 	private final ReviewService rService;
+	private final NotificationService nService;
+	private final SimpMessagingTemplate template;
 	
 	@GetMapping("/review/list_vue/")
 	public ResponseEntity<Map> review_list_vue(@RequestParam(name = "no",required = false,defaultValue = "0") int no,
@@ -54,6 +59,19 @@ public class ReviewRestController {
 		try
 		{
 			rService.reviewInsert(vo);
+			
+			String rName=rService.findStorenameByReviewerId(vo.getReviewer_id());
+			System.out.println("리뷰하는 사람의 id: "+vo.getReviewer_id());
+			System.out.println("댓글 id: "+vo.getReview_id());
+			
+			NotificationVO nvo=new NotificationVO();
+			nvo.setReceiver_id(vo.getSeller_id());
+			nvo.setSender_id(vo.getReviewer_id());
+			nvo.setContent("[리뷰]"+rName+" 님이 리뷰를 작성하셨습니다.");
+			
+			nService.insertNotify(nvo);
+			
+			template.convertAndSend("/topic/notify/"+vo.getSeller_id(), nvo.getContent());
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();

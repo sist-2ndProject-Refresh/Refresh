@@ -2,9 +2,14 @@ package com.sist.web.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
 import com.sist.web.vo.StoreVO;
 import com.sist.web.vo.TradeVO;
+import com.sist.web.vo.TransactionVO;
 import com.sist.web.vo.MemberVO;
+import com.sist.web.vo.RentalVO;
 
 public interface MyPageService {
 	public MemberVO myPageListData(int no);
@@ -20,4 +25,9 @@ public interface MyPageService {
 	public int mypageTradeEndCount(int no);
 	public List<StoreVO> blockListData(int no, int start); 
 	public int blockCountList(int no);
+	public List<RentalVO> mypageRentalList(int no, int start);
+	public int mypageRentalCount(int no);
+	public List<TransactionVO> mypageBuyList(int no, int start);
+	public int mypageBuyCount(int no);
+	public String pwdUpdate(MemberVO vo);
 }

@@ -12,15 +12,6 @@ import com.sist.web.vo.*;
 @Repository
 public interface MyPageMapper {
 	// 정보 수정 데이터
-	/*
-	 *  <select id="myPageListData" resultMap="storeMap" parameterType="int">
-			SELECT u.no,password,post,addr1,addr2,phone,regdate,email,point,
-				   storename,image,sellcount,reviewcount,totalscore,scorecount,content
-			FROM user_table u JOIN store s 
-			ON u.no=s.no
-			WHERE u.no=#{no} 
-		</select>
-	 */
 	public MemberVO myPageListData(int no);
 	
 	// 중복 체크
@@ -33,6 +24,9 @@ public interface MyPageMapper {
 	@Select("SELECT COUNT(*) FROM user_table "
 			+ "WHERE phone=#{phone}")
 	public int myPagePhoneCheck(String phone);
+	@Select("SELECT COUNT(*) FROM user_table "
+			+ "WHERE password=#{password}")
+	public int myPagePasswordCheck(String password);
 	
 	// 정보 수정
 	@Update("UPDATE store SET storename=#{storename} WHERE no=#{no}")
@@ -43,32 +37,16 @@ public interface MyPageMapper {
 	public void emailUpdate(MemberVO vo);
 	@Update("UPDATE user_table SET phone=#{phone} WHERE no=#{no}")
 	public void phoneUpdate(MemberVO vo);
+	@Update("UPDATE user_table SET post=#{post}, addr1=#{addr1}, addr2=#{addr2} WHERE no=#{no}")
+	public void addressUpdate(MemberVO vo);
+	@Update("UPDATE user_table SET password=#{password} WHERE no=#{no}")
+	public void pwdUpdate(MemberVO vo);
 	
 	// 마이페이지 소개란 수정
 	@Select("SELECT content FROM store WHERE no=#{no}")
-	public String myPageContent(int no);
-	// @Update("UPDATE store SET content=#{content} WHERE no=#{no}")
-	// public void myPageUpdate(StoreVO vo);
+	public String myPageContent(int no);	
 	
-	/*
-	 *  NO             NUMBER         
-		NAME           VARCHAR2(1000) 
-		DESCRIPTION    CLOB           
-		PRICE          NUMBER         
-		ORIGINPRICE    NUMBER         
-		QTY            NUMBER         
-		SALESTATUS     VARCHAR2(100)  
-		CONDITION      VARCHAR2(100)  
-		IMAGECOUNT     NUMBER         
-		IMAGEURL       VARCHAR2(1000) 
-		DESCRIBEDAT    DATE           
-		CATEGORY       NUMBER         
-		LAT            NUMBER         
-		LON            NUMBER         
-		ADDRESS        VARCHAR2(1000) 
-		TRADES         VARCHAR2(4000) 
-		USER_NO        NUMBER    
-	 */
+	// 등록 상품 리스트
 	@Select("SELECT name,price,qty,salestatus,imageurl,TO_CHAR(describedat,'YYYY-MM-DD HH24:MI:SS') as dbday,user_no "
 			+ "FROM trade_goods "
 			+ "WHERE salestatus='RESERVED' AND user_no=#{no} "
@@ -80,6 +58,7 @@ public interface MyPageMapper {
 			+ "WHERE salestatus='RESERVED' AND user_no=#{no}")
 	public int mypageTradeCount(int no);
 	
+	// 판매 완료 리스트
 	@Select("SELECT name,price,qty,salestatus,imageurl,TO_CHAR(describedat,'YYYY-MM-DD HH24:MI:SS') as dbday,user_no "
 			+ "FROM trade_goods "
 			+ "WHERE salestatus='SOLD_OUT' AND user_no=#{no} "
@@ -91,6 +70,7 @@ public interface MyPageMapper {
 			+ "WHERE salestatus='SOLD_OUT' AND user_no=#{no}")
 	public int mypageTradeEndCount(int no);
 	
+	// 차단 리스트
 	@Select("SELECT s.no,storename,image "
 			+ "FROM block_list b JOIN store s ON b.blocked_user=s.no "
 			+ "WHERE b.blocking_user=#{no} "
@@ -101,4 +81,25 @@ public interface MyPageMapper {
 			+ "FROM block_list b JOIN store s ON b.blocked_user=s.no "
 			+ "WHERE b.blocking_user=#{no}")
 	public int blockCountList(int no); 
+	
+	// 대여 상품 리스트
+	@Select("SELECT imageurl,price,name,TO_CHAR(describedat,'yyyy-mm-dd hh24:ss:mi') as dbday,days "
+			+ "FROM rental r JOIN store s ON r.user_no=s.no "
+			+ "WHERE r.user_no=${no} "
+			+ "ORDER BY days DESC "
+			+ "OFFSET #{start} ROWS FETCH NEXT 3 ROWS ONLY")
+	public List<RentalVO> mypageRentalList(@Param("no") int no, @Param("start") int start);
+	
+	@Select("SELECT COUNT(*) "
+			+ "FROM rental r JOIN store s ON r.user_no=s.no "
+			+ "WHERE r.user_no=#{no}")
+	public int mypageRentalCount(int no);
+	
+	// 구매 상품 리스트
+	public List<TransactionVO> mypageBuyList(@Param("no") int no, @Param("start") int start);
+	
+	@Select("SELECT COUNT(*) "
+			+ "FROM transaction "
+			+ "WHERE buyer_id=#{no}")
+	public int mypageBuyCount(int no);
 }

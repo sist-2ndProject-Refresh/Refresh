@@ -22,7 +22,31 @@
 	</resultMap>
 	
 	<select id="chatListData" resultMap="chatMap" parameterType="int">
-		SELECT chat_id,c.chatroom_id,content,TO_CHAR(chat_time,'HH24:MI') as dbday,
-		       buyer_id,seller_id,s.no
+		SELECT c.chat_id,c.chatroom_id,c.content,c.type,TO_CHAR(c.chat_time,'HH24:MI') as dbday,
+		       cr.buyer_id,cr.seller_id,s.no,s.storename,s.image
+		FROM chat_room cr JOIN chat c 
+		ON c.chat_id=(SELECT MAX(c2.chat_id) FROM chat c2 WHERE c2.chatroom_id=cr.chatroom_id)
+		
+		JOIN store s ON s.no=
+		CASE
+			WHEN cr.seller_id=#{loginId}
+			THEN cr.buyer_id
+			ELSE cr.seller_id
+		END
+		
+		WHERE cr.seller_id=#{loginId} OR cr.buyer_id=#{loginId}
+		ORDER BY c.chat_time DESC  
+	</select>
+	
+	<resultMap type="com.sist.web.vo.ChatRoomVO" id="tradeMap">
+		<result property="tvo.name" column="name"/>
+		<result property="tvo.imageurl" column="imageurl"/>
+		<result property="tvo.price" column="price"/>
+	</resultMap>
+	
+	<select id="findTradeByChatroomid" resultMap="tradeMap" parameterType="int">
+		SELECT name,imageurl,price
+		FROM chat_room c JOIN trade_goods t ON c.product_id=t.no
+		WHERE c.chatroom_id=#{chatroomId}
 	</select>
 </mapper>

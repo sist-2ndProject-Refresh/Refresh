@@ -3,6 +3,8 @@ package com.sist.web.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.sist.web.vo.ReviewVO;
 
 public interface ReviewService {
@@ -22,4 +24,5 @@ public interface ReviewService {
 	public void reviewInsert(ReviewVO vo);
 	public int reviewCount(int seller_id);
 	public void reviewUpdate(ReviewVO vo);
+	public String findStorenameByReviewerId(int reviewer_id);
 }

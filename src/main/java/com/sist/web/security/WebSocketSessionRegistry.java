@@ -9,24 +9,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebSocketSessionRegistry {
 	// 접속중인 사용자들의 웹소켓 세션을 저장하는 곳
-	private final Map<Integer, Set<String>> map=new ConcurrentHashMap<>();
+	private final Map<String, Set<String>> map=new ConcurrentHashMap<>();
 	// Map => 유저별로 관리, Set => 중복 세션 방지, ConcurrentHashMap => 멀티쓰레드 안전
 	
-	public void register(int userno, String sessionId) // 접속 시 저장
+	public void register(String username, String sessionId) // 접속 시 저장
 	{
-		map.computeIfAbsent(userno, k->ConcurrentHashMap.newKeySet()).add(sessionId);
+		map.computeIfAbsent(username, k->ConcurrentHashMap.newKeySet()).add(sessionId);
 		// no 에 해당하는 Set 이 없으면 생성하고, 그 Set 에 sessionId 추가
 	}
 	
-	public void unregister(int userno, String sessionId) // 접속 해제
+	public void unregister(String username, String sessionId) // 접속 해제
 	{
-		Set<String> set=map.get(userno); // 해당 유저 세션 호출
+		Set<String> set=map.get(username); // 해당 유저 세션 호출
 		if(set!=null)
 		{
 			set.remove(sessionId); // 세션 제거
 			if(set.isEmpty())
 			{
-				map.remove(userno); // 세션 없으면 유저 삭제
+				map.remove(username); // 세션 없으면 유저 삭제
 			}
 		}
 	}

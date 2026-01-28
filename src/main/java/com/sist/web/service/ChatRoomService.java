@@ -15,7 +15,10 @@ public interface ChatRoomService {
 	public ChatRoomVO chatroomFindByIds(int productId, int buyerId, int sellerId);
 	public void chatroomCreate(ChatRoomVO vo);
 	public int noFindByUsername(String username);
-	public TradeVO findByProductId(int productId);
+	public ChatRoomVO findTradeByChatroomid(int chatroomId);
 	public void chatMessageInsert(ChatVO vo);
 	public List<ChatVO> chatMessageData(int chatroom_id);
+	public List<ChatVO> chatListData(int loginId);
+	public String findStorenameByBuyerId(int buyerId);
+	public void deleteChatRoom(int buyerId, int chatroomId);
 }

@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+const USER_ID=${sessionScope.no}
+</script>
 </head>
 <body>
 <header>
@@ -96,7 +99,10 @@
 	  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
 	    d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01M21 12a9 9 0 1 1-18 0a9 9 0 0 1 18 0Z"/>
 	</symbol>
-	
+	<symbol xmlns="http://www.w3.org/2000/svg" id="bell" viewBox="0 0 24 24">
+	  <path fill="currentColor"
+	    d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2Zm6-6V11a6 6 0 0 0-5-5.91V4a1 1 0 0 0-2 0v1.09A6 6 0 0 0 6 11v5l-2 2v1h16v-1l-2-2Z"/>
+	</symbol>
   </svg>
 
   <!-- Loader 4 -->
@@ -148,7 +154,7 @@
   </div>
 
 
-    <nav id="header-nav" class="navbar navbar-expand-lg">
+    <nav id="header-nav" class="navbar navbar-expand-lg" data-user-no="${sessionScope.no }">
       <div class="container-lg">
         <a class="navbar-brand" href="/">
           <img src="/images/main-logo.png" class="logo" alt="logo">
@@ -273,10 +279,14 @@
                 <strong>검색</strong>
               </a>
             </li>
+            <li class="nav-item dropdown" style="margin-left: 10px;">
+			  <jsp:include page="../notify/notify.jsp"></jsp:include>
+			</li>
           </ul>
-        </div>
+        </div>   
       </div>
     </nav>
   </header>
+  <jsp:include page="../commons/toast.jsp"></jsp:include>
 </body>
 </html>

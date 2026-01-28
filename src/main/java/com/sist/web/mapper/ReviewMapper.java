@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +32,7 @@ public interface ReviewMapper {
 	public List<ReviewVO> reviewListData(@Param("no") int no, @Param("start") int start);
 	
 	@Insert("INSERT INTO review VALUES(rv_id_seq.nextval,#{seller_id},#{reviewer_id},SYSDATE,SYSDATE,#{content,jdbcType=CLOB},#{rating})")
+	@SelectKey(statement="SELECT rv_id_seq.NEXTVAL FROM dual", keyProperty="review_id", before=true, resultType=int.class)
 	public void reviewInsert(ReviewVO vo);
 	
 	@Select("SELECT COUNT(*) FROM review WHERE seller_id=#{seller_id}")
@@ -40,4 +42,7 @@ public interface ReviewMapper {
 			+ "content=#{content},rating=#{rating} "
 			+ "WHERE review_id=#{review_id} AND reviewer_id=#{reviewer_id}")
 	public void reviewUpdate(ReviewVO vo);
+	
+	@Select("SELECT storename FROM store WHERE no=#{reviewer_id}")
+	public String findStorenameByReviewerId(int reviewer_id);
 }

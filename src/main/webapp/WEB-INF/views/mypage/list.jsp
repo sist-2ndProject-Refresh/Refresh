@@ -10,6 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script>
 const reviewerId = <%= session.getAttribute("no") %>
 const urlParams = new URLSearchParams(window.location.search);
@@ -82,7 +83,7 @@ const no = urlParams.get('no');
 	display: flex;
 }
 .list-btn .btn {
-	width: 228px;
+	width: 284.5px;
 	margin: 0;
 	border-radius: 0;
     border-right: 1px solid white;
@@ -171,7 +172,7 @@ const no = urlParams.get('no');
 	resize: none;
 }
 .point-area {
-	display: flex;
+
 	align-items: center;
 	gap: 10px;
 	margin-top: 50px;
@@ -252,7 +253,7 @@ table td {
 					<hr>
 					<div class="mypage-header" style="display: flex;gap: 10px;">
 						<div class="username">
-							<button type="button" class="introduce-updatebtn btn btn-info" data-toggle="modal" data-target="#myModal">정보 수정</button>
+							<button type="button" class="introduce-updatebtn btn" data-toggle="modal" data-target="#myModal">정보 수정</button>
 							<div id="myModal" class="modal fade" role="dialog">
 							  <div class="modal-dialog">
 								<jsp:include page="../mypage/modal.jsp"/>
@@ -260,12 +261,15 @@ table td {
 							</div>
 						</div>
 						<div class="blockuser">
-							<button type="button" class="introduce-updatebtn btn btn-info" data-toggle="modal" data-target="#blockModal">차단 목록</button>
+							<button type="button" class="introduce-updatebtn btn" data-toggle="modal" data-target="#blockModal">차단 목록</button>
 							<div id="blockModal" class="modal fade" role="dialog">
 							  <div class="modal-dialog">
 								<jsp:include page="../mypage/blockmodal.jsp"/>
 							  </div>
 							</div>
+						</div>
+						<div class="chatroom">
+							<a href="/chat/mychat" class="btn btn-sm introduce-updatebtn">채팅</a>
 						</div>
 					</div>
 					<hr class="introduce-hr">
@@ -297,8 +301,16 @@ table td {
 							</button>
 						</div>
 						<div class="point-area" v-if="Number(no) === reviewerId">
-							<button type="submit" class="btn btn-xs btn-dark">포인트 충전</button>
-							<textarea rows="1" cols="10" v-model="point" style="resize: none;"></textarea>&nbsp;Point
+							<div style="gap: 10px;margin-bottom: 10px;">
+								<input v-model.number="chargePoint" placeholder="충전할 포인트 입력">
+								<button class="btn btn-xs btn-dark" style="margin-left:10px;" @click="pointPayment">포인트 충전</button>
+							</div>
+							<div style="display: flex;margin-bottom: 10px;">
+								<span>보유 포인트 :</span>&nbsp;<b>{{point}}</b>&nbsp;<span >Point</span>
+								<button class="btn btn-xs btn-dark" style="margin-left: 45px;"
+								data-toggle="modal" data-target="#outMoneyModal">포인트 출금</button>
+								<jsp:include page="../mypage/outMoneyModal.jsp"></jsp:include>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -308,30 +320,47 @@ table td {
 			<div class="list-btn">
 				<button class="btn btn-sm btn-primary" @click="changeMode('t')">등록 상품 리스트</button>
 				<button class="btn btn-sm btn-primary" @click="changeMode('e')">판매 완료 상품 리스트</button>
-				<button class="btn btn-sm btn-primary">대여 상품 리스트</button>
-				<button class="btn btn-sm btn-primary">작성 게시글 리스트</button>
-				<button class="btn btn-sm btn-primary">경매 리스트</button>
+				<button class="btn btn-sm btn-primary" @click="changeMode('r')">대여 상품 리스트</button>
+				<button class="btn btn-sm btn-primary" @click="changeMode('b')">구매 리스트</button>
 			</div>
 			<!-- 등록 상품 리스트 -->
 			<div class="list-contents">
 				<h5 class="list-count">상품&nbsp;<span style="color:red">{{count}}</span></h5>
 				<table class="table table-hover">
 				    <thead>
-				      <tr>
+				      <tr v-if="mode==='b'">
+				      	<th>이미지</th>
+				        <th>상품명</th>
+				        <th>가격</th>
+				        <th>판매자</th>
+				      </tr>
+				      <tr v-else>
 				      	<th>이미지</th>
 				        <th>상품명</th>
 				        <th>가격</th>
 				        <th>등록일</th>
+				        <th v-if="mode==='r'">대여일</th>
 				      </tr>
+				      
 				    </thead>
-				    <tbody>
+				    <tbody v-if="mode==='b'">
+				    	<tr v-for="(r,index) in list" :key="index">
+					      	<td><img :src="r.tvo.imageurl" style="width: 70px;height: 60px"></td>
+					        <td>{{r.name}}</td>
+					        <td>{{r.tvo.price.toLocaleString()}}&nbsp;<span>원</span></td>
+					        <td><span>{{r.seller_name}}</span></td>
+					      </tr>
+				    </tbody>
+				    <tbody v-else>
 				      <tr v-for="(t,index) in list" :key="index">
 				      	<td><img :src="t.imageurl" style="width: 70px;height: 60px"></td>
 				        <td>{{t.name}}</td>
 				        <td>{{t.price.toLocaleString()}}&nbsp;<span>원</span></td>
 				        <td>{{t.dbday}}</td>
+				        <td v-if="mode==='r'"><span>{{t.days}}</span>&nbsp;<span>일</span></td>
 				      </tr>
 				    </tbody>
+				    
 				  </table>
  				<ul class="pagination list-pagination">
 				  <li v-if="startPage>1">
@@ -460,7 +489,10 @@ table td {
 				no:no,
 				content:'',
 				conUp: false,
-				point:'',
+				point:0,
+				chargePoint:'',
+				outPoint:'',
+				outAccount:'',
 				reviewerId: <%= session.getAttribute("no") %>
 			}		
 		},
@@ -491,6 +523,65 @@ table td {
 				else 
 				{
 					this.conUp=true
+				}
+			},
+			pointPayment() {
+				if(!this.chargePoint||this.chargePoint<=0)
+					alert('충전할 금액을 입력해주세요')
+				
+					else
+					{
+						const IMP=window.IMP
+						IMP.init("imp22037645")
+						
+						IMP.request_pay({
+							pg:'html5_inicis',
+							pay_method:'card',
+							merchant_uid:'point_'+new Date().getTime(),
+							name:'포인트 충전',
+							amount:this.chargePoint,
+							buyer_name:'테스트'
+						}, rsp => {
+							if(rsp.success)
+							{
+								axios.post('/payment/inmoney/',{
+									no:this.no,
+									inMoney:this.chargePoint
+								}).then(response => {
+									alert('[충전 완료] '+response.data.charge+'원 충전되었습니다')
+									this.chargePoint=''
+									this.point=response.data.point
+								})
+							}
+							else
+							{
+								axios.post('/payment/inmoney/',{
+									no:this.no,
+									inMoney:this.chargePoint
+								}).then(response => {
+									alert('[충전 완료] '+response.data.charge+'원 충전되었습니다')
+									this.chargePoint=''
+									this.point=response.data.point
+								})
+							}
+						})
+					}
+			},
+			pointOut() {
+				if(this.point>=this.outPoint)
+				{
+					axios.post('/payment/outmoney/',{
+						outMoney:this.outPoint
+					}).then(response => {
+						alert('[출금 완료] '+response.data.charge+'원 출금되었습니다')
+						this.outPoint=''
+						this.outAccount=''
+						this.point=response.data.point
+					})
+				}
+				else
+				{
+					alert("보유 포인트보다 많은 금액은 출금할 수 없습니다")
 				}
 			}
 		}
@@ -535,8 +626,6 @@ table td {
 				})
 			},
 			reviewinsert() {
-				console.log("seller_id:", this.no)
-				console.log("reviewer_id:", reviewerId)
 				
 				axios.post('/review/insert_vue/',{
 					seller_id:this.no,
@@ -605,7 +694,15 @@ table td {
 						mode:this.mode
 					}
 				}).then(response => {
-					this.list=response.data.list
+					if(this.mode==='r') {
+						this.list=response.data.rList
+					}
+					else if(this.mode==='b') {
+						this.list=response.data.bList
+					}
+					else {
+						this.list=response.data.list
+					}
 					this.startPage=response.data.startPage
 					this.endPage=response.data.endPage
 					this.totalpage=response.data.totalpage
