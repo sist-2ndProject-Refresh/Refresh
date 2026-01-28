@@ -3,40 +3,59 @@ const useNoticeListStore = Pinia.defineStore('notice_list', {
         list: [],
         curpage: 1,
         totalpage: 0,
-        vo: {},           // 현재 글 상세 데이터
-        prevVo: null,     // 이전글 데이터
-        nextVo: null      // 다음글 데이터
+        fd: '',
+        startPage: 1,
+        endPage: 1,
+        vo: {},
+        prevVo: null,
+        nextVo: null
     }),
     actions: {
-        // 목록 불러오기 (혹시 호출될지 모르니 넣어둬야 함)
-        async dataRecv() { 
+        async dataRecv() {
             try {
                 const res = await axios.get('/notice/list_vue', {
-                    params: { page: this.curpage }
+                    params: {
+                        page: this.curpage,
+                        fd: this.fd
+                    }
                 });
                 this.list = res.data.list;
                 this.curpage = res.data.curpage;
                 this.totalpage = res.data.totalpage;
+                this.startPage = Math.floor((this.curpage - 1) / 10) * 10 + 1;
+                this.endPage = this.startPage + 9;
+                if (this.endPage > this.totalpage) this.endPage = this.totalpage;
             } catch (err) {
-                console.error("목록 수신 에러:", err);
+                console.error(err);
             }
         },
-        // 상세보기 불러오기
-		async noticeDetail(no) {
-		    try {
-		        const res = await axios.get('/notice/detail_vue', {
-		            params: { no: no }
-		        });
-		        
-		        // 서버에서 map.put("vo", vo) 등으로 보낸 데이터들 매핑
-		        this.vo = res.data.vo;
-		        this.prevVo = res.data.prevVo;
-		        this.nextVo = res.data.nextVo;
-
-		        console.log("데이터 로드 완료:", res.data);
-		    } catch (err) {
-		        console.error("상세보기 에러:", err);
-		    }
-		}
+        async noticeDetail(no) {
+            try {
+                const res = await axios.get('/notice/detail_vue', {
+                    params: { no: no }
+                });
+                this.vo = res.data.vo;
+                this.prevVo = res.data.prevVo;
+                this.nextVo = res.data.nextVo;
+            } catch (err) {
+                console.error(err);
+            }
+        },
+        search() {
+            this.curpage = 1;
+            this.dataRecv();
+        },
+        prev() {
+            if (this.startPage > 1) {
+                this.curpage = this.startPage - 1;
+                this.dataRecv();
+            }
+        },
+        next() {
+            if (this.endPage < this.totalpage) {
+                this.curpage = this.endPage + 1;
+                this.dataRecv();
+            }
+        }
     }
 });

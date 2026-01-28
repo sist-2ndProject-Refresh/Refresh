@@ -1,21 +1,11 @@
 package com.sist.web.restcontroller;
 
 import java.util.*;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import com.sist.web.service.NoticeService;
 import com.sist.web.vo.NoticeVO;
-
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -25,11 +15,13 @@ public class NoticeRestController {
     private final NoticeService nService;
 
     @GetMapping("/notice/list_vue")
-    public ResponseEntity<Map> notice_list_vue(@RequestParam("page") int page) {
+    public ResponseEntity<Map> notice_list_vue(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "fd", required = false, defaultValue = "") String fd) {
         Map map = new HashMap();
         try {
-            List<NoticeVO> list = nService.noticeListData((page - 1) * 8);
-            int totalpage = nService.noticeTotalPage();
+            List<NoticeVO> list = nService.noticeListData((page - 1) * 8, fd);
+            int totalpage = nService.noticeTotalPage(fd);
             
             map.put("list", list);
             map.put("curpage", page);
@@ -44,10 +36,7 @@ public class NoticeRestController {
     public ResponseEntity<Map> notice_detail_vue(@RequestParam("no") int no) {
         Map map = new HashMap();
         try {
-            // 1. 상세 데이터 가져오기 (조회수 증가 포함)
             NoticeVO vo = nService.noticeDetailData(no);
-            
-            // 2. 이전글/다음글 데이터 가져오기 (서비스에 이 함수들을 만들어야 해!)
             NoticeVO prevVo = nService.noticePrevData(no);
             NoticeVO nextVo = nService.noticeNextData(no);
 

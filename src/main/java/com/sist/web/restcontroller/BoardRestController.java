@@ -1,40 +1,38 @@
 package com.sist.web.restcontroller;
 
 import java.util.*;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.sist.web.service.BoardService;
 import com.sist.web.vo.BoardVO;
-
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class BoardRestController {
 
 	private final BoardService bService;
 
 	@GetMapping("/board/list_vue")
-	public ResponseEntity<Map> board_list_vue(@RequestParam("page") int page) {
+	public ResponseEntity<Map> board_list_vue(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "fd", defaultValue = "", required = false) String fd) { // [수정] 검색어 fd 파라미터 추가
+
 		Map map = new HashMap();
 		try {
-			List<BoardVO> list = bService.BoardListData((page - 1) * 10);
-			int totalpage = bService.BoardTotalPage();
+			int rowSize = 12;
+			List<BoardVO> list = bService.BoardListData((page - 1) * rowSize, fd);
+			int totalpage = bService.BoardTotalPage(fd);
+
 			map.put("list", list);
 			map.put("curpage", page);
 			map.put("totalpage", totalpage);
+
 			return new ResponseEntity<>(map, HttpStatus.OK);
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -53,7 +51,6 @@ public class BoardRestController {
 	public ResponseEntity<Map> board_insert_vue(@RequestBody BoardVO vo, HttpSession session) {
 		Map map = new HashMap();
 		try {
-			
 			String userId = (String) session.getAttribute("username");
 			if (userId == null) {
 				map.put("msg", "no");
@@ -72,7 +69,6 @@ public class BoardRestController {
 	public ResponseEntity<Map> board_update_ok_vue(@RequestBody BoardVO vo, HttpSession session) {
 		Map map = new HashMap();
 		try {
-			
 			String userId = (String) session.getAttribute("username");
 			if (userId == null) {
 				map.put("msg", "no");
@@ -102,15 +98,15 @@ public class BoardRestController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@GetMapping("/board/getUserAddr_vue")
 	public ResponseEntity<String> board_user_addr(@RequestParam("id") String id) {
-	    try {
-	        String addr = bService.getMemberAddr(id);
-	        return new ResponseEntity<>(addr != null ? addr : "", HttpStatus.OK);
-	    } catch (Exception ex) {
-	        ex.printStackTrace(); 
-	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
+		try {
+			String addr = bService.getMemberAddr(id);
+			return new ResponseEntity<>(addr != null ? addr : "", HttpStatus.OK);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }
