@@ -6,8 +6,7 @@ const useBoardDeleteStore = Pinia.defineStore("boardDeleteStore", {
   }),
   actions: {
     async deleteBoardData(no, writerId) {
-      
-      if (!this.sessionId || this.sessionId === 'null') {
+      if (!this.sessionId || this.sessionId === 'null' || this.sessionId === '') {
         alert("로그인이 필요합니다.");
         location.href = "/member/login";
         return;
@@ -25,7 +24,6 @@ const useBoardDeleteStore = Pinia.defineStore("boardDeleteStore", {
       this.isDeleting = true;
       try {
         const response = await axios.delete('http://localhost:8080/board/delete_vue/' + no);
-        
         this.deleteResult = response.data.msg;
 
         if (this.deleteResult === "yes") {
@@ -36,11 +34,7 @@ const useBoardDeleteStore = Pinia.defineStore("boardDeleteStore", {
         }
       } catch (error) {
         console.error("삭제 에러:", error);
-        if (error.response && error.response.status === 403) {
-            alert("삭제 권한이 없습니다.");
-        } else {
-            alert("서버 통신 중 오류가 발생했습니다.");
-        }
+        alert("서버 통신 중 오류가 발생했습니다.");
       } finally {
         this.isDeleting = false;
       }
