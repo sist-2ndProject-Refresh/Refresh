@@ -302,7 +302,7 @@ table td {
 						</div>
 						<div class="point-area" v-if="Number(no) === reviewerId">
 							<div style="gap: 10px;margin-bottom: 10px;">
-								<input v-model.number="chargePoint" placeholder="충전할 포인트 입력">
+								<input type="text" v-model.number="chargePoint" placeholder="충전할 포인트 입력" oninput="this.value = this.value.replace(/[^0-9]/g,'')">
 								<button class="btn btn-xs btn-dark" style="margin-left:10px;" @click="pointPayment">포인트 충전</button>
 							</div>
 							<div style="display: flex;margin-bottom: 10px;">

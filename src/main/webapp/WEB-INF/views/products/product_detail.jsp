@@ -64,7 +64,7 @@ a:hover {
 												<img src="${img }" class=" rounded" style="width: 500px; height: 400px; object-fit: cover;">
 												</div>
 											</div>
-										</c:forEach>
+									</c:forEach>
 									</div>
 								</div>
 							<div class="swiper-pagination" style="margin-top: 30px;"></div>

@@ -12,6 +12,7 @@ const usefindReportStore = defineStore({
 		if (this.fd==='')
 		{
 			this.msg='검색어를 입력해 주세요'
+			this.findCk=false
 			fdRef?.focus()
 			return
 		}

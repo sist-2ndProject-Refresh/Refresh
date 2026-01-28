@@ -12,7 +12,7 @@
 </head>
 <body>
 	<section id="intro" class="position-relative mt-4">
-    <div class="container-lg"  style="margin-top:50px;" id="findReport">
+    <div class="container-lg"  style="margin-top:80px;" id="findReport">
     	
      	 <h2 style="margin-left:140px;margin-top:20px;">거래전에 꼭한번 확인하기!</h2>
      	 <h4 style="margin-top:40px;color:gray">직접 거래 전 꼭 확인하고 거래하세요</h4>
