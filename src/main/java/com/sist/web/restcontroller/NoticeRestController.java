@@ -41,10 +41,21 @@ public class NoticeRestController {
     }
 
     @GetMapping("/notice/detail_vue")
-    public ResponseEntity<NoticeVO> notice_detail_vue(@RequestParam("no") int no) {
+    public ResponseEntity<Map> notice_detail_vue(@RequestParam("no") int no) {
+        Map map = new HashMap();
         try {
+            // 1. 상세 데이터 가져오기 (조회수 증가 포함)
             NoticeVO vo = nService.noticeDetailData(no);
-            return new ResponseEntity<>(vo, HttpStatus.OK);
+            
+            // 2. 이전글/다음글 데이터 가져오기 (서비스에 이 함수들을 만들어야 해!)
+            NoticeVO prevVo = nService.noticePrevData(no);
+            NoticeVO nextVo = nService.noticeNextData(no);
+
+            map.put("vo", vo);
+            map.put("prevVo", prevVo);
+            map.put("nextVo", nextVo);
+            
+            return new ResponseEntity<>(map, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

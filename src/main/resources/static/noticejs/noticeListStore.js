@@ -1,49 +1,42 @@
-// noticeListStore.js
-const useNoticeListStore = Pinia.defineStore('notice_list', { // defineStore : 창고를 정의한다
-    state: () => ({ // state : 창고 안에 보관할 실제 데이터
-        list: [], // 게시글 목록
-        curpage: 1, // 현재 페이지
-        totalpage: 0, // 전체 페이지
-        pageSize: 8, // 아까 매퍼에서 8개씩 가져오기로 했으니 8로 맞추는 게 좋아!
-        vo: {} // 상세보기 게시글
+const useNoticeListStore = Pinia.defineStore('notice_list', {
+    state: () => ({
+        list: [],
+        curpage: 1,
+        totalpage: 0,
+        vo: {},           // 현재 글 상세 데이터
+        prevVo: null,     // 이전글 데이터
+        nextVo: null      // 다음글 데이터
     }),
-    actions: { // actions : 데이터를 가져오거나 수정하는 함수들
+    actions: {
+        // 목록 불러오기 (혹시 호출될지 모르니 넣어둬야 함)
         async dataRecv() { 
             try {
-                // axios 호출 시 주소는 상대 경로('/notice/list_vue')만 써도 돼!
                 const res = await axios.get('/notice/list_vue', {
                     params: { page: this.curpage }
                 });
-                // 서버가 보내준 데이터를 창고(state)에 저장
                 this.list = res.data.list;
                 this.curpage = res.data.curpage;
                 this.totalpage = res.data.totalpage;
+            } catch (err) {
+                console.error("목록 수신 에러:", err);
+            }
+        },
+        // 상세보기 불러오기
+		async noticeDetail(no) {
+		    try {
+		        const res = await axios.get('/notice/detail_vue', {
+		            params: { no: no }
+		        });
+		        
+		        // 서버에서 map.put("vo", vo) 등으로 보낸 데이터들 매핑
+		        this.vo = res.data.vo;
+		        this.prevVo = res.data.prevVo;
+		        this.nextVo = res.data.nextVo;
 
-            } catch (err) {
-                console.error("데이터 수신 에러:", err);
-            }
-        },
-        prev() {
-            if (this.curpage > 1) {
-                this.curpage--;
-                this.dataRecv();
-            }
-        },
-        next() {
-            if (this.curpage < this.totalpage) {
-                this.curpage++;
-                this.dataRecv();
-            }
-        },
-        async noticeDetail(no) {
-            try {
-                const res = await axios.get('/notice/detail_vue', {
-                    params: { no: no }
-                });
-                this.vo = res.data;
-            } catch (err) {
-                console.error("상세보기 에러:", err);
-            }
-        }
+		        console.log("데이터 로드 완료:", res.data);
+		    } catch (err) {
+		        console.error("상세보기 에러:", err);
+		    }
+		}
     }
 });

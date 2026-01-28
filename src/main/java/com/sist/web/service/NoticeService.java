@@ -12,5 +12,8 @@ public interface NoticeService {
 	public void noticeUpdate(NoticeVO vo);
 	public NoticeVO noticeUpdateData(int no);
 	
+	public NoticeVO noticePrevData(int not_id);
+    public NoticeVO noticeNextData(int not_id);
+	
 	
 }
