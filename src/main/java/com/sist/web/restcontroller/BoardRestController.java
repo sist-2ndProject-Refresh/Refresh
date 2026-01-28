@@ -33,11 +33,33 @@ public class BoardRestController {
 	}
 
 	@GetMapping("/board/detail_vue")
-	public ResponseEntity<Map> board_detail_vue(@RequestParam("no") int no) {
+	public ResponseEntity<Map> board_detail_vue(@RequestParam("no") int no, HttpSession session) {
 		try {
-			Map map = bService.boardDetailAllData(no);
+			String username = (String) session.getAttribute("username");
+			if (username == null)
+				username = ""; 
+
+			Map map = bService.boardDetailAllData(no, username);
 			return new ResponseEntity<>(map, HttpStatus.OK);
 		} catch (Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping("/board/like_vue")
+	public ResponseEntity<BoardVO> board_like_vue(@RequestBody Map<String, Integer> params, HttpSession session) {
+		try {
+			String username = (String) session.getAttribute("username");
+			if (username == null) {
+				return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); // 로그인 안됐으면 401
+			}
+
+			int no = params.get("no");
+			BoardVO vo = bService.boardLikeToggle(no, username);
+			return new ResponseEntity<>(vo, HttpStatus.OK);
+		} catch (Exception ex) {
+			ex.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -112,32 +134,25 @@ public class BoardRestController {
 
 	@PostMapping("/board/reply_update_vue")
 	public ResponseEntity<Map> replyUpdate(@RequestBody BoardReplyVO vo, HttpSession session) {
-	    Map<String, String> map = new HashMap<>();
-	    try {
-	        String sessionId = (String) session.getAttribute("username");
-	        String result = bService.replyUpdate(vo, sessionId);
-	        map.put("msg", result);
-	        return new ResponseEntity<>(map, HttpStatus.OK);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        map.put("msg", "no");
-	        return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
+		Map<String, String> map = new HashMap<>();
+		try {
+			String sessionId = (String) session.getAttribute("username");
+			String result = bService.replyUpdate(vo, sessionId);
+			map.put("msg", result);
+			return new ResponseEntity<>(map, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("msg", "no");
+			return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-	
+
 	@GetMapping("/board/getUserAddr_vue")
 	public ResponseEntity<String> getUserAddr(@RequestParam("id") String username) {
 		try {
-			System.out.println("=== 주소 조회 요청 ===");
-			System.out.println("Username: " + username);
-			
 			String addr = bService.getMemberAddr(username);
-			
-			System.out.println("조회된 주소: " + addr);
-			
 			return ResponseEntity.ok(addr != null ? addr : "");
 		} catch (Exception ex) {
-			System.out.println("주소 조회 실패!");
 			ex.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
 		}

@@ -3,13 +3,13 @@ const useBoardListStore = Pinia.defineStore('board_list', {
 		list: [],
 		curpage: 1,
 		totalpage: 0,
-		vo: {},
+		vo: {}, 
 		prev: null,
 		next: null,
 		fd: '',
 		selectedRegion: '전체',
 		selectedCategory: '전체',
-		sessionId: null,
+		sessionId: null, 
 		timer: null,
 		replyList: [],
 		replyMsg: '',
@@ -59,7 +59,7 @@ const useBoardListStore = Pinia.defineStore('board_list', {
 			}
 		},
 
-		// 게시글 상세 조회
+		// 게시글 상세 조회 (좋아요 정보 수신 포함)
 		async boardDetail(no) {
 			try {
 				const { data } = await axios.get('http://localhost:8080/board/detail_vue', {
@@ -73,6 +73,28 @@ const useBoardListStore = Pinia.defineStore('board_list', {
 				this.editReplyId = null;
 			} catch (err) {
 				console.error("상세보기 데이터 수신 에러:", err);
+			}
+		},
+
+		// [추가] 좋아요 토글
+		async toggleLike(no) {
+			if (!this.sessionId) {
+				alert("로그인이 필요한 서비스입니다! 😊");
+				return;
+			}
+			try {
+				const { data } = await axios.post('http://localhost:8080/board/like_vue', {
+					no: no
+				});
+				
+				this.vo = data;
+				console.log("좋아요 처리 완료:", this.vo.isLiked, this.vo.like_cnt);
+			} catch (err) {
+				if (err.response && err.response.status === 401) {
+					alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+				} else {
+					console.error("좋아요 처리 에러:", err);
+				}
 			}
 		},
 
