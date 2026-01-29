@@ -12,16 +12,14 @@ const useBoardUpdateStore = Pinia.defineStore("boardUpdateStore", {
 	}),
 
 	actions: {
-		// 수정할 게시글 데이터 조회
 		async getDetailForUpdate(no) {
 			try {
 				const { data } = await axios.get('http://localhost:8080/board/detail_vue', {
 					params: { no }
 				});
-				
+
 				const boardVo = data.vo || data;
 
-				// 작성자 권한 확인
 				if (this.sessionId && boardVo.mem_id?.trim() !== this.sessionId.trim()) {
 					alert("본인이 작성한 글만 수정할 수 있습니다.");
 					location.href = "/board/list";
@@ -35,9 +33,8 @@ const useBoardUpdateStore = Pinia.defineStore("boardUpdateStore", {
 			}
 		},
 
-		// 게시글 수정
 		async updateBoardData() {
-			// 유효성 검사
+
 			if (!this.vo.title?.trim()) {
 				alert("제목을 입력해 주세요.");
 				return;

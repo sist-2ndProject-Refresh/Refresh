@@ -9,7 +9,6 @@ import com.sist.web.vo.*;
 @Repository
 public interface NoticeMapper {
 	
-	// ===== 공지사항 목록 =====
 	@Select("<script>" +
 			"SELECT not_id, not_title, mem_id, TO_CHAR(not_date, 'yyyy-mm-dd') as not_date, view_cnt " +
 			"FROM notice " +
@@ -33,7 +32,6 @@ public interface NoticeMapper {
 			"</script>")
 	int noticeTotalPage(@Param("fd") String fd);
 	
-	// ===== 공지사항 상세 =====
 	@Update("UPDATE notice SET view_cnt = view_cnt + 1 WHERE not_id = #{not_id}")
 	void noticeHitIncrement(int not_id);
 	
@@ -52,8 +50,7 @@ public interface NoticeMapper {
 			"WHERE not_id > #{not_id} ORDER BY not_id ASC) " +
 			"WHERE ROWNUM = 1")
 	NoticeVO noticeNextData(int not_id);
-	
-	// ===== 공지사항 작성/수정/삭제 =====
+
 	@SelectKey(keyProperty = "not_id", resultType = int.class, before = true,
 			   statement = "SELECT NVL(MAX(not_id)+1, 1) FROM notice")
 	@Insert("INSERT INTO NOTICE(NOT_ID, NOT_TITLE, MEM_ID, NOT_CONTENT, NOT_DATE, VIEW_CNT) " +

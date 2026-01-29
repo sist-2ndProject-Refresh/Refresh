@@ -8,7 +8,7 @@ const useBoardInsertStore = Pinia.defineStore('board_insert', {
 	}),
 
 	actions: {
-		// 사용자 지역 정보 조회 및 설정
+
 		async fetchUserRegion(mem_id) {
 			try {
 				const { data } = await axios.get('http://localhost:8080/board/getUserAddr_vue', {
@@ -17,7 +17,6 @@ const useBoardInsertStore = Pinia.defineStore('board_insert', {
 
 				const fullAddr = data || "";
 
-				// 지역 자동 설정
 				if (fullAddr.includes("서울")) {
 					this.region = "서울";
 				} else if (fullAddr.includes("경기") || fullAddr.includes("인천")) {
@@ -37,16 +36,15 @@ const useBoardInsertStore = Pinia.defineStore('board_insert', {
 			}
 		},
 
-		// 게시글 등록
 		async boardInsert() {
-			// 로그인 확인
+
 			if (!this.mem_id || this.mem_id === 'null') {
 				alert("로그인이 필요합니다.");
 				location.href = "/member/login";
 				return;
 			}
 
-			// 유효성 검사
+
 			if (!this.title?.trim()) {
 				alert("제목을 입력해 주세요.");
 				return;
@@ -62,7 +60,6 @@ const useBoardInsertStore = Pinia.defineStore('board_insert', {
 				return;
 			}
 
-			// 지역 정보 확인
 			if (!this.region) {
 				console.warn("지역 정보 누락, '기타 지역'으로 설정");
 				this.region = "기타 지역";
