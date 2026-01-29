@@ -4,15 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Stylish - Shoes Online Store HTML Template</title>
+<title>새로고침 - 아끼고, 나누고, 다시쓰는 곳</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="format-detection" content="telephone=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="author" content="TemplatesJungle">
-  <meta name="keywords" content="Online Store">
-  <meta name="description" content="Stylish - Shoes Online Store HTML Template">
 
   <link rel="stylesheet" href="/css/vendor.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
