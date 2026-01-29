@@ -89,7 +89,7 @@ a:hover {
 					<div class="product-card position-relative">
 						<a :href="'/rental/detail?no=' + vo.no">
 							<div class="card-img zoom-effect">
-								<img :src="store.changeImageUrl(vo.imageurl)" class="product-image img-fluid product-st">
+								<img :src="store.changeImageUrl(vo.imageurl)" class="product-image img-fluid product-st" onerror="this.src='/images/test/noimg.jpg'">
 							</div>
 							<div class="card-detail mt-3">
 								<h3 class="card-title fs-4 fw-normal m-0 text-secondary product_name">{{vo.name}}</h3>
