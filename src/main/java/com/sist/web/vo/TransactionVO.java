@@ -20,6 +20,6 @@ ADDRESS					 VARCHAR(500)		구매자 배송지
 @Data
 public class TransactionVO {
 	private int txn_id,txn_type,seller_id,buyer_id,trade_amount,fee_rate,fee_amount;
-	private String name,seller_name;
+	private String name,seller_name,address;
 	private TradeVO tvo=new TradeVO();
 }

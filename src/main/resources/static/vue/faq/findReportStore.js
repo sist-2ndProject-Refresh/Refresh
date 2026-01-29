@@ -11,8 +11,8 @@ const usefindReportStore = defineStore({
 		async findReportCount(fdRef){
 		if (this.fd==='')
 		{
-			this.msg='검색어를 입력해 주세요'
 			this.findCk=false
+			this.msg='검색어를 입력해 주세요'
 			fdRef?.focus()
 			return
 		}

@@ -31,8 +31,8 @@
      	 </table>
      	<div class="row text-center">
      		<h3 v-if="store.msg!=''">{{store.msg}}</h3>
-     		<h3 v-if="store.count!=0" style="margin-top:20px;"><span style="font-size:1.4em;color:red">{{store.count}}</span> 건 신고 되었습니다. 거래 시 주의가 필요합니다.</h3>
-     		<h3 v-if="store.count==0 && store.findCk" style="margin-top:20px;">해당 검색어로 조회되는 신고 기록은 없습니다.</h3>
+     		<h3 v-if="store.count!=0 && store.findCk==true" style="margin-top:20px;"><span style="font-size:1.4em;color:red">{{store.count}}</span> 건 신고 되었습니다. 거래 시 주의가 필요합니다.</h3>
+     		<h3 v-if="store.count==0 && store.findCk==true" style="margin-top:20px;">해당 검색어로 조회되는 신고 기록은 없습니다.</h3>
      	</div>
      	 </div>
      	<div class="row" style="justify-content: center;display: flex;margin-bottom:120px;">
