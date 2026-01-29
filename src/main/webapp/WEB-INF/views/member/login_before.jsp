@@ -34,7 +34,7 @@
 					<a href="/oauth2/authorization/kakao" class="btn" style="background-color: #FEE500;text-decoration: none;color:black;width:280px;height:60px;line-height: 50px;border-radius: 12px;"><span style="font-size:20px;font-weight: bold">카카오로 로그인</span></a>
 				</div>
 				<div class="row" style="margin-top:10px;">
-					<a href="/member/local_login" class="btn btn-danger" style="width:280px;height:60px;line-height: 50px;border-radius: 12px;"><span style="font-size:20px;font-weight: bold;">로그인</span></a>
+					<a href="/member/local_login" class="btn" style="width:280px;height:60px;line-height: 50px;border-radius: 12px;background-color: #ed7f1d"><span style="font-size:20px;font-weight: bold;color:white">로그인</span></a>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<a href="/member/local_join" class="btn btn-info" style="width:280px;height:60px;line-height: 50px;border-radius: 12px;"><span style="font-size:20px;font-weight: bold">회원가입</span></a>

@@ -37,7 +37,7 @@ a:hover {
 </head>
 <body>
   <section id="intro" class="position-relative mt-4" >
-    <div class="container-lg"  style="margin-top:50px;">
+    <div class="container-lg"  style="margin-top:80px;">
     	
       <div class="swiper main-swiper">
      	 <h2 style="margin-left:140px;margin-top:20px;">공지 사항</h2>
@@ -81,7 +81,7 @@ a:hover {
         </div>
       </div>
       <div class="product-content padding-small">
-	        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5" style="background-color:#E3F2FD;border-radius: 12px;padding-left:30px;padding-right:30px;">
+	        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5" style="border-radius: 12px;padding-left:30px;padding-right:30px;">
 	        	<c:forEach var="tvo" items="${tList }">
 				<div class="col mb-4 mb-3"  style="margin-top: 30px;">
 					<div class="product-card position-relative">
@@ -126,7 +126,7 @@ a:hover {
         </div>
       </div>
       <div class="product-content padding-small" style="margin-bottom:40px;">
-	        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5" style="background-color:#E3F2FD;border-radius: 12px;padding-left:30px;padding-right:30px;">
+	        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5" style="border-radius: 12px;padding-left:30px;padding-right:30px;">
 	        	<c:forEach var="rvo" items="${rList }">
 						<div class="col mb-4 mb-3"  style="margin-top: 30px;">
 							<div class="product-card position-relative">
