@@ -141,6 +141,9 @@
 		
 		}
 		post {
+				always{
+					cleanWs()	
+				}
 				success{
 					echo 'CI/CD 실행 성공'
 				}
