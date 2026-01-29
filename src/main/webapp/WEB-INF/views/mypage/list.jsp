@@ -352,7 +352,7 @@ table td {
 					      </tr>
 				    </tbody>
 				    <tbody v-else>
-				      <tr v-for="(t,index) in list" :key="index" @click="mode==='r'?rentalrink(t.no):traderink(t.no)" style="cursor:pointer">
+				      <tr v-for="(t,index) in list" :key="index" @click="mode==='r'?rentallink(t.no):tradelink(t.no)" style="cursor:pointer">
 				      	<td><img :src="t.imageurl" style="width: 70px;height: 60px"></td>
 				        <td>{{t.name}}</td>
 				        <td>{{t.price.toLocaleString()}}&nbsp;<span>원</span></td>
@@ -727,10 +727,10 @@ table td {
 				}
 				return arr
 			},
-			rentalrink(no){
+			rentallink(no){
 				location.href='/rental/detail?no='+no
 			},
-			traderink(no){
+			tradelink(no){
 				location.href='/product/detail?no='+no
 			}
 		}
