@@ -124,7 +124,7 @@
 			*/
 			stage('Deploy docker-compose'){
 				steps{
-					sshagent(credentials:['SERVER_SSH_KEY']){
+					sshagent(credentials:['REFRESH_SSH_KEY']){
 					sh """
 					   ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
 					        cd /home/ubuntu/app
