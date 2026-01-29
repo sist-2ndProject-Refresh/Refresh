@@ -41,10 +41,10 @@
 	
 	const urlParams = new URLSearchParams(window.location.search);
     const no = urlParams.get('no');
-	
 	const tradeDeleteApp = createApp({
 		setup(){
 			store = useDeleteStore()
+			console.log(no)
 			const windowClose = () =>{
 				window.close();
 			}

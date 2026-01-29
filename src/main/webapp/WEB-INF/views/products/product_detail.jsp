@@ -81,7 +81,7 @@ a:hover {
                 	<td colspan="2" class="text-right fs-4">
                 		<!-- 본인만 수정, 삭제하기 -->
                 		<c:if test="${vo.user_no == sessionScope.no && vo.salestatus != 'SOLD_OUT'}">	
-	                		<a href="javascript:void(0)" onclick="openDeleteWindow('${vo.no}, 1')" style="opacity: 0.7">삭제하기</a>	
+	                		<a href="javascript:void(0)" onclick="openDeleteWindow('${vo.no}')" style="opacity: 0.7">삭제하기</a>	
 	                		<a href="/product/update?no=${vo.no }" style="opacity: 0.7; margin-left: 10px;">수정하기</a>
                 		</c:if>
                 		<!-- 다른 사람만 차단 신고하기 -->
