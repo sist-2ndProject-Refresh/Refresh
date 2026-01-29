@@ -61,7 +61,7 @@ a:hover {
 									<c:forEach var="img" items="${updateImagUrl}">
 										<div class="swiper-slide">
 											<div class="card h-100" style="border: none">
-												<img src="${img }" class=" rounded" style="width: 500px; height: 400px; object-fit: cover;">
+												<img src="${img }" class=" rounded" style="width: 500px; height: 400px; object-fit: cover;" onerror="this.src='/images/test/noimg.jpg'">
 							
 												</div>
 											</div>
