@@ -47,7 +47,7 @@ public interface MyPageMapper {
 	public String myPageContent(int no);	
 	
 	// 등록 상품 리스트
-	@Select("SELECT name,price,qty,salestatus,imageurl,TO_CHAR(describedat,'YYYY-MM-DD HH24:MI:SS') as dbday,user_no "
+	@Select("SELECT no,name,price,qty,salestatus,imageurl,TO_CHAR(describedat,'YYYY-MM-DD HH24:MI:SS') as dbday,user_no "
 			+ "FROM trade_goods "
 			+ "WHERE salestatus='RESERVED' AND user_no=#{no} "
 			+ "ORDER BY user_no DESC "
@@ -59,7 +59,7 @@ public interface MyPageMapper {
 	public int mypageTradeCount(int no);
 	
 	// 판매 완료 리스트
-	@Select("SELECT name,price,qty,salestatus,imageurl,TO_CHAR(describedat,'YYYY-MM-DD HH24:MI:SS') as dbday,user_no "
+	@Select("SELECT no,name,price,qty,salestatus,imageurl,TO_CHAR(describedat,'YYYY-MM-DD HH24:MI:SS') as dbday,user_no "
 			+ "FROM trade_goods "
 			+ "WHERE salestatus='SOLD_OUT' AND user_no=#{no} "
 			+ "ORDER BY user_no DESC "
@@ -83,7 +83,7 @@ public interface MyPageMapper {
 	public int blockCountList(int no); 
 	
 	// 대여 상품 리스트
-	@Select("SELECT imageurl,price,name,TO_CHAR(describedat,'yyyy-mm-dd hh24:ss:mi') as dbday,days "
+	@Select("SELECT r.no,imageurl,price,name,TO_CHAR(describedat,'yyyy-mm-dd hh24:ss:mi') as dbday,days "
 			+ "FROM rental r JOIN store s ON r.user_no=s.no "
 			+ "WHERE r.user_no=${no} "
 			+ "ORDER BY days DESC "
