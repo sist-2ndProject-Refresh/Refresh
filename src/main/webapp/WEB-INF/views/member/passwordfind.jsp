@@ -117,11 +117,8 @@ input::placeholder {
 								<td width="35%" class="text-center" style="line-height: 40px;">
 									비밀번호
 								</td>
-								<td width="55%" class="text-left">
+								<td colspan="2" class="text-left">
 									<input type="password" class="join-input" placeholder="비밀번호를 입력해주세요" v-model="store.userData.pwd">
-								</td>
-								<td width="15%" class="text-left">
-									<span v-if="store.pwdOk!=''" class="fail_text">{{store.pwdOk}}</span>
 								</td>
 							</tr>
 							<tr>
@@ -129,7 +126,7 @@ input::placeholder {
 									비밀번호 확인
 								</td>
 								<td colspan="2" class="text-left">
-									<input type="password" class="join-input" placeholder="비밀번호 확인" @keyup="store.passwordCheck()" v-model="store.userData.pwdck">
+									<input type="password" class="join-input" placeholder="비밀번호 확인" v-model="store.userData.pwdck">
 								</td>
 							</tr>
 							<tr>

@@ -412,7 +412,12 @@ const memberStore = defineStore('member_store',{
 				alert('설정할 비밀번호를 입력해주세요')
 				return
 			}
-			if(this.pwdOk!=='')
+			if(this.userData.pwdck==='')
+			{
+				alert('비밀번호 확인을 입력해 주세요')
+				return
+			}
+			if(this.userData.pwd!==this.userData.pwdck)
 			{
 				alert('비밀번호를 확인해 주세요')
 				return

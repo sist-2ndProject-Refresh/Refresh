@@ -31,7 +31,8 @@ public class SecurityConfig {
 		http
 			.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/").permitAll()
+				.requestMatchers("/","/vue","/boardjs","/css","/images","/userimages","/js","/noticejs","/style.css").permitAll()
+				.requestMatchers("/admin").hasRole("ADMIN")
 				.anyRequest().permitAll()
 			)
 			.oauth2Login(oauth2 -> oauth2
