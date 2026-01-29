@@ -40,8 +40,6 @@ const useBuyStore = defineStore('buying', {
                     params: { no: no }
                 })
                 this.insertInfo(res)
-                console.log("가져온 데이터 :", res.data)
-
             }
             else {	// type != 1이면 대여상품
                 const res = await api.get('/rental/getVoData_vue/', {
@@ -51,6 +49,7 @@ const useBuyStore = defineStore('buying', {
             }
         },
         async insertInfo(res) {		// 정보 변수에 등록
+			console.log(res.data)
             this.name = res.data.name
             this.price = res.data.price
             this.imgurl = res.data.imageurl
@@ -89,10 +88,10 @@ const useBuyStore = defineStore('buying', {
                 name: String(this.name),
                 seller_id: this.seller_no,
                 buyer_id: this.user_no,
-				trade_amount: this.totalPrice,
+                trade_amount: this.totalPrice,
                 fee_rate: 10,
                 fee_amount: this.totalPrice * 0.1,
-				address: this.address1 + " " + this.address2
+                address: this.address1 + " " + this.address2
             };
             const res = await api.post('/transaction/insert_vue/', insertData, {
                 params: {
@@ -126,11 +125,24 @@ const useBuyStore = defineStore('buying', {
             let _this = this
             new daum.Postcode({
                 oncomplete: function(data) {
-					_this.post = data.zonecode
+                    _this.post = data.zonecode
                     _this.address1 = data.address
                 }
             }).open()
         },
+		changeImageUrl(url) {
+		    console.log("입력된 URL:", url); // 여기에 뭐가 찍히는지 보세요!
+		    if (!url) return '';
 
+		    if (url.startsWith('http')) {
+		        return url.replace('{cnt}', '1').replace('{res}', '720');
+		    }
+
+		    const fileName = url.replace('{cnt}', '1');
+		    const finalPath = '/userimages/product/' + fileName;
+		    
+		    console.log("최종 반환 경로:", finalPath); 
+		    return finalPath;
+		}
     }
 })

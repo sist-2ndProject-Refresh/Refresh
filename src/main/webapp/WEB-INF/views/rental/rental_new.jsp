@@ -71,7 +71,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					<label for="input_img" style="cursor: pointer">
 						<img src="/images/test/image_icon.png" style="width: 200px; height: 200px; margin-top: 10px; border: 2px solid black">
 					</label>
-					<input id="input_img" type="file" ref="imagesRef" multiple accept="image/*" style="display: none" @change="store.catchImages">
+					<input id="input_img" type="file"  multiple accept="image/*" style="display: none" @change="store.catchImages">
 					<div v-if="store.imagecount > 0" class="d-flex flex-wrap" style="width: 100%;">
 					    <div v-for="(url, index) in store.previewList" :key="index" style="width: calc(25% - 20px); margin: 10px; position: relative; min-width: 120px;">
 					         <img :src="url" class="rounded border" style="width: 100%; height: 150px; object-fit: cover; display: block;">
@@ -84,7 +84,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="mar-top-50 d-flex align-items-center gap-100">
 					<span class="fs-2 fw-normal" style="min-width:100px;">대여 물품명</span>
-					<input class="form-control fs-2" v-model="store.name" ref="nameRef"  type="text" size="115" style="height: 40px;" placeholder="상품명을 작성해주세요" >
+					<input class="form-control fs-2" v-model="store.name"  type="text" size="115" style="height: 40px;" placeholder="상품명을 작성해주세요" >
 				</div>			
 			</div>
 			<div>
@@ -94,7 +94,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			    	<div class="d-flex align-items-stretch">
 				        <div class="category-scroll-box px-3 py-2 border rounded" style="max-height: 200px; overflow-y: auto; width: 200px; max-width: 500px;">
 				            <label class="d-flex align-items-center mb-2" v-for="cate1 in store.cate1List" :key="cate1" style="cursor: pointer;">
-				                <input type="radio" v-model="store.category1" ref="categoryRef_1" :value="cate1.first_id" @change="store.loadCategorySecond(cate1.first_id)" class="form-check-input me-2" >
+				                <input type="radio" v-model="store.category1"  :value="cate1.first_id" @change="store.loadCategorySecond(cate1.first_id)" class="form-check-input me-2" >
 				                <span class="fs-3 fw-normal">{{cate1.first_title}}</span>
 				            </label>
 				    	</div>
@@ -102,7 +102,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<div v-if="store.cate2List.length > 0">
 					        <div class="category-scroll-box px-3 py-2 border rounded" style="max-height: 200px; overflow-y: auto; width: 200px; max-width: 500px;">
 					            <label class="d-flex align-items-center mb-2" v-for="cate2 in store.cate2List" :key="cate2" style="cursor: pointer;">
-					                <input type="radio" v-model="store.category2" ref="categoryRef_2" :value="cate2.second_id" @change="store.loadCategoryThird(cate2.second_id)" class="form-check-input me-2" >
+					                <input type="radio" v-model="store.category2"  :value="cate2.second_id" @change="store.loadCategoryThird(cate2.second_id)" class="form-check-input me-2" >
 					                <span class="fs-3 fw-normal">{{cate2.second_title}}</span>
 					            </label>
 					    	</div>
@@ -111,7 +111,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				    	<div v-if="store.cate3List.length > 0">
 					        <div class="category-scroll-box px-3 py-2 border rounded" style="max-height: 200px; overflow-y: auto; width: 200px; max-width: 500px;">
 					            <label class="d-flex align-items-center mb-2" v-for="cate3 in store.cate3List" :key="cate3" style="cursor: pointer;">
-					                <input type="radio" v-model="store.category3" ref="categoryRef_3" :value="cate3.third_id" class="form-check-input me-2" >
+					                <input type="radio" v-model="store.category3" :value="cate3.third_id" class="form-check-input me-2" >
 					                <span class="fs-3 fw-normal">{{cate3.third_title}}</span>
 					            </label>
 					    	</div>
@@ -124,7 +124,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<div class="mar-top-50 d-flex align-items-center">
 					<div class="mar-top-50 d-flex align-items-stretch">
 					    <span class="fs-2 fw-normal" style="min-width: 200px;">대여 물품 상태</span>
-					    <div class="align-items-center" ref="conditionRef">
+					    <div class="align-items-center">
 					        <label class="d-flex align-items-center" style="cursor: pointer;">
 					            <input type="radio" v-model="store.condition" name="condition" value="NEW" class="form-check-input me-2" checked >
 					            <span class="fs-2 fw-normal">미사용 물품</span>
@@ -153,7 +153,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<hr class="hr-st" style="width: 100%; margin-top: 50px;">
 				<div class="mar-top-50 d-flex  gap-100">
 					<span class="fs-2 fw-normal" style="min-width:100px;">대여 물품 설명</span>
-					<textarea class="form-control fs-2" v-model="store.description" ref="descriptionRef" rows="10" cols="100" maxlength="4000" style="resize: none;" placeholder="대여 물품에 대한 설명을 최대한 자세히 적어주세요" ></textarea>
+					<textarea class="form-control fs-2" v-model="store.description" rows="10" cols="100" maxlength="4000" style="resize: none;" placeholder="대여 물품에 대한 설명을 최대한 자세히 적어주세요" ></textarea>
 				</div>
 			</div>
 			<div>
@@ -171,7 +171,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<div class="mar-top-50 d-flex align-items-center gap-100">
 					<span class="fs-2 fw-normal" style="min-width:100px;">대여 가격</span>
 					<div class="d-flex align-items-center gap-2">	
-						<input class="form-control fs-2 text-right" v-model="store.price" ref="priceRef" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" >
+						<input class="form-control fs-2 text-right" v-model="store.price" type="number" min="1" style="width: 200px; height: 40px;" placeholder="금액을 작성해주세요" >
 						<span class="fs-2">원</span>
 					</div>
 				</div>
@@ -181,7 +181,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<div class="mar-top-50 d-flex align-items-center gap-100">
 					<span class="fs-2 fw-normal" style="min-width:100px;">대여 물품 수량</span>
 					<div class="d-flex align-items-center gap-2">	
-						<input class="form-control fs-2 text-right" v-model="store.qty" ref="qtyRef" type="number" min="1" value="1" style="width: 200px; height: 40px;" >
+						<input class="form-control fs-2 text-right" v-model="store.qty" type="number" min="1" value="1" style="width: 200px; height: 40px;" >
 						<span class="fs-2">개</span>
 					</div>
 				</div>
@@ -191,7 +191,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<div class="mar-top-50 d-flex align-items-stretch gap-100">
 					<span class="fs-2 fw-normal" style="min-width: 100px">택배 거래</span>
 					<div>
-						<div class="d-flex gap-100" ref="deliveryRef">
+						<div class="d-flex gap-100">
 					        <label class="d-flex align-items-center" style="cursor: pointer;">
 					            <input type="radio" v-model="store.includeDelivery" name="delivery-price" :value="0" class="form-check-input me-2" checked>
 					            <span class="fs-2 fw-normal">택배비 포함</span>
@@ -202,7 +202,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					       </label>
 						</div>
 						<div v-if="store.includeDelivery === 1">
-							<div class="d-flex mar-top-50 gap-100" ref="csvRef"> 
+							<div class="d-flex mar-top-50 gap-100"> 
 								<label class="d-flex align-items-center" style="cursor: pointer;">
 						            <input type="checkbox" v-model="store.isGS" class="form-check-input me-2" style="width: 20px; height: 20px;">
 						            <span class="fs-2 fw-normal">GS반값택배</span>
@@ -231,10 +231,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<div class="mar-top-50 d-flex align-items-stretch gap-100">
 					<span class="fs-2 fw-normal" style="min-width: 100px">직거래</span>
 					<label class="d-flex align-items-stretch" style="cursor: pointer;">
-			            <input type="checkbox" v-model="store.isDirect" ref="directRef" class="form-check-input me-2" style="width: 17px; height: 17px;">
+			            <input type="checkbox" v-model="store.isDirect" class="form-check-input me-2" style="width: 17px; height: 17px;">
 			            <span class="fs-3 fw-normal">직거래 여부</span>
 			        </label>
-					<div style="margin-bottom:50px" ref="addressRef" v-if="store.isDirect">	
+					<div style="margin-bottom:50px" v-if="store.isDirect">	
 						<div class="d-flex align-items-center">
 							<input class="form-control fs-2" type="text" v-model="store.address1" style="width: 250px; height: 40px; margin-top: 10px;" readonly >
 							<input type="button" class="btn btn-dark btn-sm btn-st" value="주소 찾기" @click="store.postFind()">
@@ -256,40 +256,14 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaomap_key }&libraries=services"></script>
 	<script src="/vue/rental/rentalInsertStore.js"></script>
 	<script>
-		const {onMounted, ref, createApp} = Vue
+		const {onMounted, createApp} = Vue
 		const {createPinia} = Pinia
 		const rentalInsertApp=createApp({
 			setup(){
 				const store=useInsertStore()
-				const nameRef=ref(null)
-				const imagesRef=ref(null)
-				const categoryRef_1=ref(null)
-				const categoryRef_2=ref(null)
-				const categoryRef_3=ref(null)
-				const conditionRef=ref(null)
-				const descriptionRef=ref(null)
-				const priceRef=ref(null)
-				const qtyRef=ref(null)
-				const deliveryRef=ref(null)
-				const csvRef=ref(null)
-				const directRef=ref(null)
-				const addressRef=ref(null)
 				
 				return {
-			        store,
-			        imagesRef, 
-			        nameRef, 
-			        categoryRef_1, 
-			        categoryRef_2, 
-			        categoryRef_3,
-			        conditionRef, 
-			        descriptionRef, 
-			        priceRef, 
-			        qtyRef,
-			        deliveryRef,
-			        csvRef, 
-			        directRef, 
-			        addressRef
+			        store
 			    }
 			},
 			mounted() {

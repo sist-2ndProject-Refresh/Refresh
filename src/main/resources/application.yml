@@ -2,7 +2,7 @@
 #MVC => SpringFramework와 동일
 server:
   port: 9090
-map-key: 8ba7c1bf5703be19d075b1df1555ef2f
+map-key: 6ae49e824de560c4d4a79bf5be38eee9
 spring:
  mvc:
   view:

@@ -121,7 +121,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<span class="fs-1 fw-normal" style="min-width: 100px">주문상품</span>
 				<div style="margin-top: 20px;">
 					<div class="d-flex align-items-center" style="border: 2px solid rgba(0, 0, 0, 0.3); border-radius: 20px; margin-left: 100px; width: 500px; ">
-						<img :src="store.imgurl" style="width: 90px; height: 90px; border-radius: 20px" onerror="this.src='/images/test/noimg.jpg'">
+						<img :src="store.changeImageUrl(store.imgurl)" style="width: 90px; height: 90px; border-radius: 20px" onerror="this.src='/images/test/noimg.jpg'">
 						<div style="margin-left: 50px">
 							<div class="fs-3 fw-bold">{{store.price}} 원</div>
 							<div style="color: #999;">{{store.name}}</div>

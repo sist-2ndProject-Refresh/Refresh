@@ -60,7 +60,7 @@ const useInsertStore = defineStore('trade_insert', {
             categoryFull = this.category3 == 0 ? this.category2 : this.category3
 
             this.imageurl = await this.uploadImages()
-			console.log(this.lat)
+            console.log(this.lat)
             const uploadData = {
                 name: this.name,
                 description: this.description,
