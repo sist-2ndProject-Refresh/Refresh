@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>지역 커뮤니티 목록</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 .category-container {
 	display: flex;
@@ -64,6 +65,20 @@
 .board-title {
 	font-size: 1.35rem;
 	letter-spacing: -0.02em;
+}
+
+.like-count {
+	color: #2e77d0;
+	font-size: 1.1rem;
+	margin-left: 10px;
+	font-weight: 700;
+}
+
+.reply-count {
+	color: #4a90e2;
+	font-size: 1.1rem;
+	margin-left: 8px;
+	font-weight: 700;
 }
 
 .pagination-wrapper {
@@ -156,7 +171,16 @@
 										style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
 										<a :href="'/board/detail?no=' + vo.id"
 										class="text-decoration-none text-dark fw-bold board-title">
-											{{vo.title}} </a>
+											{{vo.title}}
+										</a>
+										
+										<span v-if="vo.like_cnt > 0" class="like-count">
+											<i class="fa-solid fa-thumbs-up"></i> {{vo.like_cnt}}
+										</span>
+
+										<span v-if="vo.reply_cnt > 0" class="reply-count">
+											<i class="fa-regular fa-comment-dots"></i> {{vo.reply_cnt}}
+										</span>
 									</td>
 									<td class="text-center">{{vo.mem_id}}</td>
 									<td class="text-center text-muted">{{ vo.time ?
@@ -190,14 +214,10 @@
 		</section>
 	</div>
 
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/vue-demi/0.14.5/index.iife.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/pinia/2.1.3/pinia.iife.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-demi/0.14.5/index.iife.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pinia/2.1.3/pinia.iife.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
 	<script src="/boardjs/boardListStore.js"></script>
 	<script>
         (function() {

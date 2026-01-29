@@ -6,7 +6,6 @@
 <meta charset="UTF-8">
 <title>지역 커뮤니티 상세</title>
 <style>
-/* 1. 레이아웃 및 기본 폰트 */
 :root {
 	--point-color: #ff2d55;
 	--text-dark: #111;
@@ -21,7 +20,6 @@ body {
 	display: none;
 }
 
-/* 2. 게시글 상단 스타일 */
 .article-title {
 	font-size: 3.5rem;
 	font-weight: 800;
@@ -61,7 +59,6 @@ body {
 	font-weight: 700;
 }
 
-/* 3. 본문 내용 */
 .article-content {
 	font-size: 1.8rem;
 	line-height: 2.0;
@@ -70,7 +67,6 @@ body {
 	min-height: 400px;
 }
 
-/* 4. 좋아요 & 댓글 헤더 스타일 */
 .interaction-header {
 	display: flex;
 	align-items: center;
@@ -102,7 +98,6 @@ body {
 	line-height: 1;
 }
 
-/* 5. 좋아요 메인 버튼 */
 .btn-like-main {
 	padding: 15px 50px;
 	border-radius: 50px;
@@ -129,7 +124,6 @@ body {
 	color: #fff;
 }
 
-/* 6. 댓글 시스템 스타일 */
 .reply-item {
 	position: relative;
 	transition: background 0.2s;
@@ -182,7 +176,6 @@ body {
 	text-decoration: none;
 }
 
-/* 7. 하단 네비게이션 및 버튼 */
 .prev-next-box {
 	border-top: 1px solid #eee;
 	border-bottom: 1px solid #eee;

@@ -57,6 +57,7 @@ a:hover {
 	font-weight: bold
 }
 </style>
+<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
 <script src="https://unpkg.com/vue-demi"></script>
 <script src="https://unpkg.com/pinia@2.1.7/dist/pinia.iife.prod.js"></script>
@@ -89,7 +90,7 @@ a:hover {
 					<div class="product-card position-relative">
 						<a :href="'/product/detail?no=' + vo.no">
 							<div class="card-img zoom-effect">
-								<img :src="store.changeImageUrl(vo.imageurl)" class="product-image img-fluid product-st">
+								<img :src="store.changeImageUrl(vo.imageurl)" class="product-image img-fluid product-st" onerror="this.src='/images/test/noimg.jpg'">
 							</div>
 							<div class="card-detail mt-3 ">
 								<h3 class="card-title fs-4 fw-normal m-0 text-secondary product_name">{{vo.name}}</h3>

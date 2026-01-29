@@ -16,7 +16,6 @@ public class NoticeRestController {
 	
 	private final NoticeService nService;
 
-	// ===== 공지사항 목록 =====
 	@GetMapping("/list_vue")
 	public ResponseEntity<Map<String, Object>> noticeList(
 			@RequestParam(value = "page", defaultValue = "1") int page,
@@ -32,7 +31,6 @@ public class NoticeRestController {
 		}
 	}
 
-	// ===== 공지사항 상세 =====
 	@GetMapping("/detail_vue")
 	public ResponseEntity<Map<String, Object>> noticeDetail(@RequestParam("no") int no) {
 		try {
@@ -46,7 +44,6 @@ public class NoticeRestController {
 		}
 	}
 
-	// ===== 공지사항 작성 =====
 	@PostMapping("/insert_vue")
 	public ResponseEntity<Map<String, String>> noticeInsert(
 			@RequestBody NoticeVO vo, 
@@ -67,7 +64,6 @@ public class NoticeRestController {
 		}
 	}
 
-	// ===== 공지사항 수정 =====
 	@PutMapping("/update_ok_vue")
 	public ResponseEntity<Map<String, String>> noticeUpdate(@RequestBody NoticeVO vo) {
 		try {
@@ -79,7 +75,6 @@ public class NoticeRestController {
 		}
 	}
 
-	// ===== 공지사항 삭제 =====
 	@DeleteMapping("/delete_vue/{not_id}")
 	public ResponseEntity<Map<String, String>> noticeDelete(@PathVariable("not_id") int not_id) {
 		try {
