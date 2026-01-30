@@ -23,7 +23,7 @@ const useBoardDeleteStore = Pinia.defineStore("boardDeleteStore", {
 
       this.isDeleting = true;
       try {
-        const response = await axios.delete('http://localhost:8080/board/delete_vue/' + no);
+        const response = await axios.delete('/board/delete_vue/' + no);
         this.deleteResult = response.data.msg;
 
         if (this.deleteResult === "yes") {
