@@ -17,7 +17,7 @@
 	margin:0px auto;
 	margin-top:80px;
 	width:600px;
-	height:520px;
+	height:600px;
 	background-color: white;
 	border-radius: 12px;
 	box-shadow: 4px 4px 4px 4px #555555;
