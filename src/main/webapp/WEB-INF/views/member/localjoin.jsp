@@ -68,7 +68,7 @@ input::placeholder {
 					<img src="/images/main-logo.png">
 				</a>
 			</div>
-			<div class="row text-center" style="margin-top:20px;">
+			<div class="row text-center" style="margin-top:60px;">
 				<h3><strong>회원 가입</strong></h3>
 			</div>
 			<div>
@@ -176,7 +176,7 @@ input::placeholder {
 					<img src="/images/main-logo.png">
 				</a>
 			</div>
-			<div class="row text-center" style="margin-top:20px;">
+			<div class="row text-center" style="margin-top:60px;">
 				<h3><strong>내 상점 등록</strong></h3>
 			</div>
 			<div class="row text-center" style="margin-top:20px;">

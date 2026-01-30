@@ -29,7 +29,9 @@ const useUpdateStore = defineStore('trade_update', {
             cu: false,			// CU 편택 여부
             normalPrice: 0,		// 일반 택배 배송비
             cvsPrice: 0,		// 편의점 택배 배송비
-            trades: ''
+            trades: '',
+            lat: null,
+            lon: null
         }
     }),
     actions: {
@@ -93,17 +95,16 @@ const useUpdateStore = defineStore('trade_update', {
                 imagecount: this.detailData.imagecount,
                 imageurl: this.detailData.imageurl,
                 category: categoryFull,
-				isGS: this.detailData.gs,
-				isCU: this.detailData.cu,
-				isDirect: this.detailData.direct,
-                lat: 0/*this.lat*/,
-                lon: 0/*this.lon*/,
+                isGS: this.detailData.gs,
+                isCU: this.detailData.cu,
+                isDirect: this.detailData.direct,
                 address: this.detailData.direct ? (this.detailData.address1 + " " + this.detailData.address2) : '',
-
-                // 주소 값 이랑 trades를 어떻게 설정할 지 고민하기 
+                lat: this.detailData.lat,
+                lon: this.detailData.lon,
 
                 trades: "배송비||" + normalDelivery + cvsDeliveryType + directText + addressText
             }
+            console.log(uploadData)
             const res = await api.put('/product/update_vue/', uploadData)
             if (res.data.msg === "OK") {
                 alert("수정이 완료되었습니다.")
@@ -174,9 +175,20 @@ const useUpdateStore = defineStore('trade_update', {
         },
         postFind() {
             let _this = this
+
+            var geocoder = new kakao.maps.services.Geocoder()
+
             new daum.Postcode({
                 oncomplete: function(data) {
                     _this.detailData.address1 = data.address
+                    console.log(_this.detailData.address1)
+                    geocoder.addressSearch(data.address, function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            _this.detailData.lat = result[0].y; // 위도 저장
+                            _this.detailData.lon = result[0].x; // 경도 저장
+                            console.log("좌표 추출 성공:", _this.detailData.lat, _this.detailData.lon);
+                        }
+                    });
                 }
             }).open()
         },
@@ -198,13 +210,16 @@ const useUpdateStore = defineStore('trade_update', {
             if (!this.detailData.imageList || this.detailData.imageList.length === 0)
                 return this.detailData.imageurl
 
+            if (!(this.detailData.imageList[0] instanceof File))
+                return this.detailData.imageurl
+
             const formData = new FormData()
 
             for (let i of this.detailData.imageList) {
                 formData.append('files', i);
             }
-			const fileName = this.detailData.imageList[0].name
-			const ext = fileName.slice(fileName.lastIndexOf("."))
+            const fileName = this.detailData.imageList[0].name
+            const ext = fileName.slice(fileName.lastIndexOf("."))
             const res = await axios.post('/product/image_vue/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'

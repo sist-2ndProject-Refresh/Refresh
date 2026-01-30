@@ -27,6 +27,14 @@
 					</tr>
 				</tbody>
 			</table>
+			<div class="text-center">
+				<ul class="pagination review-pagination">
+					<li v-if="curpage>1"><a href=""
+						@click.prevent="movePage(curpage-1)">&lt;</a></li>
+					<li v-if="curpage<totalpage"><a href="#"
+						@click.prevent="movePage(curpage+1)">&gt;</a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -73,6 +81,10 @@
 				}).then(response=>{
 					this.blockList()
 				})
+			},
+			movePage(page) {
+				this.curpage=page
+				this.blockList()
 			}
 		}
 	})

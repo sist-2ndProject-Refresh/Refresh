@@ -116,15 +116,17 @@ const useInsertStore = defineStore('rental_insert', {
         },
         postFind() {
             let _this = this
-
+			console.log("주소 찾기")
             var geocoder = new kakao.maps.services.Geocoder()
-
+		
             new daum.Postcode({
                 oncomplete: function(data) {
                     _this.address1 = data.address
-
+					console.log(_this.address1)
                     geocoder.addressSearch(data.address, function(result, status) {
+							console.log("검색 상태(status):", status);
                         if (status === kakao.maps.services.Status.OK) {
+							console.log("if 안")
                             _this.lat = result[0].y; // 위도 저장
                             _this.lon = result[0].x; // 경도 저장
                             console.log("좌표 추출 성공:", _this.lat, _this.lon);

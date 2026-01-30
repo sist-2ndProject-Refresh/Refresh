@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.ChatRoomVO;
@@ -30,7 +31,7 @@ public interface ChatRoomMapper {
 			+ "OR (seller_id=#{buyerId} AND buyer_id=#{sellerId}))")
 	public ChatRoomVO chatroomFindByIds(@Param("productId") int productId, @Param("buyerId") int buyerId, @Param("sellerId") int sellerId);
 	
-	@Insert("INSERT INTO chat_room VALUES(cr_no_seq.nextval,#{productId},#{sellerId},#{buyerId},SYSDATE,SYSDATE)")
+	@Insert("INSERT INTO chat_room VALUES(cr_no_seq.nextval,#{productId},#{sellerId},#{buyerId},SYSDATE,SYSDATE,#{buyerLeave},#{sellerLeave})")
 	public void chatroomCreate(ChatRoomVO vo);
 	
 	@Select("SELECT no FROM user_table WHERE username=#{username}")
@@ -42,7 +43,8 @@ public interface ChatRoomMapper {
 		private String content,dbday;
 		private Date chat_time;
 	 */
-	@Insert("INSERT INTO chat(chat_id,chatroom_id,sender,content,chat_time,type) VALUES(cr_no_seq.nextval,#{chatroom_id},#{sender},#{content},SYSDATE,#{type})")
+	@Insert("INSERT INTO chat(chat_id,chatroom_id,sender,content,chat_time,type) "
+			+ "VALUES(cr_no_seq.nextval,#{chatroom_id},#{sender},#{content},SYSDATE,#{type})")
 	public void chatMessageInsert(ChatVO vo);
 	
 	@Select("SELECT chat_id,chatroom_id,sender,content,type,TO_CHAR(chat_time,'HH24:MI') as dbday "
@@ -73,6 +75,21 @@ public interface ChatRoomMapper {
 	 */
 	public List<ChatVO> chatListData(@Param("loginId") int loginId);
 	
-	@Delete("DELETE FROM chat_room WHERE buyer_id=#{buyerId} AND chatroom_id=#{chatroomId}")
-	public void deleteChatRoom(@Param("buyerId") int buyerId, @Param("chatroomId") int chatroomId);
+	@Select("SELECT storename FROM store WHERE no=#{no}")
+	public String findStornameByNo(int no);
+	
+	// 한 쪽씩 채팅방 나가기
+	@Update("UPDATE chat_room SET buyer_leave=1 WHERE chatroom_id=#{chatroomId}")
+	public void chatBuyerLeave(int chatroomId);
+	@Update("UPDATE chat_room SET seller_leave=1 WHERE chatroom_id=#{chatroomId}")
+	public void chatSellerLeave(int chatroomId);
+	
+	@Delete("DELETE FROM chat_room WHERE chatroom_id=#{chatroomId} AND buyer_leave=1 AND seller_leave=1")
+	public void deleteChatRoom(int chatroomId);
+	
+	// 양쪽 다 나갔는지 확인
+	@Select("SELECT chatroom_id,product_id,seller_id,buyer_id AS buyerId,buyer_leave,seller_leave FROM chat_room WHERE chatroom_id=#{chatroomId}")
+	public ChatRoomVO findChatRoomBychatroomId(int chatroomId);
+	
+	
 }

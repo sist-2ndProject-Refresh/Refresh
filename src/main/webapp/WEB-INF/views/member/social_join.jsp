@@ -17,7 +17,7 @@
 	margin:0px auto;
 	margin-top:80px;
 	width:600px;
-	height:520px;
+	height:600px;
 	background-color: white;
 	border-radius: 12px;
 	box-shadow: 4px 4px 4px 4px #555555;
@@ -72,7 +72,7 @@ const PROVIDER = '${param.provider}'
 					<img src="/images/main-logo.png">
 				</a>
 			</div>
-			<div class="row text-center" style="margin-top:20px;">
+			<div class="row text-center" style="margin-top:60px;">
 				<h3><strong>회원 가입</strong></h3>
 			</div>
 			<div>
@@ -180,7 +180,7 @@ const PROVIDER = '${param.provider}'
 					<img src="/images/main-logo.png">
 				</a>
 			</div>
-			<div class="row text-center" style="margin-top:20px;">
+			<div class="row text-center" style="margin-top:60px;">
 				<h3><strong>내 상점 등록</strong></h3>
 			</div>
 			<div class="row text-center" style="margin-top:20px;">

@@ -120,6 +120,7 @@ public class TradeController {
 	@GetMapping("/product/update")
 	public String product_update(Model model)
 	{
+		model.addAttribute("kakaomap_key", kakaoMapKey);
 		model.addAttribute("main_jsp", "../products/product_update.jsp");
 		return "main/main";
 	}

@@ -30,7 +30,7 @@ const useUpdateStore = defineStore('trade_update', {
             normalPrice: 0,		// 일반 택배 배송비
             cvsPrice: 0,		// 편의점 택배 배송비
             trades: '',
-			days: 0				// 대여 물품 기간
+            days: 0				// 대여 물품 기간
         }
     }),
     actions: {
@@ -54,7 +54,7 @@ const useUpdateStore = defineStore('trade_update', {
             this.detailData.normalPrice = res.data.nomalDeliverPrice
             this.detailData.cvsPrice = res.data.cvsDeliverPrice
             this.detailData.category = res.data.category
-			this.detailData.days = res.data.days
+            this.detailData.days = res.data.days
             console.log(res.data)
             console.log(this.detailData)
             await this.findCategory()
@@ -85,7 +85,7 @@ const useUpdateStore = defineStore('trade_update', {
             categoryFull = this.detailData.category3 == 0 ? this.detailData.category2 : this.detailData.category3
 
             this.detailData.imageurl = await this.uploadImages()
-			
+
             const uploadData = {
                 no: this.detailData.no,
                 name: this.detailData.name,
@@ -97,14 +97,14 @@ const useUpdateStore = defineStore('trade_update', {
                 imagecount: this.detailData.imagecount,
                 imageurl: this.detailData.imageurl,
                 category: categoryFull,
-				isGS: this.detailData.gs,
-				isCU: this.detailData.cu,
-				isDirect: this.detailData.direct,
+                isGS: this.detailData.gs,
+                isCU: this.detailData.cu,
+                isDirect: this.detailData.direct,
                 lat: 0/*this.lat*/,
                 lon: 0/*this.lon*/,
                 address: this.detailData.direct ? (this.detailData.address1 + " " + this.detailData.address2) : '',
                 trades: "배송비||" + normalDelivery + cvsDeliveryType + directText + addressText,
-				days: this.detailData.days
+                days: this.detailData.days
             }
             console.log(uploadData)
             const res = await api.put('/rental/update_vue/', uploadData)
@@ -178,9 +178,20 @@ const useUpdateStore = defineStore('trade_update', {
         },
         postFind() {
             let _this = this
+
+            var geocoder = new kakao.maps.services.Geocoder()
+
             new daum.Postcode({
                 oncomplete: function(data) {
                     _this.detailData.address1 = data.address
+                    console.log(_this.detailData.address1)
+                    geocoder.addressSearch(data.address, function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            _this.detailData.lat = result[0].y; // 위도 저장
+                            _this.detailData.lon = result[0].x; // 경도 저장
+                            console.log("좌표 추출 성공:", _this.detailData.lat, _this.detailData.lon);
+                        }
+                    });
                 }
             }).open()
         },
@@ -202,13 +213,16 @@ const useUpdateStore = defineStore('trade_update', {
             if (!this.detailData.imageList || this.detailData.imageList.length === 0)
                 return this.detailData.imageurl
 
+            if (!(this.detailData.imageList[0] instanceof File))
+                return this.detailData.imageurl
+
             const formData = new FormData()
 
             for (let i of this.detailData.imageList) {
                 formData.append('files', i);
             }
-			const fileName = this.detailData.imageList[0].name
-			const ext = fileName.slice(fileName.lastIndexOf("."))
+            const fileName = this.detailData.imageList[0].name
+            const ext = fileName.slice(fileName.lastIndexOf("."))
             const res = await axios.post('/rental/image_vue/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -246,10 +260,10 @@ const useUpdateStore = defineStore('trade_update', {
                 alert("주소를 입력해주세요")
                 return false
             }
-			if(this.detailData.days <= 0){
-				alert("기간을 설정해주세요")
-				return false
-			}
+            if (this.detailData.days <= 0) {
+                alert("기간을 설정해주세요")
+                return false
+            }
             return true
         }
     }

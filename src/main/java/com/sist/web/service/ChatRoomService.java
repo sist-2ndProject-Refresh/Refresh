@@ -3,8 +3,10 @@ package com.sist.web.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.sist.web.vo.ChatRoomVO;
 import com.sist.web.vo.ChatVO;
@@ -20,5 +22,8 @@ public interface ChatRoomService {
 	public List<ChatVO> chatMessageData(int chatroom_id);
 	public List<ChatVO> chatListData(int loginId);
 	public String findStorenameByBuyerId(int buyerId);
-	public void deleteChatRoom(int buyerId, int chatroomId);
+	public String findStornameByNo(int no);
+	// 유저 양쪽 leave 값이 1로 증가 하고 삭제하는 트랜잭션
+	public void userLeaveFinish(int chatroomId, int userId);
+	public ChatRoomVO findChatRoomBychatroomId(int chatroomId);
 }

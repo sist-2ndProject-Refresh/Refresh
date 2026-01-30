@@ -21,6 +21,9 @@ public class ChatMessageController {
 		
 		cService.chatMessageInsert(vo);
 		
+		String senderName=cService.findStorenameByBuyerId(vo.getSender());
+		vo.setSenderName(senderName);
+
 		template.convertAndSend("/topic/chatroom/"+roomId,vo);
 	}
 }

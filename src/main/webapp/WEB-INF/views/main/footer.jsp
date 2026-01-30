@@ -15,6 +15,10 @@
       <div class="row">
         <div class="col-md-6">
           <p>중고물품 판매 & 대여 & 경매 , 지역 커뮤니티 웹사이트 프로젝트 새로고침</p>
+          
+        </div>
+        <div class="col-md-6">
+          <p>※ 본 프로젝트는  SpringBoot 학습용 비상업적 프로젝트입니다.</p>
         </div>
         
       </div>

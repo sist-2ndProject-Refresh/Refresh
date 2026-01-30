@@ -66,7 +66,7 @@ const useBoardInsertStore = Pinia.defineStore('board_insert', {
 			}
 
 			try {
-				const { data } = await axios.post('http://localhost:8080/board/insert_vue', {
+				const { data } = await axios.post('/board/insert_vue', {
 					mem_id: this.mem_id,
 					title: this.title,
 					content: this.content,

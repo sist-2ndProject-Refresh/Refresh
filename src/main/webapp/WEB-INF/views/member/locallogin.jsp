@@ -75,7 +75,7 @@ input::placeholder {
 					</div>			
 				</div>
 				<div class="row" style="margin-top:20px;padding-left: 108px;">
-					<button class="login-input" style="background-color: #689CFD;font-weight: bold;display: flex;align-items: center;justify-content: center;">로그인
+					<button class="login-input" style="background-color: #ed7f1d;font-weight: bold;display: flex;align-items: center;justify-content: center;color:white">로그인
 					&nbsp;
 					<svg class="login" width="24" height="24">
 		                <use xlink:href="#login"></use>

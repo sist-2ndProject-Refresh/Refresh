@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sist.web.service.ChatRoomService;
 import com.sist.web.service.NotificationService;
@@ -82,7 +83,6 @@ public class ChatController {
 		nvo.setReceiver_id(sellerId);
 		nvo.setSender_id(buyerId);
 		nvo.setContent("[대화요청]"+buyerName+" 이(가) 대화신청을 보냈습니다.");
-		System.out.println("채팅방 생성 - 구매자 이름: "+buyerName);
 		
 		nService.insertNotify(nvo);
 		template.convertAndSend("/topic/notify/"+sellerId, nvo.getContent());
@@ -91,17 +91,17 @@ public class ChatController {
 	}
 	
 	@PostMapping("/chat/room_delete")
-	public String chat_room_delete(@RequestParam("buyerId") int buyerId, @RequestParam("chatroomId") int chatroomId)
+	public String chat_room_delete(@RequestParam("userId") int userId, @RequestParam("chatroomId") int chatroomId)
 	{
-		// cService.deleteChatRoom(buyerId, chatroomId);
-		
 		ChatVO vo=new ChatVO();
-		vo.setSender(buyerId);
+		vo.setSender(userId);
 		vo.setChatroom_id(chatroomId);
 		vo.setType("SYSTEM");
 		vo.setContent("채팅이 종료되었습니다.");
-
+		
 		cService.chatMessageInsert(vo);
+		
+		cService.userLeaveFinish(chatroomId, userId);
 		
 		template.convertAndSend("/topic/chatroom/"+chatroomId, vo);
 		

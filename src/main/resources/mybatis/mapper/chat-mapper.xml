@@ -12,6 +12,9 @@
 			<id property="chatroom_id" column="chatroom_id"/>
 			<result property="buyerId" column="buyer_id"/>
 			<result property="sellerId" column="seller_id"/>
+			<result property="sellerLeave" column="seller_leave"/>
+			<result property="buyerLeave" column="buyer_leave"/>
+			<result property="created_date" column="created_date"/>
 		</association>
 		
 		<association property="svo" javaType="com.sist.web.vo.StoreVO">
@@ -23,7 +26,7 @@
 	
 	<select id="chatListData" resultMap="chatMap" parameterType="int">
 		SELECT c.chat_id,c.chatroom_id,c.content,c.type,TO_CHAR(c.chat_time,'HH24:MI') as dbday,
-		       cr.buyer_id,cr.seller_id,s.no,s.storename,s.image
+		       cr.buyer_id,cr.seller_id,cr.created_date,s.no,s.storename,s.image
 		FROM chat_room cr JOIN chat c 
 		ON c.chat_id=(SELECT MAX(c2.chat_id) FROM chat c2 WHERE c2.chatroom_id=cr.chatroom_id)
 		
@@ -34,7 +37,8 @@
 			ELSE cr.seller_id
 		END
 		
-		WHERE cr.seller_id=#{loginId} OR cr.buyer_id=#{loginId}
+		WHERE (cr.seller_id=#{loginId} AND cr.seller_leave=0)
+		OR (cr.buyer_id=#{loginId} AND cr.buyer_leave=0)
 		ORDER BY c.chat_time DESC  
 	</select>
 	

@@ -208,9 +208,9 @@ table td {
     vertical-align: middle !important;
 }
 .btn {
-    background-color: #90ee90 !important; 
+    background-color: #ed7f1d !important; 
     border-color: white !important;     
-    color: black !important;              
+    color: white !important;              
 }
 .pagination a,
 .list-pagination a,
@@ -221,8 +221,8 @@ table td {
 }
 .list-pagination a.active,
 .review-pagination a.active {
-    background-color: #90ee90 !important;
-    color: black !important;             
+    background-color: #ed7f1d !important;
+    color: white !important;             
 }
 </style>
 </head>
@@ -306,7 +306,7 @@ table td {
 								<button class="btn btn-xs btn-dark" style="margin-left:10px;" @click="pointPayment">포인트 충전</button>
 							</div>
 							<div style="display: flex;margin-bottom: 10px;">
-								<span>보유 포인트 :</span>&nbsp;<b>{{point}}</b>&nbsp;<span >Point</span>
+								<span>보유 포인트 :</span>&nbsp;<b>{{point.toLocaleString()}}</b>&nbsp;<span >Point</span>
 								<button class="btn btn-xs btn-dark" style="margin-left: 45px;"
 								data-toggle="modal" data-target="#outMoneyModal">포인트 출금</button>
 								<jsp:include page="../mypage/outMoneyModal.jsp"></jsp:include>
