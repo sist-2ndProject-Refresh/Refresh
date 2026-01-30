@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sist.web.mapper.ChatRoomMapper;
+import com.sist.web.restcontroller.ReviewRestController;
 import com.sist.web.vo.ChatRoomVO;
 import com.sist.web.vo.ChatVO;
 import com.sist.web.vo.StoreVO;
@@ -59,7 +60,17 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 	@Override
 	public ChatRoomVO findTradeByChatroomid(int chatroomId) {
 		// TODO Auto-generated method stub
-		return cMapper.findTradeByChatroomid(chatroomId);
+		ChatRoomVO vo=cMapper.findTradeByChatroomid(chatroomId);
+		
+		if(vo!=null && vo.getTvo()!=null)
+		{
+			String imageurl = vo.getTvo().getImageurl();
+			
+			imageurl = imageurl.replace("{cnt}", "1");
+			vo.getTvo().setImageurl("/userimages/product/"+imageurl);
+		}
+			
+		return vo;
 	}
 
 	@Override

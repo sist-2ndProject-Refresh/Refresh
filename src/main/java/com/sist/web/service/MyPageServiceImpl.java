@@ -155,7 +155,14 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public List<TradeVO> mypageTradeEndList(int no, int start) {
 		// TODO Auto-generated method stub
-		return mMapper.mypageTradeEndList(no, start);
+		List<TradeVO> list=mMapper.mypageTradeEndList(no, start);
+		for(TradeVO vo : list)
+		{
+			String imageurl = vo.getImageurl();
+			imageurl = imageurl.replace("{cnt}", "1");
+			vo.setImageurl("/userimages/product/"+imageurl);
+		}
+		return list;
 	}
 
 	@Override

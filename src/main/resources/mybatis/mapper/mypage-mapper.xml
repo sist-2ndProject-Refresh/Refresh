@@ -28,7 +28,7 @@
 		
 	<select id="mypageBuyList" resultMap="tradeMap" parameterType="int">
 		SELECT tg.imageurl,tg.price,t.seller_name,t.name 
-		FROM transaction t JOIN trade_goods tg ON t.name=tg.name 
+		FROM transaction t JOIN trade_goods tg ON t.seller_id=tg.user_no
 		WHERE buyer_id=#{no} 
 		ORDER BY tg.price DESC
 		OFFSET #{start} ROWS FETCH NEXT 3 ROWS ONLY
