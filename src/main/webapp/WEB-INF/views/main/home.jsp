@@ -40,7 +40,7 @@ a:hover {
     <div class="container-lg"  style="margin-top:80px;">
     	
       <div class="swiper main-swiper">
-     	 <h2 style="margin-left:140px;margin-top:20px;font-size:25px;color:red;">공지 사항</h2>
+     	 <h2 style="margin-left:140px;margin-top:20px;font-size:25px;">공지 사항</h2>
         <div class="swiper-wrapper">
         	
         <c:forEach var="nvo" items="${nList }">
