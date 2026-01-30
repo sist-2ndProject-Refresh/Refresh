@@ -20,9 +20,9 @@ const useBoardUpdateStore = Pinia.defineStore("boardUpdateStore", {
 
 				const boardVo = data.vo || data;
 
-				if (this.sessionId && boardVo.mem_id?.trim() !== this.sessionId.trim()) {
+				if (this.sessionId && (boardVo.mem_id || "").trim() !== this.sessionId.trim()) {
 					alert("본인이 작성한 글만 수정할 수 있습니다.");
-					location.href = "/board/list";
+					window.location.href = "/board/list"; 
 					return;
 				}
 
@@ -34,7 +34,6 @@ const useBoardUpdateStore = Pinia.defineStore("boardUpdateStore", {
 		},
 
 		async updateBoardData() {
-
 			if (!this.vo.title?.trim()) {
 				alert("제목을 입력해 주세요.");
 				return;
@@ -49,7 +48,7 @@ const useBoardUpdateStore = Pinia.defineStore("boardUpdateStore", {
 
 				if (data.msg === "yes") {
 					alert("게시글이 성공적으로 수정되었습니다.");
-					location.href = `/board/detail?no=${this.vo.id}`;
+					window.location.href = "/board/detail?no=" + this.vo.id;
 				} else {
 					alert("수정 권한이 없거나 실패했습니다.");
 				}
