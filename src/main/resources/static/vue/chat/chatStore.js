@@ -11,6 +11,9 @@ const useChatStore=defineStore('chat',{
 		loginUser:'',
 		chatBodyEl:null,
 		roomSubscribe:null,
+		isActive:true,
+		senderName:'',
+		createdDate:'',
 		msg:'',
 		type:'',
 		name:'',
@@ -68,12 +71,15 @@ const useChatStore=defineStore('chat',{
 					chatroom_id:this.chatroomId,
 					sender:this.loginUser,
 					content:this.msg,
-					type:'CHAT'
+					type:'CHAT',
+					senderName: this.senderName
 				})
+				
 				
 			)
 			this.msg=''
 			this.scrollToBottom()
+			this.chatRoomList()
 		},
 		async chatTradeData(chatroomId) {
 			const res=await axios.get('/chat/product_data_vue/',{
@@ -101,26 +107,29 @@ const useChatStore=defineStore('chat',{
 			const res=await axios.get('/chat/chat_list/')
 			this.chatroomList=res.data
 		},
-		async selectRoom(room) {
+		async selectRoom(room) {		
 			this.chatroomId=room.cvo.chatroom_id
 			this.messages=[]
 			
 			await this.messageList()
 			await this.chatTradeData(this.chatroomId)
+			
 			this.subscribeRoom()
 		},
 		async chatRoomOut() {
 			await axios.post('/chat/room_delete',new URLSearchParams({
-				chatroomId:this.chatroomId,
-				buyerId:this.loginUser
-			})
-		)
+					chatroomId:this.chatroomId,
+					userId:this.loginUser
+				})
+			)
 			
-			this.roomSubscribe.unsubscribe()
+			if(this.roomSubscribe)
+				this.roomSubscribe.unsubscribe()
 			
 			this.chatroomId=null
-			// this.messages=[]
+			this.messages=[]
 			this.msg=''
+			
 			this.chatRoomList()
 		}
 	}

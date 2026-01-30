@@ -21,7 +21,7 @@
 
 /* ===== 채팅 영역 ===== */
 .chat-panel {
-  height: 80vh;
+  height: 100%;
   width: 500px;
   display: flex;
   flex-direction: column;
@@ -85,6 +85,33 @@
     font-style: italic;
     font-size: 15px;
 }
+/* 채팅 영역 */
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  width: 500px;
+  border: 1px solid #ddd;
+  background: #b2c7da; /* 메시지 영역 배경과 이어지도록 통일 */
+}
+
+/* 헤더: 상단 고정 */
+.panel-heading {
+  
+  top: 0;
+  z-index: 10;
+  background: #b2c7da; /* 메시지 영역 배경과 통일 */
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* 메시지 영역 */
+.chat-body {
+  flex: 1; /* 남은 공간 채움 */
+  overflow-y: auto;
+  padding: 15px;
+  background: #b2c7da; /* 메시지 배경 */
+}
 </style>
 </head>
 <script>
@@ -131,12 +158,6 @@ const loginUser='${sessionScope.no}'
 
       <!-- 헤더 -->
       <div class="panel-heading">
-      	
-      </div>
-
-      <!-- 메시지 -->
-      
-      <div class="chat-body" ref="chatBody">
       	<div class="d-flex mb-4">
       		<button class="btn btn-warning ms-auto" @click="store.chatRoomOut()">나가기</button>
       	</div>
@@ -153,12 +174,18 @@ const loginUser='${sessionScope.no}'
 			  </div>
 			</div>
 		</div>
+      </div>
+
+      <!-- 메시지 -->
+      
+      <div class="chat-body" ref="chatBody">
+      	
 		<div v-for="m in store.messages" :key="m.chat_id"
 		:class="['bubble',m.type==='SYSTEM'?'bubble-system':
 				(m.sender!==Number(store.loginUser)?'left':'right')]">
           <!-- 상대방 -->
-          <div v-if="type==='CHAT'">
-            <b v-if="m.sender!==Number(store.loginUser)">{{m.sender}}</b><br>
+          <div v-if="m.type==='CHAT' && m.sender!==Number(store.loginUser)">
+           <!-- <b>{{m.senderName}}</b><br> -->
 			{{m.content}}
           </div>
 
@@ -174,9 +201,9 @@ const loginUser='${sessionScope.no}'
       <!-- 입력 -->
       <div class="chat-footer">
         <div class="input-group">
-          <input type="text" class="form-control" v-model="store.msg" @keyup.enter="store.send()" placeholder="메시지 입력" :disabled="!store.chatroomId">
+          <input type="text" class="form-control" v-model="store.msg" @keyup.enter="store.send()" placeholder="메시지 입력">
           <span class="input-group-btn">
-            <button class="btn btn-warning" @click="store.send()" :disabled="!store.chatroomId">전송</button>
+            <button class="btn btn-warning" @click="store.send()">전송</button>
           </span>
         </div>
       </div>

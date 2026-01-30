@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 public class ChatRoomVO {
-	private int chatroom_id,productId,sellerId,buyerId;
+	private int chatroom_id,productId,sellerId,buyerId,buyerLeave,sellerLeave;
 	private Date update_date,created_date;
 	private TradeVO tvo=new TradeVO();
 }

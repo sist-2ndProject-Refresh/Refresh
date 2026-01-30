@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sist.web.mapper.ChatRoomMapper;
 import com.sist.web.vo.ChatRoomVO;
@@ -68,8 +69,35 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 	}
 	
 	@Override
-	public void deleteChatRoom(int buyerId, int chatroomId) {
+	public String findStornameByNo(int no) {
 		// TODO Auto-generated method stub
-		cMapper.deleteChatRoom(buyerId, chatroomId);
+		return cMapper.findStornameByNo(no);
+	}
+
+	// 양 쪽 Leave 값이 1로 증가한 후에 delete 되는 것까지 한 번에 처리
+	@Transactional
+	public void userLeaveFinish(int chatroomId, int userId) {
+		// TODO Auto-generated method stub
+		ChatRoomVO cvo=cMapper.findChatRoomBychatroomId(chatroomId);
+		if(cvo==null) {
+			return;
+		}
+		
+		if(userId==cvo.getBuyerId())
+		{
+			cMapper.chatBuyerLeave(chatroomId);
+		}
+		else
+		{
+			cMapper.chatSellerLeave(chatroomId);
+		}
+		
+		cMapper.deleteChatRoom(chatroomId);
+	}
+
+	@Override
+	public ChatRoomVO findChatRoomBychatroomId(int chatroomId) {
+		// TODO Auto-generated method stub
+		return cMapper.findTradeByChatroomid(chatroomId);
 	}
 }

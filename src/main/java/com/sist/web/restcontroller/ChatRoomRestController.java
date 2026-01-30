@@ -32,10 +32,13 @@ public class ChatRoomRestController {
 		try
 		{
 			ChatRoomVO vo=cService.findTradeByChatroomid(chatroomId);
-
-			map.put("imageurl", vo.getTvo().getImageurl());
-			map.put("name", vo.getTvo().getName());
-			map.put("price", vo.getTvo().getPrice());
+			
+			// 채팅방 나가기 후 리스트 클릭하면 발생하는 오류 방지
+			if(vo!=null) {
+				map.put("imageurl", vo.getTvo().getImageurl());
+				map.put("name", vo.getTvo().getName());
+				map.put("price", vo.getTvo().getPrice());
+			}
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();
@@ -45,6 +48,7 @@ public class ChatRoomRestController {
 		
 	}
 	
+	// 채팅 리스트
 	@GetMapping("/chat/message_data/")
 	public ResponseEntity<List<ChatVO>> chat_message_data(@RequestParam("chatroom_id") int chatroom_id)
 	{
@@ -60,6 +64,7 @@ public class ChatRoomRestController {
 		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
 	
+	// 채팅방 리스트
 	@GetMapping("/chat/chat_list/")
 	public ResponseEntity<List<ChatVO>> chat_list(Principal principal)
 	{

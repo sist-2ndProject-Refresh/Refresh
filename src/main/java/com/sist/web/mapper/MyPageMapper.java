@@ -49,13 +49,13 @@ public interface MyPageMapper {
 	// 등록 상품 리스트
 	@Select("SELECT no,name,price,qty,salestatus,imageurl,TO_CHAR(describedat,'YYYY-MM-DD HH24:MI:SS') as dbday,user_no "
 			+ "FROM trade_goods "
-			+ "WHERE salestatus='RESERVED' AND user_no=#{no} "
-			+ "ORDER BY user_no DESC "
+			+ "WHERE salestatus='SELLING' AND user_no=#{no} "
+			+ "ORDER BY dbday DESC "
 			+ "OFFSET #{start} ROWS FETCH NEXT 3 ROWS ONLY")
 	public List<TradeVO> mypageTradeList(@Param("no") int no, @Param("start") int start);
 	
 	@Select("SELECT COUNT(*) FROM trade_goods "
-			+ "WHERE salestatus='RESERVED' AND user_no=#{no}")
+			+ "WHERE salestatus='SELLING' AND user_no=#{no}")
 	public int mypageTradeCount(int no);
 	
 	// 판매 완료 리스트
@@ -74,6 +74,7 @@ public interface MyPageMapper {
 	@Select("SELECT s.no,storename,image "
 			+ "FROM block_list b JOIN store s ON b.blocked_user=s.no "
 			+ "WHERE b.blocking_user=#{no} "
+			+ "ORDER BY b.uno DESC "
 			+ "OFFSET #{start} ROWS FETCH NEXT 8 ROWS ONLY")
 	public List<StoreVO> blockListData(@Param("no") int no,@Param("start") int start); 
 	
