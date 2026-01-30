@@ -84,7 +84,7 @@ public interface MyPageMapper {
 	public int blockCountList(int no); 
 	
 	// 대여 상품 리스트
-	@Select("SELECT r.no,imageurl,price,name,TO_CHAR(describedat,'yyyy-mm-dd hh24:ss:mi') as dbday,days "
+	@Select("SELECT r.no,r.imageurl,r.price,r.name,TO_CHAR(r.describedat,'yyyy-mm-dd hh24:ss:mi') as dbday,r.days "
 			+ "FROM rental r JOIN store s ON r.user_no=s.no "
 			+ "WHERE r.user_no=${no} "
 			+ "ORDER BY days DESC "

@@ -1,5 +1,6 @@
 package com.sist.web.service;
 
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -122,7 +123,15 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public List<TradeVO> mypageTradeList(int no, int start) {
 		// TODO Auto-generated method stub
-		return mMapper.mypageTradeList(no,start);
+		List<TradeVO> list=mMapper.mypageTradeList(no, start);
+		for(TradeVO vo : list)
+		{
+			String imageurl = vo.getImageurl();
+			imageurl = imageurl.replace("{cnt}", "1");
+			vo.setImageurl("/userimages/product/"+imageurl);
+		}
+		return list;
+		
 	}
 
 	@Override
@@ -164,7 +173,15 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public List<RentalVO> mypageRentalList(int no, int start) {
 		// TODO Auto-generated method stub
-		return mMapper.mypageRentalList(no, start);
+		List<RentalVO> list=mMapper.mypageRentalList(no, start);
+		for(RentalVO vo : list)
+		{
+			String imageurl = vo.getImageurl();
+			imageurl = imageurl.replace("{cnt}", "1");
+			vo.setImageurl("/userimages/rental/"+imageurl);
+			System.out.println("/userimages/rental/"+imageurl);
+		}
+		return list;
 	}
 
 	@Override

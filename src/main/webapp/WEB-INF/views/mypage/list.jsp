@@ -702,6 +702,7 @@ table td {
 					}
 					else {
 						this.list=response.data.list
+						console.log(response.data.list)
 					}
 					this.startPage=response.data.startPage
 					this.endPage=response.data.endPage

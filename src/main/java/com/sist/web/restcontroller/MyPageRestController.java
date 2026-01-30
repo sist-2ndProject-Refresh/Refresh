@@ -139,6 +139,7 @@ public class MyPageRestController {
 			if("r".equals(mode))
 			{
 				rList=mService.mypageRentalList(no, (page-1)*3);
+				System.out.println(rList);
 				count=mService.mypageRentalCount(no);
 			}
 			if("b".equals(mode))
@@ -179,7 +180,7 @@ public class MyPageRestController {
 		Map map=new HashMap();
 		try
 		{
-			List<StoreVO> list=mService.blockListData(no, page);
+			List<StoreVO> list=mService.blockListData(no, (page-1)*8);
 			int count=mService.blockCountList(no);
 			int totalpage=(int)Math.ceil(count/8.0);
 			
