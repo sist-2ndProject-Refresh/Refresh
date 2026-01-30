@@ -14,7 +14,7 @@ const useBoardUpdateStore = Pinia.defineStore("boardUpdateStore", {
 	actions: {
 		async getDetailForUpdate(no) {
 			try {
-				const { data } = await axios.get('http://localhost:8080/board/detail_vue', {
+				const { data } = await axios.get('/board/detail_vue', {
 					params: { no }
 				});
 
@@ -45,7 +45,7 @@ const useBoardUpdateStore = Pinia.defineStore("boardUpdateStore", {
 			}
 
 			try {
-				const { data } = await axios.put('http://localhost:8080/board/update_ok_vue', this.vo);
+				const { data } = await axios.put('/board/update_ok_vue', this.vo);
 
 				if (data.msg === "yes") {
 					alert("게시글이 성공적으로 수정되었습니다.");
