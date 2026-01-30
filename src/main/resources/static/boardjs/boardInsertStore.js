@@ -11,7 +11,7 @@ const useBoardInsertStore = Pinia.defineStore('board_insert', {
 
 		async fetchUserRegion(mem_id) {
 			try {
-				const { data } = await axios.get('http://localhost:8080/board/getUserAddr_vue', {
+				const { data } = await axios.get('/board/getUserAddr_vue', {
 					params: { id: mem_id }
 				});
 
