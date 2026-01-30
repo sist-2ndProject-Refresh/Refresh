@@ -149,7 +149,7 @@ a:hover {
 	        </table>
         <hr class="hr-st" style="width: 100%;">
         </div>
-        <div class="container">
+        <div class="container" style="margin-bottom:60px;">
         <!-- 지도 -->
         	<c:if test="${vo.lat != 0.0 || vo.lon != 0.0}">
         		<div class="fs-1 fw-normal" style="margin-bottom: 20px;">직거래 지역</div>
