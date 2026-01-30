@@ -130,8 +130,8 @@ const useBuyStore = defineStore('buying', {
                 }
             }).open()
         },
-		changeImageUrl(url) {
-		    console.log("입력된 URL:", url); // 여기에 뭐가 찍히는지 보세요!
+		changeImageUrl(url, type) {
+		    console.log("type", type); 
 		    if (!url) return '';
 
 		    if (url.startsWith('http')) {
@@ -139,8 +139,13 @@ const useBuyStore = defineStore('buying', {
 		    }
 
 		    const fileName = url.replace('{cnt}', '1');
-		    const finalPath = '/userimages/product/' + fileName;
-		    
+			
+			let finalPath = ""
+		    if(type == 1)
+				finalPath = '/userimages/product/' + fileName;
+		    else if(type == 2)
+				finalPath = '/userimages/rental/' + fileName;
+			
 		    console.log("최종 반환 경로:", finalPath); 
 		    return finalPath;
 		}
