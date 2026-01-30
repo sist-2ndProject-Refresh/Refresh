@@ -101,7 +101,7 @@ a:hover {
                 
                 <tr>
                     <th class="fw-normal fs-3 th-st">등록일</th>
-                    <td class="fs-3" style="width: 45%;">2025-12-11</td>
+                    <td class="fs-3" style="width: 45%;">${vo.dbday }</td>
                 </tr>
                 <tr>
                     <th class="fw-normal fs-3 th-st">상품 상태</th>
