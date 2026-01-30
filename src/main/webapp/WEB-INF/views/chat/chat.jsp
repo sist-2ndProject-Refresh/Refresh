@@ -14,7 +14,7 @@
 <style type="text/css">
 /* ===== 접속자 영역 ===== */
 .user-panel {
-  height: 100vh;
+  height: 80vh;
   border-right: 1px solid #ddd;
   background: #fff;
 }
@@ -123,9 +123,9 @@ const loginUser='${sessionScope.no}'
 <body>
 
 <div class="container" id="app">
-  <div class="row">
+  <div class="row" style="margin-top:20px;margin-bottom: 20px;">
 	 <div class="col-sm-3 user-panel">
-      <h4 class="text-center" style="margin-bottom: 30px;">채팅방 리스트</h4>
+      <h4 class="text-center" style="margin-top:30px;">채팅방 리스트</h4>
       <ul class="list-group">
         <li class="list-group-item"
         	v-for="room in store.chatroomList"

@@ -110,11 +110,10 @@ const useChatStore=defineStore('chat',{
 		async selectRoom(room) {		
 			this.chatroomId=room.cvo.chatroom_id
 			this.messages=[]
-			
 			await this.messageList()
 			await this.chatTradeData(this.chatroomId)
 			
-			this.subscribeRoom()
+			//this.subscribeRoom()
 		},
 		async chatRoomOut() {
 			await axios.post('/chat/room_delete',new URLSearchParams({
