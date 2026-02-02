@@ -4,7 +4,7 @@
 		environment {
 			DOCKER_IMAGE = "sunghyun9737/refresh-app"
 			DOCKER_TAG = "latest"
-			EC2_HOST = "13.125.219.17"
+			EC2_HOST = "13.209.89.143"
 			EC2_USER = "ubuntu"
 			COMPOSE_FILE = "docker-compose.yml"
 			CONTAINER_NAME = "refresh_app"

@@ -61,6 +61,7 @@ mybatis:
 #Security
 #WebSocket
 #MSA
+
 file:
   upload-dir: c:/bootDev/bootStudy/images/
 ---
